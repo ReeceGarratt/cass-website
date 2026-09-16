@@ -1,0 +1,183 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ArrowDefault from '../assets/arrow-default.svg';
+import ArrowHover from '../assets/arrow-hover.svg';
+import CornerTopRight from '../assets/corner-top-right.svg';
+import CornerBottomLeft from '../assets/corner-bottom-left.svg';
+
+interface Props {
+  caseStudy: CollectionEntry<'caseStudies'>;
+}
+
+const { caseStudy } = Astro.props;
+const { title, skills, summary } = caseStudy.data;
+---
+
+<article class="card">
+  <h2 class="card__title">
+    <a class="card__link" href={`/work/${caseStudy.id}`}>
+      {title}
+    </a>
+  </h2>
+  <ul class="card__skills" role="list">
+    {skills.map((skill) => (
+      <li class="card__skill">{skill}</li>
+    ))}
+  </ul>
+  <p class="card__summary">{summary}</p>
+  <span class="card__arrow" aria-hidden="true">
+    <span class="card__arrow-icon card__arrow-icon--default">
+      <ArrowDefault />
+    </span>
+    <span class="card__arrow-icon card__arrow-icon--hover">
+      <ArrowHover />
+    </span>
+  </span>
+  <span class="card__corner card__corner--top-right" aria-hidden="true">
+    <CornerTopRight />
+  </span>
+  <span class="card__corner card__corner--bottom-left" aria-hidden="true">
+    <CornerBottomLeft />
+  </span>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-card-stack);
+    inline-size: var(--size-card-width);
+    padding: var(--space-card-padding);
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+  }
+
+  .card__title {
+    max-inline-size: var(--size-card-title-width);
+    block-size: var(--size-card-title-height);
+    color: var(--color-purple);
+    font-size: var(--type-card-title-size);
+    font-weight: var(--type-card-title-weight);
+    line-height: var(--type-card-title-line-height);
+    letter-spacing: var(--type-card-title-letter-spacing);
+  }
+
+  .card__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Stretch the title link over the whole card */
+  .card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius-card);
+  }
+
+  .card__link:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .card:has(.card__link:focus-visible) {
+    outline: var(--focus-ring-width) solid var(--focus-ring-inner);
+    outline-offset: var(--focus-ring-width);
+  }
+
+  .card__skills {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    color: var(--color-purple);
+    font-size: var(--type-caption-size);
+    font-weight: var(--type-caption-weight);
+    line-height: var(--type-caption-line-height);
+    letter-spacing: var(--type-caption-letter-spacing);
+    list-style: none;
+  }
+
+  .card__skill:not(:last-child)::after {
+    content: '|' / '';
+    margin-inline: var(--space-skill-separator);
+  }
+
+  .card__summary {
+    min-block-size: var(--size-card-summary-min-height);
+    color: var(--color-grey);
+  }
+
+  .card__arrow {
+    display: grid;
+    align-self: flex-end;
+    margin-block-start: auto;
+    inline-size: var(--size-arrow);
+    block-size: var(--size-arrow);
+    rotate: 90deg;
+  }
+
+  .card__arrow-icon {
+    grid-area: 1 / 1;
+  }
+
+  .card__arrow-icon :global(svg),
+  .card__corner :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .card__arrow-icon--default {
+    color: var(--color-light-purple);
+  }
+
+  .card__arrow-icon--hover {
+    display: none;
+    color: var(--color-red);
+  }
+
+  .card__corner {
+    position: absolute;
+    display: none;
+    color: var(--color-white);
+  }
+
+  .card__corner--top-right {
+    inset-block-start: var(--card-corner-top-right-top);
+    inset-inline-end: var(--card-corner-top-right-right);
+    inline-size: var(--card-corner-top-right-width);
+    block-size: var(--card-corner-top-right-height);
+  }
+
+  .card__corner--bottom-left {
+    inset-block-end: var(--card-corner-bottom-left-bottom);
+    inset-inline-start: var(--card-corner-bottom-left-left);
+    inline-size: var(--card-corner-bottom-left-width);
+    block-size: var(--card-corner-bottom-left-height);
+    rotate: 180deg;
+  }
+
+  /* Hover state (Figma "Variant2"), also for keyboard focus */
+  .card:is(:hover, :focus-within) {
+    background-color: var(--color-purple);
+  }
+
+  .card:is(:hover, :focus-within) .card__title,
+  .card:is(:hover, :focus-within) .card__summary {
+    color: var(--color-off-white);
+  }
+
+  .card:is(:hover, :focus-within) .card__skills {
+    color: var(--color-white);
+  }
+
+  .card:is(:hover, :focus-within) .card__arrow-icon--default {
+    display: none;
+  }
+
+  .card:is(:hover, :focus-within) .card__arrow-icon--hover,
+  .card:is(:hover, :focus-within) .card__corner {
+    display: block;
+  }
+</style>

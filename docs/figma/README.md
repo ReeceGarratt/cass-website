@@ -10,7 +10,7 @@ Each phase needs the one before it.
 
 ### Phase 0 · Access (user)
 
-- A Figma plan with a Dev or Full seat for the account the MCP signs in as (Q-007).
+- A Figma plan with a Dev or Full seat for the account the MCP signs in as (D-012: Professional, Full seat).
 - The MCP signed in through `/mcp`. See [figma-mcp](../wiki/figma-mcp.md).
 - Figma file links added to the *Figma files* section of [figma-mcp](../wiki/figma-mcp.md).
 - **Agent:** call `whoami` first. If the seat isn't Dev or Full, stop and tell the user, because every other call would come out of the 6-a-month allowance.
@@ -21,7 +21,7 @@ Each phase needs the one before it.
 2. **Tokens.** Call `get_variable_defs` on frames that between them use every style, and save the output to `tokens.md`. Generating the tokens CSS waits on Q-005.
 3. **Shared components** (header, footer, nav, buttons, cards…): call `get_design_context` and `get_screenshot` for each one, and save them to `components/<name>/`.
 
-You can fetch before the project is set up. Building waits on scaffolding, which is blocked by Q-004.
+You can fetch before the project is set up. Building waits on scaffolding (styling settled by D-011).
 
 ### Phase 2 · Screens (one at a time)
 
@@ -40,7 +40,7 @@ Agree the order with the user. Home is a good first screen because it uses the m
 ### Phase 3 · Wrap-up (before any change to the Figma plan)
 
 - Check that every row in the frame index has a snapshot fetched after the latest design change.
-- Tell the user about any frames that are missing or out of date, so they can decide whether to keep the plan (Q-007).
+- Tell the user about any frames that are missing or out of date, so they can decide whether to keep the plan (D-012).
 
 ## Layout
 
@@ -50,6 +50,7 @@ One folder per Figma frame, named `<page>-<breakpoint>` in kebab-case (e.g. `hom
 docs/figma/
   README.md             this file, including the frame index below
   tokens.md             output of get_variable_defs, plus the frames it came from
+  outline-<page>.md     get_metadata output for a whole Figma page; frame folders link to it
   home-desktop/
     context.md          metadata outline + design context, one section at a time
     screenshot.png      only if it could be saved (see below)
@@ -78,9 +79,11 @@ tools: [get_metadata, get_design_context, get_screenshot]
 
 Keep tool output unedited so it can be compared against a fresh fetch. Put your own notes under a separate `## Notes` heading.
 
-## Screenshots and assets (unverified)
+## Screenshots and assets
 
-As of 2026-09-16, no one has checked whether an agent can write a `get_screenshot` image to disk, or what `download_assets` actually returns (files or URLs). Check this on the first fetch and update this section. If screenshots can't be saved, write `screenshot: not saved` in the frontmatter and fetch one again only when you need it.
+**Screenshots (checked 2026-09-16):** `get_screenshot` returns a short-lived URL, not a file. Download it straight away with `curl -sL -o <folder>/screenshot.png "<url>"`. Pass `maxDimension` equal to the frame's longer edge (e.g. `1920`) to get it at 1:1; the default is 1024. Don't commit or paste the URL, because Figma says to treat it like a secret.
+
+**`download_assets`:** not tried yet. Check what it returns on first use and update this section.
 
 Images that ship with the site go in `src/` or `public/`, not here.
 
@@ -88,4 +91,14 @@ Images that ship with the site go in `src/` or `public/`, not here.
 
 | Frame | Folder | Node ID | Fetched |
 |---|---|---|---|
-| _None yet_ | | | |
+| Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
+| Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
+| Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-09-16 (outline, screenshot, context, assets) |
+| Case study Card (component set) | [`components/case-study-card/`](components/case-study-card/) | `4:123` | 2026-09-16 (outline, context, assets) |
+| arrow_upward (component set) | [`components/arrow/`](components/arrow/) (context is in `case-study-card/`) | `4:137` | 2026-09-16 (assets) |
+| Flower (symbol) | [`components/flower/`](components/flower/) (context is in `case-study-card/`) | `1:162` | 2026-09-16 (asset) |
+| iPad Pro 11" - 1 | _not fetched (desktop POC first)_ | `19:327` | outline only |
+| iPhone 16 - 1 | _not fetched (desktop POC first)_ | `19:328` | outline only |
+| iPhone 16 - 2 (mobile menu) | _not fetched (desktop POC first)_ | `19:665` | outline only |
+
+The file (`z037c50FocJthsq5WRzJcd`) has one page, `Landing`. Its outline is in [`outline-landing-page.md`](outline-landing-page.md).

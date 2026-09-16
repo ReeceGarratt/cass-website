@@ -32,7 +32,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** How tokens are generated is still open (Q-005).
 
 ### D-003 · Case studies as an Astro content collection (MDX)
-- **Date:** 2026-09-16 · **Status:** Accepted
+- **Date:** 2026-09-16 · **Status:** Superseded by D-013
 - **Decision:** Each case study is an MDX file in a content collection with a typed frontmatter schema, rendered by one `[slug]` route and listed on an index page.
 - **Consequences:** Invalid frontmatter fails the build. A CMS can be added on top later (Q-003).
 
@@ -88,3 +88,51 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Date:** 2026-09-16 · **Status:** Accepted
 - **Decision:** The first pass ships with no monitoring stack: no error tracking SDK, no real-user monitoring script, no uptime checks and no log export. Observability is added in a later pass, and the tool choice stays open as Q-008.
 - **Consequences:** Keep the contact form handler (Q-002) small and isolated, so an SDK can wrap it later. Research is filed in [wiki/monitoring-options.md](wiki/monitoring-options.md), so the later pass doesn't have to repeat it.
+
+### D-011 · Styling: plain CSS with scoped styles
+- **Date:** 2026-09-16 · **Status:** Accepted · **Resolves Q-004**
+- **Context:** The home page POC needed a styling approach before scaffolding could start.
+- **Decision:** Astro scoped `<style>` blocks on top of token custom properties. No Tailwind.
+- **Alternatives considered:** Tailwind v4 with a `@theme` built from tokens. Faster to write, but adds a utility-class vocabulary on top of the token system.
+- **Consequences:** Components read design values with `var(--…)` only; no build step turns tokens into utility classes.
+
+### D-012 · Figma access: Professional plan, Full seat
+- **Date:** 2026-09-16 · **Status:** Accepted · **Resolves Q-007**
+- **Context:** Figma fetching for the home page POC was blocked on a plan decision (Q-007).
+- **Decision:** Professional plan, Full seat. `whoami` on 2026-09-16 returned a Full seat on the "pro" tier.
+- **Consequences:** 200 read calls a day, 15 a minute, shared by every session signed in as the account owner.
+
+### D-013 · Case studies: bespoke pages plus a JSON card collection
+- **Date:** 2026-09-16 · **Status:** Accepted · **Supersedes D-003** · **Resolves Q-003**
+- **Context:** D-003 assumed one shared MDX template per case study. The user doesn't want content abstracted into a CMS-friendly shape.
+- **Decision:** Each case study is its own `.astro` page at `/work/<id>`, styled uniquely, with no shared MDX template. Card metadata (title, skills, summary, order) lives in the `caseStudies` data collection (`src/content/case-studies.json`, `file()` loader, schema in `src/content.config.ts`).
+- **Alternatives considered:** the original MDX + `[slug]` route (D-003); a CMS on top of MDX (Q-003), ruled out because Cass doesn't need to edit content without a developer.
+- **Consequences:** No CMS work. Case study pages don't share layout automatically, so shared structure (if any) is pulled out only when it repeats.
+
+### D-014 · Tokens written by hand for the POC
+- **Date:** 2026-09-16 · **Status:** Accepted
+- **Context:** D-002 fixed the output (CSS custom properties) but not how tokens are generated (Q-005), and the POC couldn't wait on a pipeline.
+- **Decision:** `src/styles/tokens.css` is written by hand from `docs/figma/`. Q-005 stays open for a real pipeline. Spacing, size and radius tokens are named by us, because Figma has no variables for them.
+- **Consequences:** The tokens file must be kept in sync with Figma by hand (architecture invariant 2).
+
+### D-015 · Fonts: the Astro Fonts API
+- **Date:** 2026-09-16 · **Status:** Accepted
+- **Decision:** Inter at weights 400, 700 and 900 through `fontProviders.fontsource()` and `<Font cssVariable="--font-inter" preload />`.
+- **Alternatives considered:** the `@fontsource-variable/inter` package, which was in the spec until the built-in API turned up during planning.
+- **Consequences:** The first build needs network access, to download the font files.
+
+### D-016 · Node 24 LTS, and baseline checks
+- **Date:** 2026-09-16 · **Status:** Accepted · **Partly resolves Q-006**
+- **Decision:** `.nvmrc` and `"engines"` pin Node 24. Scripts: `check` (`astro check`, with `typescript` pinned to 6.x for `@astrojs/check` 0.9) and `format` / `format:check` (Prettier with `prettier-plugin-astro`). Prettier ignores `**/*.md` and `docs/figma/`.
+- **Consequences:** Accessibility automation, Lighthouse, lint and CI are still open (Q-006).
+
+### D-017 · Navigation items and state semantics
+- **Date:** 2026-09-16 · **Status:** Accepted
+- **Decision:** Adds a Home item that isn't in the design. The **Selected** pill marks `aria-current="page"`, and the **Hover** dot shows on hover and focus, matching the Figma annotations on component `20:703` (confirmed by the user). The brand links to `/`.
+- **Consequences:** The brand link duplicates the Home item (Q-012). The Resume item points to `/resume`, which 404s until its target is decided (Q-011).
+
+### D-018 · Commit per task, approval before push
+- **Date:** 2026-09-16 · **Status:** Accepted
+- **Context:** Agents were making many small edits per task without a clear commit boundary.
+- **Decision:** Agents commit as they go, one commit per task or section of work. Pushing needs the user's approval every time, even when earlier pushes were approved. Enforced by a `.claude/settings.json` ask rule on `git push`.
+- **Consequences:** History stays readable without being noisy. See `AGENTS.md` → Commit messages.

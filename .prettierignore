@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+# Markdown docs are hand-formatted (tables); reformatting them would churn every doc.
+**/*.md
+# Saved Figma MCP output must stay unedited (D-008).
+docs/figma/
