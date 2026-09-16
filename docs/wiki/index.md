@@ -25,6 +25,12 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 - [Figma MCP](figma-mcp.md): how agents connect to the Figma designs, plan rate limits, the tools used, and estimated calls for the build.
 - [Windows dev environment](windows-dev-environment.md): symlink and text-encoding gotchas on the Windows dev machine.
 
+## Hosting & operations
+
+- [Hosting options](hosting-options.md): research behind D-009: six hosts compared, cost at our traffic, bot and cost-spike risk, security and GitHub Actions support (prices checked 2026-09-16).
+- [Cloudflare Workers hosting](cloudflare-workers.md): free-plan limits, zone settings to change, previews, CI with GitHub Actions, email for the contact form, and security notes.
+- [Monitoring options](monitoring-options.md): observability research for the later monitoring pass (D-010): Sentry, Grafana Cloud, Datadog and Workers observability limits.
+
 ## Design
 
 _No pages yet. Planned: design tokens, and a component inventory once the Figma file is available._

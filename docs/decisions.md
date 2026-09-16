@@ -63,3 +63,28 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** Save tool output unedited in `docs/figma/`, one folder per frame, with its node ID, URL and fetch date. Agents read these saved copies before querying Figma, and fetch again only when the user says a design has changed. Format: [figma/README.md](figma/README.md).
 - **Alternatives considered:** always querying Figma live, which is simpler and always current but repeats calls in every session.
 - **Consequences:** Saved copies can go stale without anyone noticing, so Figma stays the source of truth (architecture invariant 6). Whether screenshots can be saved to disk hasn't been checked.
+
+### D-009 · Hosting: Cloudflare Workers with static assets
+- **Date:** 2026-09-16 · **Status:** Accepted · **Resolves Q-001**
+- **Context:** A low-traffic portfolio (about 100–200 visits a month). Free is preferred and cheap is acceptable. The domain's DNS is already on Cloudflare. Learning AWS was a secondary motive. Research, pricing and sources: [wiki/hosting-options.md](wiki/hosting-options.md).
+- **Decision:** Host on Cloudflare Workers with static assets, on the free plan. The site stays static. Add the `@astrojs/cloudflare` adapter only when a route has to render on demand, e.g. the contact form (Q-002).
+- **Alternatives considered:**
+  - **S3 + CloudFront (flat-rate Free plan):** about $0.00–0.10 a month, the most AWS learning, and GitHub Actions login through OIDC. Against it: it needs an AWS account on the Paid plan, 1–2 days of setup, and you build previews, rollback and folder-URL rewriting yourself. The Free plan's WAF also can't filter on headers.
+  - **Cloudflare Pages:** still supported, but Cloudflare recommends Workers for new projects and new features only land there.
+  - **AWS Amplify:** pay-as-you-go with no spending cap, it hides the AWS services underneath, and it loses git-based previews if builds run in GitHub Actions.
+  - **Netlify:** free credits run out (15 per production deploy), and the site is paused when they do.
+  - **Vercel Hobby:** its non-commercial clause is a grey area for a freelancer's portfolio.
+  - **GitHub Pages:** no custom headers, no previews, and the repo must be public on a free account.
+- **Consequences:**
+  - Hosting costs $0 a month with a hard cap: static requests are unlimited, and the free plan returns errors rather than billing.
+  - DNS, hosting and email all sit in one Cloudflare account, so it needs strong MFA.
+  - CI logs in with a long-lived API token. Keep its scope narrow and rotate it.
+  - Some Cloudflare zone features rewrite HTML and must stay off (see [wiki/cloudflare-workers.md](wiki/cloudflare-workers.md)).
+  - Exporting logs and traces to other tools needs Workers Paid at $5 a month (Q-008).
+  - This project won't be the vehicle for learning AWS.
+- **Revisit if:** the site needs something Workers can't do, or learning AWS becomes a goal of this project. The output is static, so moving is cheap.
+
+### D-010 · Observability deferred past the first pass
+- **Date:** 2026-09-16 · **Status:** Accepted
+- **Decision:** The first pass ships with no monitoring stack: no error tracking SDK, no real-user monitoring script, no uptime checks and no log export. Observability is added in a later pass, and the tool choice stays open as Q-008.
+- **Consequences:** Keep the contact form handler (Q-002) small and isolated, so an SDK can wrap it later. Research is filed in [wiki/monitoring-options.md](wiki/monitoring-options.md), so the later pass doesn't have to repeat it.

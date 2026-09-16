@@ -11,7 +11,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 A static portfolio site built with Astro (D-001). At build time:
 
 ```
-Figma variables ──(token pipeline, Q-005)──▶ tokens CSS ──▶ components ──▶ layouts ──▶ pages ──▶ static HTML/CSS ──▶ host (Q-001)
+Figma variables ──(token pipeline, Q-005)──▶ tokens CSS ──▶ components ──▶ layouts ──▶ pages ──▶ static HTML/CSS ──▶ Cloudflare Workers (D-009)
 MDX case studies ──▶ content collection (typed schema) ──▶ [slug] route ─────────────────────▲
 ```
 
@@ -64,4 +64,5 @@ These rules must always hold. Code that breaks one is a bug, even if the page lo
 - **Accessibility:** see invariant 5. Automated checks (axe/Lighthouse) are planned for the accessibility and performance pass.
 - **Performance:** static output, optimised images through Astro's image handling, and minimal JS.
 - **SEO:** deferred (D-004). Keep markup semantic so it's easy to add later.
-- **Hosting and deployment:** not decided (Q-001). Don't add an adapter yet.
+- **Hosting and deployment:** Cloudflare Workers with static assets (D-009). No adapter while the site is fully static; add `@astrojs/cloudflare` only when a route renders on demand (Q-002). The deploy pipeline is open (Q-009). Platform notes: [wiki/cloudflare-workers.md](wiki/cloudflare-workers.md).
+- **Observability:** deferred to a later pass (D-010); tools open as Q-008.

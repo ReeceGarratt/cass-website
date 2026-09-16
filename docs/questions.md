@@ -19,32 +19,29 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 
 | ID | Question | Blocks / depends on |
 |---|---|---|
-| Q-001 | Hosting provider: Cloudflare or AWS | Blocks Q-002, deployment, Astro adapter |
-| Q-002 | Contact form approach | Depends on Q-001 |
+| Q-002 | Contact form approach | Blocks the Astro adapter and contact page backend |
 | Q-003 | Content editing: does Cass need a CMS? | Any CMS setup |
 | Q-004 | Styling: plain CSS or Tailwind v4 | **Blocks scaffolding** |
 | Q-005 | Token pipeline tooling | Tokens file; needs the Figma file |
 | Q-006 | Testing, linting and formatting | AGENTS.md Testing/Commands; best settled at scaffolding |
 | Q-007 | Figma plan for MCP access | **Blocks all Figma fetching** |
+| Q-008 | Monitoring: how much, and which tools | Deferred to a later pass (D-010) |
+| Q-009 | Deploy pipeline and account ownership | **Blocks the first deploy** |
 
 ---
 
-### Q-001 · Hosting provider
-- **Raised:** 2026-09-16
-- **Blocks:** Q-002 (contact form), deployment setup, Astro adapter choice
-- **Context:** Cost and convenience will decide it. There's an existing domain to use. AWS is attractive partly as a way to learn AWS.
-- **Options:**
-  - **Cloudflare** (Pages or Workers static assets): simple static hosting with a free tier, an official Astro adapter for any server routes, and simple DNS if the domain is managed there.
-  - **AWS, full setup** (S3 + CloudFront + ACM, optionally Route 53; Lambda + SES for the contact form): the most to learn, the most setup, and small recurring costs.
-  - **AWS Amplify Hosting:** less setup than building it yourself on AWS, but you learn less of the underlying AWS services.
-- **Sub-questions:** Where is the domain registered, and where is its DNS managed? Should the infrastructure be defined in code (e.g. CDK or Terraform) if we choose AWS?
-- **Note:** check current pricing before deciding. None of the options above have been costed.
-
 ### Q-002 · Contact form approach
-- **Raised:** 2026-09-16
-- **Depends on:** Q-001
-- **Options:** a `mailto:` link (no backend) · a third-party form service · a server endpoint that sends email (a Cloudflare Worker or AWS Lambda plus an email service).
-- **Considerations:** spam protection, accessible error and success states, and whether it needs any client-side JS.
+- **Raised:** 2026-09-16 · **Updated:** 2026-09-16 (hosting settled by D-009)
+- **Blocks:** adding the `@astrojs/cloudflare` adapter; the contact page backend
+- **Options:**
+  - **A `mailto:` link:** no backend, but it exposes the address to scrapers. Don't use Cloudflare's Email Address Obfuscation to hide it, because that injects JS and breaks accessibility.
+  - **A third-party form service:** no code of our own, but another vendor and usually a free-tier cap.
+  - **An on-demand Worker route (proposed):** a plain HTML form posts to a server route that checks Turnstile on the server, then sends through Cloudflare's `send_email` binding. Sending to a *verified* destination address is free on every plan. This needs the adapter. Details: [wiki/cloudflare-workers.md](wiki/cloudflare-workers.md#email).
+- **Considerations:**
+  - Spam protection: Turnstile plus the free plan's one rate-limiting rule on the form path.
+  - A fixed recipient, and no user input in email headers (only a validated Reply-To).
+  - Accessible error and success states that work without client JS.
+  - Whether Cass also wants a `hello@` address on the domain (Email Routing, free).
 
 ### Q-003 · Content editing / CMS
 - **Raised:** 2026-09-16
@@ -72,7 +69,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **Performance:** Lighthouse CI with budgets.
   - **Unit tests:** Vitest, only if real logic appears.
   - **Lint and format:** ESLint with the Astro and accessibility plugins, plus Prettier with the Astro plugin, or Biome (check its current Astro support first).
-- **Also decide:** whether the checks run locally only, or in CI too (which depends on Q-001 hosting).
+- **Also decide:** whether the checks run locally only, or in CI too. Hosting is settled (D-009). If CI builds in GitHub Actions (Q-009), the checks can block a deploy there.
 
 ### Q-007 · Figma plan for MCP access
 - **Raised:** 2026-09-16
@@ -84,3 +81,26 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **Stay on Starter:** one REST call to download the whole file as JSON plus a call for image exports, then work from the copies. Untested. The variables API is Enterprise-only, so tokens would be pieced together by hand, and a design change could use up the month's allowance.
 - **Seat:** Full if Cass edits designs from this account. A Dev seat can't edit design files.
 - **Before downgrading:** check what happens to Cass's files and projects on Starter. Not yet researched.
+
+### Q-008 · Monitoring
+- **Raised:** 2026-09-16
+- **Blocks:** nothing. Observability is deferred to a later pass (D-010). Settle this when that pass starts, and after Q-002, since the form is the main thing to watch.
+- **Context:** Most monitoring for a static site doesn't depend on the host: uptime checks, real-user monitoring in the browser, and an SDK in the form handler. Browser scripts for real-user monitoring conflict with the no-client-JS priority. Research: [wiki/monitoring-options.md](wiki/monitoring-options.md).
+- **Options:**
+  - **Minimal (proposed as the starting point), $0:** uptime checks, plus Sentry in the form handler emailing alerts.
+  - **Plus Grafana Cloud, $0:** dashboards, synthetic checks and real-user monitoring (Faro). Good for learning; more to maintain.
+  - **Plus Workers Paid, $5 a month:** automatic export of Worker logs and traces to Sentry or Grafana.
+  - **Ruled out:** Datadog, because its free tier has no logs, real-user monitoring or synthetic checks.
+- **Also decide:** whether to use Cloudflare Web Analytics for Core Web Vitals instead of a heavier real-user monitoring SDK.
+
+### Q-009 · Deploy pipeline and account ownership
+- **Raised:** 2026-09-16
+- **Blocks:** the first deploy
+- **Options:**
+  - **Build in GitHub Actions and deploy with `cloudflare/wrangler-action` (proposed):** the Q-006 checks can block a deploy, the pipeline works with any host, and pull request previews come from `wrangler versions upload --preview-alias`. Login is a long-lived API token.
+  - **Workers Builds (Cloudflare's git integration):** less setup, 3,000 free build minutes a month, but checks in Actions can't block the deploy. Never enable both, or every push deploys twice.
+- **Sub-questions:**
+  - Whose Cloudflare account holds the site: Reece's or Cass's? This affects handover, and who can fix things later.
+  - Is any case-study content under NDA? `workers.dev` preview URLs are public unless protected with Cloudflare Access.
+  - Will the repo be public or private? This affects GitHub Actions minutes, and whether draft content is visible.
+  - Where is the domain registered? DNS is on Cloudflare; turn on registrar lock and MFA wherever the domain is registered.

@@ -54,3 +54,9 @@ Added a four-phase build workflow (access, foundations, screens one at a time, w
 
 ## [2026-09-16] decision | Q-007 opened
 Opened Q-007: which Figma plan to use for MCP access. Recommended Professional, billed monthly, for the build only. Corrected figma-mcp, which wrongly said the account was already on Professional. Added the finding that REST API reads of Starter files are capped at 6 a month.
+
+## [2026-09-16] query | Hosting, monitoring and CI/CD research
+Compared Cloudflare Workers, S3 + CloudFront, Amplify, Netlify, Vercel and GitHub Pages: pricing (checked 2026-09-16), bot and cost-spike risk, security, monitoring tools, and GitHub Actions support. Filed as hosting-options, cloudflare-workers and monitoring-options.
+
+## [2026-09-16] decision | D-009 Cloudflare Workers hosting
+Added D-009, which resolves Q-001, and D-010 (observability deferred to a later pass). Updated Q-002 (Cloudflare form route) and Q-006 (CI isn't tied to the host). Opened Q-008 (monitoring) and Q-009 (deploy pipeline and account ownership). Updated architecture.md, README.md and AGENTS.md.

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-A portfolio website for Cass, a UX designer: home, case studies, about and contact pages. It's built with Astro and TypeScript, static first, with design tokens taken from Figma.
+A portfolio website for Cass, a UX designer: home, case studies, about and contact pages. It's built with Astro and TypeScript, static first, hosted on Cloudflare Workers, with design tokens taken from Figma.
 
 **Status:** not scaffolded yet (no `src/` or `package.json`).
 

@@ -2,7 +2,7 @@
 
 Personal portfolio website for Cass, a UX designer.
 
-> **Status:** Pre-development. Built with Astro (not yet scaffolded). Hosting hasn't been chosen yet.
+> **Status:** Pre-development. Built with Astro (not yet scaffolded), to be hosted on Cloudflare Workers.
 
 ## Design
 
@@ -18,7 +18,7 @@ _TBD. Setup, dev server and build instructions will go here once the project is 
 
 ## Hosting & deployment
 
-_TBD_
+Hosted on [Cloudflare Workers](https://developers.cloudflare.com/workers/static-assets/) with static assets. See [decision D-009](docs/decisions.md). The deploy pipeline isn't set up yet ([Q-009](docs/questions.md)).
 
 ## Contributing with AI agents
 
