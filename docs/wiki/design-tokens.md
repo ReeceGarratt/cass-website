@@ -27,7 +27,7 @@ The Figma text style called "H1" is the case study card's title, not the page's 
 ## Unit rules
 
 - **Sizes and spacing:** `rem` (1rem = 16px), so they respect browser zoom and font-size settings.
-- **Letter spacing:** `em`, because Figma expresses letter spacing as a percentage of the font size (e.g. Title −2% at 30px card title → −0.02em, or −4% at 100px title → −0.04em).
+- **Letter spacing:** `em`, because Figma expresses letter spacing as a percentage of the font size (e.g. H1 (card title) −2% at 30px → −0.02em, or −4% at 100px title → −0.04em).
 - **Hero decoration** (`--hero-flower-size`, `--hero-pill-width`, `--hero-pill-height`, and their offsets): `em`, relative to `--type-title-size`, so they scale with the fluid title instead of needing their own `clamp()`.
 
 ## Fluid values
@@ -45,7 +45,7 @@ For `--type-title-size` (72px → 100px between 1200px and 1920px): slope = 28/7
 
 ## `--space-skill-separator`
 
-The card's skills line uses two literal spaces on each side of `|` in Figma (`User Research  |  Process Design  |  Systems Thinking`), not a fixed gap token. `--space-skill-separator: 0.4518em` is the measured rendered width of two spaces in the caption font (Inter Bold, 12px) — about 5.42px at 12px — so the CSS-drawn `|` separator (architecture: `content: "|" / ""`, screen-reader-invisible) sits the same distance from the words as it does in Figma, scaling with the caption size via `em`.
+The card's skills line uses two literal spaces on each side of `|` in Figma (`User Research  |  Process Design  |  Systems Thinking`), not a fixed gap token. `--space-skill-separator: 0.4518em` is the measured rendered width of two spaces in the caption font (Inter Bold, 12px) — about 5.42px at 12px — so the CSS-drawn `|` separator (`CaseStudyCard.astro`: `.card__skill:not(:last-child)::after { content: "|" / ""; }`, screen-reader-invisible) sits the same distance from the words as it does in Figma, scaling with the caption size via `em`.
 
 ## Accepted residual: card 2 caption wrap (Q-010)
 

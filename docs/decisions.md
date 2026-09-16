@@ -113,7 +113,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Date:** 2026-09-16 · **Status:** Accepted
 - **Context:** D-002 fixed the output (CSS custom properties) but not how tokens are generated (Q-005), and the POC couldn't wait on a pipeline.
 - **Decision:** `src/styles/tokens.css` is written by hand from `docs/figma/`. Q-005 stays open for a real pipeline. Spacing, size and radius tokens are named by us, because Figma has no variables for them.
-- **Consequences:** The tokens file must be kept in sync with Figma by hand; architecture invariant 2 ("the tokens file is generated") doesn't hold yet.
+- **Consequences:** The tokens file must be kept in sync with Figma by hand (architecture invariant 2).
 
 ### D-015 · Fonts: the Astro Fonts API
 - **Date:** 2026-09-16 · **Status:** Accepted

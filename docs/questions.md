@@ -93,7 +93,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Options:**
   - Cass designs a laptop frame (1280–1536px).
   - Cass approves the stacked layout as-is.
-- **Note (2026-09-17):** an accepted residual from the caption font change (browser vs Figma Inter shaping) means card 2's caption fits on one line in the browser at 373px, where Figma now wraps it to 391px like cards 1 and 2. See [wiki/design-tokens.md](wiki/design-tokens.md).
+- **Note (2026-09-17):** an accepted residual from the caption font change (browser vs Figma Inter shaping) means card 2's caption fits on one line in the browser at 373px, where Figma now wraps it to 391px like card 1. See [wiki/design-tokens.md](wiki/design-tokens.md).
 
 ### Q-011 · Resume link target
 - **Raised:** 2026-09-16
