@@ -44,8 +44,10 @@ const isCurrent = (href: string) =>
 <style>
   .site-nav {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-nav-row-gap);
     max-inline-size: var(--page-max-width);
     margin-inline: auto;
     padding-block: var(--space-nav-block);
@@ -63,8 +65,9 @@ const isCurrent = (href: string) =>
 
   .site-nav__list {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-nav-gap);
+    gap: var(--space-nav-row-gap) var(--space-nav-gap);
     padding: 0;
     list-style: none;
   }
@@ -94,6 +97,21 @@ const isCurrent = (href: string) =>
     z-index: -1;
     border-radius: var(--radius-pill);
     background-color: var(--color-light-purple);
+  }
+
+  /* Focus ring follows the pill shape instead of the shared square ring,
+     which the pill's ::before otherwise paints over. */
+  .site-nav__link[aria-current='page']:focus-visible {
+    box-shadow: none;
+    outline: var(--focus-ring-width) solid var(--color-white);
+    outline-offset: calc(var(--space-nav-pill-block) + var(--focus-ring-width));
+    border-radius: var(--radius-pill);
+  }
+
+  @media (forced-colors: active) {
+    .site-nav__link[aria-current='page'] {
+      text-decoration: underline;
+    }
   }
 
   /* Hover: dot under the item (not on the selected item) */

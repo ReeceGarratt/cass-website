@@ -80,6 +80,7 @@
   --space-hero-stack-gap: 4rem; /* stacked layout only; not designed (see spec) */
   --space-nav-block: 1.5625rem; /* 25px */
   --space-nav-gap: 2.6875rem; /* 43px */
+  --space-nav-row-gap: 1.5rem; /* 24px; not designed — chosen so a wrapped Selected pill (12px vertical inset) doesn't overlap the row above */
   --space-nav-pill-inline: 1.46875rem; /* 23.5px */
   --space-nav-pill-block: 0.75rem; /* 12px */
   --space-card-padding: 1.875rem; /* 30px */

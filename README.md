@@ -2,7 +2,7 @@
 
 Personal portfolio website for Cass, a UX designer.
 
-> **Status:** Pre-development. Built with Astro (not yet scaffolded), to be hosted on Cloudflare Workers.
+> **Status:** Scaffolded. The desktop home page POC (navigation, hero and case study cards) is built, to be hosted on Cloudflare Workers.
 
 ## Design
 
@@ -10,11 +10,18 @@ The designs live in Figma. They are the source of truth for layout, typography, 
 
 ## Tech stack
 
-[Astro](https://astro.build) with TypeScript, with design tokens as CSS custom properties generated from Figma. See [`AGENTS.md`](AGENTS.md) for details and open decisions.
+[Astro](https://astro.build) with TypeScript, with design tokens as CSS custom properties, hand-written for now from Figma (see [D-014](docs/decisions.md)). See [`AGENTS.md`](AGENTS.md) for details and open decisions.
 
 ## Getting started
 
-_TBD. Setup, dev server and build instructions will go here once the project is scaffolded._
+Node 24, pinned in [`.nvmrc`](.nvmrc). Then:
+
+```
+npm install
+npm run dev
+```
+
+See [`AGENTS.md`](AGENTS.md) → Commands for the full command list (build, preview, type-check).
 
 ## Hosting & deployment
 

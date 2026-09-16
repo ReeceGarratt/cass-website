@@ -84,7 +84,7 @@ const { title, skills, summary } = caseStudy.data;
 
   .card:has(.card__link:focus-visible) {
     outline: var(--focus-ring-width) solid var(--focus-ring-inner);
-    box-shadow: 0 0 0 calc(var(--focus-ring-width) * 2) var(--focus-ring-outer);
+    outline-offset: var(--focus-ring-width);
   }
 
   .card__skills {
@@ -99,7 +99,7 @@ const { title, skills, summary } = caseStudy.data;
     list-style: none;
   }
 
-  .card__skill + .card__skill::before {
+  .card__skill:not(:last-child)::after {
     content: '|' / '';
     margin-inline: var(--space-skill-separator);
   }
