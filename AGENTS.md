@@ -104,10 +104,12 @@ There's no test setup yet; the approach is still open (Q-006). Once the project 
 
 ## Commit messages
 
-- Only commit when the user asks. Work on a branch, not `main`.
+- **Agents commit as they go.** Work on a branch, not `main`.
+- **One commit per task or section of work,** e.g. one per plan task. The history should be complete without being noisy: don't commit every file edit, and don't squash a whole feature into one commit.
+- **Pushing needs the user's approval every time.** Ask before each `git push`, even when earlier pushes were approved. Never force-push.
 - Use [Conventional Commits](https://www.conventionalcommits.org): `type(scope): summary`, where type is one of `feat`, `fix`, `docs`, `style`, `refactor`, `test` or `chore`.
 - Write the summary in the imperative, 72 characters max. Explain *why* in the body when it isn't obvious.
-- One logical change per commit.
+- One logical change per commit. Only commit work that passes the checks under [Testing](#testing).
 
 ## Principles
 
