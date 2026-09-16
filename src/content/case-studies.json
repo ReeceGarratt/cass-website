@@ -1,0 +1,23 @@
+[
+  {
+    "id": "streamlining-scoring",
+    "title": "Streamlining scoring for multiple products",
+    "skills": ["User Research", "Process Design", "Systems Thinking"],
+    "summary": "A consolidated scoring interface that allows Agents to score, customise and add multiple credit products in a single call.",
+    "order": 1
+  },
+  {
+    "id": "consolidating-import-collections",
+    "title": "Consolidating import collections",
+    "skills": ["User Research", "Workshops", "Usability Testing"],
+    "summary": "An interface replacing a five-platform and paper-heavy capture process with one cohesive, trackable journey.",
+    "order": 2
+  },
+  {
+    "id": "sales-workflow-research",
+    "title": "Using research to build a better sales workflow",
+    "skills": ["User Research", "Workshops", "Journey Mapping"],
+    "summary": "A research-based review and journey redesign of the sales platform's workflow, cutting it from 22 steps to 14 steps.",
+    "order": 3
+  }
+]

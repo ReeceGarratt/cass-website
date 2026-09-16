@@ -1,7 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+
+const caseStudies = (await getCollection('caseStudies')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <BaseLayout title="cassandra garratt">
   <h1>effective &amp; empathetic design</h1>
+  <ul role="list">
+    {caseStudies.map((caseStudy) => (
+      <li>
+        <CaseStudyCard caseStudy={caseStudy} />
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
