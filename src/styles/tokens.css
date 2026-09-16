@@ -93,7 +93,10 @@
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
-  --size-card-title-width: 17rem; /* 272px */
+  --size-card-title-width: 16.5rem; /* 264px; narrowed from 272px (measured) so card 3's
+  title wraps "Using research to / build a better / sales workflow" like Figma —
+  272px let "sales" join the 2nd line instead. 264px is the value closest to 272px
+  that still keeps cards 1 and 2 wrapping exactly as before (range measured: 254–264px) */
   --size-card-title-height: 5.1875rem; /* 83px, fixed in Figma so captions align */
   --size-card-summary-min-height: 6rem; /* 96px */
   --size-arrow: 3.125rem; /* 50px */
