@@ -1,0 +1,115 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const links = [
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/work' },
+  { label: 'About', href: '/about' },
+  { label: 'Resume', href: '/resume' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const current =
+  currentPath.length > 1 ? currentPath.replace(/\/$/, '') : currentPath;
+
+const isCurrent = (href: string) =>
+  href === '/'
+    ? current === '/'
+    : current === href || current.startsWith(`${href}/`);
+---
+
+<nav class="site-nav" aria-label="Main">
+  <a class="site-nav__brand" href="/">
+    cassandra garratt
+  </a>
+  <ul class="site-nav__list" role="list">
+    {links.map(({ label, href }) => (
+      <li>
+        <a
+          class="site-nav__link"
+          href={href}
+          aria-current={isCurrent(href) ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-inline-size: var(--page-max-width);
+    margin-inline: auto;
+    padding-block: var(--space-nav-block);
+    padding-inline: var(--space-gutter);
+  }
+
+  .site-nav__brand {
+    color: var(--color-white);
+    font-size: var(--type-brand-size);
+    font-weight: var(--type-brand-weight);
+    line-height: var(--type-brand-line-height);
+    letter-spacing: var(--type-brand-letter-spacing);
+    text-decoration: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-nav-gap);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__link {
+    position: relative;
+    display: block;
+    isolation: isolate;
+    color: var(--color-white);
+    font-size: var(--type-nav-size);
+    font-weight: var(--type-nav-weight);
+    line-height: var(--type-nav-line-height);
+    letter-spacing: var(--type-nav-letter-spacing);
+    text-decoration: none;
+  }
+
+  /* Selected: pill behind the current page's item */
+  .site-nav__link[aria-current='page'] {
+    color: var(--color-purple);
+  }
+
+  .site-nav__link[aria-current='page']::before {
+    content: '';
+    position: absolute;
+    inset-block: calc(var(--space-nav-pill-block) * -1);
+    inset-inline: calc(var(--space-nav-pill-inline) * -1);
+    z-index: -1;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-light-purple);
+  }
+
+  /* Hover: dot under the item (not on the selected item) */
+  .site-nav__link:not([aria-current='page']):is(:hover, :focus-visible) {
+    color: var(--color-light-purple);
+  }
+
+  .site-nav__link:not([aria-current='page']):is(:hover, :focus-visible)::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    inline-size: var(--size-nav-dot);
+    block-size: var(--size-nav-dot);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-light-purple);
+    translate: -50% 0;
+  }
+</style>
