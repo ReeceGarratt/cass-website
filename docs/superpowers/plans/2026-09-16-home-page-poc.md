@@ -51,7 +51,7 @@ Verification helper (not in the repo): `<scratchpad>/visual-check/check.mjs`, wh
 ### Task 1: Scaffold the Astro project and tooling
 
 **Files:**
-- Create: `package.json`, `.nvmrc`, `astro.config.mjs`, `tsconfig.json`, `.gitignore`, `.prettierrc.json`, `.prettierignore`, `src/pages/index.astro`
+- Create: `package.json`, `.nvmrc`, `astro.config.mjs`, `tsconfig.json`, `.gitignore`, `.gitattributes`, `.prettierrc.json`, `.prettierignore`, `src/pages/index.astro`
 
 **Interfaces:**
 - Consumes: nothing.
@@ -165,6 +165,18 @@ npm-debug.log*
 .idea/
 ```
 
+- [ ] **Step 7b: Create `.gitattributes`**
+
+The dev machine has `core.autocrlf=true`, so without this a Windows checkout gets CRLF endings and `prettier --check` (which expects LF) fails.
+
+```gitattributes
+* text=auto eol=lf
+*.png binary
+*.ico binary
+```
+
+Then run `git add --renormalize .` and check `git status --short`. Only line-ending renormalisations of tracked files should show; they're committed with this task.
+
 - [ ] **Step 8: Create `.prettierrc.json`**
 
 ```json
@@ -238,7 +250,8 @@ Then run `git status --short` and confirm that no `.md` file and nothing under `
 - [ ] **Step 13: Commit **
 
 ```bash
-git add package.json package-lock.json .nvmrc astro.config.mjs tsconfig.json .gitignore .prettierrc.json .prettierignore src/pages/index.astro
+git add package.json package-lock.json .nvmrc astro.config.mjs tsconfig.json .gitignore .gitattributes .prettierrc.json .prettierignore src/pages/index.astro
+git add --renormalize .
 git commit -m "chore: scaffold Astro 7 project with Prettier and astro check" -m "Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 ```
 
@@ -1564,6 +1577,7 @@ Append these entries, dated 2026-09-16 with status Accepted, following the file'
 
 - [ ] **Step 7: Update the wiki**
 
+- **`docs/wiki/windows-dev-environment.md`:** add that `.gitattributes` forces LF (`* text=auto eol=lf`) because the machine has `core.autocrlf=true` and Prettier expects LF.
 - **`docs/wiki/figma-mcp.md`:** fill in "Usage notes":
   - Sign-in worked from the VS Code panel's `/mcp`.
   - Annotations come back as `data-annotations` attributes in `get_design_context`.
