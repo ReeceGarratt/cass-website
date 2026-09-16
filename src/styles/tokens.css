@@ -1,0 +1,132 @@
+/*
+ * Design tokens: hand-written for the home page POC.
+ *
+ * Source: docs/figma/tokens.md (Figma variables) and the component snapshots in
+ * docs/figma/components/ and docs/figma/landing-desktop-hover/. Values were
+ * measured on the 1920px desktop frames. Fluid values scale linearly between a
+ * 1200px and a 1920px viewport.
+ *
+ * Written by hand until a token pipeline is chosen (Q-005). When Figma
+ * changes, update this file to match.
+ *
+ * Overlap layout breakpoint: 117.5rem (1880px). Media queries can't read
+ * custom properties, so that value is repeated in src/pages/index.astro.
+ */
+
+:root {
+  /* Colour: Figma variables */
+  --color-purple: #4832a1;
+  --color-red: #cd2b2b;
+  --color-off-white: #f8f9ff;
+  --color-white: #ffffff;
+  --color-grey: #6b6b6b;
+  --color-light-purple: #c4cdf4;
+  /* Colour: fills in the design that aren't Figma variables */
+  --color-black: #000000; /* hero headline */
+  --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
+
+  /* Font family (registered in astro.config.mjs) */
+  --font-family-base: var(--font-inter);
+
+  /* Type: Title (hero headline), fluid 72px → 100px */
+  --type-title-size: clamp(4.5rem, 1.5833rem + 3.8889vw, 6.25rem);
+  --type-title-line-height: 0.98;
+  --type-title-letter-spacing: -0.04em;
+  --type-title-weight: 900;
+
+  /* Type: Sub Title (hero intro) */
+  --type-subtitle-size: 1.25rem;
+  --type-subtitle-line-height: 1.35;
+  --type-subtitle-letter-spacing: -0.04em;
+  --type-subtitle-weight: 400;
+  --type-subtitle-emphasis-weight: 700;
+
+  /* Type: card title (the Figma style is called "H1") */
+  --type-card-title-size: 1.875rem;
+  --type-card-title-line-height: 0.98;
+  --type-card-title-letter-spacing: -0.02em;
+  --type-card-title-weight: 700;
+
+  /* Type: Body copy */
+  --type-body-size: 1rem;
+  --type-body-line-height: 1.48;
+  --type-body-letter-spacing: -0.011em;
+  --type-body-weight: 400;
+
+  /* Type: Caption Text (card skills) */
+  --type-caption-size: 0.75rem;
+  --type-caption-line-height: 1.5;
+  --type-caption-letter-spacing: -0.011em;
+  --type-caption-weight: 700;
+
+  /* Type: nav brand */
+  --type-brand-size: 1.6875rem;
+  --type-brand-line-height: 1.48;
+  --type-brand-letter-spacing: -0.011em;
+  --type-brand-weight: 900;
+
+  /* Type: nav items */
+  --type-nav-size: 1.0625rem;
+  --type-nav-line-height: 1.5;
+  --type-nav-letter-spacing: -0.011em;
+  --type-nav-weight: 700;
+
+  /* Page */
+  --page-max-width: 120rem; /* 1920px */
+
+  /* Space */
+  --space-gutter: clamp(3rem, -3.4583rem + 8.6111vw, 6.875rem); /* 48 → 110px */
+  --space-hero-top: clamp(6rem, -3.375rem + 12.5vw, 11.625rem); /* 96 → 186px */
+  --space-hero-stack-gap: 4rem; /* stacked layout only; not designed (see spec) */
+  --space-nav-block: 1.5625rem; /* 25px */
+  --space-nav-gap: 2.6875rem; /* 43px */
+  --space-nav-pill-inline: 1.46875rem; /* 23.5px */
+  --space-nav-pill-block: 0.75rem; /* 12px */
+  --space-card-padding: 1.875rem; /* 30px */
+  --space-card-stack: 1.375rem; /* 22px */
+  --space-card-row-gap: 0.9375rem; /* 15px */
+  --space-skill-separator: 0.5em; /* the two spaces either side of "|" */
+  --space-skip-link-inset: 1rem;
+  --space-skip-link-padding-block: 0.75rem;
+  --space-skip-link-padding-inline: 1rem;
+
+  /* Size */
+  --size-card-width: 21.4375rem; /* 343px */
+  --size-card-title-width: 17rem; /* 272px */
+  --size-card-title-height: 5.1875rem; /* 83px, fixed in Figma so captions align */
+  --size-card-summary-min-height: 6rem; /* 96px */
+  --size-arrow: 3.125rem; /* 50px */
+  --size-nav-dot: 0.625rem; /* 10px */
+  --size-hero-intro-width: 27.625rem; /* 442px */
+
+  /* Hero decoration and offsets, relative to the title size */
+  --hero-flower-size: 0.9em; /* 90px at 100px */
+  --hero-flower-offset-top: 0.06em;
+  --hero-flower-gap: 0.08em;
+  --hero-pill-width: 2.69em; /* 269px */
+  --hero-pill-height: 0.72em; /* 72px */
+  --hero-pill-offset-top: 0.2em;
+  --hero-pill-gap: 0.12em;
+  --hero-titles-offset-top: calc(var(--type-title-size) * 2.89); /* 289px */
+  --hero-intro-offset-top: calc(var(--type-title-size) * 2.23); /* 223px */
+  --hero-intro-offset-inline: calc(var(--type-title-size) * 3.81); /* 381px */
+
+  /* Card hover corner strokes (SVG boxes include the 3px stroke overflow) */
+  --card-corner-top-right-width: 5.5rem; /* 88px */
+  --card-corner-top-right-height: 2.5rem; /* 40px */
+  --card-corner-top-right-top: 1.0625rem; /* 17px */
+  --card-corner-top-right-right: 1.21875rem; /* 19.5px */
+  --card-corner-bottom-left-width: 4rem; /* 64px */
+  --card-corner-bottom-left-height: 1.9375rem; /* 31px */
+  --card-corner-bottom-left-bottom: 1.0625rem; /* 17px */
+  --card-corner-bottom-left-left: 1.03125rem; /* 16.5px */
+
+  /* Radius */
+  --radius-card: 1.5625rem; /* 25px */
+  --radius-pill: 3.375rem; /* 54px */
+
+  /* Focus ring: inner colour shows on light backgrounds, outer on Purple */
+  --focus-ring-width: 0.1875rem; /* 3px */
+  --focus-ring-inner: var(--color-purple);
+  --focus-ring-outer: var(--color-white);
+}
