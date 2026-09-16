@@ -1,4 +1,6 @@
 ---
+import { withBase, withoutBase } from '../utils/base-path';
+
 interface Props {
   currentPath: string;
 }
@@ -13,8 +15,8 @@ const links = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const current =
-  currentPath.length > 1 ? currentPath.replace(/\/$/, '') : currentPath;
+const path = withoutBase(currentPath);
+const current = path.length > 1 ? path.replace(/\/$/, '') : path;
 
 const isCurrent = (href: string) =>
   href === '/'
@@ -23,7 +25,7 @@ const isCurrent = (href: string) =>
 ---
 
 <nav class="site-nav" aria-label="Main">
-  <a class="site-nav__brand" href="/">
+  <a class="site-nav__brand" href={withBase('/')}>
     cassandra garratt
   </a>
   <ul class="site-nav__list" role="list">
@@ -31,7 +33,7 @@ const isCurrent = (href: string) =>
       <li>
         <a
           class="site-nav__link"
-          href={href}
+          href={withBase(href)}
           aria-current={isCurrent(href) ? 'page' : undefined}
         >
           {label}
