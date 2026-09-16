@@ -20,13 +20,13 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | ID | Question | Blocks / depends on |
 |---|---|---|
 | Q-002 | Contact form approach | Blocks the Astro adapter and contact page backend |
-| Q-003 | Content editing: does Cass need a CMS? | Any CMS setup |
-| Q-004 | Styling: plain CSS or Tailwind v4 | **Blocks scaffolding** |
 | Q-005 | Token pipeline tooling | Tokens file; needs the Figma file |
 | Q-006 | Testing, linting and formatting | AGENTS.md Testing/Commands; best settled at scaffolding |
-| Q-007 | Figma plan for MCP access | **Blocks all Figma fetching** |
 | Q-008 | Monitoring: how much, and which tools | Deferred to a later pass (D-010) |
 | Q-009 | Deploy pipeline and account ownership | **Blocks the first deploy** |
+| Q-010 | Home page below 1880px | Nothing yet |
+| Q-011 | Resume link target | Nothing yet |
+| Q-012 | Brand link | Nothing yet |
 
 ---
 
@@ -43,21 +43,12 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Accessible error and success states that work without client JS.
   - Whether Cass also wants a `hello@` address on the domain (Email Routing, free).
 
-### Q-003 · Content editing / CMS
-- **Raised:** 2026-09-16
-- **Question:** Does Cass need to add or edit case studies without a developer? If so, add a git-based CMS (e.g. Keystatic or Decap) on top of the MDX content (D-003). If not, editing files in the repo is enough.
-
-### Q-004 · Styling approach
-- **Raised:** 2026-09-16
-- **Blocks:** scaffolding
-- **Options:** plain CSS with Astro scoped styles on top of token custom properties (proposed) · Tailwind v4 with a `@theme` built from tokens.
-- **Tradeoff:** plain CSS keeps the markup clean and the path from token to component easy to follow. Tailwind is faster to write and adds a utility-class vocabulary.
-
 ### Q-005 · Token pipeline tooling
 - **Raised:** 2026-09-16
 - **Context:** D-002 fixes the output (CSS custom properties) but not how it's generated.
 - **Options:** an agent regenerates the tokens file directly from Figma variables through the MCP server · export tokens to DTCG-format JSON and build CSS with Style Dictionary.
 - **Unknowns until we see the Figma file:** how the variables are organised into collections and modes (e.g. light/dark themes), and whether naming follows a primitive → semantic structure.
+- **Update (2026-09-16, D-014):** a hand-written `src/styles/tokens.css` exists for the POC; its header comment lists the sources. This question stays open for a real pipeline. The Figma file has 6 colour variables and 5 text styles, and no spacing variables — spacing, size and radius tokens are named by us.
 
 ### Q-006 · Testing, linting and formatting
 - **Raised:** 2026-09-16
@@ -70,17 +61,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **Unit tests:** Vitest, only if real logic appears.
   - **Lint and format:** ESLint with the Astro and accessibility plugins, plus Prettier with the Astro plugin, or Biome (check its current Astro support first).
 - **Also decide:** whether the checks run locally only, or in CI too. Hosting is settled (D-009). If CI builds in GitHub Actions (Q-009), the checks can block a deploy there.
-
-### Q-007 · Figma plan for MCP access
-- **Raised:** 2026-09-16
-- **Blocks:** all Figma fetching (Phase 0 of the [Figma build workflow](figma/README.md#build-workflow))
-- **Context:** on the free Starter plan the MCP allows about 6 calls a month. Reading Starter files through the REST API is also capped at 6 requests a month, even for someone with a paid seat elsewhere. The build is estimated at about 200–300 calls in total ([wiki/figma-mcp.md](wiki/figma-mcp.md)).
-- **Options:**
-  - **Professional, billed monthly, for the build only (recommended):** upgrade when the designs are ready, check that snapshots cover every frame (Phase 3), then decide whether to keep it. About $20 a month for a Full seat or $15 for a Dev seat, from third-party pricing summaries; not checked on figma.com.
-  - **Professional, kept long term:** simplest if designs keep changing after launch.
-  - **Stay on Starter:** one REST call to download the whole file as JSON plus a call for image exports, then work from the copies. Untested. The variables API is Enterprise-only, so tokens would be pieced together by hand, and a design change could use up the month's allowance.
-- **Seat:** Full if Cass edits designs from this account. A Dev seat can't edit design files.
-- **Before downgrading:** check what happens to Cass's files and projects on Starter. Not yet researched.
+- **Update (2026-09-16, D-016):** the baseline (`astro check` plus a successful build) and Prettier are in place. Accessibility automation, Lighthouse, lint and CI are still open.
 
 ### Q-008 · Monitoring
 - **Raised:** 2026-09-16
@@ -104,3 +85,24 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Is any case-study content under NDA? `workers.dev` preview URLs are public unless protected with Cloudflare Access.
   - Will the repo be public or private? This affects GitHub Actions minutes, and whether draft content is visible.
   - Where is the domain registered? DNS is on Cloudflare; turn on registrar lock and MFA wherever the domain is registered.
+
+### Q-010 · Home page below 1880px
+- **Raised:** 2026-09-16
+- **Blocks:** nothing yet
+- **Context:** The Figma composition (the overlapping hero grid and card row) only fits at 1880px and wider. Below that, the POC uses an undesigned stacked layout: the headline and intro stacked at the top, the card row below, left-aligned with the gutter.
+- **Options:**
+  - Cass designs a laptop frame (1280–1536px).
+  - Cass approves the stacked layout as-is.
+- **Note (2026-09-17):** an accepted residual from the caption font change (browser vs Figma Inter shaping) means card 2's caption fits on one line in the browser at 373px, where Figma now wraps it to 391px like cards 1 and 2. See [wiki/design-tokens.md](wiki/design-tokens.md).
+
+### Q-011 · Resume link target
+- **Raised:** 2026-09-16
+- **Blocks:** nothing yet
+- **Context:** The nav currently points to `/resume`, which 404s.
+- **Options:** a PDF in `public/` · a page · an external link.
+
+### Q-012 · Brand link
+- **Raised:** 2026-09-16
+- **Blocks:** nothing yet
+- **Context:** The brand ("cassandra garratt") links to `/` (D-017), which duplicates the Home nav item.
+- **Options:** keep both · make the brand plain text · drop the Home item.
