@@ -2,7 +2,7 @@
 
 A portfolio website for Cass, a UX designer: home, case studies, about and contact pages. It's built with Astro and TypeScript, static first, hosted on Cloudflare Workers, with design tokens taken from Figma.
 
-**Status:** not scaffolded yet (no `src/` or `package.json`).
+**Status:** scaffolded; the desktop home page POC is built.
 
 `CLAUDE.md` is a symlink to this file, so **edit `AGENTS.md`, never `CLAUDE.md`**. This file loads in every session, so keep it short and put detail in the docs it links to.
 
@@ -10,7 +10,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 
 | Path | Contains |
 |---|---|
-| `src/` *(planned)* | The Astro site: `pages/`, `layouts/`, `components/`, `content/` (case study MDX), `styles/` (tokens) |
+| `src/` | The Astro site: `pages/`, `layouts/`, `components/`, `content/` (card metadata, JSON collection), `styles/` (tokens) |
 | `public/` *(planned)* | Static assets served as-is |
 | `docs/architecture.md` | Repo map, data flow, invariants |
 | `docs/questions.md` | Open questions (Q-xxx): decisions waiting on the user, some spanning several features |
@@ -18,6 +18,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 | `docs/wiki/` | Knowledge built up along the way: how-tos, gotchas, research. Start at `index.md` |
 | `docs/raw/` | Source material from the user (briefs, notes). Never edited |
 | `docs/figma/` | Saved copies of what the Figma MCP returned, so frames aren't fetched twice (D-008) |
+| `docs/superpowers/` | Specs and implementation plans from the superpowers skills |
 | `.mcp.json` | Project MCP servers (Figma) |
 
 ## Lookup routing
@@ -56,7 +57,7 @@ If superpowers skills aren't available (a different agent or machine), follow th
 The Figma MCP limits read calls to about **200 a day and 15 a minute**, and every session signed in to the same Figma account shares that allowance. Tool details and estimated calls per screen are in [figma-mcp](docs/wiki/figma-mcp.md).
 
 **How screens get built.** Full steps are in the [Figma README](docs/figma/README.md#build-workflow).
-1. **Access:** the user sets up a paid seat and signs in (Q-007). Call `whoami` first, and stop if the seat isn't Dev or Full.
+1. **Access:** the user sets up a paid seat and signs in (D-012: Professional, Full seat). Call `whoami` first, and stop if the seat isn't Dev or Full.
 2. **Foundations, once:** map every frame, then pull the tokens and shared components.
 3. **Screens, one at a time:** fetch, save, build and compare each screen before starting the next.
 4. **Wrap-up:** confirm every frame has an up-to-date snapshot before the user changes the Figma plan.
@@ -76,13 +77,11 @@ The Figma MCP limits read calls to about **200 a day and 15 a minute**, and ever
 
 ## Prerequisites
 
-- **Node.js and npm.** The version will be chosen and pinned when the project is scaffolded.
+- **Node.js 24 LTS** (`.nvmrc`) **and npm.**
 - **Windows:** Developer Mode on and `git config core.symlinks true`, so that `CLAUDE.md` stays a symlink. See [windows-dev-environment](docs/wiki/windows-dev-environment.md).
 - **Claude Code:** the superpowers plugin installed and the Figma MCP signed in through `/mcp`. See [agent-tooling](docs/wiki/agent-tooling.md) and [figma-mcp](docs/wiki/figma-mcp.md).
 
 ## Commands
-
-_Not scaffolded yet._ These are Astro's usual defaults; confirm and update them after scaffolding.
 
 | Command | What it does |
 |---|---|
@@ -90,17 +89,21 @@ _Not scaffolded yet._ These are Astro's usual defaults; confirm and update them 
 | `npm run dev` | Start the dev server |
 | `npm run build` | Production build to `dist/` |
 | `npm run preview` | Serve the production build locally |
-| `npx astro check` | Type-check `.astro` and TypeScript files |
+| `npm run check` | Type-check `.astro` and TypeScript files (`astro check`) |
+| `npm run format` | Format the repo with Prettier |
+| `npm run format:check` | Check formatting without writing |
 
-Lint, format and test scripts: TBD (Q-006).
+Lint and test scripts: TBD (Q-006).
 
 ## Testing
 
-There's no test setup yet; the approach is still open (Q-006). Once the project is scaffolded, every change needs at least:
+Every change needs at least:
 
-- A successful `npm run build`, and `astro check` passing.
+- A successful `npm run build`, `npm run check` passing, and `npm run format:check` passing.
 - **Visual changes:** compare the page in the dev server against Figma.
 - **Interactive or layout changes:** check keyboard navigation, focus order and visible focus.
+
+The wider approach (accessibility automation, performance budgets, lint, CI) is still open (Q-006).
 
 ## Commit messages
 

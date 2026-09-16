@@ -10,7 +10,7 @@ Each phase needs the one before it.
 
 ### Phase 0 · Access (user)
 
-- A Figma plan with a Dev or Full seat for the account the MCP signs in as (Q-007).
+- A Figma plan with a Dev or Full seat for the account the MCP signs in as (D-012: Professional, Full seat).
 - The MCP signed in through `/mcp`. See [figma-mcp](../wiki/figma-mcp.md).
 - Figma file links added to the *Figma files* section of [figma-mcp](../wiki/figma-mcp.md).
 - **Agent:** call `whoami` first. If the seat isn't Dev or Full, stop and tell the user, because every other call would come out of the 6-a-month allowance.
@@ -21,7 +21,7 @@ Each phase needs the one before it.
 2. **Tokens.** Call `get_variable_defs` on frames that between them use every style, and save the output to `tokens.md`. Generating the tokens CSS waits on Q-005.
 3. **Shared components** (header, footer, nav, buttons, cards…): call `get_design_context` and `get_screenshot` for each one, and save them to `components/<name>/`.
 
-You can fetch before the project is set up. Building waits on scaffolding, which is blocked by Q-004.
+You can fetch before the project is set up. Building waits on scaffolding (styling settled by D-011).
 
 ### Phase 2 · Screens (one at a time)
 
@@ -40,7 +40,7 @@ Agree the order with the user. Home is a good first screen because it uses the m
 ### Phase 3 · Wrap-up (before any change to the Figma plan)
 
 - Check that every row in the frame index has a snapshot fetched after the latest design change.
-- Tell the user about any frames that are missing or out of date, so they can decide whether to keep the plan (Q-007).
+- Tell the user about any frames that are missing or out of date, so they can decide whether to keep the plan (D-012).
 
 ## Layout
 

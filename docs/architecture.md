@@ -4,18 +4,18 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-09-16):** pre-scaffold. Only the docs and agent config exist. Everything under `src/` below is planned.
+**Status (2026-09-16):** scaffolded. The desktop home page POC exists: navigation, hero and three case study cards, built from `src/`.
 
 ## Overview
 
 A static portfolio site built with Astro (D-001). At build time:
 
 ```
-Figma variables ──(token pipeline, Q-005)──▶ tokens CSS ──▶ components ──▶ layouts ──▶ pages ──▶ static HTML/CSS ──▶ Cloudflare Workers (D-009)
-MDX case studies ──▶ content collection (typed schema) ──▶ [slug] route ─────────────────────▲
+Figma (docs/figma/, hand-written until Q-005) ──▶ tokens CSS ──▶ components ──▶ layouts ──▶ pages ──▶ static HTML/CSS ──▶ Cloudflare Workers (D-009)
+case-studies.json ──▶ caseStudies collection ──▶ cards on / ──▶ bespoke /work/<id> pages (planned, D-013)
 ```
 
-- **Pages:** home, about, contact, the case studies index, and one page per case study.
+- **Pages:** home (built), about, contact, and one bespoke page per case study (planned).
 - **No client JavaScript by default.** An interactive component becomes an island only when it needs to.
 - **Design values** come only from tokens (D-002).
 
@@ -28,6 +28,7 @@ MDX case studies ──▶ content collection (typed schema) ──▶ [slug] ro
 | `AGENTS.md` | Agent instructions: repo layout, where to look things up, workflow, commands, principles. **Edit this file, not `CLAUDE.md`.** |
 | `CLAUDE.md` | Symlink to `AGENTS.md` (D-006). |
 | `.mcp.json` | Project-scoped MCP servers. Currently just Figma (D-005). |
+| `.claude/settings.json` | Ask rule on `git push`, enforcing D-018 (approval before every push). |
 | `README.md` | Overview for humans. |
 | `docs/architecture.md` | This file. |
 | `docs/questions.md` | Open questions (Q-xxx), until they're decided. |
@@ -35,27 +36,34 @@ MDX case studies ──▶ content collection (typed schema) ──▶ [slug] ro
 | `docs/wiki/` | Knowledge base maintained by agents. Start from `index.md`. |
 | `docs/raw/` | Unchanging source material (briefs, notes). Never edit existing files. |
 | `docs/figma/` | Saved Figma MCP output, one folder per frame (D-008). Read before querying Figma, and fetch again when a design changes. |
+| `docs/superpowers/` | Specs and implementation plans from the superpowers skills. |
+| `astro.config.mjs` | Astro config: the Fonts API integration (D-015), no adapter, static output. |
+| `src/styles/tokens.css` | Every design value as a custom property on `:root`, hand-written from `docs/figma/` (D-014). |
+| `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles. |
+| `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />`, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
+| `src/components/SiteNav.astro` | The brand and nav list; sets `aria-current="page"` on the matching item (D-017). |
+| `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. |
+| `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema). |
+| `src/content/case-studies.json` | Card metadata: title, skills, summary, order (D-013). |
+| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `corner-top-right`, `corner-bottom-left`), copied from `docs/figma/components/` and imported as Astro components. |
+| `src/pages/index.astro` | The home page: hero composition and the card list, sorted by `order`. |
 
-### Planned (Astro conventions; confirm when scaffolding)
+### Planned
 
 | Path | Purpose |
 |---|---|
-| `src/pages/` | File-based routes: `index`, `about`, `contact`, `case-studies/index`, `case-studies/[slug]`. Pages put layouts and components together; they don't hold long-form content. |
-| `src/layouts/` | Page shells: document head, header/nav, footer, and skip link. |
-| `src/components/` | Reusable `.astro` components with typed props and scoped styles. |
-| `src/content/` | Case study MDX files (D-003). |
-| `src/content.config.ts` | Content collection definitions and frontmatter schemas. |
-| `src/styles/` | The tokens file (generated from Figma), global reset and base typography. |
-| `public/` | Static files served as-is (favicon, etc.). |
+| `src/pages/about.astro`, `src/pages/contact.astro` | Not built yet. |
+| `src/pages/work/<id>.astro` | Bespoke case study pages, one per collection entry, styled uniquely with no shared MDX template (D-013). |
+| `public/` | Static files served as-is (favicon, resume, etc. — see Q-011). |
 
 ## Invariants
 
 These rules must always hold. Code that breaks one is a bug, even if the page looks right.
 
 1. **No hard-coded design values.** Colour, type, spacing, radius, shadow and similar values come from token custom properties (D-002).
-2. **The tokens file is generated.** Don't hand-edit it once a pipeline exists (Q-005). Change the source in Figma and regenerate.
+2. **The tokens file is hand-written for now.** `src/styles/tokens.css` is written by hand from `docs/figma/` until a token pipeline exists (Q-005, D-014). Once a pipeline exists, don't hand-edit it — change the source in Figma and regenerate.
 3. **No client JS unless needed.** Anything interactive is an island with an explicit `client:*` directive and a stated reason.
-4. **Content lives in collections, not in page files.** Case study text lives in `src/content/`.
+4. **Card metadata lives in the `caseStudies` collection, not in page files.** Case study pages are bespoke `.astro` files with no shared template (D-013).
 5. **Accessibility baseline:** semantic landmarks, one `h1` per page, a visible focus state, full keyboard operation, alt text on meaningful images, and WCAG AA contrast.
 6. **Figma is the visual source of truth.** When code and Figma disagree, Figma wins unless a decision in `decisions.md` says otherwise.
 

@@ -1,7 +1,7 @@
 # Home page POC (desktop): design
 
 - **Date:** 2026-09-16
-- **Status:** Approved in brainstorming, awaiting spec review
+- **Status:** Implemented (see docs/superpowers/plans/2026-09-16-home-page-poc.md)
 - **Branch:** `reece/feature/mvp`
 - **Figma source:** saved snapshots in [`docs/figma/`](../../figma/README.md), mainly [`landing-desktop-hover/context.md`](../../figma/landing-desktop-hover/context.md), [`components/navigation/context.md`](../../figma/components/navigation/context.md), [`components/case-study-card/context.md`](../../figma/components/case-study-card/context.md) and [`tokens.md`](../../figma/tokens.md). **No Figma calls are needed.**
 
@@ -88,26 +88,7 @@ Values come from the snapshots. Type and spacing are in `rem` (1rem = 16px) so t
 
 The Figma style called "H1" is the card title, not the page's `<h1>`, so its token is named `card-title` to avoid confusion.
 
-**Space, size and radius** (desktop values at 1920px)
-
-| Token | Value | Source |
-|---|---|---|
-| `--page-max-width` | 1920px | Frame width |
-| `--space-gutter` | 110px, fluid | Nav and content inset |
-| `--space-nav-block` | 25px | Nav padding (90px bar) |
-| `--space-nav-gap` | 43px | Gap between nav items |
-| `--space-nav-pill-inline` / `-block` | 23.5px / 12px | Selected pill (91×50 around "Work") |
-| `--space-hero-top` | 186px, fluid | Nav bottom to card top (276 − 90) |
-| `--space-card-padding` | 30px | Card |
-| `--space-card-stack` | 22px | Gap inside card |
-| `--space-card-row-gap` | 15px | Between cards |
-| `--size-card-width` / `-min-height` | 343px / 373px | Card |
-| `--size-flower` | 90px, scales with title | Hero flower |
-| `--size-hero-pill-width` / `-height` | 269px / 72px, scale with title | Hero pill |
-| `--size-arrow` | 50px | Card arrow |
-| `--size-nav-dot` | 10px | Nav hover dot |
-| `--radius-card` | 25px | Card |
-| `--radius-pill` | 54px | Nav pill, hero pill |
+**Space, size and radius:** the token names planned here drifted during implementation. `src/styles/tokens.css` and [`docs/wiki/design-tokens.md`](../../wiki/design-tokens.md) are the source of truth for the real names and values.
 
 "Fluid" values scale linearly with the viewport between 1200px and 1920px, using `clamp()`, and hold at each end:
 

@@ -33,7 +33,7 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 
 ## Design
 
-_No pages yet. Planned: design tokens, and a component inventory once the Figma file is available._
+- [Design tokens](design-tokens.md): where the tokens live, the naming scheme, unit rules, how the fluid `clamp()` values were derived, and an accepted residual in the card caption wrap.
 
 ## Sources
 

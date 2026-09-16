@@ -1,8 +1,8 @@
 ---
-summary: How agents connect to the Figma designs, plan rate limits, the tools used, and estimated calls for the build.
-updated: 2026-09-16
-related: [agent-tooling.md]
-decisions: [D-005, D-008, Q-007]
+summary: How agents connect to the Figma designs, plan rate limits, the tools used, and measured calls for the build.
+updated: 2026-09-17
+related: [agent-tooling.md, design-tokens.md]
+decisions: [D-005, D-008, D-012]
 ---
 
 # Figma MCP
@@ -35,7 +35,7 @@ Non-interactive or headless sessions **can't** complete OAuth. If Figma tools ar
 
 ## Account, plan and limits
 
-**Which account:** the MCP will be signed in as the owner of the Figma account. As of 2026-09-16 the plan hasn't been chosen. Professional is recommended, and the choice is open as Q-007. On first sign-in, call `whoami`: it returns the seat type and doesn't count toward the limit.
+**Which account:** the MCP is signed in as the owner of the Figma account. Professional plan, Full seat, confirmed by `whoami` on 2026-09-16 (D-012). On first sign-in, call `whoami`: it returns the seat type and doesn't count toward the limit.
 
 **No free route found (checked 2026-09-16):** Figma's [REST API rate limits](https://developers.figma.com/docs/rest-api/rate-limits) cap requests for files on a Starter plan at 6 a month, even for someone with a Full seat on another plan. Community MCP servers that use a personal access token go through the REST API, so they hit the same cap.
 
@@ -66,25 +66,29 @@ These are all read tools, so they count toward the limit unless marked otherwise
 
 Write tools (`use_figma`, `generate_figma_design`, `upload_assets`, `create_new_file`, …) change Cass's real files. Agents don't use them; see AGENTS.md.
 
-## Estimated call budget
+## Measured call budget
 
-These are **estimates from the tool list, not measured usage** (2026-09-16). Replace them with real figures once the first screen is built.
+Replaces the original estimate now that the first screen is built.
 
 | Work | Calls |
 |---|---|
-| Setup: page list, tokens, shared components | ~20–35 |
-| Each unique screen: outline, screenshot, 3–8 sections, assets, comparison | ~8–15 |
-| Each extra breakpoint of a screen | ~4–6 |
-| Content of each case study | ~5–10 |
+| First pass (desktop home): frames, nav, card, tokens, content | 9 |
+| Card refetch, 2026-09-17, after the caption font changed | 3 (1 `get_design_context`, 2 `get_metadata`) |
+| **Total so far** | **12** |
 
-For about 5 layouts at 3 breakpoints, the whole build should take roughly **200–300 calls, spread over several days**, including rework. The limit is only likely to bite through the per-minute cap (parallel calls) or through fetching the same frames again. Hence the working rules in [AGENTS.md → Working with Figma](../../AGENTS.md#working-with-figma) and the snapshots in [`docs/figma/`](../figma/README.md) (D-008).
+Well inside the 200/day, 15/minute limit (D-012). The limit is only likely to bite through the per-minute cap (parallel calls) or through fetching the same frames again. Hence the working rules in [AGENTS.md → Working with Figma](../../AGENTS.md#working-with-figma) and the snapshots in [`docs/figma/`](../figma/README.md) (D-008).
 
 Claude's context window is the other cost: `get_design_context` output can be large. Fetching one section at a time and reading saved snapshots keeps it down.
 
 ## Usage notes
 
-_TBD once signed in:_ the node-ID and URL formats the tools expect, how big `get_design_context` output is in practice, whether screenshots can be saved to disk, and the real number of calls per screen.
+- **Sign-in** worked from the VS Code panel's `/mcp` (not just the terminal `/mcp`).
+- **Annotations** come back as `data-annotations` attributes in `get_design_context` output, not as separate text.
+- **`get_screenshot`** returns a short-lived URL, not a file — download it straight away (see [figma/README.md](../figma/README.md#screenshots-and-assets)). Pass `maxDimension` equal to the frame's longer edge to get it at 1:1; the default is smaller.
+- **`get_design_context` on a component set** also returns the nested component sets it uses (e.g. the card's `arrow_upward` set and `Flower` symbol come back in the same call).
+- **`get_design_context` requires** Figma's `figma-design-to-code` guidance resource to be loaded first. That's an MCP resource fetch, not a read call, so it doesn't count toward the limit.
+- **Whether screenshots can be saved to disk:** yes, by downloading the short-lived URL with `curl`.
 
 ## Figma files
 
-_TBD: links to be added when shared. Also list them in `AGENTS.md` → Design source of truth._
+- **Portfolio Website:** <https://www.figma.com/design/z037c50FocJthsq5WRzJcd/Portfolio-Website>. One page, `Landing`.

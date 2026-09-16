@@ -1,6 +1,6 @@
 ---
-summary: Symlink and text-encoding gotchas on the Windows dev machine.
-updated: 2026-09-16
+summary: Symlink, line-ending and text-encoding gotchas on the Windows dev machine.
+updated: 2026-09-17
 related: [agent-tooling.md]
 decisions: [D-006]
 ---
@@ -36,6 +36,10 @@ cmd /c mklink CLAUDE.md AGENTS.md
 - Always edit `AGENTS.md`, never `CLAUDE.md`. Editors and tools that save by writing a temp file and renaming it can replace the symlink with a regular file.
 - After bulk edits, re-check with `ls -la CLAUDE.md`.
 - A Windows clone without symlink support gets a plain `CLAUDE.md` that just contains the text `AGENTS.md`, so Claude doesn't get the real instructions.
+
+## Line endings
+
+`.gitattributes` forces LF: `* text=auto eol=lf` (with `*.png` and `*.ico` marked binary). The machine has `core.autocrlf=true`, which would otherwise check text files out with CRLF, and Prettier expects LF — without this, `format:check` fails on every text file after a fresh checkout.
 
 ## Text encoding
 
