@@ -85,7 +85,7 @@
   --space-card-padding: 1.875rem; /* 30px */
   --space-card-stack: 1.375rem; /* 22px */
   --space-card-row-gap: 0.9375rem; /* 15px */
-  --space-skill-separator: 0.25em; /* the two spaces either side of "|" */
+  --space-skill-separator: 0.4518em; /* two literal spaces either side of "|", measured in the caption font (~5.42px at 12px) */
   --space-skip-link-inset: 1rem;
   --space-skip-link-padding-block: 0.75rem;
   --space-skip-link-padding-inline: 1rem;
