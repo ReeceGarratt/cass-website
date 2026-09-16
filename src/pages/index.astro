@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
+import Flower from '../assets/flower.svg';
 
 const caseStudies = (await getCollection('caseStudies')).sort(
   (a, b) => a.data.order - b.data.order,
@@ -9,12 +10,133 @@ const caseStudies = (await getCollection('caseStudies')).sort(
 ---
 
 <BaseLayout title="cassandra garratt">
-  <h1>effective &amp; empathetic design</h1>
-  <ul role="list">
-    {caseStudies.map((caseStudy) => (
-      <li>
-        <CaseStudyCard caseStudy={caseStudy} />
-      </li>
-    ))}
-  </ul>
+  <div class="hero">
+    <div class="hero__titles">
+      <h1 class="hero__title">
+        <span class="hero__line">
+          <span class="hero__flower" aria-hidden="true">
+            <Flower />
+          </span>
+          effective &amp;{' '}
+        </span>
+        <span class="hero__line">
+          empathetic<span class="hero__pill" aria-hidden="true"></span>
+        </span>
+        <span class="hero__line">design</span>
+      </h1>
+      <p class="hero__intro">
+        I am a proactive designer with a passion for{' '}
+        <strong>inclusive technology</strong> and <strong>user advocacy</strong>
+        . I create intuitive, user-centred designs that solve real problems and
+        delight users.
+      </p>
+    </div>
+    <ul class="hero__cards" role="list">
+      {caseStudies.map((caseStudy) => (
+        <li>
+          <CaseStudyCard caseStudy={caseStudy} />
+        </li>
+      ))}
+    </ul>
+  </div>
 </BaseLayout>
+
+<style>
+  /* Stacked desktop layout (below 1880px): not designed, see spec */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-hero-stack-gap);
+    padding-block: var(--space-hero-top);
+  }
+
+  .hero__titles {
+    display: grid;
+  }
+
+  .hero__titles > * {
+    grid-area: 1 / 1;
+  }
+
+  .hero__title {
+    color: var(--color-black);
+    font-size: var(--type-title-size);
+    font-weight: var(--type-title-weight);
+    line-height: var(--type-title-line-height);
+    letter-spacing: var(--type-title-letter-spacing);
+  }
+
+  .hero__line {
+    display: block;
+  }
+
+  .hero__flower {
+    display: inline-block;
+    vertical-align: top;
+    inline-size: var(--hero-flower-size);
+    block-size: var(--hero-flower-size);
+    margin-block-start: var(--hero-flower-offset-top);
+    margin-inline-end: var(--hero-flower-gap);
+    color: var(--color-red);
+  }
+
+  .hero__flower :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .hero__pill {
+    display: inline-block;
+    vertical-align: top;
+    inline-size: var(--hero-pill-width);
+    block-size: var(--hero-pill-height);
+    margin-block-start: var(--hero-pill-offset-top);
+    margin-inline-start: var(--hero-pill-gap);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-purple);
+  }
+
+  .hero__intro {
+    align-self: start;
+    max-inline-size: var(--size-hero-intro-width);
+    margin-block-start: var(--hero-intro-offset-top);
+    margin-inline-start: var(--hero-intro-offset-inline);
+    color: var(--color-purple);
+    font-size: var(--type-subtitle-size);
+    font-weight: var(--type-subtitle-weight);
+    line-height: var(--type-subtitle-line-height);
+    letter-spacing: var(--type-subtitle-letter-spacing);
+  }
+
+  .hero__intro strong {
+    font-weight: var(--type-subtitle-emphasis-weight);
+  }
+
+  .hero__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-card-row-gap);
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Figma composition: breakpoint also noted in tokens.css */
+  @media (min-width: 117.5rem) {
+    .hero {
+      display: grid;
+    }
+
+    .hero > * {
+      grid-area: 1 / 1;
+    }
+
+    .hero__titles {
+      margin-block-start: var(--hero-titles-offset-top);
+    }
+
+    .hero__cards {
+      align-self: start;
+      justify-self: end;
+    }
+  }
+</style>
