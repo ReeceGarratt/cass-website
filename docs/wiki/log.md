@@ -93,3 +93,6 @@ Astro scaffolded; the desktop home page POC (nav, hero, three case study cards) 
 
 ## [2026-09-17] update | Case study card caption refetched after font change
 Cass changed the card caption text style to Inter Bold in Figma; refetched and saved as a "Refetch 2026-09-17" section in `docs/figma/components/case-study-card/context.md`. Captions now wrap on cards 1 and 2 (391px tall); card 3 stays 373px, vertically centred. Recorded an accepted residual in design-tokens.md and a note on Q-010: card 2's caption fits on one line in the browser due to browser/Figma Inter shaping differences.
+
+## [2026-09-17] decision | D-019 GitHub Pages as an interim preview
+Added `.github/workflows/deploy-pages.yml` (push to `main` or a manual run) and `withBase`/`withoutBase` in `src/utils/base-path.ts` so the site works under `/cass-website/`. D-009 stands. Q-009 updated, new page github-pages.md, architecture.md (code map, invariant 7, hosting) and AGENTS.md (repo layout) updated. The workflow hasn't run on GitHub yet.
