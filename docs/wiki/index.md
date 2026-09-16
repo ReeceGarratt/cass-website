@@ -29,6 +29,7 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 
 - [Hosting options](hosting-options.md): research behind D-009: six hosts compared, cost at our traffic, bot and cost-spike risk, security and GitHub Actions support (prices checked 2026-09-16).
 - [Cloudflare Workers hosting](cloudflare-workers.md): free-plan limits, zone settings to change, previews, CI with GitHub Actions, email for the contact form, and security notes.
+- [GitHub Pages preview](github-pages.md): the interim Pages deploy (D-019): one-off repo settings, how the workflow passes the base path, `withBase` gotchas, and how to remove it.
 - [Monitoring options](monitoring-options.md): observability research for the later monitoring pass (D-010): Sentry, Grafana Cloud, Datadog and Workers observability limits.
 
 ## Design

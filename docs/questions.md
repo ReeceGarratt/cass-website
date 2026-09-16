@@ -23,7 +23,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-005 | Token pipeline tooling | Tokens file; needs the Figma file |
 | Q-006 | Testing, linting and formatting | AGENTS.md Testing/Commands; best settled at scaffolding |
 | Q-008 | Monitoring: how much, and which tools | Deferred to a later pass (D-010) |
-| Q-009 | Deploy pipeline and account ownership | **Blocks the first deploy** |
+| Q-009 | Deploy pipeline and account ownership | **Blocks the first production deploy** (an interim Pages preview exists, D-019) |
 | Q-010 | Home page below 1880px | Nothing yet |
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
@@ -75,8 +75,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Also decide:** whether to use Cloudflare Web Analytics for Core Web Vitals instead of a heavier real-user monitoring SDK.
 
 ### Q-009 · Deploy pipeline and account ownership
-- **Raised:** 2026-09-16
-- **Blocks:** the first deploy
+- **Raised:** 2026-09-16 · **Updated:** 2026-09-17 (interim Pages preview, D-019)
+- **Blocks:** the first production deploy
 - **Options:**
   - **Build in GitHub Actions and deploy with `cloudflare/wrangler-action` (proposed):** the Q-006 checks can block a deploy, the pipeline works with any host, and pull request previews come from `wrangler versions upload --preview-alias`. Login is a long-lived API token.
   - **Workers Builds (Cloudflare's git integration):** less setup, 3,000 free build minutes a month, but checks in Actions can't block the deploy. Never enable both, or every push deploys twice.
@@ -85,6 +85,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Is any case-study content under NDA? `workers.dev` preview URLs are public unless protected with Cloudflare Access.
   - Will the repo be public or private? This affects GitHub Actions minutes, and whether draft content is visible.
   - Where is the domain registered? DNS is on Cloudflare; turn on registrar lock and MFA wherever the domain is registered.
+- **Update (2026-09-17, D-019):** an interim preview deploys to GitHub Pages. It doesn't settle this question. Remove `.github/workflows/deploy-pages.yml` once the Cloudflare pipeline is running.
 
 ### Q-010 · Home page below 1880px
 - **Raised:** 2026-09-16

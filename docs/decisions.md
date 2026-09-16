@@ -136,3 +136,13 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Context:** Agents were making many small edits per task without a clear commit boundary.
 - **Decision:** Agents commit as they go, one commit per task or section of work. Pushing needs the user's approval every time, even when earlier pushes were approved. Enforced by a `.claude/settings.json` ask rule on `git push`.
 - **Consequences:** History stays readable without being noisy. See `AGENTS.md` → Commit messages.
+
+### D-019 · GitHub Pages as an interim preview
+- **Date:** 2026-09-17 · **Status:** Accepted
+- **Context:** The user wants a shareable deployed copy of the site before the Cloudflare pipeline (Q-009) is settled. D-009 turned down GitHub Pages as the *production* host. The repo is public, so Pages is free.
+- **Decision:** Deploy an interim preview to GitHub Pages from `.github/workflows/deploy-pages.yml`, on push to `main` or a manual run. D-009 stands: Cloudflare Workers is still the production host. The preview lives at `https://reecegarratt.github.io/cass-website/`, so the workflow passes `--site` and `--base` to `astro build`, and root-relative links go through `withBase` in `src/utils/base-path.ts`. Local and future Cloudflare builds have no base.
+- **Alternatives considered:**
+  - **Replace Cloudflare with Pages:** turned down. D-009's reasons still hold (no custom headers, no previews).
+  - **Build the Cloudflare pipeline now (Q-009's proposed option):** needs the account-ownership answers first.
+  - **A custom subdomain on Pages:** no base path or code changes, but needs DNS work for something temporary.
+- **Consequences:** Every new root-relative link or `public/` asset URL must use `withBase` (architecture invariant 7). The workflow, and `withBase` if it's no longer needed, go when the Cloudflare pipeline is running. Setup and gotchas: [wiki/github-pages.md](wiki/github-pages.md).

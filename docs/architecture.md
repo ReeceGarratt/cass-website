@@ -28,6 +28,7 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `AGENTS.md` | Agent instructions: repo layout, where to look things up, workflow, commands, principles. **Edit this file, not `CLAUDE.md`.** |
 | `CLAUDE.md` | Symlink to `AGENTS.md` (D-006). |
 | `.mcp.json` | Project-scoped MCP servers. Currently just Figma (D-005). |
+| `.github/workflows/deploy-pages.yml` | Builds with the Pages base path and deploys the interim GitHub Pages preview (D-019). |
 | `.claude/settings.json` | Ask rule on `git push`, enforcing D-018 (approval before every push). |
 | `README.md` | Overview for humans. |
 | `docs/architecture.md` | This file. |
@@ -43,6 +44,7 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />`, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
 | `src/components/SiteNav.astro` | The brand and nav list; sets `aria-current="page"` on the matching item (D-017). |
 | `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. |
+| `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
 | `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema). |
 | `src/content/case-studies.json` | Card metadata: title, skills, summary, order (D-013). |
 | `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `corner-top-right`, `corner-bottom-left`), copied from `docs/figma/components/` and imported as Astro components. |
@@ -66,11 +68,12 @@ These rules must always hold. Code that breaks one is a bug, even if the page lo
 4. **Card metadata lives in the `caseStudies` collection, not in page files.** Case study pages are bespoke `.astro` files with no shared template (D-013).
 5. **Accessibility baseline:** semantic landmarks, one `h1` per page, a visible focus state, full keyboard operation, alt text on meaningful images, and WCAG AA contrast.
 6. **Figma is the visual source of truth.** When code and Figma disagree, Figma wins unless a decision in `decisions.md` says otherwise.
+7. **Root-relative URLs go through `withBase`.** The site must work at `/` and under a sub-path (the Pages preview, D-019). Never hard-code `href="/…"`; in-page `#anchors` are fine.
 
 ## Cross-cutting concerns
 
 - **Accessibility:** see invariant 5. Automated checks (axe/Lighthouse) are planned for the accessibility and performance pass.
 - **Performance:** static output, optimised images through Astro's image handling, and minimal JS.
 - **SEO:** deferred (D-004). Keep markup semantic so it's easy to add later.
-- **Hosting and deployment:** Cloudflare Workers with static assets (D-009). No adapter while the site is fully static; add `@astrojs/cloudflare` only when a route renders on demand (Q-002). The deploy pipeline is open (Q-009). Platform notes: [wiki/cloudflare-workers.md](wiki/cloudflare-workers.md).
+- **Hosting and deployment:** Cloudflare Workers with static assets (D-009). No adapter while the site is fully static; add `@astrojs/cloudflare` only when a route renders on demand (Q-002). The deploy pipeline is open (Q-009). Until then, an interim preview deploys to GitHub Pages under `/cass-website/` (D-019, [wiki/github-pages.md](wiki/github-pages.md)). Platform notes: [wiki/cloudflare-workers.md](wiki/cloudflare-workers.md).
 - **Observability:** deferred to a later pass (D-010); tools open as Q-008.

@@ -10,7 +10,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 
 | Path | Contains |
 |---|---|
-| `src/` | The Astro site: `pages/`, `layouts/`, `components/`, `content/` (card metadata, JSON collection), `styles/` (tokens) |
+| `src/` | The Astro site: `pages/`, `layouts/`, `components/`, `content/` (card metadata, JSON collection), `styles/` (tokens), `utils/` (`withBase` for base-path-safe links) |
 | `public/` *(planned)* | Static assets served as-is |
 | `docs/architecture.md` | Repo map, data flow, invariants |
 | `docs/questions.md` | Open questions (Q-xxx): decisions waiting on the user, some spanning several features |
@@ -19,6 +19,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 | `docs/raw/` | Source material from the user (briefs, notes). Never edited |
 | `docs/figma/` | Saved copies of what the Figma MCP returned, so frames aren't fetched twice (D-008) |
 | `docs/superpowers/` | Specs and implementation plans from the superpowers skills |
+| `.github/workflows/` | GitHub Actions: the interim GitHub Pages preview deploy (D-019) |
 | `.mcp.json` | Project MCP servers (Figma) |
 
 ## Lookup routing
