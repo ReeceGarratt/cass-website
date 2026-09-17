@@ -132,6 +132,12 @@
   --radius-card: 1.5625rem; /* 25px */
   --radius-pill: 3.375rem; /* 54px */
 
+  /* Shadow: placeholder until Figma defines it. Small and tinted Purple, to
+  lift the white cards off the Off White background */
+  --shadow-card:
+    0 0.0625rem 0.125rem color-mix(in srgb, var(--color-purple) 8%, transparent),
+    0 0.125rem 0.5rem color-mix(in srgb, var(--color-purple) 10%, transparent);
+
   /* Focus ring: inner colour shows on light backgrounds, outer on Purple */
   --focus-ring-width: 0.1875rem; /* 3px */
   --focus-ring-inner: var(--color-purple);
