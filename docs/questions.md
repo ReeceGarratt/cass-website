@@ -27,6 +27,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-010 | Home page below 1880px | Nothing yet |
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
+| Q-013 | Card shadow, hover timing and alignment from Figma | Nothing; placeholders in use (D-020) |
 
 ---
 
@@ -107,3 +108,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing yet
 - **Context:** The brand ("cassandra garratt") links to `/` (D-017), which duplicates the Home nav item.
 - **Options:** keep both · make the brand plain text · drop the Home item.
+
+### Q-013 · Card shadow, hover timing and alignment from Figma
+- **Raised:** 2026-09-17
+- **Blocks:** nothing; placeholder values are in use (D-020)
+- **Context:** Cass is updating the Figma files with the card drop shadow and the card-to-headline alignment, and possibly hover motion. Until then `--shadow-card`, `--duration-hover` and `--ease-hover` in `tokens.css` are placeholders, and the cards' bottom edge sits on the first headline baseline.
+- **Options:** replace the placeholders with values from the updated frames · keep the placeholders for anything Figma doesn't define.
