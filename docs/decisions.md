@@ -146,3 +146,14 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
   - **Build the Cloudflare pipeline now (Q-009's proposed option):** needs the account-ownership answers first.
   - **A custom subdomain on Pages:** no base path or code changes, but needs DNS work for something temporary.
 - **Consequences:** Every new root-relative link or `public/` asset URL must use `withBase` (architecture invariant 7). The workflow, and `withBase` if it's no longer needed, go when the Cloudflare pipeline is running. Setup and gotchas: [wiki/github-pages.md](wiki/github-pages.md).
+
+### D-020 · Home page cards: equal heights, baseline alignment, shadow and hover fade
+- **Date:** 2026-09-17 · **Status:** Accepted
+- **Context:** Requested by the user ahead of updated Figma frames. The current Figma row lets cards differ in height (391 / 391 / 373px) and centres them, which read as uneven. The hover swap was instant and felt jarring. Figma has no shadow or motion values yet.
+- **Decision:**
+  - **Equal heights:** the card list is a grid with `grid-auto-rows: 1fr`, so every card matches the tallest, including when the stacked layout wraps. At 1880px and wider it's a single auto-flow column row.
+  - **Baseline alignment (1880px and wider):** the hero grid's first row ends on the baseline of "effective &" (`--hero-titles-offset-top` + `--hero-title-baseline`), and the cards sit at the end of that row, so taller cards grow upward.
+  - **Shadow:** a small Purple-tinted `--shadow-card`, a placeholder until Figma defines one.
+  - **Hover:** colours fade over `--duration-hover` (200ms, `ease-out`). The arrow icons and corner strokes crossfade via opacity (option A of three offered; a rotating or scaling flower and a shape morph were the others).
+- **Alternatives considered:** a flex row with `align-items: stretch` for equal heights. It matches the grid in the single-row desktop layout, but only equalises cards on the same line once the row wraps.
+- **Consequences:** The build now differs from the current Figma frames on card height and position, which invariant 6 allows through this entry. Shadow, timing and alignment values get replaced when Cass's updated frames land (Q-013).

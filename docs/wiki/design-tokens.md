@@ -2,7 +2,7 @@
 summary: Where the design tokens live, their naming scheme, unit rules, and how the fluid values were derived.
 updated: 2026-09-17
 related: [figma-mcp.md]
-decisions: [D-002, D-014, Q-005, Q-010]
+decisions: [D-002, D-014, D-020, Q-005, Q-010, Q-013]
 ---
 
 # Design tokens
@@ -20,6 +20,8 @@ decisions: [D-002, D-014, Q-005, Q-010]
 | `--hero-*` | Hero decoration sized relative to the title (`em`), plus its offsets |
 | `--card-corner-*` | The hover-state corner stroke boxes on the case study card |
 | `--radius-*` | Border radii |
+| `--shadow-*` | Box shadows (`--shadow-card` is a placeholder, Q-013) |
+| `--duration-*`, `--ease-*` | Transition timing (`--duration-hover`, `--ease-hover`; placeholders, Q-013) |
 | `--focus-ring-*` | The shared focus ring colours and width |
 
 The Figma text style called "H1" is the case study card's title, not the page's `<h1>` — its token is named `--type-card-title-*` to avoid confusion with the actual headline (`--type-title-*`).
@@ -52,3 +54,14 @@ The card's skills line uses two literal spaces on each side of `|` in Figma (`Us
 Figma's card caption is Inter Bold 12px. After the 2026-09-16 font change, captions wrap on cards 1 and 2 (391px tall cards) and stay on one line on card 3 (373px, vertically centred in the row) — see [`docs/figma/components/case-study-card/context.md`](../figma/components/case-study-card/context.md#refetch-2026-09-17-caption-font-changed-to-inter).
 
 The build matches Figma for cards 1 and 3. **Card 2's caption fits on one line in the browser** (373px, not 391px), because browser and Figma shape Inter by a few pixels differently at this size. This is an accepted residual, not a bug: fixing it would mean hard-coding a per-card height or line-break, which the tokens system and the content collection don't support. Revisit if Cass flags it, or as part of settling Q-010.
+
+Since D-020 every card stretches to the tallest card's height, so card 2's shorter caption no longer changes its outer height. Its summary still starts 18px higher than card 1's. The arrows line up, because the arrow is pinned to the bottom of the card.
+
+## `--hero-title-baseline` (card alignment)
+
+At 1880px and wider, the cards' bottom edge sits on the baseline of the first headline line, "effective &" (D-020). The hero grid's first row is `--hero-titles-offset-top + --hero-title-baseline` tall, and the cards are end-aligned in it.
+
+`--hero-title-baseline: calc(var(--type-title-size) * 0.853)` is the distance from the top of a headline line box to its baseline, worked out from Inter's metrics: ascent 0.96875em, less half the leading. Line height 0.98 minus a content area of 1.2109 gives −0.2309, so half-leading is −0.1155, and 0.96875 − 0.1155 = 0.853. In Edge, the baseline measured 85px at 100px, 64px at 75px and 61px at 72px, and the card bottoms landed within 1px of it at 1880, 1920 and 2400px.
+
+- **Gotcha:** the ratio depends on the font's ascent and descent and on `--type-title-line-height`. If either changes, recompute it. The measurement trick: append a zero-size `inline-block` with `vertical-align: baseline` to `.hero__line` and read its `top`.
+- **Gotcha:** the cards are taller (391px) than that row (about 374px at 100px), so they overflow the row upward into the hero's top padding. That relies on grid `align-self: end` overflowing towards the start edge, which it does in all current engines (none implement "safe" alignment by default).

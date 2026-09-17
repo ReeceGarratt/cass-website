@@ -96,3 +96,6 @@ Cass changed the card caption text style to Inter Bold in Figma; refetched and s
 
 ## [2026-09-17] decision | D-019 GitHub Pages as an interim preview
 Added `.github/workflows/deploy-pages.yml` (push to `main` or a manual run) and `withBase`/`withoutBase` in `src/utils/base-path.ts` so the site works under `/cass-website/`. D-009 stands. Q-009 updated, new page github-pages.md, architecture.md (code map, invariant 7, hosting) and AGENTS.md (repo layout) updated. The workflow hasn't run on GitHub yet.
+
+## [2026-09-17] decision | D-020 card heights, alignment, shadow and hover fade; Q-013 opened
+Cards on the home page now share the tallest card's height, sit on the first headline baseline at 1880px and wider, have a placeholder drop shadow, and fade into their hover state. Recorded D-020, opened Q-013 for the Figma values still to come, and updated design-tokens.md (naming scheme, card 2 residual, `--hero-title-baseline`).

@@ -112,31 +112,48 @@ const caseStudies = (await getCollection('caseStudies')).sort(
     font-weight: var(--type-subtitle-emphasis-weight);
   }
 
+  /* Equal rows: every card matches the tallest, even when the row wraps */
   .hero__cards {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, var(--size-card-width));
+    grid-auto-rows: 1fr;
     gap: var(--space-card-row-gap);
     padding: 0;
     list-style: none;
   }
 
+  /* Let the card stretch to fill its grid cell */
+  .hero__cards > li {
+    display: grid;
+  }
+
   /* Figma composition: breakpoint also noted in tokens.css */
   @media (min-width: 117.5rem) {
+    /* Row 1 ends on the first headline line's baseline, so the cards'
+       bottom edge sits on it; taller cards grow upward */
     .hero {
       display: grid;
+      grid-template-rows:
+        calc(var(--hero-titles-offset-top) + var(--hero-title-baseline))
+        auto;
     }
 
     .hero > * {
-      grid-area: 1 / 1;
+      grid-column: 1;
     }
 
     .hero__titles {
+      grid-row: 1 / -1;
       margin-block-start: var(--hero-titles-offset-top);
     }
 
+    /* One row; auto-fill needs a definite width, which an end-aligned item lacks */
     .hero__cards {
-      align-self: start;
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: var(--size-card-width);
+      grid-row: 1;
+      align-self: end;
       justify-self: end;
     }
   }
