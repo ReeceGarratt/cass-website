@@ -112,6 +112,9 @@
   --hero-pill-offset-top: 0.2em;
   --hero-pill-gap: 0.12em;
   --hero-titles-offset-top: calc(var(--type-title-size) * 2.89); /* 289px */
+  /* Headline line top to its baseline: Inter ascent 0.96875 less half-leading
+  0.1155 (line height 0.98, content area 1.2109). Measured 85px at 100px */
+  --hero-title-baseline: calc(var(--type-title-size) * 0.853);
   --hero-intro-offset-top: calc(var(--type-title-size) * 2.23); /* 223px */
   --hero-intro-offset-inline: calc(var(--type-title-size) * 3.81); /* 381px */
 

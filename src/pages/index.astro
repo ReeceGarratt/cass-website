@@ -129,15 +129,21 @@ const caseStudies = (await getCollection('caseStudies')).sort(
 
   /* Figma composition: breakpoint also noted in tokens.css */
   @media (min-width: 117.5rem) {
+    /* Row 1 ends on the first headline line's baseline, so the cards'
+       bottom edge sits on it; taller cards grow upward */
     .hero {
       display: grid;
+      grid-template-rows:
+        calc(var(--hero-titles-offset-top) + var(--hero-title-baseline))
+        auto;
     }
 
     .hero > * {
-      grid-area: 1 / 1;
+      grid-column: 1;
     }
 
     .hero__titles {
+      grid-row: 1 / -1;
       margin-block-start: var(--hero-titles-offset-top);
     }
 
@@ -146,7 +152,8 @@ const caseStudies = (await getCollection('caseStudies')).sort(
       grid-template-columns: none;
       grid-auto-flow: column;
       grid-auto-columns: var(--size-card-width);
-      align-self: start;
+      grid-row: 1;
+      align-self: end;
       justify-self: end;
     }
   }
