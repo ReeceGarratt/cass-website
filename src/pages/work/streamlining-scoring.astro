@@ -84,7 +84,12 @@ const subNav = [
   />
 
   <section class="business-problem" aria-labelledby="business-needs">
-    <SectionHeading eyebrow="the" title="Business problem" id="business-needs">
+    <SectionHeading
+      eyebrow="the"
+      title="Business problem"
+      id="business-needs"
+      titleWidth="12.625rem"
+    >
       During a full day workshop with my key stakeholders I identified:
     </SectionHeading>
     <ul class="findings-list" role="list">
@@ -322,7 +327,13 @@ const subNav = [
 
   /* --- The business problem (86:190) -------------------------------------
      flex gap-80 items-center justify-center; heading 391.809px, list 585px,
-     the whole frame 1056.809px centred in the 1699px content track. */
+     the whole frame 1056.809px centred in the 1699px content track.
+
+     The heading block is 392px but its title box is only 202px of that
+     (144:1870: the H1 group 86:193 is inset 0 to 48.44%), which is why the
+     SectionHeading above carries titleWidth. Without it "business problem"
+     is a hair narrower than the full 392px track and falls on one line
+     instead of the design's two. */
   .business-problem {
     display: grid;
     grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
@@ -368,7 +379,12 @@ const subNav = [
      its 80px padding either side, so there's no second max-width mechanism
      inside. */
   .panel {
-    padding: var(--space-80); /* Figma: p-80 */
+    /* 80px all round. That is 86:211's padding exactly (p-[80px]); 19:109
+       instead has px-[328px] py-[80px], but its 328px is a centring device,
+       not padding — 1451 − 2×328 = 795, the width of its content row, which
+       .testing below centres in the card instead. Same result, and it
+       survives the card being narrower than 795 + 656. */
+    padding: var(--space-80);
     border-radius: var(--radius-panel);
     max-inline-size: var(--size-inset-measure);
     margin-inline: auto;
@@ -383,8 +399,10 @@ const subNav = [
     gap: var(--space-40);
   }
 
-  /* Heading 251px + 240px gap + quote 632px (86:212), which fits the card's
-     1288px measure with room to spare.
+  /* 86:212 is a 1220px row inset 34px inside the card's 1288px measure
+     (x=114 against the card's 80px padding), holding 251 + 240 + 632 = 1123px
+     of content aligned to its start. The 34px padding either side reproduces
+     that exactly: 1288 − 68 = 1220.
 
      Flex + wrap rather than a two-track grid because the 240px gap is a fixed
      length: in a grid it is added to the tracks whatever the space, so a
@@ -397,10 +415,18 @@ const subNav = [
     column-gap: var(--space-panel-columns);
     row-gap: var(--space-40);
     align-items: center;
-    justify-content: center;
+    padding-inline: 2.125rem; /* 34px */
   }
 
+  /* Figma's heading box (86:214, w=251). This has to be an explicit basis:
+     without a width the heading's flex base size is its max-content width,
+     which for "talking to the experts" at Title 2 is far more than 251px, so
+     the row's first line measures over the 1288px available and the quote
+     wraps beneath the heading instead of sitting beside it. 251px also puts
+     the break after "to", as the design has it. */
   .interviews__heading {
+    flex: 0 1 15.6875rem; /* 251px */
+    max-inline-size: 15.6875rem;
     color: var(--color-light-purple);
     text-transform: lowercase;
   }
@@ -428,15 +454,23 @@ const subNav = [
     font-size: 1.25em;
   }
 
-  /* WHAT list 392px, 64px gap, divider, 64px gap, learnings 699px (86:221).
+  /* 86:221, another 1220px row inset 34px inside the 1288px measure: WHAT
+     list 392px, 64px, a 1px divider, 64px, learnings copy 699px — which is
+     392 + 64 + 764 = 1220 exactly.
+
      The divider is a border on the second column rather than an element of
-     its own, so there's nothing empty in the accessibility tree. */
+     its own, so there's nothing empty in the accessibility tree. It and the
+     64px that follows it sit INSIDE that column's box, so the track has to
+     be 699 + 64 + 1 for the copy itself to measure 699px — box-sizing is
+     border-box, so a 699px track would leave the copy 634px and rewrap it. */
   .interviews__details {
     display: grid;
-    grid-template-columns: minmax(0, 24.5rem) minmax(0, 43.6875rem);
+    grid-template-columns:
+      minmax(0, 24.5rem)
+      minmax(0, calc(43.6875rem + var(--space-64) + 1px));
     gap: var(--space-64);
     align-items: start;
-    justify-content: center;
+    padding-inline: 2.125rem; /* 34px */
   }
 
   .interviews__list {
