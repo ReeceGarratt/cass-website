@@ -90,3 +90,56 @@ const { links } = Astro.props;
     text-underline-offset: 0.25em;
   }
 </style>
+
+<script>
+  // Reason for client JS (invariant 3): the design's selected state is a
+  // single underline that grows from the first link to the current section,
+  // i.e. reading progress. That needs scroll position, which CSS alone
+  // cannot provide with acceptable cross-browser support.
+  const nav = document.querySelector<HTMLElement>('.sub-nav');
+  const links = [
+    ...document.querySelectorAll<HTMLAnchorElement>('.sub-nav__link'),
+  ];
+  if (nav && links.length > 0) {
+    const sections = links
+      .map((link) => document.querySelector(link.hash))
+      .filter((section): section is Element => section !== null);
+
+    const setProgress = (index: number) => {
+      const navLeft = nav.getBoundingClientRect().left;
+      const first = links[0].getBoundingClientRect();
+      const current = links[index].getBoundingClientRect();
+      nav.style.setProperty(
+        '--progress-inset-inline-start',
+        `${first.left - navLeft}px`,
+      );
+      nav.style.setProperty(
+        '--progress-inline-size',
+        `${current.right - first.left}px`,
+      );
+      links.forEach((link, i) =>
+        link.setAttribute('aria-current', i === index ? 'true' : 'false'),
+      );
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const index = sections.indexOf(entry.target);
+          if (index !== -1) setProgress(index);
+        }
+      },
+      { rootMargin: '0px 0px -80% 0px' },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    if (sections.length > 0) setProgress(0);
+    addEventListener('resize', () => {
+      const active = links.findIndex(
+        (link) => link.getAttribute('aria-current') === 'true',
+      );
+      setProgress(active === -1 ? 0 : active);
+    });
+  }
+</script>
