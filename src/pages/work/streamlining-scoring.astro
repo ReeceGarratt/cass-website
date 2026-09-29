@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content';
 import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
 
 const entry = await getEntry('caseStudies', 'streamlining-scoring');
 if (!entry) throw new Error('Missing case study: streamlining-scoring');
@@ -22,4 +23,12 @@ const subNav = [
   <SectionHeading eyebrow="the" title="Business problem" id="business-needs">
     During a full day workshop with my key stakeholders I identified:
   </SectionHeading>
+  <!-- DEMO: replaced in Task 17. Verifies DefinitionTip renders. -->
+  <p class="type-subtitle">
+    <DefinitionTip id="def-absa" term="Absa">
+      A multinational banking and financial services provider, based in
+      Johannesburg ZA.
+    </DefinitionTip>{' '}
+    wanted to streamline its credit product scoring.
+  </p>
 </CaseStudyLayout>
