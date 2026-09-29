@@ -33,6 +33,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-016 | Interactivity for the sub nav progress and Definition Tip | Blocks the sub nav and the Definition Tip |
 | Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
+| Q-019 | Which case studies the home page features | Nothing yet; first three by `order` in use as a placeholder |
 
 ---
 
@@ -174,3 +175,13 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **Hybrid:** small/UI images in-repo, large case study screenshots off-repo.
 - **Decide before:** committing the full image set for all four case studies. The first case study can proceed in-repo either way, as long as originals are downscaled first.
 - **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
+
+### Q-019 · Which case studies the home page features
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet; the current behaviour is a placeholder
+- **Context:** The `caseStudies` collection reached four entries (Task 7 of the case-study-page-one batch added TRANSEARCH). The home page hero composition is built for exactly three cards — at `>=1880px` the row is `grid-auto-flow: column` with a fixed `grid-auto-columns: var(--size-card-width)`, so a fourth card extends the row rather than wrapping, and the Figma landing frame only ever shows three. `src/pages/index.astro` now takes the first three entries by `order` (`featuredCaseStudies`), so which three are shown is decided by each entry's `order` field, not by code.
+- **Options:**
+  - **Keep "first three by `order`"** (in use now): simplest, but the meaning of `order` becomes overloaded — it controls both the "Other case studies" ranking and home page inclusion.
+  - **A separate `featured: boolean` field** in the schema: explicit, decoupled from ordering, but another field to keep in sync as case studies are added.
+  - **Cass redesigns the hero for four (or however many) cards.**
+- **Also decide:** what should happen as a fifth case study is added — does the home page still show only three, or does the count change too?
