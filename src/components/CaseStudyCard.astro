@@ -2,18 +2,21 @@
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../utils/base-path';
 import CircleArrow from './CircleArrow.astro';
+import Pill from './Pill.astro';
 import CornerTopRight from '../assets/corner-top-right.svg';
 import CornerBottomLeft from '../assets/corner-bottom-left.svg';
 
 interface Props {
   caseStudy: CollectionEntry<'caseStudies'>;
+  showClient?: boolean;
 }
 
-const { caseStudy } = Astro.props;
-const { title, skills, summary } = caseStudy.data;
+const { caseStudy, showClient = false } = Astro.props;
+const { title, client, skills, summary } = caseStudy.data;
 ---
 
 <article class="card">
+  {showClient && <Pill class="card__client">{client}</Pill>}
   <h2 class="card__title">
     <a class="card__link" href={withBase(`/work/${caseStudy.id}`)}>
       {title}
@@ -40,11 +43,14 @@ const { title, skills, summary } = caseStudy.data;
     display: flex;
     flex-direction: column;
     gap: var(--space-card-stack);
-    inline-size: var(--size-card-width);
     padding: var(--space-card-padding);
     border-radius: var(--radius-card);
     background-color: var(--color-white);
     box-shadow: var(--shadow-card);
+  }
+
+  .card__client {
+    align-self: start;
   }
 
   .card__title {
