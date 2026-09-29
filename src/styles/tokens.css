@@ -21,12 +21,13 @@
   --color-white: #ffffff;
   --color-grey: #6b6b6b;
   --color-light-purple: #c4cdf4;
-  /* Colour: fills in the design that aren't Figma variables */
+  --color-light-grey: #e7e6e6;
   --color-black: #000000; /* hero headline */
   --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
 
   /* Font family (registered in astro.config.mjs) */
   --font-family-base: var(--font-inter);
+  --font-family-handwritten: var(--font-la-belle-aurore);
 
   /* Type: Title (hero headline), fluid 72px → 100px */
   --type-title-size: clamp(4.5rem, 1.5833rem + 3.8889vw, 6.25rem);
@@ -41,9 +42,11 @@
   --type-subtitle-weight: 400;
   --type-subtitle-emphasis-weight: 700;
 
-  /* Type: card title (the Figma style is called "H1") */
+  /* Type: card title (the Figma style is called "H1").
+     Line height changed 0.98 -> 0.92 on 2026-09-29; confirmed against the
+     current Figma frame. This changes card heights on the home page. */
   --type-card-title-size: 1.875rem;
-  --type-card-title-line-height: 0.98;
+  --type-card-title-line-height: 0.92;
   --type-card-title-letter-spacing: -0.02em;
   --type-card-title-weight: 700;
 
@@ -71,8 +74,53 @@
   --type-nav-letter-spacing: -0.011em;
   --type-nav-weight: 700;
 
+  /* Type: Title 1 (case study title, "Other case studies") */
+  --type-title-1-size: 3.125rem; /* 50px */
+  --type-title-1-line-height: 0.96; /* 48/50 */
+  --type-title-1-letter-spacing: -0.04em;
+  --type-title-1-weight: 900;
+
+  /* Type: Title 2 (case study section headings) */
+  --type-title-2-size: 2.8125rem; /* 45px */
+  --type-title-2-line-height: 1;
+  --type-title-2-letter-spacing: -0.02em;
+  --type-title-2-weight: 900;
+
+  /* Type: H2 (project goal / outcome headings). Figma letterSpacing is 0 */
+  --type-h2-size: 1.25rem; /* 20px */
+  --type-h2-line-height: 1.12;
+  --type-h2-letter-spacing: 0;
+  --type-h2-weight: 700;
+
+  /* Type: Body Med */
+  --type-body-med-size: 1rem;
+  --type-body-med-line-height: 1.48;
+  --type-body-med-letter-spacing: -0.011em;
+  --type-body-med-weight: 500;
+
+  /* Type: Hand written */
+  --type-handwritten-size: 1.75rem; /* 28px */
+  --type-handwritten-line-height: 1.11;
+  --type-handwritten-letter-spacing: -0.02em;
+  --type-handwritten-weight: 400;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
+
+  /* Space: scale. The number is the px value at a 16px root */
+  --space-8: 0.5rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-40: 2.5rem;
+  --space-48: 3rem;
+  --space-56: 3.5rem;
+  --space-64: 4rem;
+  --space-96: 6rem;
+
+  /* Figma's two spacing variables, aliased so the link stays traceable */
+  --space-headings-body: var(--space-16); /* Figma: Headings & Body */
+  --space-sub-sections: var(--space-48); /* Figma: Sub-Sub Sections */
 
   /* Space */
   --space-gutter: clamp(3rem, -3.4583rem + 8.6111vw, 6.875rem); /* 48 → 110px */
@@ -132,11 +180,10 @@
   --radius-card: 1.5625rem; /* 25px */
   --radius-pill: 3.375rem; /* 54px */
 
-  /* Shadow: placeholder until Figma defines it. Small and tinted Purple, to
-  lift the white cards off the Off White background */
+  /* Shadow: Figma effect styles (docs/figma/tokens.md) */
   --shadow-card:
-    0 0.0625rem 0.125rem color-mix(in srgb, var(--color-purple) 8%, transparent),
-    0 0.125rem 0.5rem color-mix(in srgb, var(--color-purple) 10%, transparent);
+    0 0.0625rem 0.1875rem 0.0625rem #0000000d, 0 0.0625rem 0.125rem 0 #0000001a;
+  --shadow-card-warm: -0.0625rem 0.1875rem 0.21875rem 0.0625rem #f5efe6ab;
 
   /* Motion: not in Figma yet. Colour and opacity fades only, no movement.
   ease-out starts fast so hover feels responsive, then settles */
