@@ -1,0 +1,92 @@
+---
+import { withBase } from '../utils/base-path';
+
+interface Props {
+  links: { href: string; label: string }[];
+}
+
+const { links } = Astro.props;
+---
+
+<nav class="sub-nav u-bleed" aria-label="Case study sections">
+  <div class="sub-nav__inner">
+    <a class="sub-nav__back" href={withBase('/work')}>
+      <span class="sub-nav__back-arrow" aria-hidden="true">
+        &#8592;
+      </span>
+      All projects
+    </a>
+    <ul class="sub-nav__list" role="list">
+      {links.map((link) => (
+        <li>
+          <a class="sub-nav__link" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <span class="sub-nav__progress" aria-hidden="true"></span>
+</nav>
+
+<style>
+  .sub-nav {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 2;
+    background-color: var(--color-white);
+  }
+
+  .sub-nav__inner {
+    display: flex;
+    gap: var(--space-40);
+    align-items: center;
+    justify-content: space-between;
+    block-size: 5rem; /* 80px */
+    padding-inline: var(--space-gutter);
+  }
+
+  .sub-nav__back,
+  .sub-nav__link {
+    color: var(--color-purple);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .sub-nav__back {
+    display: inline-flex;
+    gap: 0.875rem; /* 14px */
+    align-items: center;
+  }
+
+  .sub-nav__list {
+    display: flex;
+    gap: var(--space-40);
+    padding: 0;
+    list-style: none;
+  }
+
+  .sub-nav__progress {
+    display: block;
+    block-size: 0.1875rem; /* 3px */
+    inline-size: var(--progress-inline-size, 0);
+    margin-inline-start: var(--progress-inset-inline-start, 0);
+    background-color: var(--color-purple);
+    transition-property: inline-size, margin-inline-start;
+    transition-duration: var(--duration-hover);
+    transition-timing-function: var(--ease-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sub-nav__progress {
+      transition: none;
+    }
+  }
+
+  .sub-nav__link[aria-current='true'] {
+    /* The underline carries the current state visually; this is the
+       non-visual hook and the no-JS fallback marker. */
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+</style>

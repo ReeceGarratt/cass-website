@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import CaseStudySubNav from '../components/CaseStudySubNav.astro';
 import ReadMoreSection from '../components/ReadMoreSection.astro';
 
 interface Props {
@@ -8,11 +9,12 @@ interface Props {
   subNav: { href: string; label: string }[];
 }
 
-const { entry, subNav: _subNav } = Astro.props;
+const { entry, subNav } = Astro.props;
 ---
 
 <BaseLayout title={`${entry.data.title} — Cassandra Garratt`}>
   <article class="case-study">
+    <CaseStudySubNav links={subNav} />
     <slot />
     <ReadMoreSection currentId={entry.id} />
   </article>
