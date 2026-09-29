@@ -145,6 +145,10 @@
   --space-skip-link-inset: 1rem;
   --space-skip-link-padding-block: 0.75rem;
   --space-skip-link-padding-inline: 1rem;
+  --space-intro-columns: 7.375rem; /* 118px; case study intro text/image gap.
+  Not a scale-worthy number (halfway between --space-96 and nothing above it),
+  so it's a bespoke one-off like the other Space tokens above rather than a
+  new scale step. */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
@@ -158,6 +162,18 @@
   --size-nav-dot: 0.625rem; /* 10px */
   --size-hero-intro-width: 27.625rem; /* 442px */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
+
+  /* Process strip step wrap widths (67:334 outline). Without a width, a
+  label can't shrink below its own min-content and forces the six-step row
+  to ~1420px wide, overflowing at narrower viewports. Each value is the
+  fixed width Figma gives that text node, so long labels wrap the same way
+  as the design (verified against the fetched screenshot's crop). */
+  --size-process-step-identify: 8.3125rem; /* 133px: "identify business needs" */
+  --size-process-step-asis: 13.125rem; /* 210px: "as-is journey investigations" */
+  --size-process-step-sme: 9.375rem; /* 150px: "sme interviews" */
+  --size-process-step-research: 8.0625rem; /* 129px: "user research" */
+  --size-process-step-design: 6.0625rem; /* 97px: "design" */
+  --size-process-step-testing: 7.6875rem; /* 123px: "usability testing" */
 
   /* Hero decoration and offsets, relative to the title size */
   --hero-flower-size: 0.9em; /* 90px at 100px */

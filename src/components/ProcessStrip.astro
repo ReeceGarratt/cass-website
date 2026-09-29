@@ -5,15 +5,40 @@ interface Props {
 }
 
 const { steps, class: className } = Astro.props;
+
+// Measured wrap widths from the fetched Process section (67:334), keyed by
+// the step's lowercased text — without a width, a label can't shrink below
+// its own min-content, and the six-step row forces ~1420px of irreducible
+// width, overflowing at narrower viewports (docs/figma/case-study-1-desktop/
+// context.md, Section: Process; confirmed against the section's screenshot
+// crop). This lookup is specific to this case study's six labels; a future
+// case study with different step text will need its own entries here, or
+// ProcessStrip's interface will need to grow to carry widths explicitly.
+const stepWidths: Record<string, string> = {
+  'identify business needs': 'var(--size-process-step-identify)',
+  'as-is journey investigations': 'var(--size-process-step-asis)',
+  'sme interviews': 'var(--size-process-step-sme)',
+  'user research': 'var(--size-process-step-research)',
+  design: 'var(--size-process-step-design)',
+  'usability testing': 'var(--size-process-step-testing)',
+};
 ---
 
 <div class:list={['process-strip', className]}>
   <ol class="process-strip__list" role="list">
-    {steps.map((step) => (
-      <li class="process-strip__step">
-        <span class="process-strip__label type-h1">{step}</span>
-      </li>
-    ))}
+    {steps.map((step) => {
+      const width = stepWidths[step.toLowerCase()];
+      return (
+        <li class="process-strip__step">
+          <span
+            class="process-strip__label type-h1"
+            style={width ? `inline-size: ${width}` : undefined}
+          >
+            {step}
+          </span>
+        </li>
+      );
+    })}
   </ol>
 </div>
 
@@ -46,9 +71,14 @@ const { steps, class: className } = Astro.props;
   }
 
   .process-strip__label {
+    /* No shrinking below the measured width — the whole point is to force
+       the same wraps Figma has, not let flex compress it back down. */
+    flex-shrink: 0;
     color: var(--color-white);
     text-transform: lowercase;
-    text-align: center;
+    /* Figma's label text nodes carry no centring; left as default
+       (start-aligned), which also reads correctly for the single-line
+       "design" label. */
   }
 
   /* Decorative arrow between steps, an image so it never enters the
@@ -58,7 +88,16 @@ const { steps, class: className } = Astro.props;
      their relative offset, so the head's position here (top right, ~45%
      of the box) is a best-effort visual approximation, not a measured
      value. Box size is the Arrow_01 instance bounding box from the
-     Process section outline (67:334): 41.83 x 27.33px. */
+     Process section outline (67:334): 41.83 x 27.33px.
+
+     Colour: the source SVGs are stroked Red (#CD2B2B, their default
+     colourway from shapes-arrows), but this section's own reported styles
+     are White/H1/Purple with no Red, and the fetched screenshot confirms
+     the arrows render White on the Purple band. brightness(0) forces every
+     opaque pixel to black regardless of the source stroke colour (alpha is
+     preserved), then invert(1) flips that black to White — a standard
+     recolour trick for a background-image SVG, since url()-referenced SVGs
+     don't take `currentColor` from the embedding page. */
   .process-strip__step:not(:last-child)::after {
     content: '';
     display: block;
@@ -73,5 +112,6 @@ const { steps, class: className } = Astro.props;
     background-size:
       45% 50%,
       100% 100%;
+    filter: brightness(0) invert(1);
   }
 </style>

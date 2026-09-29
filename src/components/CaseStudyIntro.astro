@@ -51,21 +51,27 @@ const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
       </div>
     </div>
   </div>
-  <Image class="case-study-intro__image" src={image} alt={imageAlt} />
+  <Image
+    class="case-study-intro__image"
+    src={image}
+    alt={imageAlt}
+    loading="eager"
+    fetchpriority="high"
+  />
 </div>
 
 <style>
   /* Column split from the fetched Introduction section (86:441): the text
      stack measures 687px and the screenshot 894px, expressed here as fr
      weights rather than fixed widths so the layout stays fluid. The gap
-     between them (805 - 687 = 118px) has no matching spacing-scale step;
-     --space-96 (the largest step) is the closest available and is used
-     here, ~22px short of the measured value. */
+     between them (805 - 687 = 118px) isn't on the 8px spacing scale, so it
+     gets its own bespoke token (--space-intro-columns) rather than being
+     rounded to the nearest scale step. */
   .case-study-intro {
     display: grid;
     grid-template-columns: 687fr 894fr;
     align-items: start;
-    gap: var(--space-96);
+    gap: var(--space-intro-columns);
   }
 
   .case-study-intro__stack {
@@ -104,10 +110,6 @@ const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
 
   .case-study-intro__lead {
     color: var(--color-purple);
-  }
-
-  .case-study-intro__lead :global(.definition-trigger) {
-    font: inherit;
   }
 
   .case-study-intro__goal-outcome {
