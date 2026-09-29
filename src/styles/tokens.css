@@ -179,6 +179,7 @@
   /* Radius */
   --radius-card: 1.5625rem; /* 25px */
   --radius-pill: 3.375rem; /* 54px */
+  --radius-pill-label: 1.5625rem; /* 25px */
 
   /* Shadow: Figma effect styles (docs/figma/tokens.md) */
   --shadow-card:
