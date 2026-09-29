@@ -1,0 +1,107 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  heading: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  side?: 'start' | 'end';
+  findings: { label: string; body: string }[];
+}
+
+const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
+---
+
+<div class:list={['finding-block', `finding-block--${side}`]}>
+  <Image class="finding-block__image" src={image} alt={imageAlt} />
+  <div class="finding-block__body">
+    <h3 class="finding-block__heading type-h1">{heading}</h3>
+    <dl class="finding-block__findings">
+      {findings.map(({ label, body }) => (
+        <div class="finding-block__finding">
+          <dt class="finding-block__label type-h3">{label}</dt>
+          <dd class="finding-block__text type-body-med">{body}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</div>
+
+<style>
+  /* Column split, gaps and type from the fetched Design section (87:504),
+     read from the P1-P4 "Right" blocks (they're identical across all
+     four): image 802px, text column 566px, expressed as fr weights so the
+     layout stays fluid rather than fixed-width. */
+  .finding-block {
+    display: grid;
+    grid-template-columns: 802fr 566fr;
+    /* Figma's own gap here is 80px, exactly between two spacing-scale
+       steps (64 and 96) — --space-64 is used, flagged as an approximation
+       in the task report. */
+    gap: var(--space-64);
+    align-items: start;
+  }
+
+  /* Swap both which track is wider AND which item is placed into it, so
+     the image keeps its measured 802px-equivalent width regardless of
+     which side it's drawn on (grid auto-placement follows `order`, so
+     swapping only the item order without also swapping the column widths
+     would hand the image the narrower track). */
+  .finding-block--end {
+    grid-template-columns: 566fr 802fr;
+  }
+
+  .finding-block--end .finding-block__image {
+    order: 2;
+  }
+
+  .finding-block--end .finding-block__body {
+    order: 1;
+  }
+
+  .finding-block__image {
+    border-radius: var(--radius-image);
+    /* The drop shadow diverges between blocks in Figma (P1/P2: "Portfolio
+       Drop", P3/P4: "Portfolio Card drop") — drift, not intent (flagged in
+       the task report). One shadow, --shadow-card, is used consistently. */
+    box-shadow: var(--shadow-card);
+  }
+
+  .finding-block__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .finding-block__heading {
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  .finding-block__findings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    margin: 0;
+  }
+
+  .finding-block__finding {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .finding-block__label {
+    color: var(--color-red);
+    /* Labels are free text with inconsistent source casing ("outcome" vs
+       "Outcome") — Figma displays every one lowercase via this transform,
+       so it's applied here rather than trusting the data's casing. */
+    text-transform: lowercase;
+  }
+
+  .finding-block__text {
+    margin: 0;
+    color: var(--color-purple);
+  }
+</style>

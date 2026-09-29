@@ -5,6 +5,8 @@ import SectionHeading from '../../components/SectionHeading.astro';
 import DefinitionTip from '../../components/DefinitionTip.astro';
 import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
+import FindingBlock from '../../components/FindingBlock.astro';
+import removingTheGuessWork from '../../assets/case-studies/streamlining-scoring/removing-the-guess-work.png';
 import Woman2 from '../../assets/icons/woman-2.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
 
@@ -67,6 +69,26 @@ const subNav = [
       'user research',
       'design',
       'usability testing',
+    ]}
+  />
+  <!-- DEMO: replaced in Task 17 (part of the full Design section). -->
+  <FindingBlock
+    heading="removing the guess work"
+    image={removingTheGuessWork}
+    imageAlt="TODO(cass): needs review"
+    findings={[
+      {
+        label: 'problem',
+        body: "Agents didn't know how much Customers qualified for.",
+      },
+      {
+        label: 'design decision',
+        body: 'Created a dynamic affordability indicator to give agents a clear amount to work with.',
+      },
+      {
+        label: 'outcome',
+        body: 'Giving the Agent enough information to offer additional products with confidence.',
+      },
     ]}
   />
   <!-- DEMO: replaced in Task 17. Verifies SectionHeading renders. -->
