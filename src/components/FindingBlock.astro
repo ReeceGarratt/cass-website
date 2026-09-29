@@ -36,10 +36,8 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
   .finding-block {
     display: grid;
     grid-template-columns: 802fr 566fr;
-    /* Figma's own gap here is 80px, exactly between two spacing-scale
-       steps (64 and 96) — --space-64 is used, flagged as an approximation
-       in the task report. */
-    gap: var(--space-64);
+    /* Figma's own gap here is 80px, an exact match for --space-80. */
+    gap: var(--space-80);
     align-items: start;
   }
 
