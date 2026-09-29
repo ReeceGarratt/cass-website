@@ -1,0 +1,77 @@
+---
+interface Props {
+  steps: string[];
+  class?: string;
+}
+
+const { steps, class: className } = Astro.props;
+---
+
+<div class:list={['process-strip', className]}>
+  <ol class="process-strip__list" role="list">
+    {steps.map((step) => (
+      <li class="process-strip__step">
+        <span class="process-strip__label type-h1">{step}</span>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  /* Band background, padding and step type from the fetched Process
+     section (67:334): Purple full-bleed band, py-40px, Inter Bold 30px
+     white lowercase labels (the site's existing .type-h1 — the same
+     30/0.92/700 style already used for card titles). */
+  .process-strip {
+    background-color: var(--color-purple);
+    padding-block: var(--space-40);
+  }
+
+  .process-strip__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap-32px in the fetched section, between every item (label or arrow)
+       in the row */
+    gap: var(--space-32);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .process-strip__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-32);
+  }
+
+  .process-strip__label {
+    color: var(--color-white);
+    text-transform: lowercase;
+    text-align: center;
+  }
+
+  /* Decorative arrow between steps, an image so it never enters the
+     accessibility tree. Composited from the two loose Arrow_01 exports in
+     docs/figma/components/shapes-arrows/ (a curve and a separate
+     arrowhead) — the fetched snapshot has each part's own size but not
+     their relative offset, so the head's position here (top right, ~45%
+     of the box) is a best-effort visual approximation, not a measured
+     value. Box size is the Arrow_01 instance bounding box from the
+     Process section outline (67:334): 41.83 x 27.33px. */
+  .process-strip__step:not(:last-child)::after {
+    content: '';
+    display: block;
+    inline-size: 2.6144rem;
+    block-size: 1.7081rem;
+    background-image:
+      url('../assets/arrow-01-head.svg'), url('../assets/arrow-01-curve.svg');
+    background-repeat: no-repeat, no-repeat;
+    background-position:
+      100% 0%,
+      0% 100%;
+    background-size:
+      45% 50%,
+      100% 100%;
+  }
+</style>

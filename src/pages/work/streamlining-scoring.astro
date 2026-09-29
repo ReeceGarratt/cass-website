@@ -4,6 +4,7 @@ import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import DefinitionTip from '../../components/DefinitionTip.astro';
 import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
 import Woman2 from '../../assets/icons/woman-2.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
 
@@ -57,6 +58,17 @@ const subNav = [
       </p>
     </Fragment>
   </CaseStudyIntro>
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      'identify business needs',
+      'as-is journey investigations',
+      'sme interviews',
+      'user research',
+      'design',
+      'usability testing',
+    ]}
+  />
   <!-- DEMO: replaced in Task 17. Verifies SectionHeading renders. -->
   <SectionHeading eyebrow="the" title="Business problem" id="business-needs">
     During a full day workshop with my key stakeholders I identified:
