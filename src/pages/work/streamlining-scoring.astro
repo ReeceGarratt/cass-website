@@ -103,12 +103,8 @@ const subNav = [
     </ul>
   </section>
 
-  <section
-    class="panel u-bleed"
-    id="interviews"
-    aria-labelledby="interviews-heading"
-  >
-    <div class="panel__inner interviews">
+  <section class="panel" id="interviews" aria-labelledby="interviews-heading">
+    <div class="interviews">
       <div class="interviews__top">
         <h2 class="interviews__heading type-title-2" id="interviews-heading">
           Talking to the experts
@@ -278,11 +274,11 @@ const subNav = [
   </section>
 
   <section
-    class="panel u-bleed"
+    class="panel"
     id="user-testing"
     aria-labelledby="user-testing-heading"
   >
-    <div class="panel__inner testing">
+    <div class="testing">
       <p class="testing__stat type-stats">14 out of 15</p>
       <div class="testing__body">
         <h2 class="testing__heading type-title-2" id="user-testing-heading">
@@ -356,30 +352,28 @@ const subNav = [
   }
 
   /* --- Purple panels ------------------------------------------------------
-     Shared band for "talking to the experts" (86:211) and the user-testing
-     panel (19:109). Deliberately page markup, not a component: the two share
-     only the band and the measure — one holds a pull quote and two columns,
-     the other a stat and an annotated insight — so a component would be a
-     div with a slot.
+     Shared inset card for "talking to the experts" (86:211) and the
+     user-testing panel (19:109). Deliberately page markup, not a component:
+     the two share only the card and the measure — one holds a pull quote and
+     two columns, the other a stat and an annotated insight — so a component
+     would be a div with a slot.
 
-     DEPARTURE: Figma draws both as 1448px-wide rounded (12px) cards inset in
-     the page, not as full-bleed bands. The task brief specifies u-bleed for
-     both, so they are built as bands; the inner wrapper below carries the
-     1288px content measure (the frame's 1448px less its 80px padding either
-     side) so the copy doesn't run to the viewport edge. Flagged in the task
-     report. */
+     NOT full-bleed. Both frames are inset symmetrically inside the content
+     track (86:211 x=236.196 w=1448, 19:109 x=234.696 w=1451, both
+     rounded-[12px]) — 236px of inset plus a corner radius is a card, not a
+     band. Only the process strip (67:334, x=0.196 w=1920) is genuinely
+     full-bleed, and it keeps its u-bleed.
+
+     The 1288px content measure the copy sits on is this card's 1448px less
+     its 80px padding either side, so there's no second max-width mechanism
+     inside. */
   .panel {
-    padding-block: var(--space-80); /* Figma: p-80 */
-    /* Inline padding comes from the page gutter rather than Figma's 80px, so
-       a full-bleed band keeps the same edge inset as every other section. */
-    padding-inline: var(--space-gutter);
+    padding: var(--space-80); /* Figma: p-80 */
+    border-radius: var(--radius-panel);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
     background-color: var(--color-purple);
     color: var(--color-white);
-  }
-
-  .panel__inner {
-    max-inline-size: 80.5rem; /* 1288px */
-    margin-inline: auto;
   }
 
   /* --- Talking to the experts (86:211) ----------------------------------- */
@@ -389,11 +383,19 @@ const subNav = [
     gap: var(--space-40);
   }
 
-  /* Heading 251px + 240px gap + quote 632px (86:212). */
+  /* Heading 251px + 240px gap + quote 632px (86:212), which fits the card's
+     1288px measure with room to spare.
+
+     Flex + wrap rather than a two-track grid because the 240px gap is a fixed
+     length: in a grid it is added to the tracks whatever the space, so a
+     narrow card would be forced wider than its container. Wrapping drops the
+     quote onto its own line instead, and the column gap stops applying once
+     it does. 240px is still the gap at the design's width. */
   .interviews__top {
-    display: grid;
-    grid-template-columns: minmax(0, auto) minmax(0, 39.5rem);
-    gap: var(--space-panel-columns);
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-panel-columns);
+    row-gap: var(--space-40);
     align-items: center;
     justify-content: center;
   }
@@ -405,6 +407,10 @@ const subNav = [
 
   .interviews__quote {
     display: flex;
+    /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
+       quote holds the design's measure at full width and rewraps below it. */
+    flex: 1 1 39.5rem;
+    max-inline-size: 39.5rem; /* 632px */
     gap: var(--space-16);
     align-items: flex-start;
     margin: 0;
@@ -477,14 +483,15 @@ const subNav = [
   }
 
   /* --- Designing the scoring page (87:504) -------------------------------
-     This frame is 1448px wide and centred, NOT the 1699px content track the
-     Introduction uses. Without this cap every finding-block image renders
+     This frame is inset to 1448px and centred, NOT the 1699px content track
+     the Introduction uses — the same measure as the two Purple panels, hence
+     the shared token. Without this cap every finding-block image renders
      about 18% larger than the design. */
   .design {
     display: flex;
     flex-direction: column;
     gap: var(--space-80);
-    max-inline-size: 90.5rem; /* 1448px */
+    max-inline-size: var(--size-inset-measure);
     margin-inline: auto;
   }
 
