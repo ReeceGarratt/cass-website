@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
 
 const entry = await getEntry('caseStudies', 'streamlining-scoring');
 if (!entry) throw new Error('Missing case study: streamlining-scoring');
@@ -17,4 +18,8 @@ const subNav = [
 
 <CaseStudyLayout entry={entry} subNav={subNav}>
   <h1 class="type-title-1">{entry.data.title}</h1>
+  <!-- DEMO: replaced in Task 17. Verifies SectionHeading renders. -->
+  <SectionHeading eyebrow="the" title="Business problem" id="business-needs">
+    During a full day workshop with my key stakeholders I identified:
+  </SectionHeading>
 </CaseStudyLayout>
