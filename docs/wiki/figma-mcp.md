@@ -76,9 +76,10 @@ Replaces the original estimate now that the first screen is built.
 | Card refetch, 2026-09-17, after the caption font changed | 3 (1 `get_design_context`, 2 `get_metadata`) |
 | Design system page, 2026-09-29: 11 frames and component sets | 15 (7 `get_design_context`, 3 `get_variable_defs`, 2 `get_metadata`, 2 `download_assets`, 1 `get_screenshot`) |
 | Work and Landing pages, 2026-09-29: outlines and case study screenshots | 6 (2 `get_metadata`, 4 `get_screenshot`) |
-| **Total so far** | **33** |
+| Case Study 1 (Absa) content, 2026-09-29: outline, 7 sections, images | 10 (1 `get_metadata`, 7 `get_design_context`, 2 `download_assets`) |
+| **Total so far** | **43** |
 
-A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. The expensive part is `get_design_context` per section, which hasn't been spent on the case studies yet.
+A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. **A full content page's design context (one outline plus `get_design_context` per section, skipping sections already covered by shared components) measured at 10 calls for Case Study 1**: 1 `get_metadata` (outline fit inline, no file needed) + 7 `get_design_context` (one per section, `Navigation` and `Read More` skipped as already built/saved) + 2 `download_assets` (one per section with raster images: Introduction, Design). Budget ~10-12 calls per case study page on this basis for the remaining three.
 
 Well inside the 200/day, 15/minute limit (D-012). The limit is only likely to bite through the per-minute cap (parallel calls) or through fetching the same frames again. Hence the working rules in [AGENTS.md → Working with Figma](../../AGENTS.md#working-with-figma) and the snapshots in [`docs/figma/`](../figma/README.md) (D-008).
 
