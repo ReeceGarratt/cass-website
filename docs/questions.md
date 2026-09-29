@@ -27,13 +27,15 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-010 | Home page below 1880px | Nothing yet |
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
-| Q-013 | Card shadow, hover timing and alignment from Figma | Nothing; placeholders in use (D-020) |
-| Q-014 | Card drift: Read More card skills type and summary colour | Blocks extending `CaseStudyCard` |
-| Q-015 | Case study pages: shared template or bespoke (D-013)? | **Blocks the case study pages**, and shapes every component below them |
-| Q-016 | Interactivity for the sub nav progress and Definition Tip | Blocks the sub nav and the Definition Tip |
+| Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
 | Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
 | Q-019 | Which case studies the home page features | Nothing yet; first three by `order` in use as a placeholder |
+| Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume`) |
+| Q-021 | A third undocumented light purple, `#E3E7FF` | Nothing yet; `--color-white` used as the nearest tokenised stand-in |
+| Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
+| Q-023 | Copy defects transcribed faithfully from Figma | Nothing; copy is live as transcribed |
+| Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 
 ---
 
@@ -116,42 +118,14 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The brand ("cassandra garratt") links to `/` (D-017), which duplicates the Home nav item.
 - **Options:** keep both · make the brand plain text · drop the Home item.
 
-### Q-013 · Card shadow, hover timing and alignment from Figma
+### Q-013 · Card hover timing from Figma
 - **Raised:** 2026-09-17
-- **Blocks:** nothing; placeholder values are in use (D-020)
-- **Context:** Cass is updating the Figma files with the card drop shadow and the card-to-headline alignment, and possibly hover motion. Until then `--shadow-card`, `--duration-hover` and `--ease-hover` in `tokens.css` are placeholders, and the cards' bottom edge sits on the first headline baseline.
-- **Options:** replace the placeholders with values from the updated frames · keep the placeholders for anything Figma doesn't define.
-- **Update (2026-09-29):** the shadows now exist in Figma as effect styles — `Portfolio Drop` (two stacked black shadows) and `Portfolio Card drop` (a warm `#F5EFE6AB` offset shadow). See [figma/tokens.md](figma/tokens.md#effect-styles). Hover timing and the card-to-headline alignment are still undefined, so `--duration-hover` and `--ease-hover` stay placeholders.
+- **Blocks:** nothing; a placeholder is in use (D-020)
+- **Context:** Cass is updating the Figma files with hover motion for the cards. Until then `--duration-hover` and `--ease-hover` in `tokens.css` stay placeholders (200ms, `ease-out`).
+- **Options:** replace the placeholders with values from the updated frames · keep the placeholders indefinitely if Figma never defines motion.
+- **Update (2026-09-29):** the card drop shadow and the card-to-headline alignment, this question's other two subjects, are now settled and out of scope here. The shadows exist in Figma as effect styles and are the real values in `tokens.css` — `--shadow-card` (`Portfolio Drop`): `0 1px 3px 1px #0000000D, 0 1px 2px 0 #0000001A`; `--shadow-card-warm` (`Portfolio Card drop`): `-1px 3px 3.5px 1px #F5EFE6AB`. `--shadow-card` is in use on the home page cards and every case study image/panel; `--shadow-card-warm` is defined but has no call site yet — worth checking against Figma when case study 2 is built, in case it belongs on a panel or finding block this page doesn't have. The card-to-headline baseline alignment was settled by D-020 (`--hero-title-baseline`); re-checking it in a browser against the current Figma frame is still a deferred visual check (no browser in this environment — see the case-study-page-one report). Retitled from "Card shadow, hover timing and alignment" to reflect that only hover timing is still open.
 
 ---
-
-### Q-014 · Card drift: Read More card skills type and summary colour
-- **Raised:** 2026-09-29
-- **Blocks:** extending `CaseStudyCard.astro` to cover the detailed and related-card uses
-- **Context:** Figma has three card shapes. The Compact and Detailed cards both use Inter Bold 12px skills and a Grey `#6b6b6b` summary. The **Read More** cards (`88:583`, `88:602`, `165:2537`) are detached copies that use **Roboto Bold 15px** skills and a `rgba(0,0,0,0.58)` summary, and have no hover state drawn. Roboto was the caption font before it changed to Inter ([wiki/design-tokens.md](wiki/design-tokens.md)), so this looks like drift rather than intent. Full comparison: [wiki/componentisation.md](wiki/componentisation.md#the-card-family--the-one-decision-that-matters).
-- **Options:** treat the Read More cards as stale and build one card with Inter 12px skills and a Grey summary (proposed) · build the difference deliberately · Cass updates the Figma copies.
-- **Also:** the Read More cards have no hover state, though the other two do. Should they hover?
-
-### Q-015 · Case study pages: shared template or bespoke?
-- **Raised:** 2026-09-29
-- **Blocks:** the case study pages, and the shape of every component under them
-- **Context:** D-013 says case study pages are bespoke `.astro` files, styled uniquely, with no shared template. The Design system page now defines a **Sub Nav with six fixed section names** (Project Overview, Business Needs, Interviews, Design, User Testing, Handover), an **Intro** block and a **section heading** pattern. That describes a shared structure. D-013 and the design now pull in opposite directions.
-- **Options:**
-  - **A shared template** with per-case-study content: consistent, far less code, but constrains how different a case study can look.
-  - **Bespoke pages drawing on a shared toolkit** (proposed): keep D-013's freedom, but build `SectionHeading`, `SubNav`, `Pill` etc. as components each page composes.
-  - **Fully bespoke,** as D-013 reads today.
-- **Sub-question:** does every case study have exactly those six sections? If not, the sub nav's labels are content, not a fixed list.
-
-### Q-016 · Interactivity for the sub nav progress and Definition Tip
-- **Raised:** 2026-09-29
-- **Blocks:** `SubNav` and the Definition Tip
-- **Context:** Invariant 3 says no client JS unless there's a stated reason. Two designed components need it:
-  - **Sub Nav:** the selected state is one underline anchored at the first link whose right edge extends with the current section (four variants drawn, widths 38.24% → 18.97%). It reads as reading progress, which needs scroll position.
-  - **Definition Tip:** a speech-bubble popup. Figma draws the bubble but not its trigger or behaviour. The only trigger visible anywhere is the underlined "Absa" in the case study intro paragraph.
-- **Options:**
-  - **Small islands** (proposed): an IntersectionObserver for the sub nav, a popover for the tip. Roughly 1–2 kB, and both degrade to plain anchors and inline text without JS.
-  - **CSS-only:** mark the current section statically (or with `:target`) and use `<details>` or a CSS hover popup for the tip. Keeps zero JS but loses the sweep, and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
-- **Also decide:** what the tip is for — a glossary of client names and UX jargon? That decides whether it's content-driven or one-off markup.
 
 ### Q-017 · Which Landing frame is current, and what the second one is for
 - **Raised:** 2026-09-29 · **Rewritten:** 2026-09-29 (the original question — where the Work page lives — is answered)
@@ -175,6 +149,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **Hybrid:** small/UI images in-repo, large case study screenshots off-repo.
 - **Decide before:** committing the full image set for all four case studies. The first case study can proceed in-repo either way, as long as originals are downscaled first.
 - **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
+- **Update (2026-09-29):** Case Study 1 (Absa) committed 5 images under `src/assets/case-studies/streamlining-scoring/` — the intro hero screenshot and one per finding block — totalling **259,729 bytes (about 254 KiB / 260 KB)**, from 19.5 KB to 97.6 KB each. At that rate, four case studies of similar length would be roughly 1 MB of committed PNGs; CS2–4 are longer frames (7400–9337px vs CS1's 6003px) with more finding blocks, so the real total is likely somewhat higher. Numbers are pre-`astro:assets` processing (the committed source files); build output (AVIF/WebP/`srcset`) isn't counted here.
 
 ### Q-019 · Which case studies the home page features
 - **Raised:** 2026-09-29
@@ -185,3 +160,36 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **A separate `featured: boolean` field** in the schema: explicit, decoupled from ordering, but another field to keep in sync as case studies are added.
   - **Cass redesigns the hero for four (or however many) cards.**
 - **Also decide:** what should happen as a fifth case study is added — does the home page still show only three, or does the count change too?
+
+### Q-020 · The `/work` index route
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet
+- **Context:** The case study spec scoped the `/work` index route out ("Out of scope: The `/work` index route"), so it still 404s. `CaseStudySubNav.astro`'s "All projects" back link already points at it (`withBase('/work')`), and every case study card links to `/work/<id>`, so the site has working links to a page that doesn't exist. Same shape as Q-011's `/resume`.
+- **Options:** build a simple index page listing all four case studies, reusing `CaseStudyCard` · redirect `/work` to `/` for now · leave it 404ing until Cass says what it should contain.
+
+### Q-021 · A third undocumented light purple, `#E3E7FF`
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet
+- **Context:** [figma/tokens.md](figma/tokens.md) already flags two conflicting light purple variables, `Light purple` `#c4cdf4` (in use as `--color-light-purple`) and `Light Purple` `#C1CBFF`. Building the case study page's Interviews panel turned up a third: the pull quote (86:212) is filled `Light x 2` (`#E3E7FF`), which has no token at all. At 28px on the Purple panel background it reads near-identical to White, so the build uses `--color-white` there as the nearest tokenised stand-in.
+- **Options:** confirm which of the three light purples (if any) is the intended one and consolidate the tokens · treat `#E3E7FF` as a one-off Figma slip, same as the `C1CBFF` case · add a fourth colour token if all three are meant to coexist.
+
+### Q-022 · Finding blocks' inconsistent drop shadow in Figma
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; one shadow used consistently in the build
+- **Context:** In the Design section's four finding-block images, P1 and P2 use the `Portfolio Drop` effect style and P3 and P4 use `Portfolio Card drop` — the same drift pattern already flagged for the card shadows (see Q-013's history). `FindingBlock.astro` applies `--shadow-card` (`Portfolio Drop`) to every image consistently rather than reproducing the split.
+- **Options:** confirm `Portfolio Drop` is correct for all four and fix the drifted Figma layers · confirm the split is intentional (e.g. image vs. screenshot-with-UI) and give `FindingBlock` a shadow prop.
+
+### Q-023 · Copy defects transcribed faithfully from Figma
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; the copy is live as transcribed
+- **Context:** Case study prose was transcribed exactly as Figma has it, defects included, rather than silently corrected — copy is Cass's content, not something to edit without asking. Known defects in `src/pages/work/streamlining-scoring.astro`:
+  - P2 (Giving the agent control, problem): "Agents had to manually keep track of Customers products, monthly repayments and benefits manually." — "manually" appears twice.
+  - P3 (A variety of choices, solution): "...The products suggested would also be driven by customer data" — no full stop.
+  - Key learnings, bullet 2: "Customers come to Agents with problems they need solved rather then products in mind." — "then" should be "than".
+- **Options:** Cass confirms and the typos are fixed as a copy change · Cass says these are intentional (unlikely) and they stay.
+
+### Q-024 · Case study alt text needs Cass's review
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; drafted text is live, marked for review
+- **Context:** The case study spec calls for alt text to be drafted from the surrounding copy but not presented as finished, because what each screenshot is meant to *demonstrate* is Cass's design intent, not something inferable from the image alone. Every image in `src/pages/work/streamlining-scoring.astro` has drafted alt text and a `TODO(cass)` comment above it.
+- **Options:** Cass reviews and edits the five drafted `alt` strings (the intro hero image and four finding-block images) · Cass supplies replacement copy directly.

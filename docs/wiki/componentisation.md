@@ -1,11 +1,33 @@
 ---
-summary: What the Design system page defines, which of it is worth building as a component, and what has to be decided first.
+summary: What actually got built for Case Study 1 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
 updated: 2026-09-29
 related: [design-tokens.md, figma-mcp.md, index.md]
-decisions: [D-013, D-002, Q-005, Q-013, Q-014, Q-015, Q-016, Q-017]
+decisions: [D-013, D-002, D-022, D-025, Q-005, Q-013, Q-017]
 ---
 
 # Componentisation
+
+## What was actually built (Case Study 1, 2026-09-29)
+
+The predictions below were written *before* building the first case study page. They're kept as-is further down this page for the reasoning; this section is the correction pass the case-study-page-one plan's Task 18 calls for — what got built, and where the predictions were right or wrong.
+
+**The component set as built matches the prediction well.** Ten new pieces went in: the `CaseStudyLayout` layout plus nine components (`CaseStudySubNav`, `CaseStudyIntro`, `SectionHeading`, `FindingBlock`, `ProcessStrip`, `Pill`, `CircleArrow`, `DefinitionTip`, `ReadMoreSection`). Every one of them was named and scoped in the "Worth building as components" list below before CS1 existed, and nothing in that list turned out to be a component that shouldn't have been built. The deltas were all small prop additions discovered while building, not structural surprises:
+
+| Component | Predicted | What actually happened |
+|---|---|---|
+| `CaseStudyIntro` | eyebrow, Red title, user-type pills, lead paragraph, goal/outcome pair | Built as predicted, plus an `id?: string` prop not foreseen at design time — needed so the sub nav's first anchor (`#project-overview`) has somewhere to land, since the intro is the grid's first section (C2 in the plan's pre-flight conflict scan). |
+| `SectionHeading` | eyebrow + `Title 2` + optional standfirst, needs `align` | Built as predicted, plus `level` (`h2`/`h3`) and a `titleWidth` prop not foreseen — needed once the business-problem heading's Figma title box turned out narrower than its containing block, which changes where "business problem" wraps. Without it the title fits on one line where Figma has two. |
+| `ProcessStrip` | full-bleed Purple band, fiddly, identical structure every time | Built as predicted. The real surprise was defensive, not structural: without per-label measured widths, flex-shrink lets a long label collapse below its own min-content and the six-step row overflows a narrow viewport — needed a measured-width lookup table plus a safety-net `max-inline-size` cap that the original component sketch didn't anticipate. |
+| `CircleArrow` | "extract when the Detailed Card is built — not before, that's its second real use" | Extracted earlier than predicted — for the Read More row's reuse of `CaseStudyCard` (`showClient`), not the Detailed Card, which still isn't built. Right call (it needed extracting), wrong predicted trigger. |
+| `FindingBlock`, `Pill`, `CaseStudySubNav`, `DefinitionTip`, `ReadMoreSection` | as described below | Built exactly as predicted, no prop deltas worth noting. |
+
+**`FindingsList` — predicted correctly.** The rule-separated statements beside the business-problem heading were predicted to need *no* component: "Build as markup in CS1; extract only if the second case study makes it awkward." That's exactly what shipped — a `.findings-list` `<ul>` with a border-bottom rule between items, as page markup in `streamlining-scoring.astro`, no component. It genuinely wasn't needed. Whether it holds at case study 2 is still an open question — one case study isn't enough data to know if the awkwardness threshold gets hit.
+
+**The Purple band prediction was half right.** It predicted *no component* — "it is `u-bleed` plus a background and padding, i.e. a utility class... a component would be a div with a slot" — and that call was correct: the two Purple panels (Interviews, User Testing) are page-level `.panel` CSS in `streamlining-scoring.astro`, not a component. But the `u-bleed` (full-bleed) half of the prediction was wrong: measuring the actual outline geometry mid-build (Task 17) showed both panels are **inset rounded cards at 1448px**, not full-bleed at all — only the Process Strip genuinely bleeds edge to edge. That correction is recorded as D-026 (the shared `--size-inset-measure` token) and D-027. The lesson: the low-resolution reference screenshot the prediction was written from was good enough to call "componentise or not" but not good enough to call the geometry — that needed the outline's actual coordinates.
+
+**Counts, so far:** `FindingBlock` was used 4 times in CS1, in line with the "~4 per case study" estimate; `SectionHeading` was used 5 times, in line with "~5 per case study." The totals across all four case studies (~16 and ~20) stay unconfirmed until CS2–4 are built — CS1 alone can only confirm the per-case-study rate, not the total.
+
+---
 
 An analysis of the Figma **Design system** page and the four case studies on the **Work** page (both fetched 2026-09-29; see [`design-system/`](../figma/design-system/README.md) and [`work-page.md`](../figma/work-page.md)), written before building the case study pages. It answers one question: **what should become a component, and what shouldn't.**
 
