@@ -28,6 +28,10 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
 | Q-013 | Card shadow, hover timing and alignment from Figma | Nothing; placeholders in use (D-020) |
+| Q-014 | Card drift: Read More card skills type and summary colour | Blocks extending `CaseStudyCard` |
+| Q-015 | Case study pages: shared template or bespoke (D-013)? | **Blocks the case study pages**, and shapes every component below them |
+| Q-016 | Interactivity for the sub nav progress and Definition Tip | Blocks the sub nav and the Definition Tip |
+| Q-017 | Where the Work page and case study designs live | **Blocks the Work page**; the Figma file has been restructured |
 
 ---
 
@@ -50,6 +54,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Options:** an agent regenerates the tokens file directly from Figma variables through the MCP server · export tokens to DTCG-format JSON and build CSS with Style Dictionary.
 - **Unknowns until we see the Figma file:** how the variables are organised into collections and modes (e.g. light/dark themes), and whether naming follows a primitive → semantic structure.
 - **Update (2026-09-16, D-014):** a hand-written `src/styles/tokens.css` exists for the POC; its header comment lists the sources. This question stays open for a real pipeline. The Figma file has 6 colour variables and 5 text styles, and no spacing variables — spacing, size and radius tokens are named by us.
+- **Update (2026-09-29):** the file now has **8 colour variables** (`Black` and `Light Grey` were added), **two spacing variables** (`Headings & Body` = 16, `Sub-Sub Sections` = 48), four new text styles (`Title 2`, `H2`, `Body Med`, `Hand written` in **La Belle Aurore**) and two effect styles. So the "no spacing variables" note above is out of date, though two variables is still far from a spacing scale. Naming is inconsistent enough to matter for a pipeline: `Light purple` and `Light Purple` are different colours, and `Hand written` / `Handwritten` name one style. See [figma/tokens.md](figma/tokens.md).
 
 ### Q-006 · Testing, linting and formatting
 - **Raised:** 2026-09-16
@@ -114,3 +119,41 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; placeholder values are in use (D-020)
 - **Context:** Cass is updating the Figma files with the card drop shadow and the card-to-headline alignment, and possibly hover motion. Until then `--shadow-card`, `--duration-hover` and `--ease-hover` in `tokens.css` are placeholders, and the cards' bottom edge sits on the first headline baseline.
 - **Options:** replace the placeholders with values from the updated frames · keep the placeholders for anything Figma doesn't define.
+- **Update (2026-09-29):** the shadows now exist in Figma as effect styles — `Portfolio Drop` (two stacked black shadows) and `Portfolio Card drop` (a warm `#F5EFE6AB` offset shadow). See [figma/tokens.md](figma/tokens.md#effect-styles). Hover timing and the card-to-headline alignment are still undefined, so `--duration-hover` and `--ease-hover` stay placeholders.
+
+---
+
+### Q-014 · Card drift: Read More card skills type and summary colour
+- **Raised:** 2026-09-29
+- **Blocks:** extending `CaseStudyCard.astro` to cover the detailed and related-card uses
+- **Context:** Figma has three card shapes. The Compact and Detailed cards both use Inter Bold 12px skills and a Grey `#6b6b6b` summary. The **Read More** cards (`88:583`, `88:602`, `165:2537`) are detached copies that use **Roboto Bold 15px** skills and a `rgba(0,0,0,0.58)` summary, and have no hover state drawn. Roboto was the caption font before it changed to Inter ([wiki/design-tokens.md](wiki/design-tokens.md)), so this looks like drift rather than intent. Full comparison: [wiki/componentisation.md](wiki/componentisation.md#the-card-family--the-one-decision-that-matters).
+- **Options:** treat the Read More cards as stale and build one card with Inter 12px skills and a Grey summary (proposed) · build the difference deliberately · Cass updates the Figma copies.
+- **Also:** the Read More cards have no hover state, though the other two do. Should they hover?
+
+### Q-015 · Case study pages: shared template or bespoke?
+- **Raised:** 2026-09-29
+- **Blocks:** the case study pages, and the shape of every component under them
+- **Context:** D-013 says case study pages are bespoke `.astro` files, styled uniquely, with no shared template. The Design system page now defines a **Sub Nav with six fixed section names** (Project Overview, Business Needs, Interviews, Design, User Testing, Handover), an **Intro** block and a **section heading** pattern. That describes a shared structure. D-013 and the design now pull in opposite directions.
+- **Options:**
+  - **A shared template** with per-case-study content: consistent, far less code, but constrains how different a case study can look.
+  - **Bespoke pages drawing on a shared toolkit** (proposed): keep D-013's freedom, but build `SectionHeading`, `SubNav`, `Pill` etc. as components each page composes.
+  - **Fully bespoke,** as D-013 reads today.
+- **Sub-question:** does every case study have exactly those six sections? If not, the sub nav's labels are content, not a fixed list.
+
+### Q-016 · Interactivity for the sub nav progress and Definition Tip
+- **Raised:** 2026-09-29
+- **Blocks:** `SubNav` and the Definition Tip
+- **Context:** Invariant 3 says no client JS unless there's a stated reason. Two designed components need it:
+  - **Sub Nav:** the selected state is one underline anchored at the first link whose right edge extends with the current section (four variants drawn, widths 38.24% → 18.97%). It reads as reading progress, which needs scroll position.
+  - **Definition Tip:** a speech-bubble popup. Figma draws the bubble but not its trigger or behaviour. The only trigger visible anywhere is the underlined "Absa" in the case study intro paragraph.
+- **Options:**
+  - **Small islands** (proposed): an IntersectionObserver for the sub nav, a popover for the tip. Roughly 1–2 kB, and both degrade to plain anchors and inline text without JS.
+  - **CSS-only:** mark the current section statically (or with `:target`) and use `<details>` or a CSS hover popup for the tip. Keeps zero JS but loses the sweep, and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
+- **Also decide:** what the tip is for — a glossary of client names and UX jargon? That decides whether it's content-driven or one-off markup.
+
+### Q-017 · Where the Work page and case study designs live
+- **Raised:** 2026-09-29
+- **Blocks:** the Work page, and any accurate build of the case study pages
+- **Context:** The Figma file `z037c50FocJthsq5WRzJcd` now has only two pages, **📕 Cover** and **Design system**. There is no Work page, and the **`Landing` page has been deleted** — component node IDs still resolve, so it's the same file, reorganised. The saved snapshots in [`figma/landing-desktop/`](figma/landing-desktop/) and [`figma/landing-desktop-hover/`](figma/landing-desktop-hover/) are now the only record of the home page design.
+- **Needed:** the file key or URL of the file holding the Work page and the case studies. The MCP can't list a team's files, only read a file it's given.
+- **Also confirm:** was the Landing page moved to that other file, or deleted? If the home design has moved, the POC's source of truth has moved with it.

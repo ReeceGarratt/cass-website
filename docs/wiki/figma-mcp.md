@@ -74,7 +74,10 @@ Replaces the original estimate now that the first screen is built.
 |---|---|
 | First pass (desktop home): frames, nav, card, tokens, content | 9 |
 | Card refetch, 2026-09-17, after the caption font changed | 3 (1 `get_design_context`, 2 `get_metadata`) |
-| **Total so far** | **12** |
+| Design system page, 2026-09-29: 11 frames and component sets | 15 (7 `get_design_context`, 3 `get_variable_defs`, 2 `get_metadata`, 2 `download_assets`, 1 `get_screenshot`) |
+| **Total so far** | **27** |
+
+A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Budget similarly per page from here.
 
 Well inside the 200/day, 15/minute limit (D-012). The limit is only likely to bite through the per-minute cap (parallel calls) or through fetching the same frames again. Hence the working rules in [AGENTS.md → Working with Figma](../../AGENTS.md#working-with-figma) and the snapshots in [`docs/figma/`](../figma/README.md) (D-008).
 
@@ -88,7 +91,12 @@ Claude's context window is the other cost: `get_design_context` output can be la
 - **`get_design_context` on a component set** also returns the nested component sets it uses (e.g. the card's `arrow_upward` set and `Flower` symbol come back in the same call).
 - **`get_design_context` requires** Figma's `figma-design-to-code` guidance resource to be loaded first. That's an MCP resource fetch, not a read call, so it doesn't count toward the limit.
 - **Whether screenshots can be saved to disk:** yes, by downloading the short-lived URL with `curl`.
+- **`get_variable_defs` doesn't work on a page (canvas) node.** Passing a page ID fails with *"You currently have nothing selected"* even though the ID is valid. Call it on a frame inside the page instead. Because it only returns what the selection *uses*, call it on two or three frames that between them cover the whole system (2026-09-29: Colours, Text styles and Case Study).
+- **`get_metadata` with no node ID** is the cheapest way to check whether a file's page structure has changed, and it caught the 2026-09-29 restructure immediately. Worth doing first in any session that hasn't touched the file in a while.
+- **`download_assets` on a frame returns loose, unnamed vectors.** The `svgAssets` entries carry no layer names — only sizes and internal SVG ids (`face`, `face_2`, …) — so matching them back to Figma layers means comparing sizes against the `get_metadata` outline and checking the `export` PNG. For assets where the exact one matters, call it per symbol node rather than on the parent frame.
+- **Exported asset sizes don't always match the placed size.** The avatar icons are all placed at 24px but export at 20–24px, and the Flower exported at 77px here versus 90px in the earlier fetch. Size at the call site.
 
 ## Figma files
 
-- **Portfolio Website:** <https://www.figma.com/design/z037c50FocJthsq5WRzJcd/Portfolio-Website>. One page, `Landing`.
+- **Portfolio Website:** <https://www.figma.com/design/z037c50FocJthsq5WRzJcd/Portfolio-Website>. As of 2026-09-29 it has two pages, `📕 Cover` (`129:3336`) and `Design system` (`129:3321`). It had one page, `Landing`, on 2026-09-16; that page has since been deleted. See [figma/README.md](../figma/README.md#the-file-was-restructured-2026-09-29).
+- **The file holding the `Work` page and the case studies is not known.** Q-017. The MCP can only read a file it's given a key for — it can't list a team's files — so this has to come from the user.

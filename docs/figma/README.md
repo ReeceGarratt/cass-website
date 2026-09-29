@@ -91,14 +91,31 @@ Images that ship with the site go in `src/` or `public/`, not here.
 
 | Frame | Folder | Node ID | Fetched |
 |---|---|---|---|
-| Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
-| Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
-| Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-09-16 (outline, screenshot, context, assets) |
-| Case study Card (component set) | [`components/case-study-card/`](components/case-study-card/) | `4:123` | 2026-09-16 (outline, context, assets) |
-| arrow_upward (component set) | [`components/arrow/`](components/arrow/) (context is in `case-study-card/`) | `4:137` | 2026-09-16 (assets) |
+| **Design system page** | [`design-system/`](design-system/README.md) | `129:3321` | 2026-09-29 (outline, variables, screenshot) |
+| Detailed Card (component set) | [`components/detailed-card/`](components/detailed-card/) | `129:3554` | 2026-09-29 (outline, context) |
+| Sub Nav (component set) | [`components/sub-nav/`](components/sub-nav/) | `185:2566` | 2026-09-29 (outline, context) |
+| Pills (component set) | [`components/pills/`](components/pills/) | `144:592` | 2026-09-29 (outline, context) |
+| Definition Tip | [`components/definition-tip/`](components/definition-tip/) | `99:2845` | 2026-09-29 (outline, context) |
+| Read More (other case studies row) | [`components/read-more/`](components/read-more/) | `99:2461` | 2026-09-29 (outline, context) |
+| Case Study / Intro | [`components/case-study-intro/`](components/case-study-intro/) | `144:1045` | 2026-09-29 (outline, context) |
+| Case Study / Business Problem Heading | [`components/case-study-intro/`](components/case-study-intro/business-problem-heading.md) | `144:1870` | 2026-09-29 (context) |
+| Icons (6 avatar symbols) | [`components/icons/`](components/icons/) | `144:1321` | 2026-09-29 (outline, assets) |
+| Shapes & Arrows | [`components/shapes-arrows/`](components/shapes-arrows/) | `129:3457` | 2026-09-29 (outline, assets) |
+| Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-09-16 (outline, screenshot, context, assets) — a 5th `Prototype` variant (`181:2514`) has since been added and is **not** in the snapshot |
+| Case study Card / Compact Card (component set) | [`components/case-study-card/`](components/case-study-card/) | `4:123` | 2026-09-16 (outline, context, assets) |
+| arrow_upward / Button_Circle Arrow (component set) | [`components/arrow/`](components/arrow/) (context is in `case-study-card/`) | `4:137` | 2026-09-16 (assets) |
 | Flower (symbol) | [`components/flower/`](components/flower/) (context is in `case-study-card/`) | `1:162` | 2026-09-16 (asset) |
-| iPad Pro 11" - 1 | _not fetched (desktop POC first)_ | `19:327` | outline only |
-| iPhone 16 - 1 | _not fetched (desktop POC first)_ | `19:328` | outline only |
-| iPhone 16 - 2 (mobile menu) | _not fetched (desktop POC first)_ | `19:665` | outline only |
+| Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) — **frame no longer exists in Figma** |
+| Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) — **frame no longer exists in Figma** |
+| iPad Pro 11" - 1 | _never fetched_ | `19:327` | outline only — **frame no longer exists in Figma** |
+| iPhone 16 - 1 | _never fetched_ | `19:328` | outline only — **frame no longer exists in Figma** |
+| iPhone 16 - 2 (mobile menu) | _never fetched_ | `19:665` | outline only — **frame no longer exists in Figma** |
 
-The file (`z037c50FocJthsq5WRzJcd`) has one page, `Landing`. Its outline is in [`outline-landing-page.md`](outline-landing-page.md).
+### The file was restructured (2026-09-29)
+
+The file (`z037c50FocJthsq5WRzJcd`) now has **two** pages: `📕 Cover` (`129:3336`) and `Design system` (`129:3321`). The `Landing` page it had on 2026-09-16 **is gone**, along with the desktop, iPad and iPhone frames. Component node IDs (`4:123`, `20:703`, `4:137`, `1:162`) still resolve, so this is the same file reorganised rather than a new one.
+
+Two consequences:
+
+- **The snapshots in [`landing-desktop/`](landing-desktop/) and [`landing-desktop-hover/`](landing-desktop-hover/) are now the only record of the home page design.** Don't delete them, and treat [`outline-landing-page.md`](outline-landing-page.md) as history.
+- **There is no `Work` page in this file**, so the case study designs are somewhere else. Tracked as Q-017.
