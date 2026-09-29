@@ -64,3 +64,121 @@ a {
 .skip-link:focus {
   translate: 0 0;
 }
+
+/* Type classes: one per Figma text style.
+   These set family, size, weight, line height and letter spacing only.
+   Colour stays with the component, because the same style appears in Red,
+   Purple, Black and White depending on context. */
+
+.type-title {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-line-height);
+  letter-spacing: var(--type-title-letter-spacing);
+}
+
+.type-title-1 {
+  font-size: var(--type-title-1-size);
+  font-weight: var(--type-title-1-weight);
+  line-height: var(--type-title-1-line-height);
+  letter-spacing: var(--type-title-1-letter-spacing);
+}
+
+.type-title-2 {
+  font-size: var(--type-title-2-size);
+  font-weight: var(--type-title-2-weight);
+  line-height: var(--type-title-2-line-height);
+  letter-spacing: var(--type-title-2-letter-spacing);
+}
+
+.type-subtitle {
+  font-size: var(--type-subtitle-size);
+  font-weight: var(--type-subtitle-weight);
+  line-height: var(--type-subtitle-line-height);
+  letter-spacing: var(--type-subtitle-letter-spacing);
+}
+
+.type-h1 {
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-line-height);
+  letter-spacing: var(--type-card-title-letter-spacing);
+}
+
+.type-h2 {
+  font-size: var(--type-h2-size);
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line-height);
+  letter-spacing: var(--type-h2-letter-spacing);
+}
+
+.type-body {
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-line-height);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+.type-body-med {
+  font-size: var(--type-body-med-size);
+  font-weight: var(--type-body-med-weight);
+  line-height: var(--type-body-med-line-height);
+  letter-spacing: var(--type-body-med-letter-spacing);
+}
+
+.type-caption {
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-line-height);
+  letter-spacing: var(--type-caption-letter-spacing);
+}
+
+.type-handwritten {
+  font-family: var(--font-family-handwritten);
+  font-size: var(--type-handwritten-size);
+  font-weight: var(--type-handwritten-weight);
+  line-height: var(--type-handwritten-line-height);
+  letter-spacing: var(--type-handwritten-letter-spacing);
+}
+
+/* Case study page grid.
+   Sections are constrained to the content track by default and opt out to
+   full-bleed with .u-bleed. Correct-by-default: forgetting the class yields
+   a constrained section, never a broken layout.
+
+   This lives in global.css, not in CaseStudyLayout's scoped <style>, because
+   its children are other components' root elements. Astro scopes styles to
+   elements in a component's OWN template, so a scoped `.case-study > *`
+   would not match a child component's root and every section would silently
+   fall through to the `full` track. */
+.case-study {
+  display: grid;
+  grid-template-columns:
+    [full-start] var(--space-gutter)
+    [content-start] 1fr [content-end]
+    var(--space-gutter) [full-end];
+  row-gap: var(--space-96);
+  max-inline-size: var(--page-max-width);
+  margin-inline: auto;
+}
+
+/* Direct children only — a section's root element must be a direct child
+   of this grid, never wrapped in a stray div. */
+.case-study > * {
+  grid-column: content;
+}
+
+.case-study > .u-bleed {
+  grid-column: full;
+}
+
+/* The sub nav is sticky and 80px tall, so anchor targets need clearance. */
+.case-study [id] {
+  scroll-margin-block-start: 6rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
