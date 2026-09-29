@@ -31,7 +31,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-014 | Card drift: Read More card skills type and summary colour | Blocks extending `CaseStudyCard` |
 | Q-015 | Case study pages: shared template or bespoke (D-013)? | **Blocks the case study pages**, and shapes every component below them |
 | Q-016 | Interactivity for the sub nav progress and Definition Tip | Blocks the sub nav and the Definition Tip |
-| Q-017 | Where the Work page and case study designs live | **Blocks the Work page**; the Figma file has been restructured |
+| Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
 
 ---
 
@@ -151,9 +151,14 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **CSS-only:** mark the current section statically (or with `:target`) and use `<details>` or a CSS hover popup for the tip. Keeps zero JS but loses the sweep, and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
 - **Also decide:** what the tip is for — a glossary of client names and UX jargon? That decides whether it's content-driven or one-off markup.
 
-### Q-017 · Where the Work page and case study designs live
-- **Raised:** 2026-09-29
-- **Blocks:** the Work page, and any accurate build of the case study pages
-- **Context:** The Figma file `z037c50FocJthsq5WRzJcd` now has only two pages, **📕 Cover** and **Design system**. There is no Work page, and the **`Landing` page has been deleted** — component node IDs still resolve, so it's the same file, reorganised. The saved snapshots in [`figma/landing-desktop/`](figma/landing-desktop/) and [`figma/landing-desktop-hover/`](figma/landing-desktop-hover/) are now the only record of the home page design.
-- **Needed:** the file key or URL of the file holding the Work page and the case studies. The MCP can't list a team's files, only read a file it's given.
-- **Also confirm:** was the Landing page moved to that other file, or deleted? If the home design has moved, the POC's source of truth has moved with it.
+### Q-017 · Which Landing frame is current, and what the second one is for
+- **Raised:** 2026-09-29 · **Rewritten:** 2026-09-29 (the original question — where the Work page lives — is answered)
+- **Blocks:** nothing yet; matters before any further home page work
+- **Context:** The Work page was found at `19:104` in the same file. While mapping it, three copies of the landing design turned up:
+  - `1:79` on the `Landing` page — the frame the home page POC was built from;
+  - `127:3171` on the `Landing` page — **new since 2026-09-16**, the same 1920x1080 size, holding the same `Navigation` and `Content` instances;
+  - `30:339` on the `Work` page — another 1920x1080 `Landing` frame.
+
+  The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
+- **Questions:** which frame is the current home page design? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
+- **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).

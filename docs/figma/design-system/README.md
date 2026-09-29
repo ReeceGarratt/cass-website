@@ -8,7 +8,7 @@ tools: [get_metadata, get_variable_defs, get_design_context, get_screenshot, dow
 
 # Design system page
 
-The Figma file was reorganised some time between 2026-09-17 and 2026-09-29. It now has two pages, **📕 Cover** (`129:3336`) and **Design system** (`129:3321`). The `Landing` page that the home page POC was built from **no longer exists in this file** — see [Notes](#notes).
+The **Design system** page (`129:3321`) is one of the file's four pages, alongside `Landing` (`0:1`), `Work` (`19:104`) and `📕 Cover` (`129:3336`). It was added some time between 2026-09-17 and 2026-09-29 and gathers the component sets and styles in one place.
 
 This folder holds the page-level output. Per-component snapshots live in [`../components/`](../components/).
 
@@ -46,7 +46,7 @@ Full output is in [`../tokens.md`](../tokens.md). In summary, since the 2026-09-
 
 ## Notes
 
-- **The `Landing` page is gone from this file.** Node IDs that belong to components (`4:123` Compact Card, `20:703` Navigation, `4:137` arrow, `1:162` Flower) all still resolve here, so this is the same file — the Landing frames were deleted or moved out, not re-keyed. The saved snapshots in [`../landing-desktop/`](../landing-desktop/) and [`../landing-desktop-hover/`](../landing-desktop-hover/) are therefore the **only** remaining record of the home page design. Don't delete them.
-- **There is no `Work` page in this file.** Only 📕 Cover and Design system are listed. Wherever the Work page and the case studies live, it isn't here.
+- **A correction.** The first version of this page said the `Landing` page had been deleted and that the file had no `Work` page. That came from `get_metadata` with no node ID, which listed only two of the file's four pages. Both `Landing` (`0:1`) and `Work` (`19:104`) exist and are unchanged in the parts we'd already recorded. See [`../README.md`](../README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
+- **The Design system page is a library, not a screen.** Every component set on it is instantiated on the `Work` page — the Sub Nav, Intro, Read More row, Pills, Definition Tip and the hand-drawn arrows all appear there. Use [`../outline-work-page.md`](../outline-work-page.md) to see how each one is actually used before building it.
 - The `Buttons` frame at `129:3467` is hidden in Figma and was not fetched.
 - The **Case Study** frame (`144:1716`) is 3558 x 2376 but holds only two symbols. It looks like a work-in-progress area rather than a finished component set.

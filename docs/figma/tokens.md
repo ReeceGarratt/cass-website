@@ -2,7 +2,7 @@
 fetched: 2026-09-29
 tools: [get_variable_defs]
 source_frames:
-  - "4:489"    # Landing (hover state), desktop — 2026-09-16, frame since deleted from the file
+  - "4:489"    # Landing (hover state), desktop — 2026-09-16
   - "129:3402" # Design system / Colours — 2026-09-29
   - "129:3456" # Design system / Text styles — 2026-09-29
   - "144:1716" # Design system / Case Study — 2026-09-29
@@ -30,7 +30,7 @@ Styles and variables *used in* the frames listed above. `get_variable_defs` only
 
 ## Landing (hover state), node 4:489 — 2026-09-16
 
-Kept for history. **This frame no longer exists in the Figma file** (see [`design-system/README.md`](design-system/README.md)).
+The frame still exists on the `Landing` page (`0:1`). Kept as the 2026-09-16 reading, for comparison with the newer fetches above.
 
 ```json
 {"Title":"Font(family: \"Inter\", style: Black, size: 100, weight: 900, lineHeight: 98, letterSpacing: -4)","Purple":"#4832A1","Sub Title":"Font(family: \"Inter\", style: Regular, size: 20, weight: 400, lineHeight: 27, letterSpacing: -4)","Red":"#CD2B2B","Off-white":"#f8f9ff","H1":"Font(family: \"Inter\", style: Bold, size: 30, weight: 700, lineHeight: 0.9800000190734863, letterSpacing: -2)","White":"#FFFFFF","Caption Text":"Font(family: \"Roboto\", style: Regular, size: 12, weight: 400, lineHeight: 1.5, letterSpacing: -1.100000023841858)","Body copy":"Font(family: \"Inter\", style: Regular, size: 16, weight: 400, lineHeight: 1.4800000190734863, letterSpacing: -1.100000023841858)","Grey":"#6b6b6b","Light purple":"#c4cdf4"}
@@ -61,7 +61,7 @@ Portfolio Card drop: DROP_SHADOW #F5EFE6AB offset (-1, 3) radius 3.5 spread 1
 
 - **Two light purples:** `Light purple` `#c4cdf4` and `Light Purple` `#C1CBFF` are separate variables that differ only in case and by a few units of hue. Almost certainly one is a duplicate.
 - **`Hand written` vs `Handwritten`:** the same font style is returned under two names from different frames. Probably one style renamed, with a stale reference somewhere.
-- **`Title` (100px) is not on the Design system page.** The type specimen's largest sample is labelled "Title 100px" but is bound to `Title 1` at 50px. The 100px `Title` style the home hero uses only ever appeared on the deleted Landing frame. Check it still exists.
+- **`Title` (100px) is not on the Design system page.** The type specimen's largest sample is labelled "Title 100px" but is bound to `Title 1` at 50px. The 100px `Title` style the home hero uses appears on the `Landing` page frames but has no specimen in the design system. Is it still a live style, or has the hero been rescaled to `Title 1`?
 - **`Body Copy 12px` vs `Captions 12px`:** the specimen shows both as separate samples, but only one 12px style (`Caption Text`) comes back as a variable.
 
 ### Units
