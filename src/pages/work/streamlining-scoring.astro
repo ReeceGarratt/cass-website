@@ -24,12 +24,13 @@ const subNav = [
 ---
 
 <CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
   <CaseStudyIntro
     eyebrow="ux/ui designer"
     title={entry.data.title}
     userTypes={[{ label: 'Call centre agents', icon: Woman2 }]}
     image={scoringHero}
-    imageAlt="TODO(cass): needs review"
+    imageAlt="Screenshot of the unified scoring page built in Salesforce, showing multiple credit products managed together in a single Agent view."
     id="project-overview"
   >
     <DefinitionTip id="def-absa-intro" term="Absa">
@@ -72,22 +73,23 @@ const subNav = [
     ]}
   />
   <!-- DEMO: replaced in Task 17 (part of the full Design section). -->
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
   <FindingBlock
     heading="removing the guess work"
     image={removingTheGuessWork}
-    imageAlt="TODO(cass): needs review"
+    imageAlt="Screenshot of the scoring page's dynamic affordability indicator, showing the amount a Customer qualifies for."
     findings={[
       {
         label: 'problem',
-        body: "Agents didn't know how much Customers qualified for.",
+        body: 'Agents didn’t know how much <strong>Customers qualified for</strong>.',
       },
       {
         label: 'design decision',
-        body: 'Created a dynamic affordability indicator to give agents a clear amount to work with.',
+        body: 'Created a <strong>dynamic affordability indicator</strong> to give agents a clear amount to work with.',
       },
       {
         label: 'outcome',
-        body: 'Giving the Agent enough information to offer additional products with confidence.',
+        body: 'Giving the Agent enough information to <strong>offer additional products with confidence.</strong>',
       },
     ]}
   />

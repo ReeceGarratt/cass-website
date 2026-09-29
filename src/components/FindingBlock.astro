@@ -7,6 +7,11 @@ interface Props {
   image: ImageMetadata;
   imageAlt: string;
   side?: 'start' | 'end';
+  // body carries inline markup (e.g. <strong>) so the bold emphasis runs
+  // every finding has in the snapshot can survive — a plain string can't
+  // express them. Rendered with set:html below: this is safe because body
+  // is always authored by us in page files, never user input, on this
+  // static site.
   findings: { label: string; body: string }[];
 }
 
@@ -21,7 +26,7 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
       {findings.map(({ label, body }) => (
         <div class="finding-block__finding">
           <dt class="finding-block__label type-h3">{label}</dt>
-          <dd class="finding-block__text type-body-med">{body}</dd>
+          <dd class="finding-block__text type-body-med" set:html={body} />
         </div>
       ))}
     </dl>
