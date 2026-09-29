@@ -49,7 +49,12 @@ a {
   position: absolute;
   inset-block-start: var(--space-skip-link-inset);
   inset-inline-start: var(--space-skip-link-inset);
-  z-index: 1;
+  /* Must outrank every other positioned element unconditionally — it's the
+     first control a keyboard user reaches and exists to be reachable, so
+     it can never be covered by sticky page chrome (e.g. CaseStudySubNav's
+     .sub-nav at z-index: 2) whatever gets added later. Deliberately far
+     above the next-highest z-index in the codebase, not just one above it. */
+  z-index: 100;
   padding-block: var(--space-skip-link-padding-block);
   padding-inline: var(--space-skip-link-padding-inline);
   background-color: var(--color-white);
