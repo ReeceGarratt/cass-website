@@ -3,6 +3,9 @@ import { getEntry } from 'astro:content';
 import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import DefinitionTip from '../../components/DefinitionTip.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import Woman2 from '../../assets/icons/woman-2.svg';
+import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
 
 const entry = await getEntry('caseStudies', 'streamlining-scoring');
 if (!entry) throw new Error('Missing case study: streamlining-scoring');
@@ -18,7 +21,42 @@ const subNav = [
 ---
 
 <CaseStudyLayout entry={entry} subNav={subNav}>
-  <h1 class="type-title-1">{entry.data.title}</h1>
+  <CaseStudyIntro
+    eyebrow="ux/ui designer"
+    title={entry.data.title}
+    userTypes={[{ label: 'Call centre agents', icon: Woman2 }]}
+    image={scoringHero}
+    imageAlt="TODO(cass): needs review"
+    id="project-overview"
+  >
+    <DefinitionTip id="def-absa-intro" term="Absa">
+      A multinational banking and financial services provider, based in
+      Johannesburg ZA.
+    </DefinitionTip>{' '}
+    wanted to streamline its credit product scoring within their Salesforce CRM
+    so that a single call centre Agent could handle multiple product types in
+    one interaction.
+    <Fragment slot="goal">
+      Design <strong>a unified scoring page</strong> that fit into a larger
+      multi-product onboarding journey aimed at reducing Customer time spent on
+      the phone and increases product sales.
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I designed <strong>a consolidated scoring page</strong> that allows
+        Agents to{' '}
+        <strong>
+          score, customise and add multiple credit products in a single call.
+        </strong>{' '}
+        Usability testing showed{' '}
+        <strong>14 of 15 users completed tasks unaided.</strong>
+      </p>
+      <p>
+        I owned discovery through to validating design and handed over a tested
+        interface along with a recommended way forward.
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
   <!-- DEMO: replaced in Task 17. Verifies SectionHeading renders. -->
   <SectionHeading eyebrow="the" title="Business problem" id="business-needs">
     During a full day workshop with my key stakeholders I identified:

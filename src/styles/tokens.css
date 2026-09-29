@@ -104,6 +104,12 @@
   --type-handwritten-letter-spacing: -0.02em;
   --type-handwritten-weight: 400;
 
+  /* Type: H3 (finding-block labels, e.g. "problem" / "outcome") */
+  --type-h3-size: 0.875rem; /* 14px */
+  --type-h3-line-height: 1.5;
+  --type-h3-letter-spacing: -0.011em;
+  --type-h3-weight: 700;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
 
@@ -150,6 +156,7 @@
   --size-arrow: 3.125rem; /* 50px */
   --size-nav-dot: 0.625rem; /* 10px */
   --size-hero-intro-width: 27.625rem; /* 442px */
+  --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
   /* Hero decoration and offsets, relative to the title size */
   --hero-flower-size: 0.9em; /* 90px at 100px */
@@ -180,6 +187,7 @@
   --radius-card: 1.5625rem; /* 25px */
   --radius-pill: 3.375rem; /* 54px */
   --radius-pill-label: 1.5625rem; /* 25px */
+  --radius-image: 0.75rem; /* 12px; case study screenshots */
 
   /* Shadow: Figma effect styles (docs/figma/tokens.md) */
   --shadow-card:
