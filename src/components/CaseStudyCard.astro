@@ -1,8 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../utils/base-path';
-import ArrowDefault from '../assets/arrow-default.svg';
-import ArrowHover from '../assets/arrow-hover.svg';
+import CircleArrow from './CircleArrow.astro';
 import CornerTopRight from '../assets/corner-top-right.svg';
 import CornerBottomLeft from '../assets/corner-bottom-left.svg';
 
@@ -26,14 +25,7 @@ const { title, skills, summary } = caseStudy.data;
     ))}
   </ul>
   <p class="card__summary">{summary}</p>
-  <span class="card__arrow" aria-hidden="true">
-    <span class="card__arrow-icon card__arrow-icon--default">
-      <ArrowDefault />
-    </span>
-    <span class="card__arrow-icon card__arrow-icon--hover">
-      <ArrowHover />
-    </span>
-  </span>
+  <CircleArrow class="card__arrow" />
   <span class="card__corner card__corner--top-right" aria-hidden="true">
     <CornerTopRight />
   </span>
@@ -112,31 +104,13 @@ const { title, skills, summary } = caseStudy.data;
   }
 
   .card__arrow {
-    display: grid;
     align-self: flex-end;
     margin-block-start: auto;
-    inline-size: var(--size-arrow);
-    block-size: var(--size-arrow);
-    rotate: 90deg;
   }
 
-  .card__arrow-icon {
-    grid-area: 1 / 1;
-  }
-
-  .card__arrow-icon :global(svg),
   .card__corner :global(svg) {
     inline-size: 100%;
     block-size: 100%;
-  }
-
-  .card__arrow-icon--default {
-    color: var(--color-light-purple);
-  }
-
-  .card__arrow-icon--hover {
-    opacity: 0;
-    color: var(--color-red);
   }
 
   .card__corner {
@@ -166,7 +140,6 @@ const { title, skills, summary } = caseStudy.data;
   .card__title,
   .card__skills,
   .card__summary,
-  .card__arrow-icon,
   .card__corner {
     transition-property: background-color, color, opacity;
     transition-duration: var(--duration-hover);
@@ -187,11 +160,14 @@ const { title, skills, summary } = caseStudy.data;
     color: var(--color-white);
   }
 
-  .card:is(:hover, :focus-within) .card__arrow-icon--default {
+  .card:is(:hover, :focus-within) :global(.circle-arrow__icon--default) {
     opacity: 0;
   }
 
-  .card:is(:hover, :focus-within) .card__arrow-icon--hover,
+  .card:is(:hover, :focus-within) :global(.circle-arrow__icon--hover) {
+    opacity: 1;
+  }
+
   .card:is(:hover, :focus-within) .card__corner {
     opacity: 1;
   }
