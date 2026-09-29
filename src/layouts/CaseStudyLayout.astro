@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import ReadMoreSection from '../components/ReadMoreSection.astro';
+
+interface Props {
+  entry: CollectionEntry<'caseStudies'>;
+  subNav: { href: string; label: string }[];
+}
+
+const { entry, subNav: _subNav } = Astro.props;
+---
+
+<BaseLayout title={`${entry.data.title} — Cassandra Garratt`}>
+  <article class="case-study">
+    <slot />
+    <ReadMoreSection currentId={entry.id} />
+  </article>
+</BaseLayout>

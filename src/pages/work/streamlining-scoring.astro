@@ -1,0 +1,20 @@
+---
+import { getEntry } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+
+const entry = await getEntry('caseStudies', 'streamlining-scoring');
+if (!entry) throw new Error('Missing case study: streamlining-scoring');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#interviews', label: 'Interviews' },
+  { href: '#design', label: 'Design' },
+  { href: '#user-testing', label: 'User Testing' },
+  { href: '#handover', label: 'Handover' },
+];
+---
+
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <h1 class="type-title-1">{entry.data.title}</h1>
+</CaseStudyLayout>
