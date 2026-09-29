@@ -10,12 +10,12 @@ const { id, term } = Astro.props;
 <button class="definition-trigger" type="button" popovertarget={id}>
   {term}
 </button>
-<div class="definition-tip" id={id} popover>
-  <p class="definition-tip__term type-subtitle">{term}</p>
-  <p class="definition-tip__body type-subtitle">
+<span class="definition-tip" id={id} popover>
+  <span class="definition-tip__term type-subtitle">{term}</span>
+  <span class="definition-tip__body type-subtitle">
     <slot />
-  </p>
-</div>
+  </span>
+</span>
 
 <style>
   .definition-trigger {
@@ -35,6 +35,13 @@ const { id, term } = Astro.props;
      script below. Approximating it would drift out of alignment, so it is
      left off as a known visual difference rather than faked. */
   .definition-tip {
+    /* A <span>, not a <div>: the trigger sits inline in running prose (e.g.
+       CaseStudyIntro's lead paragraph), and a <div popover> there would
+       close the parent <p> per the HTML parsing spec, ejecting the rest of
+       the sentence out of its styled wrapper. `popover` is a global
+       attribute and works on any element, so a <span> keeps this safe to
+       drop into flowing text anywhere. */
+    display: block;
     inline-size: min(28.9375rem, calc(100vw - 2rem)); /* 463px */
     padding: var(--space-16);
     border: 0;
@@ -42,6 +49,11 @@ const { id, term } = Astro.props;
     background-color: var(--color-white);
     color: var(--color-purple);
     filter: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
+  }
+
+  .definition-tip__term,
+  .definition-tip__body {
+    display: block;
   }
 
   .definition-tip__term {
