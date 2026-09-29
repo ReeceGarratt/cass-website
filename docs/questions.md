@@ -32,6 +32,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-015 | Case study pages: shared template or bespoke (D-013)? | **Blocks the case study pages**, and shapes every component below them |
 | Q-016 | Interactivity for the sub nav progress and Definition Tip | Blocks the sub nav and the Definition Tip |
 | Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
+| Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
 
 ---
 
@@ -162,3 +163,14 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
 - **Questions:** which frame is the current home page design? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
 - **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
+
+### Q-018 · Image delivery: in-repo with Astro's pipeline, or hosted off-repo
+- **Raised:** 2026-09-29
+- **Blocks:** nothing for the first case study; becomes pressing once all four are built
+- **Context:** No decision was ever made about image delivery. [architecture.md](architecture.md) lists "optimised images through Astro's image handling" as a cross-cutting concern, but there is no `D-` entry, and it was written when the site had five SVGs. The case studies are image-heavy — four pages, 6003–9337px tall, mostly product screenshots — so this now matters. Cloudflare Workers static assets are free and unlimited for both requests and storage ([wiki/cloudflare-workers.md](wiki/cloudflare-workers.md)), so hosting cost is not the driver; repo size is.
+- **Options:**
+  - **In-repo under `src/assets/` (proposed for MVP):** `astro:assets` optimises at build — AVIF/WebP, responsive `srcset`, hashed names, intrinsic `width`/`height` against layout shift. Cost: repo size, and git history is permanent. Mitigate by downscaling originals before committing.
+  - **Off-repo (Cloudflare R2, or Cloudflare Images):** keeps the repo small, but Astro cannot process images it doesn't have at build time, so build-time optimisation and automatic `srcset` are lost. Responsive variants then need hand-rolling or Cloudflare Image Transformations (paid).
+  - **Hybrid:** small/UI images in-repo, large case study screenshots off-repo.
+- **Decide before:** committing the full image set for all four case studies. The first case study can proceed in-repo either way, as long as originals are downscaled first.
+- **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
