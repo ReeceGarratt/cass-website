@@ -53,7 +53,7 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `src/components/Pill.astro` | Two colourways (`client`: Purple/White; `userType`: Light purple/Purple + a 24px icon). Used on cards and `CaseStudyIntro`. |
 | `src/components/CircleArrow.astro` | The default/hover arrow-icon pair with a crossfade; extracted from `CaseStudyCard.astro`, used by both it and (implicitly, via `showClient`) the Read More row. |
 | `src/components/DefinitionTip.astro` | A `popovertarget` trigger plus a native `<span popover>` bubble; ~8 lines of script position it under its trigger (D-023). The Figma speech-bubble tail is deliberately omitted (doesn't survive repositioning). |
-| `src/components/ReadMoreSection.astro` | "Other case studies" heading plus up to three `CaseStudyCard`s, filtered to exclude the current entry, sorted by `order`. |
+| `src/components/ReadMoreSection.astro` | "Other case studies" heading plus a `CaseStudyCard` for every collection entry except the current one, sorted by `order`. No cap: renders three today only because the collection holds four entries; a fifth case study would render four cards, unlike the home page row (which does cap at three, Q-019). Worth a look once a fifth case study exists. |
 | `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
 | `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema: `title`, `client`, `skills`, `summary`, `order`). |
 | `src/content/case-studies.json` | Card metadata for four case studies (D-013). |
