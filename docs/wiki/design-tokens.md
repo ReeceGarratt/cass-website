@@ -14,7 +14,7 @@ decisions: [D-002, D-014, D-020, Q-005, Q-010, Q-013]
 | Prefix | Covers |
 |---|---|
 | `--color-*` | Figma colour variables, plus a couple of fills that aren't variables (`--color-black`, `--color-icon`) |
-| `--type-<style>-{size,line-height,letter-spacing,weight}` | One group of four per Figma text style (`title`, `subtitle`, `card-title`, `body`, `caption`, `brand`, `nav`) |
+| `--type-<style>-{size,line-height,letter-spacing,weight}` | One group of four per Figma text style (`title`, `title-1`, `title-2`, `subtitle`, `card-title`, `h2`, `h3`, `body`, `body-med`, `caption`, `handwritten`, `stats`, `brand`, `nav`) |
 | `--space-*` | Gaps, padding and offsets between elements |
 | `--size-*` | Fixed widths/heights of elements (card, arrow, nav dot, hero intro) |
 | `--hero-*` | Hero decoration sized relative to the title (`em`), plus its offsets |

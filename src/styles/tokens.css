@@ -104,6 +104,14 @@
   --type-handwritten-letter-spacing: -0.02em;
   --type-handwritten-weight: 400;
 
+  /* Type: Stats (the "14 out of 15" figure in the user-testing panel).
+     Figma style "Stats": Inter Black 96 / 0.88 / -2 (a percentage, as with
+     every other letterSpacing in this file). Only one node uses it so far. */
+  --type-stats-size: 6rem; /* 96px */
+  --type-stats-line-height: 0.88;
+  --type-stats-letter-spacing: -0.02em;
+  --type-stats-weight: 900;
+
   /* Type: H3 (finding-block labels, e.g. "problem" / "outcome") */
   --type-h3-size: 0.875rem; /* 14px */
   --type-h3-line-height: 1.5;
@@ -145,6 +153,9 @@
   --space-skip-link-inset: 1rem;
   --space-skip-link-padding-block: 0.75rem;
   --space-skip-link-padding-inline: 1rem;
+  --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
+  quote in the case study "talking to the experts" panel (86:212). Like
+  --space-intro-columns it's a one-off measured gap rather than a scale step. */
   --space-intro-columns: 7.375rem; /* 118px; case study intro text/image gap.
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a

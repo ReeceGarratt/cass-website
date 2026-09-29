@@ -47,7 +47,7 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
 | `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema). |
 | `src/content/case-studies.json` | Card metadata: title, skills, summary, order (D-013). |
-| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `corner-top-right`, `corner-bottom-left`), copied from `docs/figma/components/` and imported as Astro components. |
+| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01-curve`, `arrow-01-head`, `arrow-03`, `corner-top-right`, `corner-bottom-left`) and the case study screenshots under `case-studies/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources. |
 | `src/pages/index.astro` | The home page: hero composition and the card list, sorted by `order`. |
 
 ### Planned
