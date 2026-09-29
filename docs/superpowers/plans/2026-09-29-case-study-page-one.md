@@ -393,13 +393,43 @@ Append to `global.css`, after `.skip-link:focus`:
 
 Note that `--type-caption-weight` is `700` while Figma's `Caption Text` is Regular 400. That is an intentional existing override for the card skills. Components may override weight on top of the class; do not add a second caption class.
 
-- [ ] **Step 2: Add the bleed utility and reduced-motion scroll**
+- [ ] **Step 2: Add the page grid, the bleed utility and reduced-motion scroll**
 
 ```css
-/* Layout utility: opt a direct child of a page grid out to the full-bleed
-   track. Sections are constrained by default (see CaseStudyLayout). */
-.u-bleed {
+/* Case study page grid.
+   Sections are constrained to the content track by default and opt out to
+   full-bleed with .u-bleed. Correct-by-default: forgetting the class yields
+   a constrained section, never a broken layout.
+
+   This lives in global.css, not in CaseStudyLayout's scoped <style>, because
+   its children are other components' root elements. Astro scopes styles to
+   elements in a component's OWN template, so a scoped `.case-study > *`
+   would not match a child component's root and every section would silently
+   fall through to the `full` track. */
+.case-study {
+  display: grid;
+  grid-template-columns:
+    [full-start] var(--space-gutter)
+    [content-start] 1fr [content-end]
+    var(--space-gutter) [full-end];
+  row-gap: var(--space-96);
+  max-inline-size: var(--page-max-width);
+  margin-inline: auto;
+}
+
+/* Direct children only — a section's root element must be a direct child
+   of this grid, never wrapped in a stray div. */
+.case-study > * {
+  grid-column: content;
+}
+
+.case-study > .u-bleed {
   grid-column: full;
+}
+
+/* The sub nav is sticky and 80px tall, so anchor targets need clearance. */
+.case-study [id] {
+  scroll-margin-block-start: 6rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -408,6 +438,8 @@ Note that `--type-caption-weight` is `700` while Figma's `Caption Text` is Regul
   }
 }
 ```
+
+`--space-gutter`, `--page-max-width` and `--space-96` all already exist by this point (the first two predate this plan; `--space-96` comes from Task 2).
 
 - [ ] **Step 3: Verify a class renders**
 
@@ -965,35 +997,11 @@ const { entry, subNav } = Astro.props;
     <ReadMoreSection currentId={entry.id} />
   </article>
 </BaseLayout>
-
-<style>
-  .case-study {
-    display: grid;
-    grid-template-columns:
-      [full-start] var(--space-gutter)
-      [content-start] 1fr [content-end]
-      var(--space-gutter) [full-end];
-    row-gap: var(--space-96);
-    max-inline-size: var(--page-max-width);
-    margin-inline: auto;
-  }
-
-  /* Sections are constrained by default and opt out with .u-bleed.
-     Correct-by-default: forgetting the class yields a constrained
-     section, never a broken layout.
-     NOTE: this places DIRECT CHILDREN only — a section's root element
-     must be a direct child of this grid. */
-  .case-study > * {
-    grid-column: content;
-  }
-
-  .case-study > :global(.u-bleed) {
-    grid-column: full;
-  }
-</style>
 ```
 
-`:global()` is needed on `.u-bleed` because the class is applied by child components, whose markup Astro scopes separately.
+**This component has no `<style>` block.** The `.case-study` grid lives in `global.css` (Task 3), deliberately: its children are other components' root elements, and Astro scopes styles to elements in a component's *own* template. A scoped `.case-study > *` would not match a child component's root, so every section would silently fall through to the `full` track instead of being constrained.
+
+If you find yourself needing a scoped style here, that is a signal the rule belongs in `global.css` with the rest of the grid.
 
 Read `BaseLayout.astro` first to confirm its prop name for the page title — this plan assumes `title`. Match whatever it actually uses.
 
@@ -1181,15 +1189,17 @@ In `CaseStudyLayout.astro`, import the component and place it as the **first chi
 
 It carries `u-bleed`, so it spans the full grid. It must be a direct child of `.case-study` for that to work.
 
-- [ ] **Step 3: Add scroll-margin for the sticky bar**
+- [ ] **Step 3: Confirm the anchor clearance rule is present**
 
-Because the bar is sticky and 80px tall, anchor targets would land underneath it. Add to `CaseStudyLayout.astro`'s styles:
+Because the bar is sticky and 80px tall, anchor targets would otherwise land underneath it. The rule already exists in `global.css` from Task 3:
 
 ```css
-  .case-study :global([id]) {
-    scroll-margin-block-start: 6rem; /* 80px bar + breathing room */
-  }
+.case-study [id] {
+  scroll-margin-block-start: 6rem;
+}
 ```
+
+Confirm it is there. **Do not add a scoped copy** in this component — `.case-study` is a global layout class and its rules live together in `global.css`.
 
 - [ ] **Step 4: Verify**
 
@@ -1526,7 +1536,9 @@ git commit -m "feat: add the definition tip popover"
 
 **Interfaces:**
 - Consumes: `Pill` (Task 6), `DefinitionTip` (Task 13), the hero image from Task 4.
-- Produces: `<CaseStudyIntro eyebrow: string, title: string, userTypes: { label: string; icon: ImageMetadata }[], image: ImageMetadata, imageAlt: string />` with the lead paragraph in the default slot and `goal` / `outcome` named slots. **Contains the page's one `<h1>`.**
+- Produces: `<CaseStudyIntro eyebrow: string, title: string, userTypes: { label: string; icon: ImageMetadata }[], image: ImageMetadata, imageAlt: string, id?: string />` with the lead paragraph in the default slot and `goal` / `outcome` named slots. **Contains the page's one `<h1>`.**
+
+`id` is applied to the component's **root element**, which is the grid's direct child, so the sub nav's `#project-overview` anchor resolves and picks up the `scroll-margin-block-start` rule from Task 3. Do not wrap the component in an extra `<div>` to carry the id — that would break the grid's direct-child placement.
 
 **Depends on Task 4.** Column widths and the text/image split come from the fetched Introduction section (`86:441`) in `docs/figma/case-study-1-desktop/context.md`. The block structure below is already known from `docs/figma/components/case-study-intro/context.md`.
 
