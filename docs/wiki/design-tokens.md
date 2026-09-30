@@ -60,7 +60,7 @@ Figma's two real spacing variables alias onto the scale so the link stays tracea
 
 Case study work added `--space-80` (the Design section's image/text gap and the purple panels' padding) and confirmed `--space-96` (the gap between finding blocks) as real, used values rather than speculative scale steps.
 
-**Still bespoke, not on the scale** (measured one-offs, not scale-worthy numbers): `--space-panel-columns` (240px, Interviews heading/quote gap), `--space-intro-columns` (118px, intro text/image gap), `--size-divider-width` (400px, the goal/outcome hairline's length), and the `--size-process-step-*` family (measured per-label wrap widths for `ProcessStrip`, with `--size-process-step-max` as a safety-net cap for any label without a measured entry).
+**Still bespoke, not on the scale** (measured one-offs, not scale-worthy numbers): `--space-panel-columns` (240px, Interviews heading/quote gap), `--space-intro-columns` (118px, intro text/image gap), `--size-divider-width` (400px, the goal/outcome hairline's length), and the `--size-process-step-*` family (measured per-label wrap widths for `ProcessStrip`, with `--size-process-step-max` as a safety-net cap for any label without a measured entry). Since D-033 the strip's sizes are `em` of its 30px label type, written as `calc(<figma px>em / 30)` so they're exact at 1920 and scale with the fitted type; `--size-process-row` (unitless, the widest row in em) and `--type-process-min-size` (20px) drive the fit.
 
 ## New tokens from the case study work
 

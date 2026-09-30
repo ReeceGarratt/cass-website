@@ -37,6 +37,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-023 | Copy defects transcribed faithfully from Figma | Nothing; copy is live as transcribed |
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
+| Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
 
 ---
 
@@ -208,3 +209,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; shipped as drawn (D-032)
 - **Context:** Cass redacted client data in the Easier Data Capture "before" screenshot (`91:1087`) with blurred overlay slices. At the 2× export used on the site, some values are close to legible, including what look like a customer name and a person's name in the comments panel. The unredacted raw image was never saved.
 - **Options:** Cass is happy with it as is · Cass strengthens the blur in Figma and the render is re-exported (a one-file swap: `src/assets/case-studies/consolidating-import-collections/capture-before-redacted.png`).
+
+### Q-026 · Case study pages below desktop width
+- **Raised:** 2026-10-01
+- **Blocks:** nothing yet; the responsive pass
+- **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
+- **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.

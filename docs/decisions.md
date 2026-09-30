@@ -247,3 +247,10 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** Ship it as Cass drew it; a more strongly blurred image can be swapped in later as a one-file change. Raised with Cass as Q-025.
 - **Alternatives considered:** blocking publication until Cass confirms · blurring further ourselves (changes Cass's work without asking).
 - **Consequences:** Q-025 stays open as a non-blocking note.
+
+### D-033 · ProcessStrip scales to fit, then wraps
+- **Date:** 2026-10-01 · **Status:** Accepted
+- **Context:** The strip's labels had fixed px widths, so the row needed ~1432px and case study pages scrolled sideways below that (76px at 1280). Shrinking the labels alone can't fix it: each measured width is within 1–27px of its longest word, and the 5 arrows and 10 gaps (~530px) never shrink.
+- **Decision:** Figma's 30px is the default. Every strip size (label widths, arrows, gaps) is in `em` of the label type, and the type is fitted to the band with `clamp(20px, (100cqi - 2 gutters) / 47.75, 30px)`, so the whole row scales as one and keeps Figma's line breaks. Below the 20px minimum (`--type-process-min-size`) the row wraps and the band grows taller. 20px is a starting value to revisit after testing.
+- **Alternatives considered:** percentage or `vw` label widths (they save at most 38px, since the words themselves are the limit) · a breakpoint to a stacked layout (a design call Figma doesn't cover; the wrap covers it for now) · measuring each strip's own row length (one constant from the widest row is simpler; CS1 starts scaling slightly earlier than strictly needed).
+- **Consequences:** introduces the site's first container query (`container-type: inline-size` on the band; `vw` would count a classic scrollbar). Both case studies are pixel-identical at 1920 and fit at 1280; the strip wraps without overflowing down to 390. Pages still overflow below ~1100px from the rest of the case study grid (Q-026).

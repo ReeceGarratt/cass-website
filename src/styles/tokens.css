@@ -218,27 +218,43 @@
      designed, and this is expressed where it's used. */
   --size-inset-measure: 90.5rem;
 
-  /* Process strip step wrap widths (67:334 outline). Without a width, a
-  label can't shrink below its own min-content and forces the six-step row
-  to ~1420px wide, overflowing at narrower viewports. Each value is the
-  fixed width Figma gives that text node, so long labels wrap the same way
-  as the design (verified against the fetched screenshot's crop). */
-  --size-process-step-identify: 8.3125rem; /* 133px: "identify business needs" */
-  --size-process-step-asis: 13.125rem; /* 210px: "as-is journey investigations" */
-  --size-process-step-sme: 9.375rem; /* 150px: "sme interviews" */
-  --size-process-step-research: 8.0625rem; /* 129px: "user research" */
-  --size-process-step-design: 6.0625rem; /* 97px: "design" */
-  --size-process-step-testing: 7.6875rem; /* 123px: "usability testing" */
+  /* Process strip. Everything is in em of the strip's label type, which is
+  30px at the design size, so the whole row (labels, arrows, gaps) scales
+  as one when ProcessStrip shrinks its type on narrower viewports, and
+  each label keeps Figma's line breaks at every size. Each value is its
+  Figma px over 30.
+
+  Step wrap widths (67:334 outline): the fixed width Figma gives each text
+  node, so long labels wrap as designed (verified against the fetched
+  screenshot's crop). */
+  --size-process-step-identify: calc(133em / 30); /* identify business needs */
+  --size-process-step-asis: calc(210em / 30); /* as-is journey investigations */
+  --size-process-step-sme: calc(150em / 30); /* sme interviews */
+  --size-process-step-research: calc(129em / 30); /* user research */
+  --size-process-step-design: calc(97em / 30); /* design */
+  --size-process-step-testing: calc(123em / 30); /* usability testing */
   /* CS2 (Standard Bank) process strip label widths, from the 91:701 outline. */
-  --size-process-step-import-identify: 8.0625rem; /* 129px: "identify business needs" */
-  --size-process-step-import-research: 7.875rem; /* 126px: "user research" */
-  --size-process-step-import-personas: 8.375rem; /* 134px: "personas" */
-  --size-process-step-import-journeys: 8.0625rem; /* 129px: "user journeys" */
-  --size-process-step-import-wireframing: 12.375rem; /* 198px: "wireframing & ui design" */
-  --size-process-step-import-development: 11.6875rem; /* 187px: "development" */
-  --size-process-step-max: 16rem; /* 256px; safety-net cap on a step label, so a
-  label passed an oversized width wraps instead of overflowing. Comfortably
-  above the widest measured value (210px), so real labels never reach it. */
+  --size-process-step-import-identify: calc(129em / 30);
+  --size-process-step-import-research: calc(126em / 30);
+  --size-process-step-import-personas: calc(134em / 30);
+  --size-process-step-import-journeys: calc(129em / 30);
+  --size-process-step-import-wireframing: calc(198em / 30);
+  --size-process-step-import-development: calc(187em / 30);
+  /* Safety-net cap on a step label (256px), so a label passed an oversized
+  width wraps instead of overflowing. Comfortably above the widest measured
+  value (210px), so real labels never reach it. */
+  --size-process-step-max: calc(256em / 30);
+  --space-process-step-gap: calc(32em / 30); /* gap-32px in 67:334 */
+  /* Arrow_01 instance box, 41.83 x 27.33px */
+  --size-process-arrow-width: calc(41.8304em / 30);
+  --size-process-arrow-height: calc(27.3296em / 30);
+  /* The widest row, CS2's, in em: 903px of labels + 5 arrows + 10 gaps =
+  1432px at 30px. The strip's type shrinks once the row would no longer
+  fit this many em inside the gutters. */
+  --size-process-row: 47.75;
+  /* Smallest the strip's type scales to before the row wraps instead.
+  A starting value to test, not from Figma (Figma only has desktop). */
+  --type-process-min-size: 1.25rem; /* 20px */
 
   /* Hero decoration and offsets, relative to the title size */
   --hero-flower-size: 0.9em; /* 90px at 100px */
