@@ -242,6 +242,10 @@ a {
      card being narrower than 795 + 656. */
   padding: var(--space-80);
   border-radius: var(--radius-panel);
+  /* Auto inline margins stop a grid item stretching, so without an explicit
+     size the card shrinks to its content: CS1's user-testing panel rendered
+     970px wide and CS2's handover 1012px, against 1451/1442 in Figma. */
+  inline-size: 100%;
   max-inline-size: var(--size-inset-measure);
   margin-inline: auto;
   background-color: var(--color-purple);
