@@ -35,6 +35,7 @@ The tooling lives in the git-ignored workspace `.superpowers/sdd/2026-09-30-case
   - The tool scrolls with `behavior: 'instant'`. The site's `scroll-behavior: smooth` had stopped lazy images loading in the first baselines, which were retaken.
   - The tool waits for running animations to finish.
   - **The sub nav underline lands 2px apart from run to run** (the page script measures the links around the font swap). This is an MVP-branch quirk, not this work's, so **diffs of case study pages run with `IGNORE_ROWS=170-172`**, e.g. `IGNORE_ROWS=170-172 node $S/diff.mjs …`. The home page needs no exclusion.
+  - **Resolved later (MVP fix round):** the 2px offset came from ReadMoreSection forcing the grid 2px wider once its fonts loaded, and the remaining flake was the tool catching the underline mid-transition during capture. The tool now disables transitions before shooting, so `IGNORE_ROWS` is no longer needed.
 - Figma references: `docs/figma/case-study-2-desktop/sections/NN-*.png`. These are the per-section renders returned by `get_design_context`, each at roughly 1024px wide for a section that is 1200–1920px wide in Figma. Compare **structure, wrapping, alignment and proportions**, not pixels.
 
 Serve the build for shooting (run in the background, then stop it when the task is done):
