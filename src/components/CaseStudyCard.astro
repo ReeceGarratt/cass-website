@@ -9,19 +9,21 @@ import CornerBottomLeft from '../assets/corner-bottom-left.svg';
 interface Props {
   caseStudy: CollectionEntry<'caseStudies'>;
   showClient?: boolean;
+  headingLevel?: 2 | 3;
 }
 
-const { caseStudy, showClient = false } = Astro.props;
+const { caseStudy, showClient = false, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const { title, client, skills, summary } = caseStudy.data;
 ---
 
 <article class="card">
   {showClient && <Pill class="card__client">{client}</Pill>}
-  <h2 class="card__title">
+  <Heading class="card__title">
     <a class="card__link" href={withBase(`/work/${caseStudy.id}`)}>
       {title}
     </a>
-  </h2>
+  </Heading>
   <ul class="card__skills" role="list">
     {skills.map((skill) => (
       <li class="card__skill">{skill}</li>

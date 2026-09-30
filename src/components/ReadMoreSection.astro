@@ -20,7 +20,7 @@ const others = (await getCollection('caseStudies'))
   <ul class="read-more__list" role="list">
     {others.map((entry) => (
       <li class="read-more__item">
-        <CaseStudyCard caseStudy={entry} showClient />
+        <CaseStudyCard caseStudy={entry} showClient headingLevel={3} />
       </li>
     ))}
   </ul>
