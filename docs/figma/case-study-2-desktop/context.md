@@ -893,7 +893,7 @@ The trigger is "Standard Bank" at the start of the intro lead paragraph, matchin
 
 ## Assets
 
-Fetched with `download_assets` (2026-09-30), downscaled to 2× the placed width capped at 1600px (CS1's rule: ≤1600px, ≤500KB), and saved to `src/assets/case-studies/consolidating-import-collections/` (9 PNGs, 332,584 bytes).
+Fetched with `download_assets` (2026-09-30), downscaled to 2× the placed width capped at 1600px (CS1's rule: ≤1600px, ≤500KB), and saved to `src/assets/case-studies/consolidating-import-collections/` (9 PNGs, ~389 KB).
 
 | File | Slot (node) | Placed size | Source |
 |---|---|---|---|
@@ -902,13 +902,13 @@ Fetched with `download_assets` (2026-09-30), downscaled to 2× the placed width 
 | `trade-officer-flow.png` | Journey row 01 `92:1634` | 709 × 218.7 | raw 4096 × 1259 |
 | `checker-flow.png` | Journey row 2 `163:2168` | 679 × 404.7, cropped | raw 3472 × 2352 |
 | `client-flow.png` | Journey row 3 `163:2235` | 683 × 506, cropped | raw 4096 × 2687 |
-| `capture-before-redacted.png` | Easier Data Capture before `91:1087` | 607 × 305 | **node export at 1×** (616 × 313 incl. shadow bleed), with the 13 blur redactions baked in. The raw upload is unredacted and was deliberately not saved |
+| `capture-before-redacted.png` | Easier Data Capture before `91:1087` | 607 × 305 | **node export at 2×** (1231 × 626, cropped by 8/6/8/10px to drop the baked shadow bleed → 1215 × 610), with the 13 blur redactions baked in. The raw upload is unredacted and was deliberately not saved. **The blur is light: some redacted values, including what look like a customer name and a person's name, are close to legible. Needs Cass's review before publishing** |
 | `capture-after.png` | Easier Data Capture after `91:1103` | 765 × 482 | raw 4096 × 2583 |
 | `checker-summary.png` | Reviewing, before `91:1056` | 752 × 482 | raw 4096 × 2625 |
 | `change-request-pop-up.png` | Reviewing, new `91:1059` | 764 × 482 | raw 4096 × 2643 |
 | `src/assets/arrow-02.svg` | Easier Data Capture arrow `91:1104` | 74.4 × 59.8, rotated 178.16° and flipped | svgAsset (Red stroke hard-coded; a new shape, not `arrow-03.svg`) |
 
-**Not yet fetched:** the three persona illustrations (`92:1473`, `92:1480`, `92:1501`). Each is composed from loose vector parts (body, head, face), so it needs a per-node export (the Arrow_03 lesson). Format (SVG or 2× PNG) is still to be decided.
+**Persona illustrations** (`92:1473`, `92:1480`, `92:1501`) were exported per node as SVG (composed from loose body/head/face vectors, so per-node export per the Arrow_03 lesson) to `src/assets/personas/` (`trade-officer.svg` 147 × 229, `checker.svg` 216 × 292, `client.svg` 204 × 275). Figma's SVG export of a node includes the canvas, the page background and the persona card as `<rect>`s behind the figure; those rects were stripped, since the figures themselves are all paths. The exports have the mirroring transforms applied.
 
 The avatar icons in the intro pills (`a043a.svg` for Bank employees, `ca844.svg` for Clients) are the existing design system icons; map them to `src/assets/icons/` at build time rather than re-downloading.
 

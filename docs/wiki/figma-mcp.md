@@ -78,8 +78,8 @@ Replaces the original estimate now that the first screen is built.
 | Work and Landing pages, 2026-09-29: outlines and case study screenshots | 6 (2 `get_metadata`, 4 `get_screenshot`) |
 | Case Study 1 (Absa) content, 2026-09-29: outline, 7 sections, images | 10 (1 `get_metadata`, 7 `get_design_context`, 2 `download_assets`) |
 | Case Study 1 build, Task 17: re-fetch the composed `Arrow_03` symbol (`129:3490`) as one asset, after the loose curve+head part exports couldn't be reassembled | 1 (`download_assets`) |
-| Case Study 2 (Standard Bank) content, 2026-09-30: 10 sections incl. the Definition Tip, images. Outline reused from the saved Work page file, Process skipped (outline had its widths) | 16 (10 `get_design_context`, 6 `download_assets`), plus 1 `whoami` |
-| **Total so far** | **61** (incl. this `whoami`) |
+| Case Study 2 (Standard Bank) content, 2026-09-30: 10 sections incl. the Definition Tip, images. Outline reused from the saved Work page file, Process skipped (outline had its widths) | 20 (10 `get_design_context`, 10 `download_assets`: 6 images, 3 persona SVGs, 1 re-export of the redacted screenshot at 2×), plus 1 `whoami` |
+| **Total so far** | **65** (incl. this `whoami`) |
 
 A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. **A full content page's design context (one outline plus `get_design_context` per section, skipping sections already covered by shared components) measured at 10 calls for Case Study 1**: 1 `get_metadata` (outline fit inline, no file needed) + 7 `get_design_context` (one per section, `Navigation` and `Read More` skipped as already built/saved) + 2 `download_assets` (one per section with raster images: Introduction, Design). Budget ~10-12 calls per case study page on this basis for the remaining three.
 
