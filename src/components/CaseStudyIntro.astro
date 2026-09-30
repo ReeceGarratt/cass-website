@@ -5,6 +5,10 @@ import Pill from './Pill.astro';
 
 interface Props {
   eyebrow: string;
+  // Also the fallback for the optional "title" slot, which a page uses when
+  // Figma breaks the title explicitly rather than by wrapping (CS2 53:159 is
+  // two paragraphs, "consolidating" / "import collections", in a box wide
+  // enough to fit "consolidating import").
   title: string;
   userTypes: { label: string; icon: ImageMetadata }[];
   image: ImageMetadata;
@@ -22,7 +26,9 @@ const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
         <span class="case-study-intro__eyebrow type-handwritten">
           {eyebrow}
         </span>
-        <h1 class="case-study-intro__title type-title-1">{title}</h1>
+        <h1 class="case-study-intro__title type-title-1">
+          <slot name="title">{title}</slot>
+        </h1>
         <div class="case-study-intro__users">
           {userTypes.map(({ label, icon }) => (
             <Pill variant="userType" icon={icon}>
