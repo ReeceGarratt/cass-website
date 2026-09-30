@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
+import LabelledFindings from './LabelledFindings.astro';
 
 interface Props {
   heading: string;
@@ -9,8 +10,8 @@ interface Props {
   side?: 'start' | 'end';
   // body carries inline markup (e.g. <strong>) so the bold emphasis runs
   // every finding has in the snapshot can survive — a plain string can't
-  // express them. Rendered with set:html below: this is safe because body
-  // is always authored by us in page files, never user input, on this
+  // express them. LabelledFindings renders it with set:html: safe because
+  // body is always authored by us in page files, never user input, on this
   // static site.
   findings: { label: string; body: string }[];
 }
@@ -22,14 +23,7 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
   <Image class="finding-block__image" src={image} alt={imageAlt} />
   <div class="finding-block__body">
     <h3 class="finding-block__heading type-h1">{heading}</h3>
-    <dl class="finding-block__findings">
-      {findings.map(({ label, body }) => (
-        <div class="finding-block__finding">
-          <dt class="finding-block__label type-h3">{label}</dt>
-          <dd class="finding-block__text type-body-med" set:html={body} />
-        </div>
-      ))}
-    </dl>
+    <LabelledFindings findings={findings} />
   </div>
 </div>
 
@@ -80,31 +74,5 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
   .finding-block__heading {
     color: var(--color-purple);
     text-transform: lowercase;
-  }
-
-  .finding-block__findings {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-24);
-    margin: 0;
-  }
-
-  .finding-block__finding {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-8);
-  }
-
-  .finding-block__label {
-    color: var(--color-red);
-    /* Labels are free text with inconsistent source casing ("outcome" vs
-       "Outcome") — Figma displays every one lowercase via this transform,
-       so it's applied here rather than trusting the data's casing. */
-    text-transform: lowercase;
-  }
-
-  .finding-block__text {
-    margin: 0;
-    color: var(--color-purple);
   }
 </style>

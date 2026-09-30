@@ -1,0 +1,54 @@
+---
+interface Props {
+  // body carries inline markup (<strong>) for the bold runs every finding
+  // has in Figma. Rendered with set:html: safe because it is always authored
+  // by us in page files, never user input, on this static site.
+  findings: { label: string; body: string }[];
+  // 'inverse' sets labels and bodies White, for findings on a Purple band.
+  tone?: 'default' | 'inverse';
+}
+
+const { findings, tone = 'default' } = Astro.props;
+---
+
+<dl class:list={['labelled-findings', `labelled-findings--${tone}`]}>
+  {findings.map(({ label, body }) => (
+    <div class="labelled-findings__finding">
+      <dt class="labelled-findings__label type-h3">{label}</dt>
+      <dd class="labelled-findings__text type-body-med" set:html={body} />
+    </div>
+  ))}
+</dl>
+
+<style>
+  /* Label/body pairs: H3 label, Body Med body, 8px apart, 24px between
+     pairs (CS1 87:504; CS2 journey rows 162:2118). CS2's Status tracker
+     draws a 5px label gap (91:1025): drift, normalised to 8px. */
+  .labelled-findings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .labelled-findings__finding {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .labelled-findings__label {
+    color: var(--color-red);
+    /* Labels are free text with inconsistent source casing ("outcome" vs
+       "Outcome"); Figma displays every one lowercase. */
+    text-transform: lowercase;
+  }
+
+  .labelled-findings__text {
+    color: var(--color-purple);
+  }
+
+  .labelled-findings--inverse .labelled-findings__label,
+  .labelled-findings--inverse .labelled-findings__text {
+    color: var(--color-white);
+  }
+</style>
