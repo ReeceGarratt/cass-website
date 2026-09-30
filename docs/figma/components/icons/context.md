@@ -37,5 +37,16 @@ tools: [get_metadata, download_assets]
 
 - Six Purple avatar glyphs, all placed at **24px** in Figma even though the exports come back at 20-24px. Size them to 24px at the call site rather than trusting the export size.
 - **The filename mapping is inferred, not stated by Figma.** `download_assets` returns loose vectors whose only labels are `face`, `face_2` … `face_6`; the names above assume they come back in the frame's left-to-right layer order (Woman 1-3, then Man 1-3). The reference export shows the three women first (hair/bun details) then three plainer faces, which matches. Confirm before shipping any specific icon.
+- **Correction (2026-09-30): the inferred mapping above is wrong for at least some files.** Matching the path data of the icons exported from CS2's intro (`144:1416`) against these files shows what each file actually draws. Trust the "Looks like" column, not the file name:
+
+  | File | Looks like | Verified use |
+  |---|---|---|
+  | `woman-3.svg` | long hair to the shoulders | "Clients" (CS2) and "Call centre agents" (CS1): Figma asset `ca844` |
+  | `man-2.svg` | buzz cut (dotted) | "Bank employees" (CS2): Figma asset `a043a` |
+  | `man-3.svg` | hair in a bun | the Pills component's hidden default icon |
+  | `woman-2.svg` | curly hair | unused |
+  | `woman-1.svg`, `man-1.svg` | plain faces with a fringe | unused |
+
+  Renaming the files was deliberately left for later: only three of the six are verified against Figma layer names.
 - `bounding-box.svg` is a transparent 24px square Figma emits as part of an icon's frame. Not an asset to ship.
 - **Used by the `User types` [pill](../pills/context.md)**, which pairs one icon with a user-group label at 24px with an 8px gap. That's the only usage seen so far.
