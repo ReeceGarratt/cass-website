@@ -668,7 +668,7 @@ A 1916 × 2861 wrapper holding three feature sections, fetched one at a time: Ea
 
 **Text block** (`91:1066`): a **Purple** (not Red) `Title 2` heading, "Easier Data Capture" (243px box, so it wraps to "easier data / capture"), sits at the top-left; the Info row (`91:1067`, 1108px) is offset **192px right, 59.54px down**, so the heading overlaps the row's top-left corner. Info is two columns 80px apart:
 
-- Left, 507px, gap 24: `problem` / Red hairline divider (`7c363.svg`, 507px) / `Outcome` (rendered lowercase). Labels are Red `H3`; bodies are Purple `Body Med`, label-to-body offset 29px (≈ 8px gap after a 21px label).
+- Left, 507px, gap 24: `problem` / **Light purple** hairline divider (`7c363.svg`, 507px; sampled from the render, not Red) / `Outcome` (rendered lowercase). Labels are Red `H3`; bodies are Purple `Body Med`, label-to-body offset 29px (≈ 8px gap after a 21px label).
 - Right, 509px, gap 24: `solution`, then a **White "Future state" card** (`163:2237`): 505px, `p-[20px]`, `rounded-[12px]`, no shadow. It holds an Inter Bold 14 lowercase title "Future State | ‘Automagical’ Data Population" (style "Sub Title Bold" = H3 values) and an Inter Medium 14 / 1.5 body (style "**Sub Titles**", new: Medium 14 / 1.5 / −1.1%), 2px apart.
 
 **Images** (`91:1085`, 1468 × 482):
