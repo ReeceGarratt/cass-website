@@ -14,6 +14,10 @@ import asIsJourney from '../../assets/case-studies/consolidating-import-collecti
 import TradeOfficerIllustration from '../../assets/personas/trade-officer.svg';
 import CheckerIllustration from '../../assets/personas/checker.svg';
 import ClientIllustration from '../../assets/personas/client.svg';
+import FindingBlock from '../../components/FindingBlock.astro';
+import tradeOfficerFlow from '../../assets/case-studies/consolidating-import-collections/trade-officer-flow.png';
+import checkerFlow from '../../assets/case-studies/consolidating-import-collections/checker-flow.png';
+import clientFlow from '../../assets/case-studies/consolidating-import-collections/client-flow.png';
 
 const entry = await getEntry('caseStudies', 'consolidating-import-collections');
 if (!entry)
@@ -263,6 +267,82 @@ const subNav = [
       </li>
     </ul>
   </section>
+
+  <section
+    class="journey u-bleed"
+    id="user-journey"
+    aria-labelledby="user-journey-heading"
+  >
+    <div class="journey__inner">
+      <h2 class="journey__heading type-title-2" id="user-journey-heading">
+        the new
+        <br />
+        user journey
+      </h2>
+      <div class="journey__rows">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="Trade officer flow"
+          image={tradeOfficerFlow}
+          imageAlt="Flow diagram of the new trade officer journey, bringing capture steps that were spread across five systems into one path."
+          side="end"
+          tone="inverse"
+          align="center"
+          columns={[709, 501]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'The trade officers were losing context and focus by swopping between 5 different systems.',
+            },
+            {
+              label: 'decision',
+              body: 'I integrated the required programs where possible for a more seamless journey.',
+            },
+          ]}
+        />
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="Checker flow"
+          image={checkerFlow}
+          imageAlt="Flow diagram of the new checker journey, with its own review steps and a feedback loop back to the trade officer on the platform."
+          side="start"
+          tone="inverse"
+          align="center"
+          columns={[679, 532]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'Checkers didn’t have easy access to projects and needed a way to give and track feedback on the platform.',
+            },
+            {
+              label: 'decision',
+              body: '<p>I separated the trade officer and checkers flows to create Checker specific journeys that cater to their needs.</p><p>I also streamlined the feedback and changes loop so that feedback would be automatically tracked and kept in context of the project.</p>',
+            },
+          ]}
+        />
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="client flow"
+          image={clientFlow}
+          imageAlt="Three flow diagrams of the client journeys: accepting or not accepting a collection, and accepting with or without capture."
+          side="end"
+          tone="inverse"
+          align="center"
+          columns={[683, 525]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'Clients weren’t getting as much information as they needed to feel confident that there was progress.',
+            },
+            {
+              label: 'decision',
+              body: 'I made the content more accessible, trackable and easier to capture or approve the captured data.',
+            },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
 </CaseStudyLayout>
 
 <style>
@@ -441,5 +521,44 @@ const subNav = [
     margin-block-start: calc(var(--space-persona-note) - var(--space-24));
     color: var(--color-purple);
     text-transform: lowercase;
+  }
+
+  /* --- The new user journey (92:1636) -------------------------------------
+     Genuinely full-bleed (x=0, w=1920), unlike the panels: Purple, no
+     radius, 80px block padding, content at 235px each side, i.e. the
+     1450px inset measure. 80px between the heading and each row. */
+  .journey {
+    padding-block: var(--space-80);
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-purple);
+  }
+
+  .journey__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .journey__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  /* Each row is ~1290px (709 + 80 + 501; 679 + 80 + 532; 525 + 80 + 683),
+     start-aligned in the 1450px measure, so the rows end ~160px short of
+     the band's right edge. */
+  .journey__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: 80.625rem; /* 1290px */
+  }
+
+  /* The checker decision's two paragraphs (Figma: an empty line between).
+     :global because the <dd> belongs to LabelledFindings. */
+  .journey__rows :global(dd p + p) {
+    margin-block-start: 1lh;
   }
 </style>
