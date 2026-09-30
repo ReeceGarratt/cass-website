@@ -181,7 +181,7 @@
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
   /* 1448px. Three case study frames share this measure, inset symmetrically
-     inside the 1699px content track rather than filling it: the two Purple
+     inside the 1699px (Figma; 1700px rendered) content track rather than filling it: the two Purple
      panels (86:211 at x=236.196, 19:109 at x=234.696) and the Design section
      (87:504 at x=236.196). One token so the three call sites can't drift.
      Deliberately not a third grid track — the grid stays two-track as

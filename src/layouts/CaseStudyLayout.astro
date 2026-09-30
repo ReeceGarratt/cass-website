@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Font } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import CaseStudySubNav from '../components/CaseStudySubNav.astro';
 import ReadMoreSection from '../components/ReadMoreSection.astro';
@@ -12,7 +13,9 @@ interface Props {
 const { entry, subNav } = Astro.props;
 ---
 
-<BaseLayout title={`${entry.data.title} — Cassandra Garratt`}>
+<BaseLayout title={`${entry.data.title} — Cassandra Garratt`} fullBleed>
+  <!-- Only case study pages use the handwritten face, so only they preload it. -->
+  <Font slot="head" cssVariable="--font-la-belle-aurore" preload />
   <article class="case-study">
     <CaseStudySubNav links={subNav} />
     <slot />

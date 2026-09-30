@@ -170,7 +170,14 @@ a {
    its children are other components' root elements. Astro scopes styles to
    elements in a component's OWN template, so a scoped `.case-study > *`
    would not match a child component's root and every section would silently
-   fall through to the `full` track. */
+   fall through to the `full` track.
+
+   CaseStudyLayout passes `fullBleed` to BaseLayout so <main> carries no
+   gutter padding: this grid's own [full-start]/[full-end] gutter tracks are
+   the only gutter. At 1920px the full track is the whole 1920px viewport,
+   the gutter is 110px and the content track is 1920 - 2 * 110 = 1700px
+   (Figma measures 1699px, a sub-pixel frame offset, hence the 1699px in
+   comments elsewhere). */
 .case-study {
   display: grid;
   grid-template-columns:
