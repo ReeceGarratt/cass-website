@@ -1,0 +1,49 @@
+---
+import ArrowDefault from '../assets/arrow-default.svg';
+import ArrowHover from '../assets/arrow-hover.svg';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span class:list={['circle-arrow', className]} aria-hidden="true">
+  <span class="circle-arrow__icon circle-arrow__icon--default">
+    <ArrowDefault />
+  </span>
+  <span class="circle-arrow__icon circle-arrow__icon--hover">
+    <ArrowHover />
+  </span>
+</span>
+
+<style>
+  .circle-arrow {
+    display: grid;
+    inline-size: var(--size-arrow);
+    block-size: var(--size-arrow);
+    rotate: 90deg;
+  }
+
+  .circle-arrow__icon {
+    grid-area: 1 / 1;
+    transition-property: opacity;
+    transition-duration: var(--duration-hover);
+    transition-timing-function: var(--ease-hover);
+  }
+
+  .circle-arrow__icon :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .circle-arrow__icon--default {
+    color: var(--color-light-purple);
+  }
+
+  .circle-arrow__icon--hover {
+    opacity: 0;
+    color: var(--color-red);
+  }
+</style>

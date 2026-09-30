@@ -157,3 +157,58 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
   - **Hover:** colours fade over `--duration-hover` (200ms, `ease-out`). The arrow icons and corner strokes crossfade via opacity (option A of three offered; a rotating or scaling flower and a shape morph were the others).
 - **Alternatives considered:** a flex row with `align-items: stretch` for equal heights. It matches the grid in the single-row desktop layout, but only equalises cards on the same line once the row wraps.
 - **Consequences:** The build now differs from the current Figma frames on card height and position, which invariant 6 allows through this entry. Shadow, timing and alignment values get replaced when Cass's updated frames land (Q-013).
+- **Update (2026-09-29):** the real shadow values landed with the case study work — `--shadow-card` and `--shadow-card-warm` are no longer placeholders. See Q-013.
+
+### D-021 · Fonts: Inter only, Roboto retired
+- **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-014**
+- **Context:** The Read More cards (`88:583`, `88:602`, `165:2537`) render Roboto Bold 15px skills, a leftover from before the card caption font changed to Inter on 2026-09-17 ([wiki/design-tokens.md](wiki/design-tokens.md)). Cass ruled on this directly during the case-study-page-one brainstorming (2026-09-29).
+- **Decision:** Inter is the only text font on the site. Roboto is retired everywhere, including the Read More cards. La Belle Aurore is kept as the decorative handwritten face (section-heading eyebrows, quote marks, interview markers, the definition-tip term).
+- **Alternatives considered:** keep Roboto for the Read More cards specifically, matching Figma's detached copies exactly. Rejected — it reproduces stale drift as if it were intent, and the maintained card components had already moved to Inter.
+- **Consequences:** `CaseStudyCard.astro`'s skills list uses `.type-caption` (Inter Bold 12px) for every card, including Read More (see D-025 for the rest of that card's divergence). `astro.config.mjs` only ever needed an Inter and a La Belle Aurore font entry; no Roboto entry was added (D-015 stands).
+
+### D-022 · Case study pages: bespoke `.astro` files composing shared section components
+- **Date:** 2026-09-29 · **Status:** Accepted · **Amends D-013** · **Resolves Q-015**
+- **Context:** D-013 said case study pages are bespoke `.astro` files with no shared template. Having mapped all four case studies ([wiki/componentisation.md](wiki/componentisation.md)), they share a vocabulary of section types — finding block, section heading, process strip, intro, sub nav, Read More row — in different orders and counts per case study, not a common sequence. That's the shape of a toolkit, not a template.
+- **Decision:** Case study pages stay bespoke `.astro` files — D-013's freedom for each page to differ holds — but they compose a shared set of section components (`CaseStudyLayout`, `CaseStudySubNav`, `CaseStudyIntro`, `SectionHeading`, `FindingBlock`, `ProcessStrip`, `Pill`, `CircleArrow`, `DefinitionTip`, `ReadMoreSection`). Prose and section-specific markup stay in the page file. A data-driven content model (moving that prose into the collection) is deferred to post-MVP.
+- **Alternatives considered:** a shared template with per-case-study content — rejected, constrains how different a case study can look, and the four frames don't share a sequence. Fully bespoke pages sharing nothing — rejected, the sub nav's progress script and the page grid would be hand-copied into four files, which is exactly where inconsistency creeps in.
+- **Consequences:** amends D-013 rather than reversing it. Building case study 2 should mostly mean composing the existing components in a new order, with new bespoke sections only where CS2 genuinely differs (personas, user journey). Revisit if CS2 shows the toolkit isn't holding.
+
+### D-023 · Progressive enhancement over a UI framework
+- **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-016**
+- **Context:** Two case study components need interactivity that invariant 3 (no client JS without a stated reason) requires be justified: the sub nav's progress underline, which needs scroll position, and the Definition Tip's popup, whose open/close/Escape/focus behaviour Figma draws but doesn't specify.
+- **Decision:** The Definition Tip uses the native `popover` attribute (Popover API): opening, closing, `Escape`, light dismiss, top-layer stacking and focus handling are all native, with about 8 lines of script only to position the bubble under its trigger on `beforetoggle` (popovers render in the top layer and can't be positioned by an ancestor with CSS alone). The sub nav's progress underline uses a small `IntersectionObserver` module script. No UI framework, and no scroll-driven CSS (`animation-timeline`) — cross-browser support wasn't certain enough to depend on for the only implementation.
+- **Alternatives considered:** CSS-only (`:target` or `<details>` for the tip, a static current-section marker for the sub nav) — rejected, loses the sweeping progress indicator entirely and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
+- **Consequences:** total JS across both features is under 2KB with no dependencies. Both degrade to complete, functioning HTML with no JS by design (verified by code review only — the no-JS browser pass itself is still a deferred visual check, see the report).
+
+### D-024 · Type classes and a numeric spacing scale
+- **Date:** 2026-09-29 · **Status:** Accepted
+- **Context:** The case study page introduced many more Figma text styles (Title 1, Title 2, H2, Body Med, Hand written, Stats, H3) and far more spacing values than the home page's bespoke named tokens were built for.
+- **Decision:** One CSS class per Figma text style in `global.css` (`.type-title-1`, `.type-title-2`, `.type-h2`, `.type-body-med`, `.type-handwritten`, `.type-stats`, `.type-h3`, alongside the existing `.type-title`/`.type-h1`/`.type-body`/`.type-caption`/`.type-subtitle`), setting only family/size/weight/line-height/letter-spacing — colour stays on the component, because the same style appears in Red, Purple, Black and White depending on context. A numeric spacing scale (`--space-8` through `--space-96`, where the number is the px value) sits alongside the existing bespoke named tokens, with Figma's two real spacing variables aliased onto it (`Headings & Body` → `--space-16`, `Sub-Sub Sections` → `--space-48`).
+- **Alternatives considered:** keep extending the home page's one-off-named-token approach for every new value. Rejected — it doesn't scale to ~20 section headings and ~16 finding blocks each re-declaring the same handful of styles and gaps.
+- **Consequences:** genuine one-off measurements (the 110px gutter, the 30px card padding, the 1448px inset measure) keep their own named tokens rather than being forced onto the scale. Full naming scheme in [wiki/design-tokens.md](wiki/design-tokens.md).
+
+### D-025 · Sanctioned divergences on the Read More cards
+- **Date:** 2026-09-29 · **Status:** Accepted
+- **Context:** Unifying the Compact, Detailed and Read More card shapes into one `CaseStudyCard.astro` component ([wiki/componentisation.md](wiki/componentisation.md)) meant picking one behaviour where Figma drew three different ones. Invariant 6 requires divergences from Figma be written down, not silent.
+- **Decision:** The Read More cards diverge from Figma in three ways, all following from using one shared card component:
+  | Figma draws | We build | Why |
+  |---|---|---|
+  | Roboto Bold 15px skills | Inter Bold 12px (D-021) | Cass's ruling: Inter only |
+  | `rgba(0,0,0,0.58)` summary | Grey `#6b6b6b` | Matches the maintained Compact/Detailed cards; the 58% black reads as a leftover |
+  | No hover state drawn | Hover state, as the other cards | They are links to case studies; no affordance where the identical card elsewhere has one would be worse than diverging |
+- **Alternatives considered:** build the Read More cards exactly as drawn, as a second component or a style variant carrying the stale values. Rejected — that would faithfully implement drift as though it were intent.
+- **Consequences:** flagged to Cass so the Figma copies can be updated to match (open item in the case-study-page-one report). No code change needed if Figma is updated to agree instead.
+
+### D-026 · The two-measure case study page layout
+- **Date:** 2026-09-29 · **Status:** Accepted
+- **Context:** While building the case study page, the Design section and two Purple panels (Interviews, User Testing) turned out to be inset to 1448px inside the 1699px content track — not full-bleed, and not filling the track — contradicting the plan's initial assumption of a full-bleed Purple band for every panel. The spec left open whether body copy needed a narrower third grid track.
+- **Decision:** Share one token, `--size-inset-measure` (1448px = 90.5rem), across the Design section and both Purple panels, applied as `max-inline-size` plus `margin-inline: auto` inside the existing two-track grid — not a third grid track.
+- **Alternatives considered:** a third, narrower `text` grid track nested inside `content`. Rejected as premature — the spec said explicitly not to add one pre-emptively, and a shared token covers all three call sites with far less structural change.
+- **Consequences:** the page now visibly steps between two measures at 1920px (about 125px either side) where the Introduction (1699px) meets the panels and Design section (1448px) — flagged as a deferred visual check, since it's the first place the difference is visible. If more sections adopt the inset measure, a dedicated grid track becomes worth revisiting.
+
+### D-027 · Two deliberate departures from Figma on the case study page
+- **Date:** 2026-09-29 · **Status:** Accepted
+- **Context:** Two of CS1's Figma frames use techniques that don't survive a viewport width Figma didn't consider: the user-testing annotation (arrow + caption) is placed with absolute positioning that overlaps the Insight text at exactly one fixed size; the Handover section is centred with fixed `px-[550px]` side padding, which collapses the content to nothing below a 1100px viewport.
+- **Decision:** Build the user-testing annotation in flow, as a caption that follows the paragraph it points back to, rather than absolutely positioned on top of it. Build the Handover row inside the page's normal content grid track (capped at its measured 903px, centred) rather than with fixed pixel side padding.
+- **Alternatives considered:** reproduce the absolute overlap and the fixed padding exactly as drawn. Rejected — neither is responsive, and invariant 6's write-it-down exception exists for cases like this.
+- **Consequences:** both flagged to Cass so the Figma frames can be corrected or the departure endorsed (open items in the report). The same techniques are likely to recur on case studies 2–4 and will need the same call.

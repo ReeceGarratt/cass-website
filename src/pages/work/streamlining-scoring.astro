@@ -1,0 +1,636 @@
+---
+import { getEntry } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
+import FindingBlock from '../../components/FindingBlock.astro';
+import Arrow03 from '../../assets/arrow-03.svg';
+import Woman2 from '../../assets/icons/woman-2.svg';
+import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
+import removingTheGuessWork from '../../assets/case-studies/streamlining-scoring/removing-the-guess-work.png';
+import givingTheAgentControl from '../../assets/case-studies/streamlining-scoring/giving-the-agent-control.png';
+import aVarietyOfChoices from '../../assets/case-studies/streamlining-scoring/a-variety-of-choices.png';
+import buildingTrust from '../../assets/case-studies/streamlining-scoring/building-trust.png';
+
+const entry = await getEntry('caseStudies', 'streamlining-scoring');
+if (!entry) throw new Error('Missing case study: streamlining-scoring');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#interviews', label: 'Interviews' },
+  { href: '#design', label: 'Design' },
+  { href: '#user-testing', label: 'User Testing' },
+  { href: '#handover', label: 'Handover' },
+];
+---
+
+<!--
+  TODO(cass): all image alt text below is drafted from the surrounding copy
+  and needs review. What each screenshot is meant to demonstrate is a design
+  intent question, not something inferable from the image.
+-->
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+  <CaseStudyIntro
+    eyebrow="ux/ui designer"
+    title={entry.data.title}
+    userTypes={[{ label: 'Call centre agents', icon: Woman2 }]}
+    image={scoringHero}
+    imageAlt="Screenshot of the unified scoring page built in Salesforce, showing multiple credit products managed together in a single Agent view."
+    id="project-overview"
+  >
+    <DefinitionTip id="def-absa" term="Absa">
+      A multinational banking and financial services provider, based in
+      Johannesburg ZA.
+    </DefinitionTip>{' '}
+    wanted to streamline its credit product scoring within their Salesforce CRM
+    so that a single call centre Agent could handle multiple product types in
+    one interaction.
+    <Fragment slot="goal">
+      Design <strong>a unified scoring page</strong> that fit into a larger
+      multi-product onboarding journey aimed at reducing Customer time spent on
+      the phone and increases product sales.
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I designed <strong>a consolidated scoring page</strong> that allows
+        Agents to{' '}
+        <strong>
+          score, customise and add multiple credit products in a single call.
+        </strong>{' '}
+        Usability testing showed{' '}
+        <strong>14 of 15 users completed tasks unaided.</strong>
+      </p>
+      <p>
+        I owned discovery through to validating design and handed over a tested
+        interface along with a recommended way forward.
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
+
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      'identify business needs',
+      'as-is journey investigations',
+      'sme interviews',
+      'user research',
+      'design',
+      'usability testing',
+    ]}
+  />
+
+  <section
+    class="business-problem"
+    id="business-needs"
+    aria-labelledby="business-needs-heading"
+  >
+    <SectionHeading
+      eyebrow="the"
+      title="Business problem"
+      id="business-needs-heading"
+      titleWidth="12.625rem"
+    >
+      During a full day workshop with my key stakeholders I identified:
+    </SectionHeading>
+    <ul class="findings-list" role="list">
+      <li class="findings-list__item type-body-med">
+        Each business unit operated its own{' '}
+        <strong>team of specialised Agents</strong>, each{' '}
+        <strong>focused on one or two products.</strong>
+      </li>
+      <li class="findings-list__item type-body-med">
+        <strong>Repeated transfers</strong> were happening in the call centres
+        and <strong>Customers were dropping calls</strong> to go to branches.
+      </li>
+      <li class="findings-list__item type-body-med">
+        Agents had <strong>limited cross-selling</strong> opportunities.
+      </li>
+    </ul>
+  </section>
+
+  <section class="panel" id="interviews" aria-labelledby="interviews-heading">
+    <div class="interviews">
+      <div class="interviews__top">
+        <h2 class="interviews__heading type-title-2" id="interviews-heading">
+          Talking to the experts
+        </h2>
+        <blockquote class="interviews__quote type-handwritten">
+          <span class="interviews__quote-mark" aria-hidden="true">
+            &ldquo;
+          </span>
+          <p>
+            Customers always ask &lsquo;how much longer?&rsquo; or &lsquo;why do
+            you need to know this?&rsquo; because the system asks unnecessary
+            questions and it takes forever
+          </p>
+          <span class="interviews__quote-mark" aria-hidden="true">
+            &rdquo;
+          </span>
+        </blockquote>
+      </div>
+      <div class="interviews__details">
+        <ul class="interviews__list" role="list">
+          <li class="interviews__list-item">
+            <span
+              class="interviews__marker type-handwritten"
+              aria-hidden="true"
+            >
+              ?
+            </span>
+            <span class="type-body-med">
+              Spoke to credit SME&rsquo;s about how scoring works per product.
+            </span>
+          </li>
+          <li class="interviews__list-item">
+            <span
+              class="interviews__marker type-handwritten"
+              aria-hidden="true"
+            >
+              ?
+            </span>
+            <span class="type-body-med">
+              Interviewed Agents who already use the existing platform.
+            </span>
+          </li>
+          <li class="interviews__list-item">
+            <span
+              class="interviews__marker type-handwritten"
+              aria-hidden="true"
+            >
+              ?
+            </span>
+            <span class="type-body-med">Observed 3 real Customer calls.</span>
+          </li>
+        </ul>
+        <div class="interviews__learnings">
+          <h3 class="interviews__learnings-heading type-h2">Key learnings</h3>
+          <ul class="interviews__bullets">
+            <li class="type-body-med">
+              Customers get an <strong>affordability amount</strong> given to
+              them by the bank.
+            </li>
+            <li class="type-body-med">
+              Customers come to Agents with{' '}
+              <strong>problems they need solved</strong> rather then products in
+              mind.
+            </li>
+            <li class="type-body-med">
+              Customers were <strong>frustrated</strong> and feel the{' '}
+              <strong>process takes too long</strong>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="design" id="design" aria-labelledby="design-heading">
+    <div class="design__intro">
+      <SectionHeading title="designing the Scoring page" id="design-heading" />
+      <p class="design__standfirst type-subtitle">
+        During the design phase I was prompted to push the traditional
+        boundaries of the Salesforce ecosystem. This prompted me to ensure that
+        I worked closely with a Salesforce Lead Engineer to ensure what I was
+        proposing was possible.
+      </p>
+    </div>
+    <div class="design__blocks">
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <FindingBlock
+        heading="removing the guess work"
+        image={removingTheGuessWork}
+        imageAlt="The scoring page's affordability indicator, showing the total amount the Customer qualifies for next to the credit they already hold."
+        findings={[
+          {
+            label: 'problem',
+            body: 'Agents didn’t know how much <strong>Customers qualified for</strong>.',
+          },
+          {
+            label: 'design decision',
+            body: 'Created a<strong> dynamic affordability indicator</strong> to give agents a clear amount to work with.',
+          },
+          {
+            label: 'outcome',
+            body: 'Giving the Agent enough information to<strong> offer additional products with confidence.</strong>',
+          },
+        ]}
+      />
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <FindingBlock
+        heading="giving the agent control"
+        image={givingTheAgentControl}
+        imageAlt="Several credit products listed together on the scoring page, each with its amount, monthly repayment and benefits, and a total that updates as the amounts change."
+        findings={[
+          {
+            label: 'problem',
+            body: 'Agents had to<strong> manually keep track </strong>of Customers products, monthly repayments and benefits manually.',
+          },
+          {
+            label: 'solution',
+            body: 'A component that gave the Agent the ability to <strong>manage multiple credit products</strong> and <strong>view their benefits at once</strong>, with an easy way to see the effects of the amount of credit taken in real time.',
+          },
+          {
+            label: 'outcome',
+            body: '<strong>Reduced the time</strong> taken to move between products and allowing the <strong>Customer to make informed decisions.</strong>',
+          },
+        ]}
+      />
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <FindingBlock
+        heading="a variety of choices"
+        image={aVarietyOfChoices}
+        imageAlt="A set of further credit products the Customer qualifies for within their remaining affordability, each shown with the amount available to them."
+        findings={[
+          {
+            label: 'problem',
+            body: 'Agents had to <strong>guess what products </strong>their Customers would qualify for.',
+          },
+          {
+            label: 'solution',
+            body: 'Providing the Agent with a<strong> range of products</strong> the Customer qualifies for, <strong>within their remaining affordability.</strong> The products suggested would also be driven by customer data',
+          },
+          {
+            label: 'outcome',
+            body: 'Increased <strong>cross selling opportunities</strong>.',
+          },
+        ]}
+      />
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <FindingBlock
+        heading="building trust"
+        image={buildingTrust}
+        imageAlt="A product summary at the foot of the scoring page, breaking the Customer's selected products down into what they pay monthly and what they pay once off."
+        findings={[
+          {
+            label: 'problem',
+            body: 'At this point of the conversation our Customer has said and heard so many numbers<strong> they are likely to lose track.</strong>',
+          },
+          {
+            label: 'solution',
+            body: 'I included <strong>a product summary</strong> that breaks down how much they will be paying monthly and once off.',
+          },
+          {
+            label: 'outcome',
+            body: 'Customers have more <strong>realistic expectations</strong> at the end of a call without the stress of writing down all the information.',
+          },
+        ]}
+      />
+    </div>
+  </section>
+
+  <section
+    class="panel"
+    id="user-testing"
+    aria-labelledby="user-testing-heading"
+  >
+    <div class="testing">
+      <p class="testing__stat type-stats">14 out of 15</p>
+      <div class="testing__body">
+        <h2 class="testing__heading type-title-2" id="user-testing-heading">
+          Testing my work
+        </h2>
+        <p class="type-body-med">
+          I collaborated with the Designer that worked on the steps before
+          scoring to test a full journey.
+        </p>
+        <div class="testing__insight">
+          <h3 class="testing__insight-label type-h3">Insight</h3>
+          <p class="type-body-med">
+            Users would look for the &lsquo;Next&rsquo; button on the top of the
+            screen instead of at the bottom.
+          </p>
+        </div>
+        <p class="testing__annotation type-handwritten">
+          <Arrow03 class="testing__arrow" aria-hidden="true" />
+          This was a behaviour leftover from some of the existing journeys.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="handover" id="handover" aria-labelledby="handover-heading">
+    <SectionHeading
+      title="handover &amp; next iteration"
+      id="handover-heading"
+    />
+    <p class="handover__body type-subtitle">
+      I handed over the tested interface, the usability findings, and a
+      recommendation on the way forward. The next iteration would address the
+      mental-model snag, then retest.
+    </p>
+  </section>
+</CaseStudyLayout>
+
+<style>
+  /* Every measurement below is read from
+     docs/figma/case-study-1-desktop/context.md. Column widths are given as
+     minmax(0, <measured>) so a track can shrink below its measured size
+     rather than forcing the page wider than the viewport; the rows are
+     centred, matching Figma's justify-center on each of these frames. */
+
+  /* --- The business problem (86:190) -------------------------------------
+     flex gap-80 items-center justify-center; heading 391.809px, list 585px,
+     the whole frame 1056.809px centred in the 1699px content track.
+
+     The heading block is 392px but its title box is only 202px of that
+     (144:1870: the H1 group 86:193 is inset 0 to 48.44%), which is why the
+     SectionHeading above carries titleWidth. Without it "business problem"
+     is a hair narrower than the full 392px track and falls on one line
+     instead of the design's two. */
+  .business-problem {
+    display: grid;
+    grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
+    gap: var(--space-80);
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Rule-separated statements (86:196). Figma stacks them flex-col gap-48
+     with a 1px Red divider between, i.e. 48px either side of each rule —
+     expressed here as padding + margin on every item but the last so the
+     rule belongs to the item rather than being an empty element. */
+  .findings-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .findings-list__item {
+    color: var(--color-purple);
+  }
+
+  .findings-list__item:not(:last-child) {
+    padding-block-end: var(--space-48);
+    border-block-end: 1px solid var(--color-red);
+    margin-block-end: var(--space-48);
+  }
+
+  /* --- Purple panels ------------------------------------------------------
+     Shared inset card for "talking to the experts" (86:211) and the
+     user-testing panel (19:109). Deliberately page markup, not a component:
+     the two share only the card and the measure — one holds a pull quote and
+     two columns, the other a stat and an annotated insight — so a component
+     would be a div with a slot.
+
+     NOT full-bleed. Both frames are inset symmetrically inside the content
+     track (86:211 x=236.196 w=1448, 19:109 x=234.696 w=1451, both
+     rounded-[12px]) — 236px of inset plus a corner radius is a card, not a
+     band. Only the process strip (67:334, x=0.196 w=1920) is genuinely
+     full-bleed, and it keeps its u-bleed.
+
+     The 1288px content measure the copy sits on is this card's 1448px less
+     its 80px padding either side, so there's no second max-width mechanism
+     inside. */
+  .panel {
+    /* 80px all round. That is 86:211's padding exactly (p-[80px]); 19:109
+       instead has px-[328px] py-[80px], but its 328px is a centring device,
+       not padding — 1451 − 2×328 = 795, the width of its content row, which
+       .testing below centres in the card instead. Same result, and it
+       survives the card being narrower than 795 + 656. */
+    padding: var(--space-80);
+    border-radius: var(--radius-panel);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+    background-color: var(--color-purple);
+    color: var(--color-white);
+  }
+
+  /* --- Talking to the experts (86:211) ----------------------------------- */
+  .interviews {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-40);
+  }
+
+  /* 86:212 is a 1220px row inset 34px inside the card's 1288px measure
+     (x=114 against the card's 80px padding), holding 251 + 240 + 632 = 1123px
+     of content aligned to its start. The 34px padding either side reproduces
+     that exactly: 1288 − 68 = 1220.
+
+     Flex + wrap rather than a two-track grid because the 240px gap is a fixed
+     length: in a grid it is added to the tracks whatever the space, so a
+     narrow card would be forced wider than its container. Wrapping drops the
+     quote onto its own line instead, and the column gap stops applying once
+     it does. 240px is still the gap at the design's width. */
+  .interviews__top {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-panel-columns);
+    row-gap: var(--space-40);
+    align-items: center;
+    padding-inline: var(--space-panel-inset);
+  }
+
+  /* Figma's heading box (86:214, w=251). This has to be an explicit basis:
+     without a width the heading's flex base size is its max-content width,
+     which for "talking to the experts" at Title 2 is far more than 251px, so
+     the row's first line measures over the 1288px available and the quote
+     wraps beneath the heading instead of sitting beside it. 251px also puts
+     the break after "to", as the design has it. */
+  .interviews__heading {
+    flex: 0 1 15.6875rem; /* 251px */
+    max-inline-size: 15.6875rem;
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .interviews__quote {
+    display: flex;
+    /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
+       quote holds the design's measure at full width and rewraps below it. */
+    flex: 1 1 39.5rem;
+    max-inline-size: 39.5rem; /* 632px */
+    gap: var(--space-16);
+    align-items: flex-start;
+    margin: 0;
+    /* Figma: Light x 2 (#E3E7FF), which has no token — the nearest tokenised
+       value is White, and at 28px on Purple the two are near-identical.
+       Flagged in the task report. */
+    color: var(--color-white);
+    text-transform: lowercase;
+  }
+
+  .interviews__quote-mark {
+    /* 35px against the 28px handwritten style — expressed relative so it
+       stays tied to the type token rather than being a second size. */
+    flex: none;
+    font-size: 1.25em;
+  }
+
+  /* 86:221, another 1220px row inset 34px inside the 1288px measure: WHAT
+     list 392px, 64px, a 1px divider, 64px, learnings copy 699px — which is
+     392 + 64 + 764 = 1220 exactly.
+
+     The divider is a border on the second column rather than an element of
+     its own, so there's nothing empty in the accessibility tree. It and the
+     64px that follows it sit INSIDE that column's box, so the track has to
+     be 699 + 64 + 1 for the copy itself to measure 699px — box-sizing is
+     border-box, so a 699px track would leave the copy 634px and rewrap it. */
+  .interviews__details {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 24.5rem)
+      minmax(0, calc(43.6875rem + var(--space-64) + 1px));
+    gap: var(--space-64);
+    align-items: start;
+    padding-inline: var(--space-panel-inset);
+  }
+
+  .interviews__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .interviews__list-item {
+    display: flex;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .interviews__marker {
+    /* Figma draws this marker at 25px, 3px below the 28px handwritten style
+       and not a token of its own; the token is used rather than a one-off
+       size. Flagged in the task report. */
+    flex: none;
+    text-transform: lowercase;
+  }
+
+  .interviews__learnings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16); /* Figma: Headings & Body */
+    padding-inline-start: var(--space-64);
+    border-inline-start: 1px solid var(--color-light-purple);
+  }
+
+  .interviews__learnings-heading {
+    text-transform: lowercase;
+  }
+
+  .interviews__bullets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 0;
+  }
+
+  /* --- Designing the scoring page (87:504) -------------------------------
+     This frame is inset to 1448px and centred, NOT the 1699px content track
+     the Introduction uses — the same measure as the two Purple panels, hence
+     the shared token. Without this cap every finding-block image renders
+     about 18% larger than the design. */
+  .design {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  /* 87:505: flex gap-48 items-end justify-center; heading 300px, copy 916px. */
+  .design__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 18.75rem) minmax(0, 57.25rem);
+    gap: var(--space-48);
+    align-items: end;
+    justify-content: center;
+  }
+
+  .design__standfirst {
+    color: var(--color-purple);
+  }
+
+  /* 87:510: flex-col gap-96 between the four finding blocks. */
+  .design__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-96);
+  }
+
+  /* --- User testing (19:109) ---------------------------------------------
+     Stat 292px + 48px gap + copy 470px, the 795px row centred in the band. */
+  .testing {
+    display: grid;
+    grid-template-columns: minmax(0, 18.25rem) minmax(0, 29.375rem);
+    gap: var(--space-48);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .testing__stat {
+    color: var(--color-light-purple);
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .testing__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .testing__heading,
+  .testing__insight-label {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .testing__insight {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* DEPARTURE: Figma places this hand-written note in a grid cell that
+     overlaps the Insight block (19:118 puts 19:119 and 19:124 in the same
+     col-1/row-1, with the note offset down by 52.68px), so the arrow and
+     caption sit on top of the Insight text. That only holds at one fixed
+     text size; in flow it is an annotation that follows the paragraph it
+     points back at, which is what the design reads as. Flagged in the task
+     report. */
+  .testing__annotation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    max-inline-size: 26.0625rem; /* 417px (19:119) */
+    text-transform: lowercase;
+  }
+
+  .testing__arrow {
+    /* Arrow_03 (129:3490), 48.9 x 44.84px, re-exported as one composed SVG
+       because the two loose part exports in docs/figma/components/
+       shapes-arrows/ carry no relative placement. Points up and to the left,
+       back at the Insight paragraph above it. */
+    align-self: center;
+    inline-size: 3.0625rem; /* 49px */
+    block-size: auto;
+    color: var(--color-white);
+  }
+
+  /* --- Handover (19:127) -------------------------------------------------
+     DEPARTURE: Figma centres this row with px-[550px] fixed side padding,
+     which collapses the content to nothing below a 1100px viewport. The row
+     sits in the grid's content track instead and is capped at its measured
+     903px (heading 303px + 48px gap + copy 552px), centred. Flagged in the
+     task report. */
+  .handover {
+    display: grid;
+    grid-template-columns: minmax(0, 18.9375rem) minmax(0, 34.5rem);
+    gap: var(--space-48);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .handover__body {
+    color: var(--color-purple);
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import CaseStudyCard from './CaseStudyCard.astro';
+
+interface Props {
+  currentId: string;
+}
+
+const { currentId } = Astro.props;
+
+const others = (await getCollection('caseStudies'))
+  .filter((entry) => entry.id !== currentId)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="read-more" aria-labelledby="read-more-heading">
+  <h2 class="read-more__heading type-title-1" id="read-more-heading">
+    Other case studies
+  </h2>
+  <ul class="read-more__list" role="list">
+    {others.map((entry) => (
+      <li class="read-more__item">
+        <CaseStudyCard caseStudy={entry} showClient headingLevel={3} />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .read-more {
+    display: flex;
+    gap: var(--space-64); /* Figma: 60px */
+    align-items: center;
+  }
+
+  .read-more__heading {
+    flex: none;
+    inline-size: 16.375rem; /* 262px */
+    color: var(--color-purple);
+    text-align: end;
+  }
+
+  .read-more__list {
+    display: flex;
+    gap: var(--space-16);
+    align-items: stretch;
+    padding: 0;
+    list-style: none;
+  }
+
+  .read-more__item {
+    display: flex;
+    inline-size: 28rem; /* 448px */
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+interface Props {
+  steps: string[];
+  class?: string;
+}
+
+const { steps, class: className } = Astro.props;
+
+// Measured wrap widths from the fetched Process section (67:334), keyed by
+// the step's lowercased text — without a width, a label can't shrink below
+// its own min-content, and the six-step row forces ~1420px of irreducible
+// width, overflowing at narrower viewports (docs/figma/case-study-1-desktop/
+// context.md, Section: Process; confirmed against the section's screenshot
+// crop). This table carries Figma's measured wrap width for this case
+// study's six labels only. A label with no entry here falls through to no
+// inline-size at all, but isn't left unbounded: the .process-strip__label
+// CSS rule below has a max-inline-size (--size-process-step-max) as a
+// safety net, so an unknown future label still wraps instead of silently
+// reintroducing the overflow this table was added to fix.
+const stepWidths: Record<string, string> = {
+  'identify business needs': 'var(--size-process-step-identify)',
+  'as-is journey investigations': 'var(--size-process-step-asis)',
+  'sme interviews': 'var(--size-process-step-sme)',
+  'user research': 'var(--size-process-step-research)',
+  design: 'var(--size-process-step-design)',
+  'usability testing': 'var(--size-process-step-testing)',
+};
+---
+
+<div class:list={['process-strip', className]}>
+  <ol class="process-strip__list" role="list">
+    {steps.map((step) => {
+      const width = stepWidths[step.toLowerCase()];
+      return (
+        <li class="process-strip__step">
+          <span
+            class="process-strip__label type-h1"
+            style={width ? `inline-size: ${width}` : undefined}
+          >
+            {step}
+          </span>
+        </li>
+      );
+    })}
+  </ol>
+</div>
+
+<style>
+  /* Band background, padding and step type from the fetched Process
+     section (67:334): Purple full-bleed band, py-40px, Inter Bold 30px
+     white lowercase labels (the site's existing .type-h1 — the same
+     30/0.92/700 style already used for card titles). */
+  .process-strip {
+    background-color: var(--color-purple);
+    padding-block: var(--space-40);
+  }
+
+  .process-strip__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap-32px in the fetched section, between every item (label or arrow)
+       in the row */
+    gap: var(--space-32);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .process-strip__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-32);
+  }
+
+  .process-strip__label {
+    /* No shrinking below the measured width — the whole point is to force
+       the same wraps Figma has, not let flex compress it back down. */
+    flex-shrink: 0;
+    /* Safety net, not a measured value: caps any label the stepWidths
+       lookup above doesn't cover, so it wraps instead of forcing the row
+       to min-content width. Larger than every measured width here, so the
+       current six labels are sized by their own inline-size and never
+       reach this cap. */
+    max-inline-size: var(--size-process-step-max);
+    color: var(--color-white);
+    text-transform: lowercase;
+    /* Figma's label text nodes carry no centring; left as default
+       (start-aligned), which also reads correctly for the single-line
+       "design" label. */
+  }
+
+  /* Decorative arrow between steps, an image so it never enters the
+     accessibility tree. Composited from the two loose Arrow_01 exports in
+     docs/figma/components/shapes-arrows/ (a curve and a separate
+     arrowhead) — the fetched snapshot has each part's own size but not
+     their relative offset, so the head's position here (top right, ~45%
+     of the box) is a best-effort visual approximation, not a measured
+     value. Box size is the Arrow_01 instance bounding box from the
+     Process section outline (67:334): 41.83 x 27.33px.
+
+     Colour: the source SVGs are stroked Red (#CD2B2B, their default
+     colourway from shapes-arrows), but this section's own reported styles
+     are White/H1/Purple with no Red, and the fetched screenshot confirms
+     the arrows render White on the Purple band. brightness(0) forces every
+     opaque pixel to black regardless of the source stroke colour (alpha is
+     preserved), then invert(1) flips that black to White — a standard
+     recolour trick for a background-image SVG, since url()-referenced SVGs
+     don't take `currentColor` from the embedding page. */
+  .process-strip__step:not(:last-child)::after {
+    content: '';
+    display: block;
+    inline-size: 2.6144rem;
+    block-size: 1.7081rem;
+    background-image:
+      url('../assets/arrow-01-head.svg'), url('../assets/arrow-01-curve.svg');
+    background-repeat: no-repeat, no-repeat;
+    background-position:
+      100% 0%,
+      0% 100%;
+    background-size:
+      45% 50%,
+      100% 100%;
+    filter: brightness(0) invert(1);
+  }
+</style>

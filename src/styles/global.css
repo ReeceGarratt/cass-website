@@ -24,6 +24,7 @@ img,
 svg {
   display: block;
   max-inline-size: 100%;
+  block-size: auto;
 }
 
 a {
@@ -49,7 +50,12 @@ a {
   position: absolute;
   inset-block-start: var(--space-skip-link-inset);
   inset-inline-start: var(--space-skip-link-inset);
-  z-index: 1;
+  /* Must outrank every other positioned element unconditionally — it's the
+     first control a keyboard user reaches and exists to be reachable, so
+     it can never be covered by sticky page chrome (e.g. CaseStudySubNav's
+     .sub-nav at z-index: 2) whatever gets added later. Deliberately far
+     above the next-highest z-index in the codebase, not just one above it. */
+  z-index: 100;
   padding-block: var(--space-skip-link-padding-block);
   padding-inline: var(--space-skip-link-padding-inline);
   background-color: var(--color-white);
@@ -63,4 +69,143 @@ a {
 
 .skip-link:focus {
   translate: 0 0;
+}
+
+/* Type classes: one per Figma text style.
+   These set family, size, weight, line height and letter spacing only.
+   Colour stays with the component, because the same style appears in Red,
+   Purple, Black and White depending on context. */
+
+.type-title {
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-line-height);
+  letter-spacing: var(--type-title-letter-spacing);
+}
+
+.type-title-1 {
+  font-size: var(--type-title-1-size);
+  font-weight: var(--type-title-1-weight);
+  line-height: var(--type-title-1-line-height);
+  letter-spacing: var(--type-title-1-letter-spacing);
+}
+
+.type-title-2 {
+  font-size: var(--type-title-2-size);
+  font-weight: var(--type-title-2-weight);
+  line-height: var(--type-title-2-line-height);
+  letter-spacing: var(--type-title-2-letter-spacing);
+}
+
+.type-subtitle {
+  font-size: var(--type-subtitle-size);
+  font-weight: var(--type-subtitle-weight);
+  line-height: var(--type-subtitle-line-height);
+  letter-spacing: var(--type-subtitle-letter-spacing);
+}
+
+.type-h1 {
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-line-height);
+  letter-spacing: var(--type-card-title-letter-spacing);
+}
+
+.type-h2 {
+  font-size: var(--type-h2-size);
+  font-weight: var(--type-h2-weight);
+  line-height: var(--type-h2-line-height);
+  letter-spacing: var(--type-h2-letter-spacing);
+}
+
+.type-stats {
+  font-size: var(--type-stats-size);
+  font-weight: var(--type-stats-weight);
+  line-height: var(--type-stats-line-height);
+  letter-spacing: var(--type-stats-letter-spacing);
+}
+
+.type-h3 {
+  font-size: var(--type-h3-size);
+  font-weight: var(--type-h3-weight);
+  line-height: var(--type-h3-line-height);
+  letter-spacing: var(--type-h3-letter-spacing);
+}
+
+.type-body {
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-line-height);
+  letter-spacing: var(--type-body-letter-spacing);
+}
+
+.type-body-med {
+  font-size: var(--type-body-med-size);
+  font-weight: var(--type-body-med-weight);
+  line-height: var(--type-body-med-line-height);
+  letter-spacing: var(--type-body-med-letter-spacing);
+}
+
+.type-caption {
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-line-height);
+  letter-spacing: var(--type-caption-letter-spacing);
+}
+
+.type-handwritten {
+  font-family: var(--font-family-handwritten);
+  font-size: var(--type-handwritten-size);
+  font-weight: var(--type-handwritten-weight);
+  line-height: var(--type-handwritten-line-height);
+  letter-spacing: var(--type-handwritten-letter-spacing);
+}
+
+/* Case study page grid.
+   Sections are constrained to the content track by default and opt out to
+   full-bleed with .u-bleed. Correct-by-default: forgetting the class yields
+   a constrained section, never a broken layout.
+
+   This lives in global.css, not in CaseStudyLayout's scoped <style>, because
+   its children are other components' root elements. Astro scopes styles to
+   elements in a component's OWN template, so a scoped `.case-study > *`
+   would not match a child component's root and every section would silently
+   fall through to the `full` track.
+
+   CaseStudyLayout passes `fullBleed` to BaseLayout so <main> carries no
+   gutter padding: this grid's own [full-start]/[full-end] gutter tracks are
+   the only gutter. At 1920px the full track is the whole 1920px viewport,
+   the gutter is 110px and the content track is 1920 - 2 * 110 = 1700px
+   (Figma measures 1699px, a sub-pixel frame offset, hence the 1699px in
+   comments elsewhere). */
+.case-study {
+  display: grid;
+  grid-template-columns:
+    [full-start] var(--space-gutter)
+    [content-start] 1fr [content-end]
+    var(--space-gutter) [full-end];
+  row-gap: var(--space-96);
+  max-inline-size: var(--page-max-width);
+  margin-inline: auto;
+}
+
+/* Direct children only — a section's root element must be a direct child
+   of this grid, never wrapped in a stray div. */
+.case-study > * {
+  grid-column: content;
+}
+
+.case-study > .u-bleed {
+  grid-column: full;
+}
+
+/* The sub nav is sticky and 80px tall, so anchor targets need clearance. */
+.case-study [id] {
+  scroll-margin-block-start: var(--space-96);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

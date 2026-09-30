@@ -1,0 +1,83 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  align?: 'start' | 'end';
+  id?: string;
+  level?: 2 | 3;
+  // The measured width of Figma's title box, for the cases where it's
+  // narrower than the heading block around it. In Figma's "Section Heading"
+  // component (144:1870) the eyebrow and title share a box that is only part
+  // of the block's width — 202px of 392px on the case study business-problem
+  // heading — with the standfirst running wider beneath them. Without this,
+  // the title box is as wide as the block and where the title breaks depends
+  // on whether the text happens to overrun by a pixel or two, which is a
+  // coin flip on font version and rounding rather than a design decision.
+  // Omitted, the title box fills the block, which is correct wherever the
+  // block is the title box (every heading with no eyebrow or standfirst).
+  titleWidth?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  align = 'end',
+  id,
+  level = 2,
+  titleWidth,
+} = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<div class:list={['section-heading', `section-heading--${align}`]}>
+  <Heading
+    class="section-heading__title type-title-2"
+    id={id}
+    style={titleWidth ? `max-inline-size: ${titleWidth}` : undefined}
+  >
+    {eyebrow && (
+      <span class="section-heading__eyebrow type-handwritten">{eyebrow}</span>
+    )}
+    {title}
+  </Heading>
+  {Astro.slots.has('default') && (
+    <p class="section-heading__standfirst type-subtitle">
+      <slot />
+    </p>
+  )}
+</div>
+
+<style>
+  .section-heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-headings-body);
+  }
+
+  /* Text is aligned to the end, the boxes are left to stretch. With no
+     explicit width the two are indistinguishable — a stretched block with
+     end-aligned text has the same right edge and the same wrap points as a
+     shrink-wrapped block pushed to the end. They differ only once a child
+     carries a width (titleWidth above): `align-items: flex-end` would push
+     that narrower box to the block's right edge, where Figma has it at the
+     left with its text right-aligned inside. */
+  .section-heading--end {
+    text-align: end;
+  }
+
+  .section-heading__title {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  /* The eyebrow sits at the start of the title box even when the title
+     itself is end-aligned: in 144:1870 "the" is at the block's left edge
+     (86:195, inset left 0) while "business problem" is right-aligned within
+     the same 202px box. Verified against the screenshot crop of 86:190. */
+  .section-heading__eyebrow {
+    display: block;
+    color: var(--color-purple);
+    text-align: start;
+    text-transform: lowercase;
+  }
+</style>

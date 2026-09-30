@@ -4,7 +4,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-09-16):** scaffolded. The desktop home page POC exists: navigation, hero and three case study cards, built from `src/`.
+**Status (2026-09-29):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and the first case study page is built end to end: `/work/streamlining-scoring`, its shared layout, sub nav and nine section components.
 
 ## Overview
 
@@ -12,10 +12,10 @@ A static portfolio site built with Astro (D-001). At build time:
 
 ```
 Figma (docs/figma/, hand-written until Q-005) ──▶ tokens CSS ──▶ components ──▶ layouts ──▶ pages ──▶ static HTML/CSS ──▶ Cloudflare Workers (D-009)
-case-studies.json ──▶ caseStudies collection ──▶ cards on / ──▶ bespoke /work/<id> pages (planned, D-013)
+case-studies.json ──▶ caseStudies collection ──▶ cards on / ──▶ bespoke /work/<id> pages, composing shared section components (D-013, D-022)
 ```
 
-- **Pages:** home (built), about, contact, and one bespoke page per case study (planned).
+- **Pages:** home (built), about, contact (planned), one bespoke page per case study (first one built, three planned), `/work` index (planned, Q-020).
 - **No client JavaScript by default.** An interactive component becomes an island only when it needs to.
 - **Design values** come only from tokens (D-002).
 
@@ -41,21 +41,33 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `astro.config.mjs` | Astro config: the Fonts API integration (D-015), no adapter, static output. |
 | `src/styles/tokens.css` | Every design value as a custom property on `:root`, hand-written from `docs/figma/` (D-014). |
 | `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles. |
-| `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />`, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
+| `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />` and a `head` slot, a `fullBleed` prop that drops `<main>`'s gutter padding, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
+| `src/layouts/CaseStudyLayout.astro` | Wraps `BaseLayout`; renders the page grid (`.case-study`), the sub nav, `<slot />` for the bespoke body, and the Read More row. Shared by every case study page (D-022). |
 | `src/components/SiteNav.astro` | The brand and nav list; sets `aria-current="page"` on the matching item (D-017). |
-| `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. |
+| `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. Takes an optional `showClient` prop (renders a `Pill`) and no longer sets its own width — the layout that places it does (home row vs. Read More row). |
+| `src/components/CaseStudySubNav.astro` | Sticky sub nav: back link plus in-page anchors, with a scroll-position script (rAF-throttled `scroll`/`resize` listeners) driving a progress underline via `aria-current` and CSS custom properties (D-023). |
+| `src/components/CaseStudyIntro.astro` | Eyebrow, Red `Title 1`, user-type `Pill`s, lead paragraph slot, and the goal/outcome pair with its hairline divider. |
+| `src/components/SectionHeading.astro` | Handwritten eyebrow + Red `Title 2` + optional standfirst slot. `align` (`start`/`end`), `level` (`h2`/`h3`) and `titleWidth` props; used 3 times on CS1 (the two Purple-panel headings are hand-rolled `type-title-2`); ~12 projected across CS1–4 — see [componentisation](wiki/componentisation.md). |
+| `src/components/FindingBlock.astro` | Image plus a labelled `<dl>` of findings (`problem`/`solution`/`outcome`, etc. — labels are data, not fixed slots). `side` prop swaps which column the image sits in. |
+| `src/components/ProcessStrip.astro` | Full-bleed Purple band of labelled process steps, joined by a recoloured hand-drawn arrow (`background-image` + `filter`). |
+| `src/components/Pill.astro` | Two colourways (`client`: Purple/White; `userType`: Light purple/Purple + a 24px icon). Used on cards and `CaseStudyIntro`. |
+| `src/components/CircleArrow.astro` | The default/hover arrow-icon pair with a crossfade; extracted from `CaseStudyCard.astro`, used by it on every card, wherever the card renders (home page and Read More); `showClient` only controls the client pill. |
+| `src/components/DefinitionTip.astro` | A `popovertarget` trigger plus a native `<span popover>` bubble; ~8 lines of script position it under its trigger (D-023). The Figma speech-bubble tail is deliberately omitted (doesn't survive repositioning). |
+| `src/components/ReadMoreSection.astro` | "Other case studies" heading plus a `CaseStudyCard` for every collection entry except the current one, sorted by `order`. No cap: renders three today only because the collection holds four entries; a fifth case study would render four cards, unlike the home page row (which does cap at three, Q-019). Worth a look once a fifth case study exists. |
 | `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
-| `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema). |
-| `src/content/case-studies.json` | Card metadata: title, skills, summary, order (D-013). |
-| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `corner-top-right`, `corner-bottom-left`), copied from `docs/figma/components/` and imported as Astro components. |
-| `src/pages/index.astro` | The home page: hero composition and the card list, sorted by `order`. |
+| `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema: `title`, `client`, `skills`, `summary`, `order`). |
+| `src/content/case-studies.json` | Card metadata for four case studies (D-013). |
+| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01-curve`, `arrow-01-head`, `arrow-03`, `corner-top-right`, `corner-bottom-left`), `icons/` (avatar SVGs for `Pill`), and the case study screenshots under `case-studies/<id>/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources (Q-018). |
+| `src/pages/index.astro` | The home page: hero composition and a card list capped at the first three entries by `order` (Q-019). |
+| `src/pages/work/streamlining-scoring.astro` | The first case study page (Absa), composing `CaseStudyLayout` with `CaseStudyIntro`, `ProcessStrip`, `SectionHeading`, `FindingBlock` and bespoke per-section markup for Interviews, Design, User Testing and Handover. |
 
 ### Planned
 
 | Path | Purpose |
 |---|---|
 | `src/pages/about.astro`, `src/pages/contact.astro` | Not built yet. |
-| `src/pages/work/<id>.astro` | Bespoke case study pages, one per collection entry, styled uniquely with no shared MDX template (D-013). |
+| `src/pages/work/<id>.astro` | The remaining three case studies (Standard Bank, MiX Telematics, TRANSEARCH), composing the same shared components as `streamlining-scoring.astro` (D-022). |
+| `src/pages/work/index.astro` | The `/work` index route; still 404s (Q-020). |
 | `public/` | Static files served as-is (favicon, resume, etc. — see Q-011). |
 
 ## Invariants
@@ -65,10 +77,11 @@ These rules must always hold. Code that breaks one is a bug, even if the page lo
 1. **No hard-coded design values.** Colour, type, spacing, radius, shadow and similar values come from token custom properties (D-002).
 2. **The tokens file is hand-written for now.** `src/styles/tokens.css` is written by hand from `docs/figma/` until a token pipeline exists (Q-005, D-014). Once a pipeline exists, don't hand-edit it — change the source in Figma and regenerate.
 3. **No client JS unless needed.** Anything interactive is an island with an explicit `client:*` directive and a stated reason.
-4. **Card metadata lives in the `caseStudies` collection, not in page files.** Case study pages are bespoke `.astro` files with no shared template (D-013).
+4. **Card metadata lives in the `caseStudies` collection, not in page files.** Case study pages are bespoke `.astro` files composing shared section components, not a shared template (D-013, D-022).
 5. **Accessibility baseline:** semantic landmarks, one `h1` per page, a visible focus state, full keyboard operation, alt text on meaningful images, and WCAG AA contrast.
 6. **Figma is the visual source of truth.** When code and Figma disagree, Figma wins unless a decision in `decisions.md` says otherwise.
 7. **Root-relative URLs go through `withBase`.** The site must work at `/` and under a sub-path (the Pages preview, D-019). Never hard-code `href="/…"`; in-page `#anchors` are fine.
+8. **The case study page grid defaults to content, opts out to bleed.** `.case-study > *` is constrained to the content track; `.case-study > .u-bleed` opts out to full-bleed. This lives in `global.css`, not a layout's scoped `<style>`, because a scoped `.case-study > *` cannot match a child component's root element (Astro only scopes selectors to elements in a component's own template). **A section component's root element must be a direct child of the grid** — wrapping it in a stray `<div>` makes the wrapper the grid child (landing in `content`), and anything inside it marked `u-bleed` can no longer bleed. `CaseStudyLayout` passes `fullBleed` to `BaseLayout`, so `<main>` has no gutter padding and the grid's own gutter tracks are the only gutter.
 
 ## Cross-cutting concerns
 

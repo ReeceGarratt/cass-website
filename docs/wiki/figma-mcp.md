@@ -1,6 +1,6 @@
 ---
-summary: How agents connect to the Figma designs, plan rate limits, the tools used, and measured calls for the build.
-updated: 2026-09-17
+summary: How agents connect to the Figma designs, plan rate limits, the tools used, measured calls for the build, and two techniques for working without a browser.
+updated: 2026-09-29
 related: [agent-tooling.md, design-tokens.md]
 decisions: [D-005, D-008, D-012]
 ---
@@ -74,7 +74,13 @@ Replaces the original estimate now that the first screen is built.
 |---|---|
 | First pass (desktop home): frames, nav, card, tokens, content | 9 |
 | Card refetch, 2026-09-17, after the caption font changed | 3 (1 `get_design_context`, 2 `get_metadata`) |
-| **Total so far** | **12** |
+| Design system page, 2026-09-29: 11 frames and component sets | 15 (7 `get_design_context`, 3 `get_variable_defs`, 2 `get_metadata`, 2 `download_assets`, 1 `get_screenshot`) |
+| Work and Landing pages, 2026-09-29: outlines and case study screenshots | 6 (2 `get_metadata`, 4 `get_screenshot`) |
+| Case Study 1 (Absa) content, 2026-09-29: outline, 7 sections, images | 10 (1 `get_metadata`, 7 `get_design_context`, 2 `download_assets`) |
+| Case Study 1 build, Task 17: re-fetch the composed `Arrow_03` symbol (`129:3490`) as one asset, after the loose curve+head part exports couldn't be reassembled | 1 (`download_assets`) |
+| **Total so far** | **44** |
+
+A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. **A full content page's design context (one outline plus `get_design_context` per section, skipping sections already covered by shared components) measured at 10 calls for Case Study 1**: 1 `get_metadata` (outline fit inline, no file needed) + 7 `get_design_context` (one per section, `Navigation` and `Read More` skipped as already built/saved) + 2 `download_assets` (one per section with raster images: Introduction, Design). Budget ~10-12 calls per case study page on this basis for the remaining three.
 
 Well inside the 200/day, 15/minute limit (D-012). The limit is only likely to bite through the per-minute cap (parallel calls) or through fetching the same frames again. Hence the working rules in [AGENTS.md → Working with Figma](../../AGENTS.md#working-with-figma) and the snapshots in [`docs/figma/`](../figma/README.md) (D-008).
 
@@ -88,7 +94,30 @@ Claude's context window is the other cost: `get_design_context` output can be la
 - **`get_design_context` on a component set** also returns the nested component sets it uses (e.g. the card's `arrow_upward` set and `Flower` symbol come back in the same call).
 - **`get_design_context` requires** Figma's `figma-design-to-code` guidance resource to be loaded first. That's an MCP resource fetch, not a read call, so it doesn't count toward the limit.
 - **Whether screenshots can be saved to disk:** yes, by downloading the short-lived URL with `curl`.
+- **`get_variable_defs` doesn't work on a page (canvas) node.** Passing a page ID fails with *"You currently have nothing selected"* even though the ID is valid. Call it on a frame inside the page instead. Because it only returns what the selection *uses*, call it on two or three frames that between them cover the whole system (2026-09-29: Colours, Text styles and Case Study).
+- **`get_metadata` with no node ID does not reliably list every page (2026-09-29).** On the portfolio file it returned only `📕 Cover` and `Design system`, omitting `Landing` (`0:1`) and `Work` (`19:104`), which both exist and open normally in the Figma UI. Acting on that listing produced two wrong conclusions — that the Landing page had been deleted and that the case studies lived in another file. **Treat the listing as a hint, not an inventory.** If a page you expect is missing, ask the user for its URL (the `node-id` query parameter is the page's node ID) rather than concluding it's gone. Querying a page ID directly works fine even when the listing omits it.
+- **`get_metadata` output can exceed the tool's response limit.** The `Work` page returned ~94k characters and was written to a file instead. Parse that file rather than re-calling with a smaller scope; a re-call costs another read against the daily limit.
+- **`download_assets` on a frame returns loose, unnamed vectors.** The `svgAssets` entries carry no layer names — only sizes and internal SVG ids (`face`, `face_2`, …) — so matching them back to Figma layers means comparing sizes against the `get_metadata` outline and checking the `export` PNG. For assets where the exact one matters, call it per symbol node rather than on the parent frame.
+- **Saved `screenshot.png` files are a 0.4x downscale.** Scale Figma coordinates by 768/1920 (saved width ÷ frame width) before cropping. Details under the no-browser techniques below.
+- **Exported asset sizes don't always match the placed size.** The avatar icons are all placed at 24px but export at 20–24px, and the Flower exported at 77px here versus 90px in the earlier fetch. Size at the call site.
+
+## Working without a browser: two techniques from the case study build
+
+This project has no Playwright, no Puppeteer and no other rendering tool, so neither an agent nor the controller can open a page and look at it. Two things discovered while building Case Study 1 partly work around that — worth knowing before assuming a design question needs a fresh Figma call or has to wait for the user.
+
+**1. Saved screenshots can be viewed without a browser — but they're downscaled.** A saved `docs/figma/**/screenshot.png` can be cropped to the region of interest with `sharp` and the cropped PNG read directly (Claude Code's `Read` tool renders images). This settled several "what does the design actually look like here" questions during CS1 — e.g. confirming the process-strip arrows render White, not Red, on the Purple band — without spending a Figma call or waiting on the user. It does **not** resolve "does our build match the design" — that still needs an actual browser.
+
+   **The gotcha that bit this once:** `screenshot.png` is saved at **0.4x** the frame's real size (768px wide for a 1920px-wide frame — check the actual file's dimensions, this ratio is CS1-specific). Figma coordinates from `get_metadata` or `get_design_context` must be scaled by (saved width ÷ frame width) before cropping. One fix-round report in the CS1 build documented crop coordinates that were never scaled down, which would error against the actual (smaller) file. The geometric reasoning was still correct; only the written-down coordinates were wrong. Always compute and state the scale factor before cropping, and sanity-check it against the saved file's actual dimensions.
+
+**2. Loose SVG part exports can't always be reassembled — re-fetch the composed symbol instead.** Some hand-drawn decorative arrows (`Arrow_01`, `Arrow_03`) are built in Figma from separate curve and arrowhead layers. `download_assets` on the parent frame exports each part as its own SVG, but the response carries each part's own size, not their relative offset to each other — so two loose parts can't be reliably recomposed into the original shape. For `Arrow_01` this meant approximating the head's position by eye against the reference screenshot (a recorded, not measured, value — see the deferred visual checks). For `Arrow_03` the fix was to call `download_assets` again, directly on the *composed* symbol's node ID (`129:3490`) rather than its parts, which exports it as one already-assembled SVG. Prefer the second approach when a "part" turns out to be more than one layer: check `get_metadata` for whether the node you want is itself a single exportable node before pulling its children individually. This will recur on case studies 2–4, which reuse the same arrow symbols.
 
 ## Figma files
 
-- **Portfolio Website:** <https://www.figma.com/design/z037c50FocJthsq5WRzJcd/Portfolio-Website>. One page, `Landing`.
+- **Portfolio Website:** <https://www.figma.com/design/z037c50FocJthsq5WRzJcd/Portfolio-Website>. Everything is in this one file, across four pages:
+
+  | Page | Node ID | Holds |
+  |---|---|---|
+  | `Landing` | `0:1` | Home page frames (`1:79`, `127:3171`), iPad and iPhone frames |
+  | `Work` | `19:104` | A `Landing` frame plus the four desktop case studies and a mobile case study |
+  | `Design system` | `129:3321` | Component sets, styles and variables |
+  | `📕 Cover` | `129:3336` | Cover art |
