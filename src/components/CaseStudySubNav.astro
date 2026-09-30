@@ -42,20 +42,20 @@ const { links } = Astro.props;
     gap: var(--space-40);
     align-items: center;
     justify-content: space-between;
-    block-size: 5rem; /* 80px */
+    block-size: var(--space-80); /* 80px */
     padding-inline: var(--space-gutter);
   }
 
   .sub-nav__back,
   .sub-nav__link {
     color: var(--color-purple);
-    font-weight: 700;
+    font-weight: var(--type-nav-weight);
     text-decoration: none;
   }
 
   .sub-nav__back {
     display: inline-flex;
-    gap: 0.875rem; /* 14px */
+    gap: var(--space-back-link-gap);
     align-items: center;
   }
 

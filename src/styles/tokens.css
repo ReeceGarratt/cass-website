@@ -23,6 +23,8 @@
   --color-light-purple: #c4cdf4;
   --color-light-grey: #e7e6e6;
   --color-black: #000000; /* hero headline */
+
+  /* Colour: measured (not a Figma variable) */
   --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
 
   /* Font family (registered in astro.config.mjs) */
@@ -156,6 +158,10 @@
   --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
   quote in the case study "talking to the experts" panel (86:212). Like
   --space-intro-columns it's a one-off measured gap rather than a scale step. */
+  --space-back-link-gap: 0.875rem; /* 14px; arrow-to-label gap in the case study
+  sub nav "All projects" link */
+  --space-panel-inset: 2.125rem; /* 34px; inline padding of the Interviews
+  panel's top row and details grid (86:211) */
   --space-intro-columns: 7.375rem; /* 118px; case study intro text/image gap.
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
@@ -235,6 +241,9 @@
   --shadow-card:
     0 0.0625rem 0.1875rem 0.0625rem #0000000d, 0 0.0625rem 0.125rem 0 #0000001a;
   --shadow-card-warm: -0.0625rem 0.1875rem 0.21875rem 0.0625rem #f5efe6ab;
+  /* Definition tip bubble (99:2839): drop-shadow(0 -2px 4.4px rgba(0,0,0,0.08)).
+  A filter function, not a box-shadow, so it follows the bubble's rounded shape */
+  --shadow-definition-tip: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
 
   /* Motion: not in Figma yet. Colour and opacity fades only, no movement.
   ease-out starts fast so hover feels responsive, then settles */

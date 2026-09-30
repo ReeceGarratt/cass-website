@@ -40,15 +40,19 @@ const { id, term } = Astro.props;
        close the parent <p> per the HTML parsing spec, ejecting the rest of
        the sentence out of its styled wrapper. `popover` is a global
        attribute and works on any element, so a <span> keeps this safe to
-       drop into flowing text anywhere. */
-    display: block;
+       drop into flowing text anywhere.
+
+       Do NOT set `display` here: an author `display` beats the browser's
+       `[popover]:not(:popover-open) { display: none }`, leaving a closed
+       popover visible in the flow. An open popover is position: fixed, which
+       already blockifies the span. */
     inline-size: min(28.9375rem, calc(100vw - 2rem)); /* 463px */
     padding: var(--space-16);
     border: 0;
     border-radius: var(--radius-card);
     background-color: var(--color-white);
     color: var(--color-purple);
-    filter: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
+    filter: var(--shadow-definition-tip);
   }
 
   .definition-tip__term,
@@ -58,7 +62,7 @@ const { id, term } = Astro.props;
 
   .definition-tip__term {
     margin-block-end: var(--space-8);
-    font-weight: 700;
+    font-weight: var(--type-subtitle-emphasis-weight);
   }
 </style>
 

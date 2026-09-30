@@ -194,7 +194,7 @@ a {
 
 /* The sub nav is sticky and 80px tall, so anchor targets need clearance. */
 .case-study [id] {
-  scroll-margin-block-start: 6rem;
+  scroll-margin-block-start: var(--space-96);
 }
 
 @media (prefers-reduced-motion: no-preference) {
