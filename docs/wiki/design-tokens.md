@@ -106,6 +106,12 @@ All pass AA for normal text.
 - **Size:** six `--size-process-step-import-*` label widths (D-028).
 - **Not added:** Figma's `Image Drop` effect (its −36px spread makes it invisible; Q-022) and `Background colour` `#F3F3F4` (reported but not visibly used). Figma's `--h1-&-h2` (24px) and `--h2-&-body` (16px) spacing variables map onto `--space-24` and `--space-16`.
 
+## MVP fix round (2026-09-30)
+
+- **`--space-160`** (scale step): the case study grid's section gap. Both frames space every section 160px apart; the build had used 96px, chosen before the frames were fetched.
+- **`--space-read-more-gap`** (60px): Figma's Read More gap had been rounded up to `--space-64`, which made the row 1702px in a 1700px track (a 2px horizontal overflow at 1920).
+- **`--space-personas-clearance`** is now Figma's 52px (it was 84px to compensate for the 96px gap).
+
 ## Unit rules
 
 - **Sizes and spacing:** `rem` (1rem = 16px), so they respect browser zoom and font-size settings.
