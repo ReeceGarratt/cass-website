@@ -43,16 +43,17 @@ CS1 shipped, but through 12 `fix:` commits after its feature commits. Nearly all
 
 **`ProcessStrip`**: `steps: string[]` becomes `steps: { label: string; width: string }[]`, where `width` is a size token. The string-keyed `stepWidths` table is deleted. The `max-inline-size` safety net stays. CS2's measured widths (from the outline, `91:701`): Identify Business Needs 129, User Research 126, Personas 134, User Journeys 129, Wireframing & UI Design 198, Development 187. Note that "User Research" is 129 in CS1 and 126 here, a collision the old table couldn't express.
 
-**`FindingBlock`** gains four props. The defaults reproduce CS1 exactly:
+**`FindingBlock`** gains three props. The defaults reproduce CS1 exactly:
 
 | Prop | Values | Default | Needed by |
 |---|---|---|---|
 | `tone` | `default` \| `inverse` | `default` | Journey rows: White heading, labels and body on Purple |
-| `columns` | `[imageFr, textFr]`, measured widths | `[802, 566]` | Journey 709:501, 679:532, 683:532; Status tracker 754:598 |
+| `columns` | `[imageFr, textFr]`, measured widths | `[802, 566]` | Journey rows 709:501, 679:532, 683:525 |
 | `align` | `start` \| `center` | `start` | Journey rows are vertically centred |
-| `headingStyle` | `h1` \| `title-2` | `h1` | Status tracker's heading is a Purple `Title 2` |
 
-`side` keeps working with `columns`: the image keeps its own measured track whichever side it's on.
+`side` keeps working with `columns`: the image keeps its own measured track whichever side it's on. Its findings `<dl>` moves into `LabelledFindings` (below).
+
+*Revised while planning (2026-09-30):* Status tracker was going to be a fourth `FindingBlock` with a `headingStyle` prop. Reading the code showed it would also need a heading `level` (it's an `h2`, finding headings are `h3`) and an image caption, so that's three props for one caller. It becomes page markup built from `LabelledFindings` and `CaseStudyFigure` instead.
 
 ### Extracted (second use)
 
@@ -60,7 +61,8 @@ CS1 shipped, but through 12 `fix:` commits after its feature commits. Nearly all
 |---|---|---|---|
 | `.panel` in `global.css` | CS1 ×2, CS2 ×2 | Utility class: Purple, `--radius-panel`, 80px padding, `--size-inset-measure`, centred | The heading sits differently in each panel (above the body, beside it, right-aligned), so a component would be a `<section>` with a slot. It moves out of CS1's scoped `<style>` because CS2 can't reach it there |
 | `FindingsList.astro` | CS1 ×1, CS2 ×1 | `items: string[]` (inline markup, `set:html`, same justification as `FindingBlock`), Red hairlines, 48px gaps | Identical structure in both; predicted in the CS1 design to extract "if the second case study makes it awkward" |
-| `CaseStudyFigure.astro` | CS2 ×6 (CS1 has none: its annotation follows a paragraph, D-027) | `<figure>`: an `<Image>` with `--radius-image` and `--shadow-card`, optional `<figcaption>` in handwritten type, `captionTone` for White-on-Purple, optional `objectPosition` for Figma's crops | Image + handwritten caption repeats six times on this page alone |
+| `CaseStudyFigure.astro` | CS2 ×6 (CS1 has none: its annotation follows a paragraph, D-027) | `<figure>`: an `<Image>` with `--radius-image` and `--shadow-card`, optional `<figcaption>` in handwritten type (`captionSize`, `captionTone`, `captionAlign`). Figma's crops are baked into the asset files, so it takes no crop props | Image + handwritten caption repeats six times on this page alone |
+| `LabelledFindings.astro` | CS1 ×4 (inside `FindingBlock`), CS2 ×7 | The `<dl>` of label/body pairs: `findings: { label, body }[]`, `tone`. Labels are `H3` (Red, or White when inverse), bodies are Body Med (Purple, or White), 8px apart, 24px between pairs | The pattern recurs outside `FindingBlock` in all three Solutions sections |
 
 ### Page markup (first use)
 
@@ -90,7 +92,7 @@ CS1 shipped, but through 12 `fix:` commits after its feature commits. Nearly all
 | 6 | Purple band "the new user journey" | `u-bleed` | `#user-journey` User Journey |
 | 7 | Easier Data Capture | inset (1468px, within drift of the measure) | `#design` Design |
 | 8 | White band "reviewing data & requesting changes" | `u-bleed` | — |
-| 9 | Status tracker (`FindingBlock`) | inset | — |
+| 9 | Status tracker (page markup: `LabelledFindings` + `CaseStudyFigure`) | inset | — |
 | 10 | `.panel` "development & next iteration" | inset | — |
 | 11 | Read More | layout | — |
 
@@ -114,17 +116,17 @@ Every task: `npm run build`, `npm run check`, `npm run format:check`.
 Once the page is complete:
 
 1. **Visual.** Headless Edge full-page screenshots at 1920 wide of **both** case studies. CS1 is re-shot because the retrofit touches it; its baseline is a screenshot taken *before* the retrofit, not the Figma one. Compare section by section with `sharp` crops, scaling Figma coordinates by 768/1920 for the saved screenshots (wiki: figma-mcp). Check the home page too, since `CaseStudyCard` renders there.
-2. **No-JS.** An Edge screenshot with `--blink-settings=scriptEnabled=false`: the page renders fully, and the sub nav underline sits at its start position.
-3. **Reduced motion.** An Edge screenshot with `--force-prefers-reduced-motion`.
+2. **No-JS.** An Edge screenshot with script execution disabled: the page renders fully, and the sub nav underline sits at its start position.
+3. **Reduced motion.** An Edge screenshot with `prefers-reduced-motion: reduce` emulated.
 4. **Contrast**, measured with the CS1 script: White on Purple, Light purple on Purple, Red on White, and Purple on White.
 5. **Keyboard.** A manual checklist for the user: tab order through the sub nav, Definition Tip (Enter, Escape, focus return) and cards; visible focus throughout.
 6. **Alt text** is drafted for every meaningful image and flagged for Cass in an HTML comment, never inside `alt` (Q-024 extended). Persona illustrations and the arrow are decorative.
 
-Whether headless Edge covers everything needed gets confirmed in the plan's first task. If a flag doesn't behave as expected, that check falls back to the manual list rather than being reported as done.
+**Tooling, proven while planning:** `.superpowers/sdd/2026-09-30-case-study-two/shoot.mjs` drives headless Edge over the DevTools protocol with no dependencies. It takes a full-page shot, one shot per grid section (cropped to its real bounding box), no-JS and reduced-motion modes, and a Tab-order focus trace. `diff.mjs` counts differing pixels between two shots. Repeat shots of an unchanged page are pixel-identical, so **the retrofit tasks must leave CS1 and the home page pixel-identical to the baselines** taken before any code changed (`shots/cs1-before/`, `shots/home-before/`).
 
 ## Documentation
 
-- **decisions.md:** `ProcessStrip` widths as props; `.panel` as a global utility; `FindingsList` and `CaseStudyFigure` extracted; headless Edge as the visual check.
+- **decisions.md:** `ProcessStrip` widths as props; `.panel` as a global utility; `FindingsList`, `LabelledFindings` and `CaseStudyFigure` extracted; image crops baked into assets; headless Edge as the visual check.
 - **questions.md:** open **Q-025**, a non-blocking note asking Cass whether the redaction blur is strong enough. Extend Q-022 (Image Drop), Q-023 (CS2 copy) and Q-024 (CS2 alt text).
 - **architecture.md:** the new route, the new components, and the changed props.
 - **wiki:** `componentisation.md` (CS2 actuals vs predictions, counted with grep), `figma-mcp.md` (the redaction gotcha, the SVG background-rect gotcha, the saved-outline reuse), and `design-tokens.md` (new type classes and tokens).
