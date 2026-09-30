@@ -181,6 +181,7 @@
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
   new scale step. */
+  --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
   --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
   handwritten note (92:1608 top 584 − card bottom 563) */
   --space-capture-images: 5.625rem; /* 90px; CS2 Easier Data Capture before
