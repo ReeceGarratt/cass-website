@@ -80,4 +80,16 @@ const Heading = `h${level}` as 'h2' | 'h3';
     text-align: start;
     text-transform: lowercase;
   }
+
+  /* The standfirst is its own box in 144:1870 (86:192): inset 23.69% from
+     the start of the 391.8px block (92.8px) and 1.02% past its end, so
+     303px wide, with start-aligned text even in the end-aligned heading.
+     Verified against the CS1 (86:190) and CS2 (91:1422) renders. */
+  .section-heading__standfirst {
+    inline-size: 18.9375rem; /* 303px */
+    max-inline-size: 100%;
+    margin-inline-start: 5.8rem; /* 92.8px */
+    color: var(--color-purple);
+    text-align: start;
+  }
 </style>
