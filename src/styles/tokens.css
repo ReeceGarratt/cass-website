@@ -185,6 +185,13 @@
   handwritten note (92:1608 top 584 − card bottom 563) */
   --space-capture-images: 5.625rem; /* 90px; CS2 Easier Data Capture before
   and after screenshots (91:1085: after at x=697, before 607 wide) */
+  --space-capture-before-offset: 0.875rem; /* 14px; CS2 "before" screenshot
+  sits lower than "after" (91:1086 mt-[14px]) */
+  --space-capture-heading-offset: 3.72rem; /* 59.54px; CS2 Easier Data Capture
+  info row starts below the heading's first line (91:1067 mt-[59.54px]) */
+  --space-future-card: 1.25rem; /* 20px; CS2 future state card padding (163:2237) */
+  --space-personas-clearance: 5.25rem; /* 84px; the checker illustration
+  (92:1480) rises 153px above its card, 84px above the persona names row */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */

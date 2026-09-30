@@ -595,7 +595,7 @@ const subNav = [
     margin-inline: auto;
     /* The tallest illustration (checker) rises 153px above its card, 84px
        above the names row; keep it clear of the section above. */
-    padding-block-start: 5.25rem; /* 84px */
+    padding-block-start: var(--space-personas-clearance);
   }
 
   .personas__list {
@@ -670,24 +670,26 @@ const subNav = [
     pointer-events: none;
   }
 
-  /* 92:1473: left 324.8, top −119, 147 × 229. */
+  /* 92:1473: top −119, 147 × 229, overhanging the 450px card's end by
+     21.8px (left 324.8). Anchored from the end, where the overhang is, so
+     it stays on its card when the columns narrow. */
   .persona__illustration--trade-officer {
     inset-block-start: -7.4375rem;
-    inset-inline-start: 20.3rem;
+    inset-inline-end: -1.3625rem;
     inline-size: 9.1875rem;
   }
 
-  /* 92:1480: left 269, top −153, 216 × 292. */
+  /* 92:1480: top −153, 216 × 292, overhanging the end by 35px (left 269). */
   .persona__illustration--checker {
     inset-block-start: -9.5625rem;
-    inset-inline-start: 16.8125rem;
+    inset-inline-end: -2.1875rem;
     inline-size: 13.5rem;
   }
 
-  /* 92:1501: left 285, top −147, 204 × 275. */
+  /* 92:1501: top −147, 204 × 275, overhanging the end by 39px (left 285). */
   .persona__illustration--client {
     inset-block-start: -9.1875rem;
-    inset-inline-start: 17.8125rem;
+    inset-inline-end: -2.4375rem;
     inline-size: 12.75rem;
   }
 
@@ -763,7 +765,7 @@ const subNav = [
   .capture__text {
     display: grid;
     grid-template-columns: 12rem minmax(0, 69.25rem); /* 192px, 1108px */
-    grid-template-rows: 3.72rem auto; /* 59.54px */
+    grid-template-rows: var(--space-capture-heading-offset) auto;
   }
 
   .capture__heading {
@@ -800,7 +802,7 @@ const subNav = [
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    padding: 1.25rem; /* 20px */
+    padding: var(--space-future-card);
     border-radius: var(--radius-panel);
     background-color: var(--color-white);
     color: var(--color-purple);
@@ -822,7 +824,7 @@ const subNav = [
   }
 
   .capture__before {
-    margin-block-start: 0.875rem; /* 14px */
+    margin-block-start: var(--space-capture-before-offset);
   }
 
   .capture__annotation {
