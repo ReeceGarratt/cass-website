@@ -199,6 +199,13 @@
   --size-process-step-research: 8.0625rem; /* 129px: "user research" */
   --size-process-step-design: 6.0625rem; /* 97px: "design" */
   --size-process-step-testing: 7.6875rem; /* 123px: "usability testing" */
+  /* CS2 (Standard Bank) process strip label widths, from the 91:701 outline. */
+  --size-process-step-import-identify: 8.0625rem; /* 129px: "identify business needs" */
+  --size-process-step-import-research: 7.875rem; /* 126px: "user research" */
+  --size-process-step-import-personas: 8.375rem; /* 134px: "personas" */
+  --size-process-step-import-journeys: 8.0625rem; /* 129px: "user journeys" */
+  --size-process-step-import-wireframing: 12.375rem; /* 198px: "wireframing & ui design" */
+  --size-process-step-import-development: 11.6875rem; /* 187px: "development" */
   --size-process-step-max: 16rem; /* 256px; safety-net cap for a step label with
   no entry above, so it wraps instead of overflowing. Comfortably above the
   widest measured value here (210px) so the current six are unaffected. */

@@ -74,12 +74,21 @@ const subNav = [
   <ProcessStrip
     class="u-bleed"
     steps={[
-      'identify business needs',
-      'as-is journey investigations',
-      'sme interviews',
-      'user research',
-      'design',
-      'usability testing',
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-identify)',
+      },
+      {
+        label: 'as-is journey investigations',
+        width: 'var(--size-process-step-asis)',
+      },
+      { label: 'sme interviews', width: 'var(--size-process-step-sme)' },
+      { label: 'user research', width: 'var(--size-process-step-research)' },
+      { label: 'design', width: 'var(--size-process-step-design)' },
+      {
+        label: 'usability testing',
+        width: 'var(--size-process-step-testing)',
+      },
     ]}
   />
 
