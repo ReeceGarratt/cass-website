@@ -31,6 +31,10 @@ The tooling lives in the git-ignored workspace `.superpowers/sdd/2026-09-30-case
 - `shoot.mjs <url> <outDir> [--nojs] [--reduced-motion] [--tab=N]` drives headless Edge. It writes `full.png`, one `NN-<id-or-class>.png` per direct child of `.case-study` (cropped to its real bounding box, full page width), prints each section's x/y/w/h, and with `--tab` writes `focus.txt` (the Tab order, each element's target and whether its focus ring shows).
 - `diff.mjs <before.png> <after.png> [marked.png]` prints `IDENTICAL` or the differing-pixel count and row range, and exits 1 on any difference.
 - Baselines, taken before any code changed: `shots/cs1-before/` and `shots/home-before/`. Repeat shots of an unchanged page were verified pixel-identical, so any diff is a real change.
+- **Found during Task 1 (tool fixes, now in place):**
+  - The tool scrolls with `behavior: 'instant'`. The site's `scroll-behavior: smooth` had stopped lazy images loading in the first baselines, which were retaken.
+  - The tool waits for running animations to finish.
+  - **The sub nav underline lands 2px apart from run to run** (the page script measures the links around the font swap). This is an MVP-branch quirk, not this work's, so **diffs of case study pages run with `IGNORE_ROWS=170-172`**, e.g. `IGNORE_ROWS=170-172 node $S/diff.mjs …`. The home page needs no exclusion.
 - Figma references: `docs/figma/case-study-2-desktop/sections/NN-*.png`. These are the per-section renders returned by `get_design_context`, each at roughly 1024px wide for a section that is 1200–1920px wide in Figma. Compare **structure, wrapping, alignment and proportions**, not pixels.
 
 Serve the build for shooting (run in the background, then stop it when the task is done):
@@ -164,7 +168,7 @@ Expected: build completes, `0 errors`, and "All matched files use Prettier code 
 
 ```bash
 node $S/shoot.mjs http://localhost:4329/work/streamlining-scoring/ $S/shots/cs1-t1
-node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-t1/full.png $S/shots/cs1-t1/marked.png
+IGNORE_ROWS=170-172 node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-t1/full.png $S/shots/cs1-t1/marked.png
 node $S/shoot.mjs http://localhost:4329/ $S/shots/home-t1
 node $S/diff.mjs $S/shots/home-before/full.png $S/shots/home-t1/full.png
 ```
@@ -343,7 +347,7 @@ Run: `npm run build && npm run check && npm run format:check`, then:
 
 ```bash
 node $S/shoot.mjs http://localhost:4329/work/streamlining-scoring/ $S/shots/cs1-t2
-node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-t2/full.png $S/shots/cs1-t2/marked.png
+IGNORE_ROWS=170-172 node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-t2/full.png $S/shots/cs1-t2/marked.png
 ```
 
 Expected: `IDENTICAL`. Specificity is the thing to watch: the scoped `.panel` carried a `[data-astro-cid-…]` attribute and the global one doesn't. If a panel differs, look for a page rule that now outranks it.
@@ -1647,7 +1651,7 @@ Shoot CS2 to `$S/shots/cs2-final`. Downscale `full.png` to 768px wide and compar
 
 ```bash
 node $S/shoot.mjs http://localhost:4329/work/streamlining-scoring/ $S/shots/cs1-final --tab=30
-node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-final/full.png $S/shots/cs1-final/marked.png
+IGNORE_ROWS=170-172 node $S/diff.mjs $S/shots/cs1-before/full.png $S/shots/cs1-final/full.png $S/shots/cs1-final/marked.png
 node $S/shoot.mjs http://localhost:4329/ $S/shots/home-final
 node $S/diff.mjs $S/shots/home-before/full.png $S/shots/home-final/full.png
 ```
