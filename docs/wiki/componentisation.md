@@ -37,6 +37,11 @@ An analysis of the Figma **Design system** page and the four case studies on the
 
 The rule it applies is the one in `AGENTS.md`: *extract a component when markup repeats or Figma defines it as a component, not in advance.* A Figma component set is evidence, not an instruction — Cass's file also contains detached copies and drawing conveniences that shouldn't become code. The Work page is the better evidence, because it shows which components are actually *instanced* and how often.
 
+## Layout gotchas
+
+- **`display` on a `[popover]` element overrides the closed-popover hiding.** Browsers hide closed popovers with a user-agent `[popover]:not(:popover-open) { display: none }`; any author `display` beats it, so the popover renders permanently in the flow. Set `display` only under `:popover-open`, or not at all (an open popover is `position: fixed`, which already blockifies it). Check the built CSS for an unguarded `display` on any popover class.
+- **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
+
 ## What Figma actually defines
 
 | Figma component set | Variants | Already built? |
