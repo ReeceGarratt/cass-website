@@ -161,6 +161,21 @@ a {
   letter-spacing: var(--type-handwritten-letter-spacing);
 }
 
+.type-handwritten-small {
+  font-family: var(--font-family-handwritten);
+  font-size: var(--type-handwritten-small-size);
+  font-weight: var(--type-handwritten-small-weight);
+  line-height: var(--type-handwritten-small-line-height);
+  letter-spacing: var(--type-handwritten-small-letter-spacing);
+}
+
+.type-sub-titles {
+  font-size: var(--type-sub-titles-size);
+  font-weight: var(--type-sub-titles-weight);
+  line-height: var(--type-sub-titles-line-height);
+  letter-spacing: var(--type-sub-titles-letter-spacing);
+}
+
 /* Case study page grid.
    Sections are constrained to the content track by default and opt out to
    full-bleed with .u-bleed. Correct-by-default: forgetting the class yields

@@ -14,39 +14,65 @@ interface Props {
   // body is always authored by us in page files, never user input, on this
   // static site.
   findings: { label: string; body: string }[];
+  // 'inverse' sets the heading, labels and bodies White, for blocks on a
+  // Purple band (CS2's journey rows, 92:1636).
+  tone?: 'default' | 'inverse';
+  // Figma's measured image and text column widths in px, used as fr
+  // weights so the split stays fluid. Default: CS1's Design section
+  // (87:504), image 802px and text 566px.
+  columns?: [number, number];
+  // CS1's blocks top-align; CS2's journey rows centre vertically.
+  align?: 'start' | 'center';
 }
 
-const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
+const {
+  heading,
+  image,
+  imageAlt,
+  side = 'start',
+  findings,
+  tone = 'default',
+  columns = [802, 566],
+  align = 'start',
+} = Astro.props;
 ---
 
-<div class:list={['finding-block', `finding-block--${side}`]}>
+<div
+  class:list={[
+    'finding-block',
+    `finding-block--${side}`,
+    `finding-block--${tone}`,
+    `finding-block--align-${align}`,
+  ]}
+  style={`--finding-image: ${columns[0]}fr; --finding-text: ${columns[1]}fr`}
+>
   <Image class="finding-block__image" src={image} alt={imageAlt} />
   <div class="finding-block__body">
     <h3 class="finding-block__heading type-h1">{heading}</h3>
-    <LabelledFindings findings={findings} />
+    <LabelledFindings findings={findings} tone={tone} />
   </div>
 </div>
 
 <style>
-  /* Column split, gaps and type from the fetched Design section (87:504),
-     read from the P1-P4 "Right" blocks (they're identical across all
-     four): image 802px, text column 566px, expressed as fr weights so the
-     layout stays fluid rather than fixed-width. */
+  /* Gaps and type from the fetched Design section (87:504), read from the
+     P1-P4 "Right" blocks (identical across all four). The column split is
+     the page's measured image and text widths as fr weights (default CS1's
+     802/566), so the layout stays fluid rather than fixed-width. */
   .finding-block {
     display: grid;
-    grid-template-columns: 802fr 566fr;
+    grid-template-columns: var(--finding-image) var(--finding-text);
     /* Figma's own gap here is 80px, an exact match for --space-80. */
     gap: var(--space-80);
     align-items: start;
   }
 
   /* Swap both which track is wider AND which item is placed into it, so
-     the image keeps its measured 802px-equivalent width regardless of
-     which side it's drawn on (grid auto-placement follows `order`, so
-     swapping only the item order without also swapping the column widths
-     would hand the image the narrower track). */
+     the image keeps its measured width regardless of which side it's drawn
+     on (grid auto-placement follows `order`, so swapping only the item
+     order without also swapping the column widths would hand the image the
+     text's track). */
   .finding-block--end {
-    grid-template-columns: 566fr 802fr;
+    grid-template-columns: var(--finding-text) var(--finding-image);
   }
 
   .finding-block--end .finding-block__image {
@@ -55,6 +81,10 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
 
   .finding-block--end .finding-block__body {
     order: 1;
+  }
+
+  .finding-block--align-center {
+    align-items: center;
   }
 
   .finding-block__image {
@@ -74,5 +104,9 @@ const { heading, image, imageAlt, side = 'start', findings } = Astro.props;
   .finding-block__heading {
     color: var(--color-purple);
     text-transform: lowercase;
+  }
+
+  .finding-block--inverse .finding-block__heading {
+    color: var(--color-white);
   }
 </style>

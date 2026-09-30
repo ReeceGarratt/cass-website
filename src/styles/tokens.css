@@ -120,10 +120,25 @@
   --type-h3-letter-spacing: -0.011em;
   --type-h3-weight: 700;
 
+  /* Type: Hand written small (La Belle Aurore 20 / 1.11 / -2%): captions
+     under CS2 screenshots (91:1057, 91:1107) */
+  --type-handwritten-small-size: 1.25rem; /* 20px */
+  --type-handwritten-small-line-height: 1.11;
+  --type-handwritten-small-letter-spacing: -0.02em;
+  --type-handwritten-small-weight: 400;
+
+  /* Type: Sub Titles (Inter Medium 14 / 1.5 / -1.1%): CS2's future state
+     card body (163:2240) */
+  --type-sub-titles-size: 0.875rem; /* 14px */
+  --type-sub-titles-line-height: 1.5;
+  --type-sub-titles-letter-spacing: -0.011em;
+  --type-sub-titles-weight: 500;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
 
   /* Space: scale. The number is the px value at a 16px root */
+  --space-2: 0.125rem; /* CS2 future state card title-to-body gap (163:2238) */
   --space-8: 0.5rem;
   --space-16: 1rem;
   --space-24: 1.5rem;
@@ -166,6 +181,10 @@
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
   new scale step. */
+  --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
+  handwritten note (92:1608 top 584 − card bottom 563) */
+  --space-capture-images: 5.625rem; /* 90px; CS2 Easier Data Capture before
+  and after screenshots (91:1085: after at x=697, before 607 wide) */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
