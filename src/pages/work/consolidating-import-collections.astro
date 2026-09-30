@@ -9,6 +9,11 @@ import FindingsList from '../../components/FindingsList.astro';
 import Man1 from '../../assets/icons/man-1.svg';
 import Woman2 from '../../assets/icons/woman-2.svg';
 import dashboard from '../../assets/case-studies/consolidating-import-collections/import-collection-dashboard.png';
+import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
+import asIsJourney from '../../assets/case-studies/consolidating-import-collections/as-is-journey.png';
+import TradeOfficerIllustration from '../../assets/personas/trade-officer.svg';
+import CheckerIllustration from '../../assets/personas/checker.svg';
+import ClientIllustration from '../../assets/personas/client.svg';
 
 const entry = await getEntry('caseStudies', 'consolidating-import-collections');
 if (!entry)
@@ -123,6 +128,141 @@ const subNav = [
       ]}
     />
   </section>
+
+  <section class="panel" id="interviews" aria-labelledby="interviews-heading">
+    <div class="steps">
+      <div class="steps__context">
+        <div class="steps__intro">
+          <h2 class="steps__heading type-title-2" id="interviews-heading">
+            taking it
+            <br />
+            step by step
+          </h2>
+          <p class="type-body-med">
+            I organised an <strong>observational study</strong> with an
+            experienced member of the import collections team and asked them to
+            process an import collection request from start to finish with me.
+          </p>
+        </div>
+        <div class="steps__details">
+          <p class="steps__statement type-subtitle">
+            5 different platforms were being used.
+          </p>
+          <p class="type-body-med">
+            This journey was{' '}
+            <strong>very reliant on physical documentation</strong> and some of
+            it would need to stay that way due to legal restraints.
+          </p>
+        </div>
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={asIsJourney}
+        alt="The as-is journey as a flow diagram: a document is mailed to the bank and uploaded, checked by the due diligence team and a checker, sent back by email for changes, then reviewed and approved by the client."
+        caption="AS-is journey"
+        captionSize="large"
+        captionTone="inverse"
+        captionAlign="end"
+      />
+    </div>
+  </section>
+
+  <section class="personas" id="personas" aria-labelledby="personas-heading">
+    <h2 class="visually-hidden" id="personas-heading">
+      Personas
+    </h2>
+    <ul class="personas__list" role="list">
+      <li class="persona">
+        <h3 class="persona__name type-title-2">Trade Officer</h3>
+        <div class="persona__card">
+          <TradeOfficerIllustration
+            class="persona__illustration persona__illustration--trade-officer"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            Bank employee responsible for receiving and capturing data.
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Capture data as fast and accurately as possible.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Swivel chairing;</li>
+                <li>Not being able to track feedback;</li>
+                <li>Time spent uploading data.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="persona">
+        <h3 class="persona__name type-title-2">Checker</h3>
+        <div class="persona__card">
+          <CheckerIllustration
+            class="persona__illustration persona__illustration--checker"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            The bank employee responsible for checking the data the Trade
+            Officer uploaded.
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Ensure input data accuracy.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Keeping track of projects waiting for checking;</li>
+                <li>long feedback threads via email;</li>
+                <li>Unnecessary input mistakes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="persona">
+        <h3 class="persona__name type-title-2">client</h3>
+        <div class="persona__card">
+          <ClientIllustration
+            class="persona__illustration persona__illustration--client"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            A business working with the bank on an import collection request
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Provide accurate data;</li>
+                <li>Ensure input data accuracy;</li>
+                <li>Monitoring progress.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Not knowing where in the process they are;</li>
+                <li>Long wait times.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="persona__note type-handwritten">
+          based on trade officer insights.
+        </p>
+      </li>
+    </ul>
+  </section>
 </CaseStudyLayout>
 
 <style>
@@ -138,5 +278,168 @@ const subNav = [
     gap: var(--space-80);
     align-items: center;
     justify-content: center;
+  }
+
+  /* --- Taking it step by step (91:1437) -----------------------------------
+     A .panel, 1444px wide in Figma (inset measure). Context row 1212px
+     centred: intro 487px, 64px, a 1px White rule, 64px, details 596px;
+     then the as-is journey image 48px below. */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+  }
+
+  /* The rule is a border on the details column, so its 64px padding sits
+     inside the track: 596 + 64 + 1. */
+  .steps__context {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 30.4375rem)
+      minmax(0, calc(37.25rem + var(--space-64) + 1px));
+    gap: var(--space-64);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .steps__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .steps__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  /* Figma's rule (91:1448) is 171px tall, inset ~8px from the 188px row;
+     the margin reproduces that inset. */
+  .steps__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    align-self: stretch;
+    justify-content: center;
+    padding-inline-start: var(--space-64);
+    margin-block: var(--space-8);
+    border-inline-start: 1px solid var(--color-white);
+  }
+
+  .steps__statement {
+    font-weight: var(--type-subtitle-emphasis-weight);
+  }
+
+  /* --- Personas (92:1579) -------------------------------------------------
+     Three 450px cards, 48px apart (1446px, the inset measure). Each name
+     sits 24px above its card; each illustration overlaps its card's top
+     right corner, placed by Figma's measured offsets from the card. */
+  .personas {
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+    /* The tallest illustration (checker) rises 153px above its card, 84px
+       above the names row; keep it clear of the section above. */
+    padding-block-start: 5.25rem; /* 84px */
+  }
+
+  .personas__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 28.125rem)); /* 450px */
+    gap: var(--space-48);
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .persona {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .persona__name {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .persona__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding: var(--space-40);
+    border-radius: var(--radius-panel);
+    background-color: var(--color-white);
+  }
+
+  /* 250–259px in Figma, keeping the copy clear of the illustration. */
+  .persona__intro {
+    max-inline-size: 16.1875rem; /* 259px */
+    color: var(--color-purple);
+  }
+
+  /* Card 2's details gap is 34px in Figma (92:1483), 24 on cards 1 and 3:
+     drift, built at 24. */
+  .persona__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-purple);
+  }
+
+  .persona__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .persona__label {
+    text-transform: lowercase;
+  }
+
+  .persona__points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 0;
+    /* Nested inside the persona <li>, so the UA default would be circle. */
+    list-style-type: disc;
+  }
+
+  .persona__illustration {
+    position: absolute;
+    block-size: auto;
+    pointer-events: none;
+  }
+
+  /* 92:1473: left 324.8, top −119, 147 × 229. */
+  .persona__illustration--trade-officer {
+    inset-block-start: -7.4375rem;
+    inset-inline-start: 20.3rem;
+    inline-size: 9.1875rem;
+  }
+
+  /* 92:1480: left 269, top −153, 216 × 292. */
+  .persona__illustration--checker {
+    inset-block-start: -9.5625rem;
+    inset-inline-start: 16.8125rem;
+    inline-size: 13.5rem;
+  }
+
+  /* 92:1501: left 285, top −147, 204 × 275. */
+  .persona__illustration--client {
+    inset-block-start: -9.1875rem;
+    inset-inline-start: 17.8125rem;
+    inline-size: 12.75rem;
+  }
+
+  /* 92:1608: 29px in Figma, 1px off the 28px Hand written style: drift. A
+     flex sibling of the card, so the .persona gap is subtracted. */
+  .persona__note {
+    margin-block-start: calc(var(--space-persona-note) - var(--space-24));
+    color: var(--color-purple);
+    text-transform: lowercase;
   }
 </style>
