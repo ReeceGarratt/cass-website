@@ -125,7 +125,7 @@ Whether headless Edge covers everything needed gets confirmed in the plan's firs
 ## Documentation
 
 - **decisions.md:** `ProcessStrip` widths as props; `.panel` as a global utility; `FindingsList` and `CaseStudyFigure` extracted; headless Edge as the visual check.
-- **questions.md:** open **Q-025**, redaction strength (below). Extend Q-022 (Image Drop), Q-023 (CS2 copy) and Q-024 (CS2 alt text).
+- **questions.md:** open **Q-025**, a non-blocking note asking Cass whether the redaction blur is strong enough. Extend Q-022 (Image Drop), Q-023 (CS2 copy) and Q-024 (CS2 alt text).
 - **architecture.md:** the new route, the new components, and the changed props.
 - **wiki:** `componentisation.md` (CS2 actuals vs predictions, counted with grep), `figma-mcp.md` (the redaction gotcha, the SVG background-rect gotcha, the saved-outline reuse), and `design-tokens.md` (new type classes and tokens).
 
@@ -133,7 +133,7 @@ Whether headless Edge covers everything needed gets confirmed in the plan's firs
 
 | Risk | Handling |
 |---|---|
-| **Redaction strength.** The "before" screenshot's blur redaction is light. Some values, including what look like a customer name and a person's name, are near-legible | **Q-025, gates publishing, not building.** Cass decides whether to strengthen it in Figma or swap the image. Flag it to the user when it's opened |
+| **Redaction strength.** The "before" screenshot's blur redaction is light. Some values, including what look like a customer name and a person's name, are near-legible | **Decided 2026-09-30: trust Cass's redaction as drawn; not blocking.** Open Q-025 as a note to mention to Cass. If Cass wants it stronger, re-export a more blurred image later (a one-file swap) |
 | Client work on a public preview (Q-009, NDA) | Unchanged from CS1: gates publishing, not building |
 | The retrofit breaks CS1 | Screenshot CS1 before the first retrofit task and compare after each |
 | MVP review changes shared files | Rebase onto the updated MVP branch before continuing |
