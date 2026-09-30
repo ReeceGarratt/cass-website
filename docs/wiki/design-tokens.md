@@ -85,6 +85,27 @@ Measured 2026-09-29 with the WCAG 2.x relative-luminance formula (sRGB channel l
 
 Note this only covers Red directly on the Off-white page background. Red also appears on White (`DefinitionTip`, unmeasured) and Red text never appears on Purple in this build — those are separate pairs were they to occur.
 
+## Contrast on the case study palette (2026-09-30)
+
+Measured for CS2 with the same formula:
+
+| Pair | Ratio | Used for |
+|---|---|---|
+| White on Purple | 9.35:1 | Band and panel copy, journey labels (14–16px) |
+| Light purple on Purple | 5.96:1 | Panel and band headings (45px); would pass as body text too |
+| Purple on White | 9.35:1 | Reviewing band, persona cards, future state card |
+| Red on White | 5.28:1 | Finding labels in the White reviewing band (14px bold) |
+| Purple on Off-white | 8.90:1 | Body copy |
+
+All pass AA for normal text.
+
+## New tokens from case study 2 (2026-09-30)
+
+- **Type:** `.type-handwritten-small` (Figma "Hand written small", La Belle Aurore 20 / 1.11 / −2%) for captions under screenshots, and `.type-sub-titles` (Figma "Sub Titles", Inter Medium 14 / 1.5 / −1.1%).
+- **Space:** `--space-2` (a scale step), plus two bespoke measured gaps, `--space-persona-note` (21px) and `--space-capture-images` (90px).
+- **Size:** six `--size-process-step-import-*` label widths (D-028).
+- **Not added:** Figma's `Image Drop` effect (its −36px spread makes it invisible; Q-022) and `Background colour` `#F3F3F4` (reported but not visibly used). Figma's `--h1-&-h2` (24px) and `--h2-&-body` (16px) spacing variables map onto `--space-24` and `--space-16`.
+
 ## Unit rules
 
 - **Sizes and spacing:** `rem` (1rem = 16px), so they respect browser zoom and font-size settings.

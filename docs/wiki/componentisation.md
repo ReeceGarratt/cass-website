@@ -1,8 +1,8 @@
 ---
-summary: What actually got built for Case Study 1 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
-updated: 2026-09-29
+summary: What actually got built for Case Studies 1 and 2 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
+updated: 2026-09-30
 related: [design-tokens.md, figma-mcp.md, index.md]
-decisions: [D-013, D-002, D-022, D-025, Q-005, Q-013, Q-017]
+decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017]
 ---
 
 # Componentisation
@@ -37,9 +37,28 @@ An analysis of the Figma **Design system** page and the four case studies on the
 
 The rule it applies is the one in `AGENTS.md`: *extract a component when markup repeats or Figma defines it as a component, not in advance.* A Figma component set is evidence, not an instruction — Cass's file also contains detached copies and drawing conveniences that shouldn't become code. The Work page is the better evidence, because it shows which components are actually *instanced* and how often.
 
+## What case study 2 added (Standard Bank, 2026-09-30)
+
+The second page is where "extract on second use" was tested. Counts are from `grep -c` on the two page files.
+
+| Piece | CS1 | CS2 | What happened |
+|---|---|---|---|
+| `SectionHeading` | 3 | 1 | CS2 has only one eyebrow + Red heading. Its other headings are Purple (Solutions) or Light purple (panels, bands), hand-rolled `type-title-2`. **The ~12 projection across four case studies looks high;** expect 1–3 per case study |
+| `FindingBlock` | 4 | 3 | The three journey rows, on Purple, needed `tone`, `columns` and `align` (D-029). Status tracker stayed page markup: it would have needed three more props |
+| `LabelledFindings` | via `FindingBlock` | 6 direct + 3 via `FindingBlock` | Extracted from `FindingBlock`: the label/body list recurs outside it in every Solutions section |
+| `FindingsList` | 1 | 1 | Extracted, as predicted, at its second use |
+| `.panel` | 2 | 2 | A global utility, not a component. Confirmed: the heading sits differently in all four |
+| `CaseStudyFigure` | 0 | 6 | New: screenshot + handwritten caption |
+
+**Stayed page markup:** persona cards (CS4's are a different shape), CS2's two full-bleed bands (Purple journey, White reviewing), the Easier Data Capture layout, and the business-problem grid. The grid is now duplicated in both pages, so extract it at a third use.
+
+**The "full-bleed Purple panel" section type is really two things.** CS1 only had inset panels, but CS2 has both inset panels (`.panel`) and genuinely full-bleed bands (`u-bleed` + background), in Purple and White. Check the outline's x and width before deciding which (D-026).
+
 ## Layout gotchas
 
 - **`display` on a `[popover]` element overrides the closed-popover hiding.** Browsers hide closed popovers with a user-agent `[popover]:not(:popover-open) { display: none }`; any author `display` beats it, so the popover renders permanently in the flow. Set `display` only under `:popover-open`, or not at all (an open popover is `position: fixed`, which already blockifies it). Check the built CSS for an unguarded `display` on any popover class.
+- **Auto inline margins stop a grid item stretching.** `.panel` (`margin-inline: auto` + `max-inline-size`) shrank to its content as a `.case-study` grid item, so CS1's user-testing panel rendered 970px wide for most of its life. It now has `inline-size: 100%`. Any capped, centred grid child needs the same.
+- **Astro drops the space between an inline element and a text node on the next line.** `<strong>…</strong>` followed by a newline and text renders with no space ("documentationand"). Put `{' '}` after the closing tag, as CS1 does.
 - **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
 
 ## What Figma actually defines

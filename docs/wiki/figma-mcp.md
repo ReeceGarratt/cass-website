@@ -100,9 +100,14 @@ Claude's context window is the other cost: `get_design_context` output can be la
 - **`get_metadata` output can exceed the tool's response limit.** The `Work` page returned ~94k characters and was written to a file instead. Parse that file rather than re-calling with a smaller scope; a re-call costs another read against the daily limit.
 - **`download_assets` on a frame returns loose, unnamed vectors.** The `svgAssets` entries carry no layer names — only sizes and internal SVG ids (`face`, `face_2`, …) — so matching them back to Figma layers means comparing sizes against the `get_metadata` outline and checking the `export` PNG. For assets where the exact one matters, call it per symbol node rather than on the parent frame.
 - **Saved `screenshot.png` files are a 0.4x downscale.** Scale Figma coordinates by 768/1920 (saved width ÷ frame width) before cropping. Details under the no-browser techniques below.
+- **Redactions can be overlays, not edits (2026-09-30).** CS2's "before" screenshot (`91:1087`) is redacted by 13 blurred slices layered over the raw image. `download_assets`' `rawImages` returns the **unredacted** original. Export the composed node (its `export` render) instead, and never save the raw fill. See D-030.
+- **An SVG export of a node includes what's behind it.** Exporting the CS2 persona illustrations as SVG (`defaultFormat: svg` on the node) returned the canvas, the page background and the persona card as `<rect>`s under the figure. Strip them. The same happens to PNG exports of a node that overlaps a frame: its shadow bleed is included (crop it off).
+- **A saved outline can replace `get_metadata`.** CS2's node tree was already in `outline-work-page.md`, so its fetch skipped `get_metadata` entirely (20 reads plus `whoami` for a 9337px page).
 - **Exported asset sizes don't always match the placed size.** The avatar icons are all placed at 24px but export at 20–24px, and the Flower exported at 77px here versus 90px in the earlier fetch. Size at the call site.
 
 ## Working without a browser: two techniques from the case study build
+
+> **Superseded in part (2026-09-30): there *is* a browser.** Microsoft Edge is installed on the dev machine, and headless Edge over the DevTools protocol now does the visual, no-JS, reduced-motion and focus-order checks (D-031; scripts in `.superpowers/sdd/2026-09-30-case-study-two/`). Technique 1 below is still the cheap way to answer "what does the design look like here" without a Figma call.
 
 This project has no Playwright, no Puppeteer and no other rendering tool, so neither an agent nor the controller can open a page and look at it. Two things discovered while building Case Study 1 partly work around that — worth knowing before assuming a design question needs a fresh Figma call or has to wait for the user.
 
