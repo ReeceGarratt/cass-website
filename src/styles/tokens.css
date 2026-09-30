@@ -149,6 +149,8 @@
   --space-64: 4rem;
   --space-80: 5rem;
   --space-96: 6rem;
+  --space-160: 10rem; /* case study section spacing: every section in both
+  frames starts 160px after the previous one (e.g. CS1 1105 → 1265) */
 
   /* Figma's two spacing variables, aliased so the link stays traceable */
   --space-headings-body: var(--space-16); /* Figma: Headings & Body */
@@ -191,8 +193,9 @@
   --space-capture-heading-offset: 3.72rem; /* 59.54px; CS2 Easier Data Capture
   info row starts below the heading's first line (91:1067 mt-[59.54px]) */
   --space-future-card: 1.25rem; /* 20px; CS2 future state card padding (163:2237) */
-  --space-personas-clearance: 5.25rem; /* 84px; the checker illustration
-  (92:1480) rises 153px above its card, 84px above the persona names row */
+  --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
+  below the top of the Personas frame (92:1579). The checker illustration
+  (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
