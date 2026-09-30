@@ -9,6 +9,8 @@ decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017
 
 ## What was actually built (Case Study 1, 2026-09-29)
 
+> **Partly superseded by case study 2 (2026-09-30).** `ProcessStrip`'s measured-width lookup table is gone: widths are props (D-028). `FindingsList` became a component at its second use, and `.panel` moved out of the CS1 page into `global.css` (D-029). See [What case study 2 added](#what-case-study-2-added-standard-bank-2026-09-30).
+
 The predictions below were written *before* building the first case study page. They're kept as-is further down this page for the reasoning; this section is the correction pass the case-study-page-one plan's Task 18 calls for — what got built, and where the predictions were right or wrong.
 
 **The component set as built matches the prediction well.** Ten new pieces went in: the `CaseStudyLayout` layout plus nine components (`CaseStudySubNav`, `CaseStudyIntro`, `SectionHeading`, `FindingBlock`, `ProcessStrip`, `Pill`, `CircleArrow`, `DefinitionTip`, `ReadMoreSection`). Every one of them was named and scoped in the "Worth building as components" list below before CS1 existed, and nothing in that list turned out to be a component that shouldn't have been built. The deltas were all small prop additions discovered while building, not structural surprises:
@@ -58,6 +60,7 @@ The second page is where "extract on second use" was tested. Counts are from `gr
 
 - **`display` on a `[popover]` element overrides the closed-popover hiding.** Browsers hide closed popovers with a user-agent `[popover]:not(:popover-open) { display: none }`; any author `display` beats it, so the popover renders permanently in the flow. Set `display` only under `:popover-open`, or not at all (an open popover is `position: fixed`, which already blockifies it). Check the built CSS for an unguarded `display` on any popover class.
 - **Auto inline margins stop a grid item stretching.** `.panel` (`margin-inline: auto` + `max-inline-size`) shrank to its content as a `.case-study` grid item, so CS1's user-testing panel rendered 970px wide for most of its life. It now has `inline-size: 100%`. Any capped, centred grid child needs the same.
+- **A page CAN style an Astro SVG component through `class`.** Unlike an `.astro` component's root, an imported `.svg` component receives the page's scope attribute, so `<Arrow02 class="capture__arrow" />` is styled by the page's scoped CSS (confirmed in the built HTML). No wrapper needed.
 - **Astro drops the space between an inline element and a text node on the next line.** `<strong>…</strong>` followed by a newline and text renders with no space ("documentationand"). Put `{' '}` after the closing tag, as CS1 does.
 - **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
 

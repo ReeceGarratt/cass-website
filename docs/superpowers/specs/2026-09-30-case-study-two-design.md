@@ -96,7 +96,7 @@ CS1 shipped, but through 12 `fix:` commits after its feature commits. Nearly all
 | 10 | `.panel` "development & next iteration" | inset | — |
 | 11 | Read More | layout | — |
 
-Heading levels: `h1` from the layout, `h2` per section, `h3` for persona names and finding headings, matching CS1.
+Heading levels: `h1` from `CaseStudyIntro`, `h2` per section, `h3` for persona names and finding headings, matching CS1.
 
 ## Normalised drift
 

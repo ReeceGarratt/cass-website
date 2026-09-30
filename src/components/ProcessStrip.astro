@@ -6,7 +6,7 @@ interface Props {
   // Measured per case study rather than looked up by label text: the same
   // label differs between frames ("user research" is 129px in CS1's 67:334
   // and 126px in CS2's 91:701). Pass a --size-process-step-* token.
-  steps: { label: string; width: string }[];
+  steps: { label: string; width: `var(--size-process-step-${string})` }[];
   class?: string;
 }
 

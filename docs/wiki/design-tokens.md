@@ -102,7 +102,7 @@ All pass AA for normal text.
 ## New tokens from case study 2 (2026-09-30)
 
 - **Type:** `.type-handwritten-small` (Figma "Hand written small", La Belle Aurore 20 / 1.11 / −2%) for captions under screenshots, and `.type-sub-titles` (Figma "Sub Titles", Inter Medium 14 / 1.5 / −1.1%).
-- **Space:** `--space-2` (a scale step), plus two bespoke measured gaps, `--space-persona-note` (21px) and `--space-capture-images` (90px).
+- **Space:** `--space-2` (a one-off 2px value, kept in the scale block because its name follows the scale), plus bespoke measured values: `--space-persona-note` (21px), `--space-capture-images` (90px), `--space-capture-before-offset` (14px), `--space-capture-heading-offset` (59.54px), `--space-future-card` (20px) and `--space-personas-clearance` (84px).
 - **Size:** six `--size-process-step-import-*` label widths (D-028).
 - **Not added:** Figma's `Image Drop` effect (its −36px spread makes it invisible; Q-022) and `Background colour` `#F3F3F4` (reported but not visibly used). Figma's `--h1-&-h2` (24px) and `--h2-&-body` (16px) spacing variables map onto `--space-24` and `--space-16`.
 

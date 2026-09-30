@@ -4,7 +4,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-09-30):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and two case study pages are built end to end: `/work/streamlining-scoring` (Absa) and `/work/consolidating-import-collections` (Standard Bank), sharing one layout, the sub nav and twelve section components.
+**Status (2026-09-30):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and two case study pages are built end to end: `/work/streamlining-scoring` (Absa) and `/work/consolidating-import-collections` (Standard Bank), sharing one layout, the sub nav, and the shared section components listed below (`CaseStudyFigure` is used by CS2 only so far).
 
 ## Overview
 
