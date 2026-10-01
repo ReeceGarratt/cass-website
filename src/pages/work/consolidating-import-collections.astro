@@ -1,0 +1,937 @@
+---
+import { getEntry } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import FindingsList from '../../components/FindingsList.astro';
+import Man2 from '../../assets/icons/man-2.svg';
+import Woman3 from '../../assets/icons/woman-3.svg';
+import dashboard from '../../assets/case-studies/consolidating-import-collections/import-collection-dashboard.png';
+import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
+import asIsJourney from '../../assets/case-studies/consolidating-import-collections/as-is-journey.png';
+import TradeOfficerIllustration from '../../assets/personas/trade-officer.svg';
+import CheckerIllustration from '../../assets/personas/checker.svg';
+import ClientIllustration from '../../assets/personas/client.svg';
+import FindingBlock from '../../components/FindingBlock.astro';
+import tradeOfficerFlow from '../../assets/case-studies/consolidating-import-collections/trade-officer-flow.png';
+import checkerFlow from '../../assets/case-studies/consolidating-import-collections/checker-flow.png';
+import clientFlow from '../../assets/case-studies/consolidating-import-collections/client-flow.png';
+import LabelledFindings from '../../components/LabelledFindings.astro';
+import Arrow02 from '../../assets/arrow-02.svg';
+import captureBefore from '../../assets/case-studies/consolidating-import-collections/capture-before-redacted.png';
+import captureAfter from '../../assets/case-studies/consolidating-import-collections/capture-after.png';
+import checkerSummary from '../../assets/case-studies/consolidating-import-collections/checker-summary.png';
+import changeRequest from '../../assets/case-studies/consolidating-import-collections/change-request-pop-up.png';
+
+const entry = await getEntry('caseStudies', 'consolidating-import-collections');
+if (!entry)
+  throw new Error('Missing case study: consolidating-import-collections');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#interviews', label: 'Interviews' },
+  { href: '#personas', label: 'Personas' },
+  { href: '#user-journey', label: 'User Journey' },
+  { href: '#design', label: 'Design' },
+];
+---
+
+<!--
+  Every measurement below is from docs/figma/case-study-2-desktop/context.md.
+  TODO(cass): all image alt text is drafted from the surrounding copy and
+  needs review (Q-024).
+-->
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+  <CaseStudyIntro
+    eyebrow="ux/ui designer"
+    title={entry.data.title}
+    userTypes={[
+      { label: 'Bank employees', icon: Man2 },
+      { label: 'Clients', icon: Woman3 },
+    ]}
+    image={dashboard}
+    imageAlt="The redesigned Import Collection page for a trade officer, showing the collection's details, trade documents and due diligence checks beside a status tracker listing each step of the process."
+    id="project-overview"
+  >
+    <Fragment slot="title">
+      consolidating
+      <br />
+      import collections
+    </Fragment>
+    <DefinitionTip id="def-standard-bank" term="Standard Bank">
+      An organisation offering financial services and banking throughout Africa.
+    </DefinitionTip>{' '}
+    provides a service known as &lsquo;Import Collections&rsquo; in which they
+    act as an intermediary between their Client (a business importing goods) and
+    a foreign bank representing the exporter. This service reduces the risk for
+    the importer while earning the bank a transaction fee.
+    <Fragment slot="goal">
+      Build a cohesive interface allowing my users to{' '}
+      <strong>capture, review and verify data</strong> with minimal mistakes and
+      a <strong>visible working log.</strong>
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I designed a single{' '}
+        <strong>
+          interface that replaced a five-platform, paper-heavy capture process
+          with one cohesive, trackable journey.
+        </strong>
+      </p>
+      <p>
+        I owned it <strong>end to end</strong>, from discovery and user
+        interviews through journey mapping to development , and left a defined
+        roadmap for document-scanning automation.
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
+
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-import-identify)',
+      },
+      {
+        label: 'user research',
+        width: 'var(--size-process-step-import-research)',
+      },
+      { label: 'personas', width: 'var(--size-process-step-import-personas)' },
+      {
+        label: 'user journeys',
+        width: 'var(--size-process-step-import-journeys)',
+      },
+      {
+        label: 'wireframing & ui design',
+        width: 'var(--size-process-step-import-wireframing)',
+      },
+      {
+        label: 'development',
+        width: 'var(--size-process-step-import-development)',
+      },
+    ]}
+  />
+
+  <section
+    class="business-problem"
+    id="business-needs"
+    aria-labelledby="business-needs-heading"
+  >
+    <SectionHeading
+      eyebrow="the"
+      title="Business problem"
+      id="business-needs-heading"
+      titleWidth="12.625rem"
+    >
+      With my stakeholders I identified 3 key needs:
+    </SectionHeading>
+    <FindingsList
+      items={[
+        'Faster and more accurate <strong>data capturing.</strong>',
+        'Reduced swivel chairing between multiple interfaces and physical papers.',
+        '<strong>Tracking</strong> of where the request was in the process for <strong>better reporting.</strong>',
+      ]}
+    />
+  </section>
+
+  <section class="panel" id="interviews" aria-labelledby="interviews-heading">
+    <div class="steps">
+      <div class="steps__context">
+        <div class="steps__intro">
+          <h2 class="steps__heading type-title-2" id="interviews-heading">
+            taking it
+            <br />
+            step by step
+          </h2>
+          <p class="type-body-med">
+            I organised an <strong>observational study</strong> with an
+            experienced member of the import collections team and asked them to
+            process an import collection request from start to finish with me.
+          </p>
+        </div>
+        <div class="steps__details">
+          <p class="steps__statement type-subtitle">
+            5 different platforms were being used.
+          </p>
+          <p class="type-body-med">
+            This journey was{' '}
+            <strong>very reliant on physical documentation</strong> and some of
+            it would need to stay that way due to legal restraints.
+          </p>
+        </div>
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={asIsJourney}
+        alt="The as-is journey as a flow diagram: a document is mailed to the bank and uploaded, checked by the due diligence team and a checker, sent back by email for changes, then reviewed and approved by the client."
+        caption="AS-is journey"
+        captionSize="large"
+        captionTone="inverse"
+        captionAlign="end"
+      />
+    </div>
+  </section>
+
+  <section class="personas" id="personas" aria-labelledby="personas-heading">
+    <h2 class="visually-hidden" id="personas-heading">
+      Personas
+    </h2>
+    <ul class="personas__list" role="list">
+      <li class="persona">
+        <h3 class="persona__name type-title-2">Trade Officer</h3>
+        <div class="persona__card">
+          <TradeOfficerIllustration
+            class="persona__illustration persona__illustration--trade-officer"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            Bank employee responsible for receiving and capturing data.
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Capture data as fast and accurately as possible.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Swivel chairing;</li>
+                <li>Not being able to track feedback;</li>
+                <li>Time spent uploading data.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="persona">
+        <h3 class="persona__name type-title-2">Checker</h3>
+        <div class="persona__card">
+          <CheckerIllustration
+            class="persona__illustration persona__illustration--checker"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            The bank employee responsible for checking the data the Trade
+            Officer uploaded.
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Ensure input data accuracy.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Keeping track of projects waiting for checking;</li>
+                <li>long feedback threads via email;</li>
+                <li>Unnecessary input mistakes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="persona">
+        <h3 class="persona__name type-title-2">client</h3>
+        <div class="persona__card">
+          <ClientIllustration
+            class="persona__illustration persona__illustration--client"
+            aria-hidden="true"
+          />
+          <p class="persona__intro type-body-med">
+            A business working with the bank on an import collection request
+          </p>
+          <div class="persona__details">
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">goals</h4>
+              <ul class="persona__points type-body-med">
+                <li>Provide accurate data;</li>
+                <li>Ensure input data accuracy;</li>
+                <li>Monitoring progress.</li>
+              </ul>
+            </div>
+            <div class="persona__group">
+              <h4 class="persona__label type-h2">Pain points</h4>
+              <ul class="persona__points type-body-med">
+                <li>Not knowing where in the process they are;</li>
+                <li>Long wait times.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="persona__note type-handwritten">
+          based on trade officer insights.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <section
+    class="journey u-bleed"
+    id="user-journey"
+    aria-labelledby="user-journey-heading"
+  >
+    <div class="journey__inner">
+      <h2 class="journey__heading type-title-2" id="user-journey-heading">
+        the new
+        <br />
+        user journey
+      </h2>
+      <div class="journey__rows">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="Trade officer flow"
+          image={tradeOfficerFlow}
+          imageAlt="Flow diagram of the new trade officer journey, bringing capture steps that were spread across five systems into one path."
+          side="end"
+          tone="inverse"
+          align="center"
+          columns={[709, 501]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'The trade officers were losing context and focus by swopping between 5 different systems.',
+            },
+            {
+              label: 'decision',
+              body: 'I integrated the required programs where possible for a more seamless journey.',
+            },
+          ]}
+        />
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="Checker flow"
+          image={checkerFlow}
+          imageAlt="Flow diagram of the new checker journey, with its own review steps and a feedback loop back to the trade officer on the platform."
+          side="start"
+          tone="inverse"
+          align="center"
+          columns={[679, 532]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'Checkers didn’t have easy access to projects and needed a way to give and track feedback on the platform.',
+            },
+            {
+              label: 'decision',
+              body: '<p>I separated the trade officer and checkers flows to create Checker specific journeys that cater to their needs.</p><p>I also streamlined the feedback and changes loop so that feedback would be automatically tracked and kept in context of the project.</p>',
+            },
+          ]}
+        />
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <FindingBlock
+          heading="client flow"
+          image={clientFlow}
+          imageAlt="Three flow diagrams of the client journeys: accepting or not accepting a collection, and accepting with or without capture."
+          side="end"
+          tone="inverse"
+          align="center"
+          columns={[683, 525]}
+          findings={[
+            {
+              label: 'insight',
+              body: 'Clients weren’t getting as much information as they needed to feel confident that there was progress.',
+            },
+            {
+              label: 'decision',
+              body: 'I made the content more accessible, trackable and easier to capture or approve the captured data.',
+            },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="capture" id="design" aria-labelledby="design-heading">
+    <div class="capture__text">
+      <h2 class="capture__heading type-title-2" id="design-heading">
+        Easier Data Capture
+      </h2>
+      <div class="capture__info">
+        <div class="capture__column">
+          <LabelledFindings
+            findings={[
+              {
+                label: 'problem',
+                body: 'Trade officer users were working on an interface that made it <strong>hard to keep track</strong> of where they were working.',
+              },
+            ]}
+          />
+          <hr class="capture__rule" />
+          <LabelledFindings
+            findings={[
+              {
+                label: 'Outcome',
+                body: 'This approach not only reduces the amount of information the user sees at once, it also helps them restart in case they are disturbed while working.',
+              },
+            ]}
+          />
+        </div>
+        <div class="capture__column">
+          <LabelledFindings
+            findings={[
+              {
+                label: 'solution',
+                body: 'I broke down the data required into smaller <strong>chunks</strong> and organised them according to how they are likely to<strong> appear on the documentation</strong>.',
+              },
+            ]}
+          />
+          <div class="capture__future">
+            <h3 class="capture__future-title type-h3">
+              Future State | &lsquo;Automagical&rsquo; Data Population
+            </h3>
+            <p class="type-sub-titles">
+              Allow the Trade Officer to upload the scanned documentation and
+              use a document scanning API to automatically fill in the data as
+              it saw it on the document. Leaving the Trade Officer to just check
+              the data.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="capture__images">
+      <div class="capture__before">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={captureBefore}
+          alt="Before: the old capture screen, one long form of import bill fields with a comments window open over it. Client data is blurred."
+        />
+      </div>
+      <div class="capture__after">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={captureAfter}
+          alt="After: the new capture screen, a transaction type form split into steps, with a side menu of sections to complete and a progress summary."
+        />
+      </div>
+      <div class="capture__annotation" aria-hidden="true">
+        <Arrow02 class="capture__arrow" />
+        <span class="capture__after-label type-handwritten-small">after</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviewing u-bleed" aria-labelledby="reviewing-heading">
+    <div class="reviewing__inner">
+      <div class="reviewing__info">
+        <div class="reviewing__column">
+          <h2 class="reviewing__heading type-title-2" id="reviewing-heading">
+            Reviewing data &amp; Requesting Changes
+          </h2>
+          <LabelledFindings
+            findings={[
+              {
+                label: 'problem',
+                body: '<strong>Feedback was being</strong> given to Trade Officer users in parts over <strong>email or verbally</strong>. This made it difficult to track changes made.',
+              },
+            ]}
+          />
+        </div>
+        <div class="reviewing__column">
+          <LabelledFindings
+            findings={[
+              {
+                label: 'Outcome',
+                body: 'The platform becomes the source of truth for anything to do with the project, making it easier to track changes and requests.',
+              },
+              {
+                label: 'solution',
+                body: 'Checker users are able to<strong> add comments to the project file</strong> that would trigger an <strong>email and platform notification</strong> for the Trade Officer. These comments would also be <strong>trackable in the project history</strong>, making the process smoother and easier to follow up on.',
+              },
+            ]}
+          />
+        </div>
+      </div>
+      <div class="reviewing__images">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={checkerSummary}
+          alt="The checker's Review & Approve screen, with the transaction details grouped into collapsible sections and Approve or Reject & Request Changes actions."
+          caption="Checker summary screen"
+        />
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={changeRequest}
+          alt="The Request Changes pop-up over the Review & Approve screen, with a text box for the checker's comments."
+          caption="Change request pop-up"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="tracker" aria-labelledby="tracker-heading">
+    <div class="tracker__content">
+      <h2 class="tracker__heading type-title-2" id="tracker-heading">
+        a Status tracker
+        <br />
+        for every role
+      </h2>
+      <LabelledFindings
+        findings={[
+          {
+            label: 'problem',
+            body: 'Client users were reported to be frustrated that they <strong>weren’t getting enough feedback from the Trade Officers </strong>during processing because they didn’t know what phase of the progress they were in.',
+          },
+          {
+            label: 'solution',
+            body: '<p>I added a user type specific status tracker to the product dashboards that displayed the <strong>steps taken, the steps in progress and the future steps</strong>.</p><p>I also added a tracker for the Due Diligence checks to keep communication transparent and continue the feeling of progress during a notoriously slow process.</p>',
+          },
+          {
+            label: 'Outcome',
+            body: '<p>All user types are able to see <strong>where in the process the documents are</strong> and what <strong>the next steps</strong> are without having to ask a Trade Officer.</p><p>All users also have access to dedicated compliance tracking (KYC, sanctions, and due-diligence checks).</p>',
+          },
+        ]}
+      />
+    </div>
+    <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+    <CaseStudyFigure
+      image={dashboard}
+      alt="The trade officer dashboard for an import collection, with a status tracker showing completed, current and upcoming steps and a due diligence checks panel."
+      caption="trade officer dashboard"
+    />
+  </section>
+
+  <section class="panel" aria-labelledby="handover-heading">
+    <div class="handover">
+      <h2 class="handover__heading type-title-2" id="handover-heading">
+        Development &amp;
+        <br />
+        next iteration
+      </h2>
+      <div class="handover__body type-body-med">
+        <p>
+          After a hand over session with the Development team, I supported the
+          team during the coding process.
+        </p>
+        <p>
+          When I stepped away from this project I included future state
+          wireframes for the above mentioned improvements.
+        </p>
+      </div>
+    </div>
+  </section>
+</CaseStudyLayout>
+
+<style>
+  /* --- The business problem (91:1422) -------------------------------------
+     Same geometry as CS1's (86:190): heading block 391.8px, 80px gap, list
+     585px, centred. The heading's 202px title box is the titleWidth above.
+     Figma's third item is 596px, 11px wider than its list: drift, built at
+     the list width. This grid is a copy of CS1's .business-problem;
+     extract it if a third case study repeats it. */
+  .business-problem {
+    display: grid;
+    grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
+    gap: var(--space-80);
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* --- Taking it step by step (91:1437) -----------------------------------
+     A .panel, 1444px wide in Figma (inset measure). Context row 1212px
+     centred: intro 487px, 64px, a 1px White rule, 64px, details 596px;
+     then the as-is journey image 48px below. */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+  }
+
+  /* The rule is a border on the details column, so its 64px padding sits
+     inside the track: 596 + 64 + 1. */
+  .steps__context {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 30.4375rem)
+      minmax(0, calc(37.25rem + var(--space-64) + 1px));
+    gap: var(--space-64);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .steps__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .steps__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  /* Figma's rule (91:1448) is 171px tall, inset ~8px from the 188px row;
+     the margin reproduces that inset. */
+  .steps__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    align-self: stretch;
+    justify-content: center;
+    padding-inline-start: var(--space-64);
+    margin-block: var(--space-8);
+    border-inline-start: 1px solid var(--color-white);
+  }
+
+  .steps__statement {
+    font-weight: var(--type-subtitle-emphasis-weight);
+  }
+
+  /* --- Personas (92:1579) -------------------------------------------------
+     Three 450px cards, 48px apart (1446px, the inset measure). Each name
+     sits 24px above its card; each illustration overlaps its card's top
+     right corner, placed by Figma's measured offsets from the card. */
+  .personas {
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+    /* Figma puts the names row 52px below the frame's top; the tallest
+       illustration (checker) rises 32px above that, into the section gap. */
+    padding-block-start: var(--space-personas-clearance);
+  }
+
+  .personas__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 28.125rem)); /* 450px */
+    gap: var(--space-48);
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .persona {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .persona__name {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .persona__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding: var(--space-40);
+    border-radius: var(--radius-panel);
+    background-color: var(--color-white);
+  }
+
+  /* 250–259px in Figma, keeping the copy clear of the illustration. */
+  .persona__intro {
+    max-inline-size: 16.1875rem; /* 259px */
+    color: var(--color-purple);
+  }
+
+  /* Card 2's details gap is 34px in Figma (92:1483), 24 on cards 1 and 3:
+     drift, built at 24. */
+  .persona__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-purple);
+  }
+
+  .persona__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .persona__label {
+    text-transform: lowercase;
+  }
+
+  .persona__points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 0;
+    /* Nested inside the persona <li>, so the UA default would be circle. */
+    list-style-type: disc;
+  }
+
+  .persona__illustration {
+    position: absolute;
+    block-size: auto;
+    pointer-events: none;
+  }
+
+  /* 92:1473: top −119, 147 × 229, overhanging the 450px card's end by
+     21.8px (left 324.8). Anchored from the end, where the overhang is, so
+     it stays on its card when the columns narrow. */
+  .persona__illustration--trade-officer {
+    inset-block-start: -7.4375rem;
+    inset-inline-end: -1.3625rem;
+    inline-size: 9.1875rem;
+  }
+
+  /* 92:1480: top −153, 216 × 292, overhanging the end by 35px (left 269). */
+  .persona__illustration--checker {
+    inset-block-start: -9.5625rem;
+    inset-inline-end: -2.1875rem;
+    inline-size: 13.5rem;
+  }
+
+  /* 92:1501: top −147, 204 × 275, overhanging the end by 39px (left 285). */
+  .persona__illustration--client {
+    inset-block-start: -9.1875rem;
+    inset-inline-end: -2.4375rem;
+    inline-size: 12.75rem;
+  }
+
+  /* 92:1608: 29px in Figma, 1px off the 28px Hand written style: drift. A
+     flex sibling of the card, so the .persona gap is subtracted. */
+  .persona__note {
+    margin-block-start: calc(var(--space-persona-note) - var(--space-24));
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  /* --- The new user journey (92:1636) -------------------------------------
+     Genuinely full-bleed (x=0, w=1920), unlike the panels: Purple, no
+     radius, 80px block padding, content at 235px each side, i.e. the
+     1450px inset measure. 80px between the heading and each row. */
+  .journey {
+    padding-block: var(--space-80);
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-purple);
+  }
+
+  .journey__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .journey__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  /* Each row is ~1290px (709 + 80 + 501; 679 + 80 + 532; 525 + 80 + 683),
+     start-aligned in the 1450px measure, so the rows end ~160px short of
+     the band's right edge. */
+  .journey__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: 80.625rem; /* 1290px */
+  }
+
+  /* The checker decision's two paragraphs (Figma: an empty line between).
+     :global because the <dd> belongs to LabelledFindings. */
+  .journey__rows :global(dd p + p) {
+    margin-block-start: 1lh;
+  }
+
+  /* Shared across the Solutions sections: headings are Purple here, Red on
+     the page background above, Light purple on Purple. */
+  .capture__heading,
+  .reviewing__heading,
+  .tracker__heading {
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  /* --- Easier Data Capture (91:1065) --------------------------------------
+     1468px (inset measure, drift). The heading (243px box) sits top left
+     and the two-column info row is offset 192px right and 59.54px down,
+     so "easier data" runs above the row and "capture" tucks in to its
+     left. Images 48px below. */
+  .capture {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .capture__text {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 69.25rem); /* 192px, 1108px */
+    grid-template-rows: var(--space-capture-heading-offset) auto;
+  }
+
+  .capture__heading {
+    grid-area: 1 / 1 / 3 / 3;
+    max-inline-size: 15.1875rem; /* 243px */
+  }
+
+  /* Left 507px, 80px, right 509px (91:1067). */
+  .capture__info {
+    display: grid;
+    grid-area: 2 / 2;
+    grid-template-columns: minmax(0, 31.6875rem) minmax(0, 31.8125rem);
+    gap: var(--space-80);
+    align-items: start;
+  }
+
+  .capture__column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  /* 91:1072 (7c363.svg): Light purple, unlike the business problem's Red
+     rules. Sampled from the Figma render as #C1CBFF blended onto Off-white,
+     the known light purple drift, so --color-light-purple. */
+  .capture__rule {
+    border: 0;
+    border-block-start: 1px solid var(--color-light-purple);
+  }
+
+  /* 163:2237: White, 20px padding, 12px radius, no shadow; title and body
+     2px apart. */
+  .capture__future {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-future-card);
+    border-radius: var(--radius-panel);
+    background-color: var(--color-white);
+    color: var(--color-purple);
+  }
+
+  .capture__future-title {
+    text-transform: lowercase;
+  }
+
+  /* 91:1085: before 607px (14px down), a 90px gap, after 765px. The arrow
+     and "after" label sit at x=594 / 621, y=331, over the before image's
+     bottom-right corner. */
+  .capture__images {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 37.9375rem) minmax(0, 47.8125rem);
+    column-gap: var(--space-capture-images);
+    align-items: start;
+  }
+
+  .capture__before {
+    margin-block-start: var(--space-capture-before-offset);
+  }
+
+  .capture__annotation {
+    position: absolute;
+    inset-block-start: 20.6875rem; /* 331px */
+    inset-inline-start: 37.125rem; /* 594px */
+    inline-size: 4.65rem; /* 74.4px */
+  }
+
+  /* 91:1104: rotate 178.16deg, mirrored vertically. */
+  .capture__arrow {
+    inline-size: 100%;
+    block-size: auto;
+    transform: rotate(178.16deg) scaleY(-1);
+  }
+
+  .capture__after-label {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 1.6875rem; /* 27px: 621 − 594 */
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  /* --- Reviewing data & requesting changes (91:1039) ----------------------
+     Full-bleed White band, 80px block padding, content 1564px centred.
+     Info row: left 509px, 80px, right 509px, bottom-aligned; images 752px
+     and 764px, 48px apart. */
+  .reviewing {
+    padding-block: var(--space-80);
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-white);
+  }
+
+  .reviewing__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+    max-inline-size: 97.75rem; /* 1564px */
+    margin-inline: auto;
+  }
+
+  .reviewing__info {
+    display: grid;
+    grid-template-columns: minmax(0, 31.8125rem) minmax(0, 31.8125rem);
+    gap: var(--space-80);
+    align-items: end;
+    justify-content: center;
+  }
+
+  .reviewing__column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .reviewing__images {
+    display: grid;
+    grid-template-columns: minmax(0, 47rem) minmax(0, 47.75rem);
+    gap: var(--space-48);
+    justify-content: center;
+  }
+
+  /* --- Status tracker (91:1021) -------------------------------------------
+     Text 598px, 80px, image 754px (1432px, inside the inset measure). */
+  .tracker {
+    display: grid;
+    grid-template-columns: minmax(0, 37.375rem) minmax(0, 47.125rem);
+    gap: var(--space-80);
+    align-items: start;
+    justify-content: center;
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .tracker__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  /* Paragraph breaks inside a finding (Figma: an empty line between).
+     :global because the <dd> belongs to LabelledFindings. */
+  .tracker :global(dd p + p) {
+    margin-block-start: 1lh;
+  }
+
+  /* --- Handover (99:2454) -------------------------------------------------
+     A .panel, 1442px (inset measure). Heading 334px right-aligned, 48px,
+     body 470px, vertically centred, the 866px row centred. No shadow. */
+  .handover {
+    display: grid;
+    grid-template-columns: minmax(0, 20.875rem) minmax(0, 29.375rem);
+    gap: var(--space-48);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .handover__heading {
+    color: var(--color-light-purple);
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .handover__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1lh;
+  }
+</style>

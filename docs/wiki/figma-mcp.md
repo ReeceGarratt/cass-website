@@ -78,7 +78,9 @@ Replaces the original estimate now that the first screen is built.
 | Work and Landing pages, 2026-09-29: outlines and case study screenshots | 6 (2 `get_metadata`, 4 `get_screenshot`) |
 | Case Study 1 (Absa) content, 2026-09-29: outline, 7 sections, images | 10 (1 `get_metadata`, 7 `get_design_context`, 2 `download_assets`) |
 | Case Study 1 build, Task 17: re-fetch the composed `Arrow_03` symbol (`129:3490`) as one asset, after the loose curve+head part exports couldn't be reassembled | 1 (`download_assets`) |
-| **Total so far** | **44** |
+| Case Study 2 (Standard Bank) content, 2026-09-30: 10 sections incl. the Definition Tip, images. Outline reused from the saved Work page file, Process skipped (outline had its widths) | 20 (10 `get_design_context`, 10 `download_assets`: 6 images, 3 persona SVGs, 1 re-export of the redacted screenshot at 2×), plus 1 `whoami` |
+| Case Study 2 review, 2026-09-30: `download_assets` on the intro instance (`144:1416`) to identify the pill icons by path data | 1 |
+| **Total so far** | **66** |
 
 A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. **A full content page's design context (one outline plus `get_design_context` per section, skipping sections already covered by shared components) measured at 10 calls for Case Study 1**: 1 `get_metadata` (outline fit inline, no file needed) + 7 `get_design_context` (one per section, `Navigation` and `Read More` skipped as already built/saved) + 2 `download_assets` (one per section with raster images: Introduction, Design). Budget ~10-12 calls per case study page on this basis for the remaining three.
 
@@ -99,9 +101,14 @@ Claude's context window is the other cost: `get_design_context` output can be la
 - **`get_metadata` output can exceed the tool's response limit.** The `Work` page returned ~94k characters and was written to a file instead. Parse that file rather than re-calling with a smaller scope; a re-call costs another read against the daily limit.
 - **`download_assets` on a frame returns loose, unnamed vectors.** The `svgAssets` entries carry no layer names — only sizes and internal SVG ids (`face`, `face_2`, …) — so matching them back to Figma layers means comparing sizes against the `get_metadata` outline and checking the `export` PNG. For assets where the exact one matters, call it per symbol node rather than on the parent frame.
 - **Saved `screenshot.png` files are a 0.4x downscale.** Scale Figma coordinates by 768/1920 (saved width ÷ frame width) before cropping. Details under the no-browser techniques below.
+- **Redactions can be overlays, not edits (2026-09-30).** CS2's "before" screenshot (`91:1087`) is redacted by 13 blurred slices layered over the raw image. `download_assets`' `rawImages` returns the **unredacted** original. Export the composed node (its `export` render) instead, and never save the raw fill. See D-030.
+- **An SVG export of a node includes what's behind it.** Exporting the CS2 persona illustrations as SVG (`defaultFormat: svg` on the node) returned the canvas, the page background and the persona card as `<rect>`s under the figure. Strip them. Figma also writes every layer name as an `id` ("FACE", "Persona 2", emoji group names). Inlined as Astro components, two illustrations from the same frame put duplicate and invalid ids in the page, so strip `id` attributes too when nothing inside the SVG references them (`url(#…)`, `href="#…"`). The same happens to PNG exports of a node that overlaps a frame: its shadow bleed is included (crop it off).
+- **A saved outline can replace `get_metadata`.** CS2's node tree was already in `outline-work-page.md`, so its fetch skipped `get_metadata` entirely (20 reads plus `whoami` for a 9337px page).
 - **Exported asset sizes don't always match the placed size.** The avatar icons are all placed at 24px but export at 20–24px, and the Flower exported at 77px here versus 90px in the earlier fetch. Size at the call site.
 
 ## Working without a browser: two techniques from the case study build
+
+> **Superseded in part (2026-09-30): there *is* a browser.** Microsoft Edge is installed on the dev machine, and headless Edge over the DevTools protocol now does the visual, no-JS, reduced-motion and focus-order checks (D-031; scripts in `.superpowers/sdd/2026-09-30-case-study-two/`). Technique 1 below is still the cheap way to answer "what does the design look like here" without a Figma call.
 
 This project has no Playwright, no Puppeteer and no other rendering tool, so neither an agent nor the controller can open a page and look at it. Two things discovered while building Case Study 1 partly work around that — worth knowing before assuming a design question needs a fresh Figma call or has to wait for the user.
 

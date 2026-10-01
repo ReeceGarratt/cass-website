@@ -212,3 +212,45 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** Build the user-testing annotation in flow, as a caption that follows the paragraph it points back to, rather than absolutely positioned on top of it. Build the Handover row inside the page's normal content grid track (capped at its measured 903px, centred) rather than with fixed pixel side padding.
 - **Alternatives considered:** reproduce the absolute overlap and the fixed padding exactly as drawn. Rejected — neither is responsive, and invariant 6's write-it-down exception exists for cases like this.
 - **Consequences:** both flagged to Cass so the Figma frames can be corrected or the departure endorsed (open items in the report). The same techniques are likely to recur on case studies 2–4 and will need the same call.
+
+### D-028 · ProcessStrip takes measured label widths as props
+- **Date:** 2026-09-30 · **Status:** Accepted
+- **Context:** `ProcessStrip` looked each label's measured wrap width up in a table keyed by CS1's six label strings. CS2's labels would all have fallen through to the safety cap, and one label ("user research") has a different measured width in each frame (129px vs 126px).
+- **Decision:** `steps` is `{ label, width }[]`, where `width` is a `--size-process-step-*` token. The table is gone; the `max-inline-size` safety net stays.
+- **Alternatives considered:** extend the table per case study (it can't express the same label at two widths) · drop fixed widths (reintroduces the overflow D-026's work fixed).
+- **Consequences:** each case study declares its six measured widths as tokens. CS1 re-verified pixel-identical.
+
+### D-029 · Shared case study patterns extracted on second use
+- **Date:** 2026-09-30 · **Status:** Accepted
+- **Context:** Case study 2 repeats patterns that were page markup in CS1: the inset Purple panel, the rule-separated findings list, and the label/body findings list. It also adds a screenshot-with-handwritten-caption figure six times.
+- **Decision:** `.panel` becomes a global utility class, not a component (the heading sits differently in every panel, so a component would be a section with a slot). `FindingsList`, `LabelledFindings` (also used inside `FindingBlock`) and `CaseStudyFigure` become components. `FindingBlock` gains `tone`, `columns` and `align`. Persona cards, the Solutions layouts and CS2's two full-bleed bands stay page markup (first use).
+- **Alternatives considered:** copy CS1's page CSS into CS2 (duplication drifts) · a `Panel.astro` wrapper (slot-only) · Status tracker as a fourth `FindingBlock` (would have needed three props for one caller).
+- **Consequences:** CS1 moved onto the shared pieces, verified pixel-identical. The business-problem grid is still duplicated between the two pages; extract it at a third use. `.panel` also gained `inline-size: 100%`: auto margins stopped the grid item stretching, so CS1's user-testing panel had rendered 970px wide instead of Figma's 1451px (a visible fix to CS1).
+
+### D-030 · Case study images: crops baked into assets, redactions exported as renders
+- **Date:** 2026-09-30 · **Status:** Accepted
+- **Context:** Figma crops several CS2 screenshots inside fixed frames, and redacts one ("before", `91:1087`) with blurred overlay slices rather than in the image itself.
+- **Decision:** Figma's crops are applied to the asset files at import (`sharp`), so components take no crop props. Any image redacted by overlays is saved as a render of the composed node (here at 2×, shadow bleed cropped), never as the raw fill, which is unredacted.
+- **Alternatives considered:** `object-position`/`aspect-ratio` props on `CaseStudyFigure` · reproducing the blur slices in CSS (fragile, and the raw file would still ship).
+- **Consequences:** re-cropping means re-exporting from Figma. The redaction's strength is Cass's call (Q-025).
+
+### D-031 · Headless Edge is the visual check
+- **Date:** 2026-09-30 · **Status:** Accepted
+- **Context:** CS1's keyboard, no-JS and visual checks were never run because the environment was assumed to have no browser. Microsoft Edge is installed on the dev machine.
+- **Decision:** Verify pages with headless Edge over the DevTools protocol, no new dependencies: full-page and per-section shots, no-JS (scripts stripped via request interception), reduced motion, and a Tab-order focus trace. Refactors must leave pages pixel-identical to baselines taken before the change. The scripts live in the git-ignored `.superpowers/sdd/2026-09-30-case-study-two/` (`shoot.mjs`, `diff.mjs`); see [figma-mcp](wiki/figma-mcp.md#working-without-a-browser-two-techniques-from-the-case-study-build).
+- **Alternatives considered:** Playwright (a new dependency, and Q-006 is still open) · manual checks only.
+- **Consequences:** keyboard *operation* (Enter/Escape on the Definition Tip) is still a manual checklist. If the scripts prove their worth, promoting them into the repo belongs with Q-006.
+
+### D-032 · Trust Cass's redaction as drawn
+- **Date:** 2026-09-30 · **Status:** Accepted
+- **Context:** The CS2 "before" screenshot's blur leaves some values near-legible at 2×.
+- **Decision:** Ship it as Cass drew it; a more strongly blurred image can be swapped in later as a one-file change. Raised with Cass as Q-025.
+- **Alternatives considered:** blocking publication until Cass confirms · blurring further ourselves (changes Cass's work without asking).
+- **Consequences:** Q-025 stays open as a non-blocking note.
+
+### D-033 · ProcessStrip scales to fit, then wraps
+- **Date:** 2026-10-01 · **Status:** Accepted
+- **Context:** The strip's labels had fixed px widths, so the row needed ~1432px and case study pages scrolled sideways below that (76px at 1280). Shrinking the labels alone can't fix it: each measured width is within 1–27px of its longest word, and the 5 arrows and 10 gaps (~530px) never shrink.
+- **Decision:** Figma's 30px is the default. Every strip size (label widths, arrows, gaps) is in `em` of the label type, and the type is fitted to the band with `clamp(20px, (100cqi - 2 gutters) / 47.75, 30px)`, so the whole row scales as one and keeps Figma's line breaks. Below the 20px minimum (`--type-process-min-size`) the row wraps and the band grows taller. 20px is a starting value to revisit after testing.
+- **Alternatives considered:** percentage or `vw` label widths (they save at most 38px, since the words themselves are the limit) · a breakpoint to a stacked layout (a design call Figma doesn't cover; the wrap covers it for now) · measuring each strip's own row length (one constant from the widest row is simpler; CS1 starts scaling slightly earlier than strictly needed).
+- **Consequences:** introduces the site's first container query (`container-type: inline-size` on the band; `vw` would count a classic scrollbar). Both case studies are pixel-identical at 1920 and fit at 1280; the strip wraps without overflowing down to 390. Pages still overflow below ~1100px from the rest of the case study grid (Q-026).

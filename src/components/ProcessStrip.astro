@@ -1,47 +1,31 @@
 ---
 interface Props {
-  steps: string[];
+  // Each label's width is the fixed width Figma gives that text node, so
+  // long labels wrap as designed; without it a label can't shrink below its
+  // own min-content and the six-step row overflows narrower viewports.
+  // Measured per case study rather than looked up by label text: the same
+  // label differs between frames ("user research" is 129px in CS1's 67:334
+  // and 126px in CS2's 91:701). Pass a --size-process-step-* token (in em,
+  // so it scales with the strip's type).
+  steps: { label: string; width: `var(--size-process-step-${string})` }[];
   class?: string;
 }
 
 const { steps, class: className } = Astro.props;
-
-// Measured wrap widths from the fetched Process section (67:334), keyed by
-// the step's lowercased text — without a width, a label can't shrink below
-// its own min-content, and the six-step row forces ~1420px of irreducible
-// width, overflowing at narrower viewports (docs/figma/case-study-1-desktop/
-// context.md, Section: Process; confirmed against the section's screenshot
-// crop). This table carries Figma's measured wrap width for this case
-// study's six labels only. A label with no entry here falls through to no
-// inline-size at all, but isn't left unbounded: the .process-strip__label
-// CSS rule below has a max-inline-size (--size-process-step-max) as a
-// safety net, so an unknown future label still wraps instead of silently
-// reintroducing the overflow this table was added to fix.
-const stepWidths: Record<string, string> = {
-  'identify business needs': 'var(--size-process-step-identify)',
-  'as-is journey investigations': 'var(--size-process-step-asis)',
-  'sme interviews': 'var(--size-process-step-sme)',
-  'user research': 'var(--size-process-step-research)',
-  design: 'var(--size-process-step-design)',
-  'usability testing': 'var(--size-process-step-testing)',
-};
 ---
 
 <div class:list={['process-strip', className]}>
   <ol class="process-strip__list" role="list">
-    {steps.map((step) => {
-      const width = stepWidths[step.toLowerCase()];
-      return (
-        <li class="process-strip__step">
-          <span
-            class="process-strip__label type-h1"
-            style={width ? `inline-size: ${width}` : undefined}
-          >
-            {step}
-          </span>
-        </li>
-      );
-    })}
+    {steps.map(({ label, width }) => (
+      <li class="process-strip__step">
+        <span
+          class="process-strip__label type-h1"
+          style={`inline-size: ${width}`}
+        >
+          {label}
+        </span>
+      </li>
+    ))}
   </ol>
 </div>
 
@@ -51,37 +35,51 @@ const stepWidths: Record<string, string> = {
      white lowercase labels (the site's existing .type-h1 — the same
      30/0.92/700 style already used for card titles). */
   .process-strip {
+    /* A size container so the type below is fitted to the band's own
+       width; vw would include a classic scrollbar and overshoot. */
+    container-type: inline-size;
     background-color: var(--color-purple);
     padding-block: var(--space-40);
   }
 
+  /* Figma's size (30px) by default. When the row no longer fits inside
+     the gutters, the type (and with it every em-sized label, arrow and gap)
+     scales down to fit, and below the minimum size the row wraps instead,
+     taking more height rather than overflowing. */
   .process-strip__list {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     /* gap-32px in the fetched section, between every item (label or arrow)
-       in the row */
-    gap: var(--space-32);
-    padding: 0;
+       in the row; the same between wrapped rows */
+    gap: var(--space-process-step-gap);
+    padding: 0 var(--space-gutter);
     margin: 0;
     list-style: none;
+    font-size: clamp(
+      var(--type-process-min-size),
+      (100cqi - 2 * var(--space-gutter)) / var(--size-process-row),
+      var(--type-card-title-size)
+    );
   }
 
   .process-strip__step {
     display: flex;
     align-items: center;
-    gap: var(--space-32);
+    gap: var(--space-process-step-gap);
   }
 
   .process-strip__label {
+    /* The list's fitted size, over .type-h1's fixed one. */
+    font-size: inherit;
     /* No shrinking below the measured width — the whole point is to force
        the same wraps Figma has, not let flex compress it back down. */
     flex-shrink: 0;
-    /* Safety net, not a measured value: caps any label the stepWidths
-       lookup above doesn't cover, so it wraps instead of forcing the row
-       to min-content width. Larger than every measured width here, so the
-       current six labels are sized by their own inline-size and never
-       reach this cap. */
+    /* Safety net, not a measured value: caps a label passed an oversized
+       width, so it wraps instead of forcing the row to min-content width.
+       Larger than every measured width (the widest is 210px), so real
+       labels are sized by their own inline-size and never reach it. */
     max-inline-size: var(--size-process-step-max);
     color: var(--color-white);
     text-transform: lowercase;
@@ -110,8 +108,8 @@ const stepWidths: Record<string, string> = {
   .process-strip__step:not(:last-child)::after {
     content: '';
     display: block;
-    inline-size: 2.6144rem;
-    block-size: 1.7081rem;
+    inline-size: var(--size-process-arrow-width);
+    block-size: var(--size-process-arrow-height);
     background-image:
       url('../assets/arrow-01-head.svg'), url('../assets/arrow-01-curve.svg');
     background-repeat: no-repeat, no-repeat;

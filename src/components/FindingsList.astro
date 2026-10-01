@@ -1,0 +1,38 @@
+---
+interface Props {
+  // Each item carries inline markup (<strong>). Rendered with set:html:
+  // safe because items are always authored by us in page files.
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="findings-list" role="list">
+  {items.map((item) => (
+    <li class="findings-list__item type-body-med" set:html={item} />
+  ))}
+</ul>
+
+<style>
+  /* Rule-separated statements beside a section heading (CS1 86:196, CS2
+     149:1945). Figma stacks them flex-col gap-48 with a 1px Red divider
+     between, i.e. 48px either side of each rule, expressed as padding and
+     margin on every item but the last so the rule belongs to the item
+     rather than being an empty element. */
+  .findings-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .findings-list__item {
+    color: var(--color-purple);
+  }
+
+  .findings-list__item:not(:last-child) {
+    padding-block-end: var(--space-48);
+    border-block-end: 1px solid var(--color-red);
+    margin-block-end: var(--space-48);
+  }
+</style>
