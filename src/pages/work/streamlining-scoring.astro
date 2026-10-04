@@ -6,7 +6,7 @@ import DefinitionTip from '../../components/DefinitionTip.astro';
 import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import FindingBlock from '../../components/FindingBlock.astro';
-import FindingsList from '../../components/FindingsList.astro';
+import BusinessProblem from '../../components/BusinessProblem.astro';
 import Arrow03 from '../../assets/arrow-03.svg';
 import Woman3 from '../../assets/icons/woman-3.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
@@ -93,27 +93,15 @@ const subNav = [
     ]}
   />
 
-  <section
-    class="business-problem"
-    id="business-needs"
-    aria-labelledby="business-needs-heading"
+  <BusinessProblem
+    items={[
+      'Each business unit operated its own <strong>team of specialised Agents</strong>, each <strong>focused on one or two products.</strong>',
+      '<strong>Repeated transfers</strong> were happening in the call centres and <strong>Customers were dropping calls</strong> to go to branches.',
+      'Agents had <strong>limited cross-selling</strong> opportunities.',
+    ]}
   >
-    <SectionHeading
-      eyebrow="the"
-      title="Business problem"
-      id="business-needs-heading"
-      titleWidth="12.625rem"
-    >
-      During a full day workshop with my key stakeholders I identified:
-    </SectionHeading>
-    <FindingsList
-      items={[
-        'Each business unit operated its own <strong>team of specialised Agents</strong>, each <strong>focused on one or two products.</strong>',
-        '<strong>Repeated transfers</strong> were happening in the call centres and <strong>Customers were dropping calls</strong> to go to branches.',
-        'Agents had <strong>limited cross-selling</strong> opportunities.',
-      ]}
-    />
-  </section>
+    During a full day workshop with my key stakeholders I identified:
+  </BusinessProblem>
 
   <section class="panel" id="interviews" aria-labelledby="interviews-heading">
     <div class="interviews">
@@ -331,23 +319,6 @@ const subNav = [
      minmax(0, <measured>) so a track can shrink below its measured size
      rather than forcing the page wider than the viewport; the rows are
      centred, matching Figma's justify-center on each of these frames. */
-
-  /* --- The business problem (86:190) -------------------------------------
-     flex gap-80 items-center justify-center; heading 391.809px, list 585px,
-     the whole frame 1056.809px centred in the 1699px content track.
-
-     The heading block is 392px but its title box is only 202px of that
-     (144:1870: the H1 group 86:193 is inset 0 to 48.44%), which is why the
-     SectionHeading above carries titleWidth. Without it "business problem"
-     is a hair narrower than the full 392px track and falls on one line
-     instead of the design's two. */
-  .business-problem {
-    display: grid;
-    grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
-    gap: var(--space-80);
-    align-items: center;
-    justify-content: center;
-  }
 
   /* --- Talking to the experts (86:211) ----------------------------------- */
   .interviews {

@@ -3,36 +3,65 @@ interface Props {
   // Each item carries inline markup (<strong>). Rendered with set:html:
   // safe because items are always authored by us in page files.
   items: string[];
+  // 'inverse' is White text with Light purple rules, for a Purple panel
+  // (CS3's interviews list, 98:2333).
+  tone?: 'default' | 'inverse';
+  // Space either side of each rule: 48px (CS1 86:196, CS2 149:1945) or
+  // 32px (CS3 149:1956 and 98:2333).
+  spacing?: 'default' | 'compact';
 }
 
-const { items } = Astro.props;
+const { items, tone = 'default', spacing = 'default' } = Astro.props;
 ---
 
-<ul class="findings-list" role="list">
+<ul
+  class:list={[
+    'findings-list',
+    `findings-list--${tone}`,
+    `findings-list--${spacing}`,
+  ]}
+  role="list"
+>
   {items.map((item) => (
     <li class="findings-list__item type-body-med" set:html={item} />
   ))}
 </ul>
 
 <style>
-  /* Rule-separated statements beside a section heading (CS1 86:196, CS2
-     149:1945). Figma stacks them flex-col gap-48 with a 1px Red divider
-     between, i.e. 48px either side of each rule, expressed as padding and
-     margin on every item but the last so the rule belongs to the item
-     rather than being an empty element. */
+  /* Rule-separated statements beside a section heading. Figma stacks them
+     flex-col with a 1px divider between, i.e. the gap either side of each
+     rule, expressed as padding and margin on every item but the last so the
+     rule belongs to the item rather than being an empty element. CS3's
+     interviews list ends with a 350px divider that draws nothing (1c523.svg
+     is an empty group), so the last item never gets a rule. */
   .findings-list {
+    --findings-gap: var(--space-48);
+    --findings-rule: var(--color-red);
+    --findings-text: var(--color-purple);
+
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
+  .findings-list--compact {
+    --findings-gap: var(--space-32);
+  }
+
+  /* Figma draws these rules as a 0.5px Light purple stroke (fd524.svg);
+     built 1px like the Red ones. */
+  .findings-list--inverse {
+    --findings-rule: var(--color-light-purple);
+    --findings-text: var(--color-white);
+  }
+
   .findings-list__item {
-    color: var(--color-purple);
+    color: var(--findings-text);
   }
 
   .findings-list__item:not(:last-child) {
-    padding-block-end: var(--space-48);
-    border-block-end: 1px solid var(--color-red);
-    margin-block-end: var(--space-48);
+    padding-block-end: var(--findings-gap);
+    border-block-end: 1px solid var(--findings-rule);
+    margin-block-end: var(--findings-gap);
   }
 </style>
