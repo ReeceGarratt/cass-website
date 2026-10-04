@@ -27,7 +27,17 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-010 | Home page below 1880px | Nothing yet |
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
-| Q-013 | Card shadow, hover timing and alignment from Figma | Nothing; placeholders in use (D-020) |
+| Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
+| Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
+| Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
+| Q-019 | Which case studies the home page features | Nothing yet; first three by `order` in use as a placeholder |
+| Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume`) |
+| Q-021 | A third undocumented light purple, `#E3E7FF` | Nothing yet; `--color-white` used as the nearest tokenised stand-in |
+| Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
+| Q-023 | Copy defects transcribed faithfully from Figma | Nothing; copy is live as transcribed |
+| Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
+| Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
+| Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
 
 ---
 
@@ -50,6 +60,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Options:** an agent regenerates the tokens file directly from Figma variables through the MCP server · export tokens to DTCG-format JSON and build CSS with Style Dictionary.
 - **Unknowns until we see the Figma file:** how the variables are organised into collections and modes (e.g. light/dark themes), and whether naming follows a primitive → semantic structure.
 - **Update (2026-09-16, D-014):** a hand-written `src/styles/tokens.css` exists for the POC; its header comment lists the sources. This question stays open for a real pipeline. The Figma file has 6 colour variables and 5 text styles, and no spacing variables — spacing, size and radius tokens are named by us.
+- **Update (2026-09-29):** the file now has **8 colour variables** (`Black` and `Light Grey` were added), **two spacing variables** (`Headings & Body` = 16, `Sub-Sub Sections` = 48), four new text styles (`Title 2`, `H2`, `Body Med`, `Hand written` in **La Belle Aurore**) and two effect styles. So the "no spacing variables" note above is out of date, though two variables is still far from a spacing scale. Naming is inconsistent enough to matter for a pipeline: `Light purple` and `Light Purple` are different colours, and `Hand written` / `Handwritten` name one style. See [figma/tokens.md](figma/tokens.md).
 
 ### Q-006 · Testing, linting and formatting
 - **Raised:** 2026-09-16
@@ -109,8 +120,98 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The brand ("cassandra garratt") links to `/` (D-017), which duplicates the Home nav item.
 - **Options:** keep both · make the brand plain text · drop the Home item.
 
-### Q-013 · Card shadow, hover timing and alignment from Figma
+### Q-013 · Card hover timing from Figma
 - **Raised:** 2026-09-17
-- **Blocks:** nothing; placeholder values are in use (D-020)
-- **Context:** Cass is updating the Figma files with the card drop shadow and the card-to-headline alignment, and possibly hover motion. Until then `--shadow-card`, `--duration-hover` and `--ease-hover` in `tokens.css` are placeholders, and the cards' bottom edge sits on the first headline baseline.
-- **Options:** replace the placeholders with values from the updated frames · keep the placeholders for anything Figma doesn't define.
+- **Blocks:** nothing; a placeholder is in use (D-020)
+- **Context:** Cass is updating the Figma files with hover motion for the cards. Until then `--duration-hover` and `--ease-hover` in `tokens.css` stay placeholders (200ms, `ease-out`).
+- **Options:** replace the placeholders with values from the updated frames · keep the placeholders indefinitely if Figma never defines motion.
+- **Update (2026-09-29):** the card drop shadow and the card-to-headline alignment, this question's other two subjects, are now settled and out of scope here. The shadows exist in Figma as effect styles and are the real values in `tokens.css` — `--shadow-card` (`Portfolio Drop`): `0 1px 3px 1px #0000000D, 0 1px 2px 0 #0000001A`; `--shadow-card-warm` (`Portfolio Card drop`): `-1px 3px 3.5px 1px #F5EFE6AB`. `--shadow-card` is in use on the home page cards and every case study image/panel; `--shadow-card-warm` is defined but has no call site yet — worth checking against Figma when case study 2 is built, in case it belongs on a panel or finding block this page doesn't have. The card-to-headline baseline alignment was settled by D-020 (`--hero-title-baseline`); re-checking it in a browser against the current Figma frame is still a deferred visual check (no browser in this environment — see the case-study-page-one report). Retitled from "Card shadow, hover timing and alignment" to reflect that only hover timing is still open.
+
+---
+
+### Q-017 · Which Landing frame is current, and what the second one is for
+- **Raised:** 2026-09-29 · **Rewritten:** 2026-09-29 (the original question — where the Work page lives — is answered)
+- **Blocks:** nothing yet; matters before any further home page work
+- **Context:** The Work page was found at `19:104` in the same file. While mapping it, three copies of the landing design turned up:
+  - `1:79` on the `Landing` page — the frame the home page POC was built from;
+  - `127:3171` on the `Landing` page — **new since 2026-09-16**, the same 1920x1080 size, holding the same `Navigation` and `Content` instances;
+  - `30:339` on the `Work` page — another 1920x1080 `Landing` frame.
+
+  The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
+- **Questions:** which frame is the current home page design? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
+- **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
+
+### Q-018 · Image delivery: in-repo with Astro's pipeline, or hosted off-repo
+- **Raised:** 2026-09-29
+- **Blocks:** nothing for the first case study; becomes pressing once all four are built
+- **Context:** No decision was ever made about image delivery. [architecture.md](architecture.md) lists "optimised images through Astro's image handling" as a cross-cutting concern, but there is no `D-` entry, and it was written when the site had five SVGs. The case studies are image-heavy — four pages, 6003–9337px tall, mostly product screenshots — so this now matters. Cloudflare Workers static assets are free and unlimited for both requests and storage ([wiki/cloudflare-workers.md](wiki/cloudflare-workers.md)), so hosting cost is not the driver; repo size is.
+- **Options:**
+  - **In-repo under `src/assets/` (proposed for MVP):** `astro:assets` optimises at build — AVIF/WebP, responsive `srcset`, hashed names, intrinsic `width`/`height` against layout shift. Cost: repo size, and git history is permanent. Mitigate by downscaling originals before committing.
+  - **Off-repo (Cloudflare R2, or Cloudflare Images):** keeps the repo small, but Astro cannot process images it doesn't have at build time, so build-time optimisation and automatic `srcset` are lost. Responsive variants then need hand-rolling or Cloudflare Image Transformations (paid).
+  - **Hybrid:** small/UI images in-repo, large case study screenshots off-repo.
+- **Decide before:** committing the full image set for all four case studies. The first case study can proceed in-repo either way, as long as originals are downscaled first.
+- **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
+- **Update (2026-09-29):** Case Study 1 (Absa) committed 5 images under `src/assets/case-studies/streamlining-scoring/` — the intro hero screenshot and one per finding block — totalling **259,729 bytes (about 254 KiB / 260 KB)**, from 19.5 KB to 97.6 KB each. At that rate, four case studies of similar length would be roughly 1 MB of committed PNGs; CS2–4 are longer frames (7400–9337px vs CS1's 6003px) with more finding blocks, so the real total is likely somewhat higher. Numbers are pre-`astro:assets` processing (the committed source files); build output (AVIF/WebP/`srcset`) isn't counted here.
+
+### Q-019 · Which case studies the home page features
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet; the current behaviour is a placeholder
+- **Context:** The `caseStudies` collection reached four entries (Task 7 of the case-study-page-one batch added TRANSEARCH). The home page hero composition is built for exactly three cards — at `>=1880px` the row is `grid-auto-flow: column` with a fixed `grid-auto-columns: var(--size-card-width)`, so a fourth card extends the row rather than wrapping, and the Figma landing frame only ever shows three. `src/pages/index.astro` now takes the first three entries by `order` (`featuredCaseStudies`), so which three are shown is decided by each entry's `order` field, not by code.
+- **Options:**
+  - **Keep "first three by `order`"** (in use now): simplest, but the meaning of `order` becomes overloaded — it controls both the "Other case studies" ranking and home page inclusion.
+  - **A separate `featured: boolean` field** in the schema: explicit, decoupled from ordering, but another field to keep in sync as case studies are added.
+  - **Cass redesigns the hero for four (or however many) cards.**
+- **Also decide:** what should happen as a fifth case study is added — does the home page still show only three, or does the count change too?
+
+### Q-020 · The `/work` index route
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet
+- **Context:** The case study spec scoped the `/work` index route out ("Out of scope: The `/work` index route"), so it still 404s. `CaseStudySubNav.astro`'s "All projects" back link already points at it (`withBase('/work')`), and every case study card links to `/work/<id>`, so the site has working links to a page that doesn't exist. Same shape as Q-011's `/resume`.
+- **Options:** build a simple index page listing all four case studies, reusing `CaseStudyCard` · redirect `/work` to `/` for now · leave it 404ing until Cass says what it should contain.
+
+### Q-021 · A third undocumented light purple, `#E3E7FF`
+- **Raised:** 2026-09-29
+- **Blocks:** nothing yet
+- **Context:** [figma/tokens.md](figma/tokens.md) already flags two conflicting light purple variables, `Light purple` `#c4cdf4` (in use as `--color-light-purple`) and `Light Purple` `#C1CBFF`. Building the case study page's Interviews panel turned up a third: the pull quote (86:212) is filled `Light x 2` (`#E3E7FF`), which has no token at all. At 28px on the Purple panel background it reads near-identical to White, so the build uses `--color-white` there as the nearest tokenised stand-in.
+- **Options:** confirm which of the three light purples (if any) is the intended one and consolidate the tokens · treat `#E3E7FF` as a one-off Figma slip, same as the `C1CBFF` case · add a fourth colour token if all three are meant to coexist.
+
+### Q-022 · Finding blocks' inconsistent drop shadow in Figma
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; one shadow used consistently in the build
+- **Context:** In the Design section's four finding-block images, P1 and P2 use the `Portfolio Drop` effect style and P3 and P4 use `Portfolio Card drop` — the same drift pattern already flagged for the card shadows (see Q-013's history). `FindingBlock.astro` applies `--shadow-card` (`Portfolio Drop`) to every image consistently rather than reproducing the split.
+- **Update 2026-09-30 (CS2):** the Status tracker screenshot (`91:1036`) uses a third effect, `Image Drop` (2, 4, 10.2, −36, `#0000000D`); its −36px spread makes it effectively invisible. `CaseStudyFigure` uses `--shadow-card` for it like every other screenshot.
+- **Options:** confirm `Portfolio Drop` is correct for all four and fix the drifted Figma layers · confirm the split is intentional (e.g. image vs. screenshot-with-UI) and give `FindingBlock` a shadow prop.
+
+### Q-023 · Copy defects transcribed faithfully from Figma
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; the copy is live as transcribed
+- **Context:** Case study prose was transcribed exactly as Figma has it, defects included, rather than silently corrected — copy is Cass's content, not something to edit without asking. Known defects in `src/pages/work/streamlining-scoring.astro`:
+  - P2 (Giving the agent control, problem): "Agents had to manually keep track of Customers products, monthly repayments and benefits manually." — "manually" appears twice.
+  - P3 (A variety of choices, solution): "...The products suggested would also be driven by customer data" — no full stop.
+  - Key learnings, bullet 2: "Customers come to Agents with problems they need solved rather then products in mind." — "then" should be "than".
+
+  In `src/pages/work/consolidating-import-collections.astro` (added 2026-09-30):
+  - Project outcome: "…through journey mapping to development , and left…" — a space before the comma.
+  - Step by step: "…due to legal restraints." — probably "restrictions".
+  - Checker persona, pain point 2: "long feedback threads via email;" starts lowercase where the others are capitalised.
+  - Trade officer flow insight: "swopping" — a valid variant spelling of "swapping", listed only for Cass to confirm.
+- **Options:** Cass confirms and the typos are fixed as a copy change · Cass says these are intentional (unlikely) and they stay.
+
+### Q-024 · Case study alt text needs Cass's review
+- **Raised:** 2026-09-29
+- **Blocks:** nothing; drafted text is live, marked for review
+- **Context:** The case study spec calls for alt text to be drafted from the surrounding copy but not presented as finished, because what each screenshot is meant to *demonstrate* is Cass's design intent, not something inferable from the image alone. Every image in `src/pages/work/streamlining-scoring.astro` has drafted alt text and a `TODO(cass)` comment above it.
+- **Update 2026-09-30:** `src/pages/work/consolidating-import-collections.astro` adds 10 more drafted alt strings (the intro hero, the as-is journey, three journey flows, the before and after capture screens, the two reviewing screens, and the Status tracker dashboard), each with a `TODO(cass)` comment. Persona illustrations and the capture arrow are decorative (`aria-hidden`).
+- **Options:** Cass reviews and edits the 15 drafted `alt` strings across both pages · Cass supplies replacement copy directly.
+
+### Q-025 · Is the redaction blur on the Standard Bank "before" screenshot strong enough?
+- **Raised:** 2026-09-30
+- **Blocks:** nothing; shipped as drawn (D-032)
+- **Context:** Cass redacted client data in the Easier Data Capture "before" screenshot (`91:1087`) with blurred overlay slices. At the 2× export used on the site, some values are close to legible, including what look like a customer name and a person's name in the comments panel. The unredacted raw image was never saved.
+- **Options:** Cass is happy with it as is · Cass strengthens the blur in Figma and the render is re-exported (a one-file swap: `src/assets/case-studies/consolidating-import-collections/capture-before-redacted.png`).
+
+### Q-026 · Case study pages below desktop width
+- **Raised:** 2026-10-01
+- **Blocks:** nothing yet; the responsive pass
+- **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
+- **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.

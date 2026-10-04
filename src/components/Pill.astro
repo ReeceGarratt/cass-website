@@ -1,0 +1,49 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  variant?: 'client' | 'userType';
+  icon?: ImageMetadata;
+  class?: string;
+}
+
+const { variant = 'client', icon, class: className } = Astro.props;
+---
+
+<span class:list={['pill', `pill--${variant}`, className]}>
+  {icon && (
+    <Image class="pill__icon" src={icon} alt="" width={24} height={24} />
+  )}
+  <span class="pill__label">
+    <slot />
+  </span>
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    gap: var(--space-8);
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--space-8);
+    padding-inline: var(--space-16);
+    border-radius: var(--radius-pill-label);
+    font-weight: var(--type-subtitle-emphasis-weight);
+  }
+
+  .pill--client {
+    background-color: var(--color-purple);
+    color: var(--color-white);
+  }
+
+  .pill--userType {
+    background-color: var(--color-light-purple);
+    color: var(--color-purple);
+  }
+
+  .pill__icon {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+</style>

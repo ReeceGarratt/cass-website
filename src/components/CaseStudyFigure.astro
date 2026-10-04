@@ -1,0 +1,76 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  caption?: string;
+  // Figma's two handwritten styles: "Hand written small" (20px) under
+  // screenshots, "Hand written" (28px) for the as-is journey (92:1637).
+  captionSize?: 'small' | 'large';
+  // 'inverse' is White, for figures inside a Purple panel.
+  captionTone?: 'default' | 'inverse';
+  captionAlign?: 'start' | 'end';
+}
+
+const {
+  image,
+  alt,
+  caption,
+  captionSize = 'small',
+  captionTone = 'default',
+  captionAlign = 'start',
+} = Astro.props;
+---
+
+<figure class="case-study-figure">
+  <Image class="case-study-figure__image" src={image} alt={alt} />
+  {caption && (
+    <figcaption
+      class:list={[
+        'case-study-figure__caption',
+        captionSize === 'small' ? 'type-handwritten-small' : 'type-handwritten',
+        `case-study-figure__caption--${captionTone}`,
+        `case-study-figure__caption--${captionAlign}`,
+      ]}
+    >
+      {caption}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  /* Screenshot plus handwritten caption, 16px apart (--h2-&-body, 91:1055).
+     Figma's crops are baked into the asset files, so the image just fills
+     its column at its own aspect ratio. */
+  .case-study-figure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .case-study-figure__image {
+    inline-size: 100%;
+    border-radius: var(--radius-image);
+    /* Portfolio Drop. Figma gives one CS2 screenshot "Image Drop"
+       (91:1036), whose -36px spread makes it invisible: drift, Q-022. */
+    box-shadow: var(--shadow-card);
+  }
+
+  .case-study-figure__caption {
+    text-transform: lowercase;
+  }
+
+  .case-study-figure__caption--default {
+    color: var(--color-purple);
+  }
+
+  .case-study-figure__caption--inverse {
+    color: var(--color-white);
+  }
+
+  .case-study-figure__caption--end {
+    text-align: end;
+  }
+</style>

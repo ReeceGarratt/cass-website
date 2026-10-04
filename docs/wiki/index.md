@@ -18,6 +18,8 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 - [Open questions](../questions.md): decisions still waiting on the user (Q-xxx), with a summary table.
 - [Decisions](../decisions.md): numbered decisions that have been made (D-xxx).
 - [Figma build workflow and snapshots](../figma/README.md): the phases for building screens from Figma, saved MCP output (one folder per frame), and the frame index.
+- [Design system page snapshot](../figma/design-system/README.md): the frame inventory of the Figma Design system page, and the styles and variables it defines.
+- [Work page snapshot](../figma/work-page.md): the four case study frames, how they're assembled from components, and the section vocabulary they share.
 
 ## Tooling & environment
 
@@ -35,6 +37,7 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 ## Design
 
 - [Design tokens](design-tokens.md): where the tokens live, the naming scheme, unit rules, how the fluid `clamp()` values were derived, and an accepted residual in the card caption wrap.
+- [Componentisation](componentisation.md): what the Figma Design system page defines, which of it is worth building as a component, and what has to be decided first.
 
 ## Sources
 

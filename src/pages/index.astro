@@ -7,6 +7,11 @@ import Flower from '../assets/flower.svg';
 const caseStudies = (await getCollection('caseStudies')).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+/* The home page composition is designed for three cards (Figma landing
+   frame); a fourth would extend the >=1880px row past its layout. Which
+   case studies are featured here is Cass's call — see questions.md. */
+const featuredCaseStudies = caseStudies.slice(0, 3);
 ---
 
 <BaseLayout title="cassandra garratt">
@@ -32,7 +37,7 @@ const caseStudies = (await getCollection('caseStudies')).sort(
       </p>
     </div>
     <ul class="hero__cards" role="list">
-      {caseStudies.map((caseStudy) => (
+      {featuredCaseStudies.map((caseStudy) => (
         <li>
           <CaseStudyCard caseStudy={caseStudy} />
         </li>

@@ -1,0 +1,90 @@
+---
+interface Props {
+  id: string;
+  term: string;
+}
+
+const { id, term } = Astro.props;
+---
+
+<button class="definition-trigger" type="button" popovertarget={id}>
+  {term}
+</button>
+<span class="definition-tip" id={id} popover>
+  <span class="definition-tip__term type-subtitle">{term}</span>
+  <span class="definition-tip__body type-subtitle">
+    <slot />
+  </span>
+</span>
+
+<style>
+  .definition-trigger {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    cursor: pointer;
+  }
+
+  /* The bubble's tail (the speech-bubble point) from Figma is deliberately
+     omitted: it is drawn at a fixed percentage inset of a fixed-width
+     bubble, which does not survive the bubble being repositioned by the
+     script below. Approximating it would drift out of alignment, so it is
+     left off as a known visual difference rather than faked. */
+  .definition-tip {
+    /* A <span>, not a <div>: the trigger sits inline in running prose (e.g.
+       CaseStudyIntro's lead paragraph), and a <div popover> there would
+       close the parent <p> per the HTML parsing spec, ejecting the rest of
+       the sentence out of its styled wrapper. `popover` is a global
+       attribute and works on any element, so a <span> keeps this safe to
+       drop into flowing text anywhere.
+
+       Do NOT set `display` here: an author `display` beats the browser's
+       `[popover]:not(:popover-open) { display: none }`, leaving a closed
+       popover visible in the flow. An open popover is position: fixed, which
+       already blockifies the span. */
+    inline-size: min(28.9375rem, calc(100vw - 2rem)); /* 463px */
+    padding: var(--space-16);
+    border: 0;
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+    color: var(--color-purple);
+    filter: var(--shadow-definition-tip);
+  }
+
+  .definition-tip__term,
+  .definition-tip__body {
+    display: block;
+  }
+
+  .definition-tip__term {
+    margin-block-end: var(--space-8);
+    font-weight: var(--type-subtitle-emphasis-weight);
+  }
+</style>
+
+<script>
+  // Opening, closing, Escape, light dismiss and focus are all native to the
+  // Popover API — no JS is needed for behaviour. This script exists only to
+  // *position* the bubble under its trigger: popovers render in the top
+  // layer, outside normal document flow, so an ancestor cannot position
+  // them with CSS. Without this script (e.g. JS disabled) the popover still
+  // opens and closes via `popovertarget`, just centred in the viewport.
+  for (const trigger of document.querySelectorAll<HTMLButtonElement>(
+    '.definition-trigger',
+  )) {
+    const tip = document.getElementById(trigger.getAttribute('popovertarget')!);
+    if (!tip) continue;
+    tip.addEventListener('beforetoggle', (event) => {
+      if ((event as ToggleEvent).newState !== 'open') return;
+      const rect = trigger.getBoundingClientRect();
+      tip.style.position = 'fixed';
+      tip.style.margin = '0';
+      tip.style.insetBlockStart = `${rect.bottom + 8}px`;
+      tip.style.insetInlineStart = `${rect.left}px`;
+    });
+  }
+</script>

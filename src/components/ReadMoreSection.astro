@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import CaseStudyCard from './CaseStudyCard.astro';
+
+interface Props {
+  currentId: string;
+}
+
+const { currentId } = Astro.props;
+
+const others = (await getCollection('caseStudies'))
+  .filter((entry) => entry.id !== currentId)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="read-more" aria-labelledby="read-more-heading">
+  <h2 class="read-more__heading type-title-1" id="read-more-heading">
+    Other case studies
+  </h2>
+  <ul class="read-more__list" role="list">
+    {others.map((entry) => (
+      <li class="read-more__item">
+        <CaseStudyCard caseStudy={entry} showClient headingLevel={3} />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  /* 99:2461: heading 262px, 60px, three 448px cards 16px apart = 1698px,
+     inside the 1700px content track at 1920. Rounding the 60px up to
+     --space-64 made the row 1702px, which forced the page 2px wider than
+     the viewport. */
+  .read-more {
+    display: flex;
+    gap: var(--space-read-more-gap);
+    align-items: center;
+  }
+
+  .read-more__heading {
+    flex: none;
+    inline-size: 16.375rem; /* 262px */
+    color: var(--color-purple);
+    text-align: end;
+  }
+
+  .read-more__list {
+    display: flex;
+    min-inline-size: 0;
+    gap: var(--space-16);
+    align-items: stretch;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* 448px at full width, but allowed to shrink: a fixed width made the
+     row's min-content wider than any viewport below ~1920px, giving the
+     whole page a horizontal scrollbar. */
+  .read-more__item {
+    display: flex;
+    flex: 0 1 28rem; /* 448px */
+    min-inline-size: 0;
+  }
+</style>

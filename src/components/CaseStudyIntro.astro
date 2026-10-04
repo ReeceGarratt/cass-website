@@ -1,0 +1,160 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Pill from './Pill.astro';
+
+interface Props {
+  eyebrow: string;
+  // Also the fallback for the optional "title" slot, which a page uses when
+  // Figma breaks the title explicitly rather than by wrapping (CS2 53:159 is
+  // two paragraphs, "consolidating" / "import collections", in a box wide
+  // enough to fit "consolidating import").
+  title: string;
+  userTypes: { label: string; icon: ImageMetadata }[];
+  image: ImageMetadata;
+  imageAlt: string;
+  id?: string;
+}
+
+const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
+---
+
+<div class="case-study-intro" id={id}>
+  <div class="case-study-intro__stack">
+    <div class="case-study-intro__title-block">
+      <div class="case-study-intro__header">
+        <span class="case-study-intro__eyebrow type-handwritten">
+          {eyebrow}
+        </span>
+        <h1 class="case-study-intro__title type-title-1">
+          <slot name="title">{title}</slot>
+        </h1>
+        <div class="case-study-intro__users">
+          {userTypes.map(({ label, icon }) => (
+            <Pill variant="userType" icon={icon}>
+              {label}
+            </Pill>
+          ))}
+        </div>
+      </div>
+      <p class="case-study-intro__lead type-subtitle">
+        <slot />
+      </p>
+    </div>
+    <div class="case-study-intro__goal-outcome">
+      <div class="case-study-intro__block">
+        <h2 class="case-study-intro__heading type-h2">project goal</h2>
+        <div class="case-study-intro__body type-body-med">
+          <slot name="goal" />
+        </div>
+      </div>
+      <hr class="case-study-intro__divider" />
+      <div class="case-study-intro__block">
+        <h2 class="case-study-intro__heading type-h2">project outcome</h2>
+        <div class="case-study-intro__body type-body-med">
+          <slot name="outcome" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <Image
+    class="case-study-intro__image"
+    src={image}
+    alt={imageAlt}
+    loading="eager"
+    fetchpriority="high"
+  />
+</div>
+
+<style>
+  /* Column split from the fetched Introduction section (86:441): the text
+     stack measures 687px and the screenshot 894px, expressed here as fr
+     weights rather than fixed widths so the layout stays fluid. The gap
+     between them (805 - 687 = 118px) isn't on the 8px spacing scale, so it
+     gets its own bespoke token (--space-intro-columns) rather than being
+     rounded to the nearest scale step. */
+  .case-study-intro {
+    display: grid;
+    grid-template-columns: 687fr 894fr;
+    align-items: start;
+    gap: var(--space-intro-columns);
+  }
+
+  .case-study-intro__stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+  }
+
+  .case-study-intro__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-56);
+  }
+
+  .case-study-intro__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16);
+  }
+
+  .case-study-intro__eyebrow {
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  .case-study-intro__title {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .case-study-intro__users {
+    display: flex;
+    gap: var(--space-16);
+  }
+
+  .case-study-intro__lead {
+    color: var(--color-purple);
+  }
+
+  .case-study-intro__goal-outcome {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sub-sections);
+    inline-size: 100%;
+  }
+
+  .case-study-intro__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-headings-body);
+  }
+
+  .case-study-intro__heading {
+    color: var(--color-red);
+  }
+
+  .case-study-intro__body {
+    color: var(--color-purple);
+  }
+
+  /* The empty line between the outcome's two paragraphs (a spacer text node
+     in Figma) isn't a measurable value — --space-16 is the nearest
+     paragraph-gap step already used elsewhere for prose rhythm. */
+  .case-study-intro__body :global(p + p) {
+    margin-block-start: var(--space-16);
+  }
+
+  .case-study-intro__divider {
+    inline-size: var(--size-divider-width);
+    block-size: 1px;
+    border: 0;
+    background-color: var(--color-light-purple);
+  }
+
+  .case-study-intro__image {
+    border-radius: var(--radius-image);
+    box-shadow: var(--shadow-card);
+  }
+</style>

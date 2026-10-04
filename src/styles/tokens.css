@@ -21,12 +21,15 @@
   --color-white: #ffffff;
   --color-grey: #6b6b6b;
   --color-light-purple: #c4cdf4;
-  /* Colour: fills in the design that aren't Figma variables */
+  --color-light-grey: #e7e6e6;
   --color-black: #000000; /* hero headline */
+
+  /* Colour: measured (not a Figma variable) */
   --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
 
   /* Font family (registered in astro.config.mjs) */
   --font-family-base: var(--font-inter);
+  --font-family-handwritten: var(--font-la-belle-aurore);
 
   /* Type: Title (hero headline), fluid 72px → 100px */
   --type-title-size: clamp(4.5rem, 1.5833rem + 3.8889vw, 6.25rem);
@@ -41,9 +44,11 @@
   --type-subtitle-weight: 400;
   --type-subtitle-emphasis-weight: 700;
 
-  /* Type: card title (the Figma style is called "H1") */
+  /* Type: card title (the Figma style is called "H1").
+     Line height changed 0.98 -> 0.92 on 2026-09-29; confirmed against the
+     current Figma frame. This changes card heights on the home page. */
   --type-card-title-size: 1.875rem;
-  --type-card-title-line-height: 0.98;
+  --type-card-title-line-height: 0.92;
   --type-card-title-letter-spacing: -0.02em;
   --type-card-title-weight: 700;
 
@@ -71,8 +76,85 @@
   --type-nav-letter-spacing: -0.011em;
   --type-nav-weight: 700;
 
+  /* Type: Title 1 (case study title, "Other case studies") */
+  --type-title-1-size: 3.125rem; /* 50px */
+  --type-title-1-line-height: 0.96; /* 48/50 */
+  --type-title-1-letter-spacing: -0.04em;
+  --type-title-1-weight: 900;
+
+  /* Type: Title 2 (case study section headings) */
+  --type-title-2-size: 2.8125rem; /* 45px */
+  --type-title-2-line-height: 1;
+  --type-title-2-letter-spacing: -0.02em;
+  --type-title-2-weight: 900;
+
+  /* Type: H2 (project goal / outcome headings). Figma letterSpacing is 0 */
+  --type-h2-size: 1.25rem; /* 20px */
+  --type-h2-line-height: 1.12;
+  --type-h2-letter-spacing: 0;
+  --type-h2-weight: 700;
+
+  /* Type: Body Med */
+  --type-body-med-size: 1rem;
+  --type-body-med-line-height: 1.48;
+  --type-body-med-letter-spacing: -0.011em;
+  --type-body-med-weight: 500;
+
+  /* Type: Hand written */
+  --type-handwritten-size: 1.75rem; /* 28px */
+  --type-handwritten-line-height: 1.11;
+  --type-handwritten-letter-spacing: -0.02em;
+  --type-handwritten-weight: 400;
+
+  /* Type: Stats (the "14 out of 15" figure in the user-testing panel).
+     Figma style "Stats": Inter Black 96 / 0.88 / -2 (a percentage, as with
+     every other letterSpacing in this file). Only one node uses it so far. */
+  --type-stats-size: 6rem; /* 96px */
+  --type-stats-line-height: 0.88;
+  --type-stats-letter-spacing: -0.02em;
+  --type-stats-weight: 900;
+
+  /* Type: H3 (finding-block labels, e.g. "problem" / "outcome") */
+  --type-h3-size: 0.875rem; /* 14px */
+  --type-h3-line-height: 1.5;
+  --type-h3-letter-spacing: -0.011em;
+  --type-h3-weight: 700;
+
+  /* Type: Hand written small (La Belle Aurore 20 / 1.11 / -2%): captions
+     under CS2 screenshots (91:1057, 91:1107) */
+  --type-handwritten-small-size: 1.25rem; /* 20px */
+  --type-handwritten-small-line-height: 1.11;
+  --type-handwritten-small-letter-spacing: -0.02em;
+  --type-handwritten-small-weight: 400;
+
+  /* Type: Sub Titles (Inter Medium 14 / 1.5 / -1.1%): CS2's future state
+     card body (163:2240) */
+  --type-sub-titles-size: 0.875rem; /* 14px */
+  --type-sub-titles-line-height: 1.5;
+  --type-sub-titles-letter-spacing: -0.011em;
+  --type-sub-titles-weight: 500;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
+
+  /* Space: scale. The number is the px value at a 16px root */
+  --space-2: 0.125rem; /* CS2 future state card title-to-body gap (163:2238) */
+  --space-8: 0.5rem;
+  --space-16: 1rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-40: 2.5rem;
+  --space-48: 3rem;
+  --space-56: 3.5rem;
+  --space-64: 4rem;
+  --space-80: 5rem;
+  --space-96: 6rem;
+  --space-160: 10rem; /* case study section spacing: every section in both
+  frames starts 160px after the previous one (e.g. CS1 1105 → 1265) */
+
+  /* Figma's two spacing variables, aliased so the link stays traceable */
+  --space-headings-body: var(--space-16); /* Figma: Headings & Body */
+  --space-sub-sections: var(--space-48); /* Figma: Sub-Sub Sections */
 
   /* Space */
   --space-gutter: clamp(3rem, -3.4583rem + 8.6111vw, 6.875rem); /* 48 → 110px */
@@ -90,6 +172,30 @@
   --space-skip-link-inset: 1rem;
   --space-skip-link-padding-block: 0.75rem;
   --space-skip-link-padding-inline: 1rem;
+  --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
+  quote in the case study "talking to the experts" panel (86:212). Like
+  --space-intro-columns it's a one-off measured gap rather than a scale step. */
+  --space-back-link-gap: 0.875rem; /* 14px; arrow-to-label gap in the case study
+  sub nav "All projects" link */
+  --space-panel-inset: 2.125rem; /* 34px; inline padding of the Interviews
+  panel's top row and details grid (86:211) */
+  --space-intro-columns: 7.375rem; /* 118px; case study intro text/image gap.
+  Not a scale-worthy number (halfway between --space-96 and nothing above it),
+  so it's a bespoke one-off like the other Space tokens above rather than a
+  new scale step. */
+  --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
+  --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
+  handwritten note (92:1608 top 584 − card bottom 563) */
+  --space-capture-images: 5.625rem; /* 90px; CS2 Easier Data Capture before
+  and after screenshots (91:1085: after at x=697, before 607 wide) */
+  --space-capture-before-offset: 0.875rem; /* 14px; CS2 "before" screenshot
+  sits lower than "after" (91:1086 mt-[14px]) */
+  --space-capture-heading-offset: 3.72rem; /* 59.54px; CS2 Easier Data Capture
+  info row starts below the heading's first line (91:1067 mt-[59.54px]) */
+  --space-future-card: 1.25rem; /* 20px; CS2 future state card padding (163:2237) */
+  --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
+  below the top of the Personas frame (92:1579). The checker illustration
+  (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
@@ -102,6 +208,53 @@
   --size-arrow: 3.125rem; /* 50px */
   --size-nav-dot: 0.625rem; /* 10px */
   --size-hero-intro-width: 27.625rem; /* 442px */
+  --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
+
+  /* 1448px. Three case study frames share this measure, inset symmetrically
+     inside the 1699px (Figma; 1700px rendered) content track rather than filling it: the two Purple
+     panels (86:211 at x=236.196, 19:109 at x=234.696) and the Design section
+     (87:504 at x=236.196). One token so the three call sites can't drift.
+     Deliberately not a third grid track — the grid stays two-track as
+     designed, and this is expressed where it's used. */
+  --size-inset-measure: 90.5rem;
+
+  /* Process strip. Everything is in em of the strip's label type, which is
+  30px at the design size, so the whole row (labels, arrows, gaps) scales
+  as one when ProcessStrip shrinks its type on narrower viewports, and
+  each label keeps Figma's line breaks at every size. Each value is its
+  Figma px over 30.
+
+  Step wrap widths (67:334 outline): the fixed width Figma gives each text
+  node, so long labels wrap as designed (verified against the fetched
+  screenshot's crop). */
+  --size-process-step-identify: calc(133em / 30); /* identify business needs */
+  --size-process-step-asis: calc(210em / 30); /* as-is journey investigations */
+  --size-process-step-sme: calc(150em / 30); /* sme interviews */
+  --size-process-step-research: calc(129em / 30); /* user research */
+  --size-process-step-design: calc(97em / 30); /* design */
+  --size-process-step-testing: calc(123em / 30); /* usability testing */
+  /* CS2 (Standard Bank) process strip label widths, from the 91:701 outline. */
+  --size-process-step-import-identify: calc(129em / 30);
+  --size-process-step-import-research: calc(126em / 30);
+  --size-process-step-import-personas: calc(134em / 30);
+  --size-process-step-import-journeys: calc(129em / 30);
+  --size-process-step-import-wireframing: calc(198em / 30);
+  --size-process-step-import-development: calc(187em / 30);
+  /* Safety-net cap on a step label (256px), so a label passed an oversized
+  width wraps instead of overflowing. Comfortably above the widest measured
+  value (210px), so real labels never reach it. */
+  --size-process-step-max: calc(256em / 30);
+  --space-process-step-gap: calc(32em / 30); /* gap-32px in 67:334 */
+  /* Arrow_01 instance box, 41.83 x 27.33px */
+  --size-process-arrow-width: calc(41.8304em / 30);
+  --size-process-arrow-height: calc(27.3296em / 30);
+  /* The widest row, CS2's, in em: 903px of labels + 5 arrows + 10 gaps =
+  1432px at 30px. The strip's type shrinks once the row would no longer
+  fit this many em inside the gutters. */
+  --size-process-row: 47.75;
+  /* Smallest the strip's type scales to before the row wraps instead.
+  A starting value to test, not from Figma (Figma only has desktop). */
+  --type-process-min-size: 1.25rem; /* 20px */
 
   /* Hero decoration and offsets, relative to the title size */
   --hero-flower-size: 0.9em; /* 90px at 100px */
@@ -131,12 +284,19 @@
   /* Radius */
   --radius-card: 1.5625rem; /* 25px */
   --radius-pill: 3.375rem; /* 54px */
+  --radius-pill-label: 1.5625rem; /* 25px */
+  --radius-image: 0.75rem; /* 12px; case study screenshots */
+  --radius-panel: 0.75rem; /* 12px; the inset Purple case study panels
+  (86:211, 19:109). Same value as --radius-image today, kept separate because
+  they're different things in Figma and either could move independently. */
 
-  /* Shadow: placeholder until Figma defines it. Small and tinted Purple, to
-  lift the white cards off the Off White background */
+  /* Shadow: Figma effect styles (docs/figma/tokens.md) */
   --shadow-card:
-    0 0.0625rem 0.125rem color-mix(in srgb, var(--color-purple) 8%, transparent),
-    0 0.125rem 0.5rem color-mix(in srgb, var(--color-purple) 10%, transparent);
+    0 0.0625rem 0.1875rem 0.0625rem #0000000d, 0 0.0625rem 0.125rem 0 #0000001a;
+  --shadow-card-warm: -0.0625rem 0.1875rem 0.21875rem 0.0625rem #f5efe6ab;
+  /* Definition tip bubble (99:2839): drop-shadow(0 -2px 4.4px rgba(0,0,0,0.08)).
+  A filter function, not a box-shadow, so it follows the bubble's rounded shape */
+  --shadow-definition-tip: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
 
   /* Motion: not in Figma yet. Colour and opacity fades only, no movement.
   ease-out starts fast so hover feels responsive, then settles */
