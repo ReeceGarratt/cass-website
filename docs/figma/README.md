@@ -108,7 +108,7 @@ Images that ship with the site go in `src/` or `public/`, not here.
 | **Work page** (Landing frame + 4 case studies) | [`outline-work-page.md`](outline-work-page.md) | `19:104` | 2026-09-29 (outline) |
 | 💻 Case Study 1 — Absa, streamlining scoring | [`case-study-1-desktop/`](case-study-1-desktop/) | `53:156` | 2026-09-29 (screenshot, outline, context for all 7 sections, images) |
 | 💻 Case Study 2 — Standard Bank, import collections | [`case-study-2-desktop/`](case-study-2-desktop/) | `91:669` | 2026-09-30 (screenshot, context for all 9 sections and the Definition Tip, images, persona SVGs) |
-| 💻 Case Study 3 — MiX Telematics, sales workflow | [`case-study-3-desktop/`](case-study-3-desktop/) | `92:1823` | 2026-09-29 (screenshot) |
+| 💻 Case Study 3 — MiX Telematics, sales workflow | [`case-study-3-desktop/`](case-study-3-desktop/) | `92:1823` | 2026-10-04 (context for all 8 sections, the Sub Nav and the Definition Tip, section renders, images; screenshot 2026-09-29) |
 | 💻 Case Study 4 — TRANSEARCH, interactive workbook | [`case-study-4-desktop/`](case-study-4-desktop/) | `144:269` | 2026-09-29 (screenshot) |
 | Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
 | Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
