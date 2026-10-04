@@ -161,6 +161,21 @@ a {
   letter-spacing: var(--type-handwritten-letter-spacing);
 }
 
+.type-handwritten-small {
+  font-family: var(--font-family-handwritten);
+  font-size: var(--type-handwritten-small-size);
+  font-weight: var(--type-handwritten-small-weight);
+  line-height: var(--type-handwritten-small-line-height);
+  letter-spacing: var(--type-handwritten-small-letter-spacing);
+}
+
+.type-sub-titles {
+  font-size: var(--type-sub-titles-size);
+  font-weight: var(--type-sub-titles-weight);
+  line-height: var(--type-sub-titles-line-height);
+  letter-spacing: var(--type-sub-titles-letter-spacing);
+}
+
 /* Case study page grid.
    Sections are constrained to the content track by default and opt out to
    full-bleed with .u-bleed. Correct-by-default: forgetting the class yields
@@ -184,7 +199,7 @@ a {
     [full-start] var(--space-gutter)
     [content-start] 1fr [content-end]
     var(--space-gutter) [full-end];
-  row-gap: var(--space-96);
+  row-gap: var(--space-160);
   max-inline-size: var(--page-max-width);
   margin-inline: auto;
 }
@@ -202,6 +217,39 @@ a {
 /* The sub nav is sticky and 80px tall, so anchor targets need clearance. */
 .case-study [id] {
   scroll-margin-block-start: var(--space-96);
+}
+
+/* Inset Purple panel: the card shared by CS1's "talking to the experts"
+   (86:211) and user-testing (19:109) panels and CS2's "taking it step by
+   step" (91:1437) and handover (99:2454) panels, 1442–1451px wide in Figma
+   (one --size-inset-measure). A utility class rather than a component:
+   the heading sits somewhere different in each (above the body, beside it,
+   right-aligned), so a component would be a <section> with a slot. Global
+   because two pages use it and page styles are scoped.
+
+   NOT full-bleed. The frames are inset symmetrically inside the content
+   track (e.g. 86:211 x=236.196 w=1448, both rounded-[12px]): an inset plus
+   a corner radius is a card, not a band. Only the process strip and CS2's
+   two bands (92:1636, 91:1039) are genuinely full-bleed, via u-bleed.
+
+   The copy measure inside is the card's width less its 80px padding either
+   side, so there's no second max-width mechanism inside. */
+.panel {
+  /* 80px all round. That is 86:211's padding exactly (p-[80px]); 19:109
+     instead has px-[328px] py-[80px], but its 328px is a centring device,
+     not padding (1451 − 2×328 = 795, the width of its content row, which
+     the page centres in the card instead). Same result, and it survives the
+     card being narrower than 795 + 656. */
+  padding: var(--space-80);
+  border-radius: var(--radius-panel);
+  /* Auto inline margins stop a grid item stretching, so without an explicit
+     size the card shrinks to its content: CS1's user-testing panel rendered
+     970px wide and CS2's handover 1012px, against 1451/1442 in Figma. */
+  inline-size: 100%;
+  max-inline-size: var(--size-inset-measure);
+  margin-inline: auto;
+  background-color: var(--color-purple);
+  color: var(--color-white);
 }
 
 @media (prefers-reduced-motion: no-preference) {

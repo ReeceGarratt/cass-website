@@ -1,13 +1,15 @@
 ---
-summary: What actually got built for Case Study 1 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
-updated: 2026-09-29
+summary: What actually got built for Case Studies 1 and 2 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
+updated: 2026-09-30
 related: [design-tokens.md, figma-mcp.md, index.md]
-decisions: [D-013, D-002, D-022, D-025, Q-005, Q-013, Q-017]
+decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017]
 ---
 
 # Componentisation
 
 ## What was actually built (Case Study 1, 2026-09-29)
+
+> **Partly superseded by case study 2 (2026-09-30).** `ProcessStrip`'s measured-width lookup table is gone: widths are props (D-028). `FindingsList` became a component at its second use, and `.panel` moved out of the CS1 page into `global.css` (D-029). See [What case study 2 added](#what-case-study-2-added-standard-bank-2026-09-30).
 
 The predictions below were written *before* building the first case study page. They're kept as-is further down this page for the reasoning; this section is the correction pass the case-study-page-one plan's Task 18 calls for — what got built, and where the predictions were right or wrong.
 
@@ -37,9 +39,32 @@ An analysis of the Figma **Design system** page and the four case studies on the
 
 The rule it applies is the one in `AGENTS.md`: *extract a component when markup repeats or Figma defines it as a component, not in advance.* A Figma component set is evidence, not an instruction — Cass's file also contains detached copies and drawing conveniences that shouldn't become code. The Work page is the better evidence, because it shows which components are actually *instanced* and how often.
 
+## What case study 2 added (Standard Bank, 2026-09-30)
+
+The second page is where "extract on second use" was tested. Counts are from `grep -c` on the two page files.
+
+| Piece | CS1 | CS2 | What happened |
+|---|---|---|---|
+| `SectionHeading` | 3 | 1 | CS2 has only one eyebrow + Red heading. Its other headings are Purple (Solutions) or Light purple (panels, bands), hand-rolled `type-title-2`. **The ~12 projection across four case studies looks high;** expect 1–3 per case study |
+| `FindingBlock` | 4 | 3 | The three journey rows, on Purple, needed `tone`, `columns` and `align` (D-029). Status tracker stayed page markup: it would have needed three more props |
+| `LabelledFindings` | via `FindingBlock` | 6 direct + 3 via `FindingBlock` | Extracted from `FindingBlock`: the label/body list recurs outside it in every Solutions section |
+| `FindingsList` | 1 | 1 | Extracted, as predicted, at its second use |
+| `.panel` | 2 | 2 | A global utility, not a component. Confirmed: the heading sits differently in all four |
+| `CaseStudyFigure` | 0 | 6 | New: screenshot + handwritten caption |
+
+**Stayed page markup:** persona cards (CS4's are a different shape), CS2's two full-bleed bands (Purple journey, White reviewing), the Easier Data Capture layout, and the business-problem grid. The grid is now duplicated in both pages, so extract it at a third use.
+
+**The "full-bleed Purple panel" section type is really two things.** CS1 only had inset panels, but CS2 has both inset panels (`.panel`) and genuinely full-bleed bands (`u-bleed` + background), in Purple and White. Check the outline's x and width before deciding which (D-026).
+
 ## Layout gotchas
 
 - **`display` on a `[popover]` element overrides the closed-popover hiding.** Browsers hide closed popovers with a user-agent `[popover]:not(:popover-open) { display: none }`; any author `display` beats it, so the popover renders permanently in the flow. Set `display` only under `:popover-open`, or not at all (an open popover is `position: fixed`, which already blockifies it). Check the built CSS for an unguarded `display` on any popover class.
+- **Auto inline margins stop a grid item stretching.** `.panel` (`margin-inline: auto` + `max-inline-size`) shrank to its content as a `.case-study` grid item, so CS1's user-testing panel rendered 970px wide for most of its life. It now has `inline-size: 100%`. Any capped, centred grid child needs the same.
+- **A page CAN style an Astro SVG component through `class`.** Unlike an `.astro` component's root, an imported `.svg` component receives the page's scope attribute, so `<Arrow02 class="capture__arrow" />` is styled by the page's scoped CSS (confirmed in the built HTML). No wrapper needed.
+- **Astro drops the space between an inline element and a text node on the next line.** `<strong>…</strong>` followed by a newline and text renders with no space ("documentationand"). Put `{' '}` after the closing tag, as CS1 does.
+- **Shrinking text boxes doesn't shrink a row of fixed-size type.** `ProcessStrip` used to need ~1432px, and percentage label widths couldn't fix it: each Figma width was already within 1–27px of its longest word, and the arrows and gaps never shrink. What worked was putting every size in `em` and fitting the font size to the container (D-033). Measure min-content before reaching for percentages.
+- **Case study pages still need ~1100px.** With the strip fixed, the grid's own sections set the floor (1108px CS1, 1091px CS2). That's for the responsive pass (Q-026).
+- **Check a new shot's `scrollWidth` against the viewport.** A 2px overflow is invisible in a screenshot but gives users a horizontal scrollbar. It also shifts anything measured relative to a full-bleed element (the sub nav underline was 2px out because of it).
 - **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
 
 ## What Figma actually defines

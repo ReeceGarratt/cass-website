@@ -36,6 +36,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
 | Q-023 | Copy defects transcribed faithfully from Figma | Nothing; copy is live as transcribed |
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
+| Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
+| Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
 
 ---
 
@@ -177,6 +179,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Raised:** 2026-09-29
 - **Blocks:** nothing; one shadow used consistently in the build
 - **Context:** In the Design section's four finding-block images, P1 and P2 use the `Portfolio Drop` effect style and P3 and P4 use `Portfolio Card drop` — the same drift pattern already flagged for the card shadows (see Q-013's history). `FindingBlock.astro` applies `--shadow-card` (`Portfolio Drop`) to every image consistently rather than reproducing the split.
+- **Update 2026-09-30 (CS2):** the Status tracker screenshot (`91:1036`) uses a third effect, `Image Drop` (2, 4, 10.2, −36, `#0000000D`); its −36px spread makes it effectively invisible. `CaseStudyFigure` uses `--shadow-card` for it like every other screenshot.
 - **Options:** confirm `Portfolio Drop` is correct for all four and fix the drifted Figma layers · confirm the split is intentional (e.g. image vs. screenshot-with-UI) and give `FindingBlock` a shadow prop.
 
 ### Q-023 · Copy defects transcribed faithfully from Figma
@@ -186,10 +189,29 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - P2 (Giving the agent control, problem): "Agents had to manually keep track of Customers products, monthly repayments and benefits manually." — "manually" appears twice.
   - P3 (A variety of choices, solution): "...The products suggested would also be driven by customer data" — no full stop.
   - Key learnings, bullet 2: "Customers come to Agents with problems they need solved rather then products in mind." — "then" should be "than".
+
+  In `src/pages/work/consolidating-import-collections.astro` (added 2026-09-30):
+  - Project outcome: "…through journey mapping to development , and left…" — a space before the comma.
+  - Step by step: "…due to legal restraints." — probably "restrictions".
+  - Checker persona, pain point 2: "long feedback threads via email;" starts lowercase where the others are capitalised.
+  - Trade officer flow insight: "swopping" — a valid variant spelling of "swapping", listed only for Cass to confirm.
 - **Options:** Cass confirms and the typos are fixed as a copy change · Cass says these are intentional (unlikely) and they stay.
 
 ### Q-024 · Case study alt text needs Cass's review
 - **Raised:** 2026-09-29
 - **Blocks:** nothing; drafted text is live, marked for review
 - **Context:** The case study spec calls for alt text to be drafted from the surrounding copy but not presented as finished, because what each screenshot is meant to *demonstrate* is Cass's design intent, not something inferable from the image alone. Every image in `src/pages/work/streamlining-scoring.astro` has drafted alt text and a `TODO(cass)` comment above it.
-- **Options:** Cass reviews and edits the five drafted `alt` strings (the intro hero image and four finding-block images) · Cass supplies replacement copy directly.
+- **Update 2026-09-30:** `src/pages/work/consolidating-import-collections.astro` adds 10 more drafted alt strings (the intro hero, the as-is journey, three journey flows, the before and after capture screens, the two reviewing screens, and the Status tracker dashboard), each with a `TODO(cass)` comment. Persona illustrations and the capture arrow are decorative (`aria-hidden`).
+- **Options:** Cass reviews and edits the 15 drafted `alt` strings across both pages · Cass supplies replacement copy directly.
+
+### Q-025 · Is the redaction blur on the Standard Bank "before" screenshot strong enough?
+- **Raised:** 2026-09-30
+- **Blocks:** nothing; shipped as drawn (D-032)
+- **Context:** Cass redacted client data in the Easier Data Capture "before" screenshot (`91:1087`) with blurred overlay slices. At the 2× export used on the site, some values are close to legible, including what look like a customer name and a person's name in the comments panel. The unredacted raw image was never saved.
+- **Options:** Cass is happy with it as is · Cass strengthens the blur in Figma and the render is re-exported (a one-file swap: `src/assets/case-studies/consolidating-import-collections/capture-before-redacted.png`).
+
+### Q-026 · Case study pages below desktop width
+- **Raised:** 2026-10-01
+- **Blocks:** nothing yet; the responsive pass
+- **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
+- **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.

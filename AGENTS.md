@@ -2,7 +2,7 @@
 
 A portfolio website for Cass, a UX designer: home, case studies, about and contact pages. It's built with Astro and TypeScript, static first, hosted on Cloudflare Workers, with design tokens taken from Figma.
 
-**Status:** scaffolded; the desktop home page POC is built.
+**Status:** scaffolded; the desktop home page POC and two case study pages (Absa, Standard Bank) are built.
 
 `CLAUDE.md` is a symlink to this file, so **edit `AGENTS.md`, never `CLAUDE.md`**. This file loads in every session, so keep it short and put detail in the docs it links to.
 

@@ -6,8 +6,9 @@ import DefinitionTip from '../../components/DefinitionTip.astro';
 import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import FindingBlock from '../../components/FindingBlock.astro';
+import FindingsList from '../../components/FindingsList.astro';
 import Arrow03 from '../../assets/arrow-03.svg';
-import Woman2 from '../../assets/icons/woman-2.svg';
+import Woman3 from '../../assets/icons/woman-3.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
 import removingTheGuessWork from '../../assets/case-studies/streamlining-scoring/removing-the-guess-work.png';
 import givingTheAgentControl from '../../assets/case-studies/streamlining-scoring/giving-the-agent-control.png';
@@ -37,7 +38,7 @@ const subNav = [
   <CaseStudyIntro
     eyebrow="ux/ui designer"
     title={entry.data.title}
-    userTypes={[{ label: 'Call centre agents', icon: Woman2 }]}
+    userTypes={[{ label: 'Call centre agents', icon: Woman3 }]}
     image={scoringHero}
     imageAlt="Screenshot of the unified scoring page built in Salesforce, showing multiple credit products managed together in a single Agent view."
     id="project-overview"
@@ -74,12 +75,21 @@ const subNav = [
   <ProcessStrip
     class="u-bleed"
     steps={[
-      'identify business needs',
-      'as-is journey investigations',
-      'sme interviews',
-      'user research',
-      'design',
-      'usability testing',
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-identify)',
+      },
+      {
+        label: 'as-is journey investigations',
+        width: 'var(--size-process-step-asis)',
+      },
+      { label: 'sme interviews', width: 'var(--size-process-step-sme)' },
+      { label: 'user research', width: 'var(--size-process-step-research)' },
+      { label: 'design', width: 'var(--size-process-step-design)' },
+      {
+        label: 'usability testing',
+        width: 'var(--size-process-step-testing)',
+      },
     ]}
   />
 
@@ -96,20 +106,13 @@ const subNav = [
     >
       During a full day workshop with my key stakeholders I identified:
     </SectionHeading>
-    <ul class="findings-list" role="list">
-      <li class="findings-list__item type-body-med">
-        Each business unit operated its own{' '}
-        <strong>team of specialised Agents</strong>, each{' '}
-        <strong>focused on one or two products.</strong>
-      </li>
-      <li class="findings-list__item type-body-med">
-        <strong>Repeated transfers</strong> were happening in the call centres
-        and <strong>Customers were dropping calls</strong> to go to branches.
-      </li>
-      <li class="findings-list__item type-body-med">
-        Agents had <strong>limited cross-selling</strong> opportunities.
-      </li>
-    </ul>
+    <FindingsList
+      items={[
+        'Each business unit operated its own <strong>team of specialised Agents</strong>, each <strong>focused on one or two products.</strong>',
+        '<strong>Repeated transfers</strong> were happening in the call centres and <strong>Customers were dropping calls</strong> to go to branches.',
+        'Agents had <strong>limited cross-selling</strong> opportunities.',
+      ]}
+    />
   </section>
 
   <section class="panel" id="interviews" aria-labelledby="interviews-heading">
@@ -313,10 +316,7 @@ const subNav = [
   </section>
 
   <section class="handover" id="handover" aria-labelledby="handover-heading">
-    <SectionHeading
-      title="handover &amp; next iteration"
-      id="handover-heading"
-    />
+    <SectionHeading title="handover & next iteration" id="handover-heading" />
     <p class="handover__body type-subtitle">
       I handed over the tested interface, the usability findings, and a
       recommendation on the way forward. The next iteration would address the
@@ -347,56 +347,6 @@ const subNav = [
     gap: var(--space-80);
     align-items: center;
     justify-content: center;
-  }
-
-  /* Rule-separated statements (86:196). Figma stacks them flex-col gap-48
-     with a 1px Red divider between, i.e. 48px either side of each rule —
-     expressed here as padding + margin on every item but the last so the
-     rule belongs to the item rather than being an empty element. */
-  .findings-list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .findings-list__item {
-    color: var(--color-purple);
-  }
-
-  .findings-list__item:not(:last-child) {
-    padding-block-end: var(--space-48);
-    border-block-end: 1px solid var(--color-red);
-    margin-block-end: var(--space-48);
-  }
-
-  /* --- Purple panels ------------------------------------------------------
-     Shared inset card for "talking to the experts" (86:211) and the
-     user-testing panel (19:109). Deliberately page markup, not a component:
-     the two share only the card and the measure — one holds a pull quote and
-     two columns, the other a stat and an annotated insight — so a component
-     would be a div with a slot.
-
-     NOT full-bleed. Both frames are inset symmetrically inside the content
-     track (86:211 x=236.196 w=1448, 19:109 x=234.696 w=1451, both
-     rounded-[12px]) — 236px of inset plus a corner radius is a card, not a
-     band. Only the process strip (67:334, x=0.196 w=1920) is genuinely
-     full-bleed, and it keeps its u-bleed.
-
-     The 1288px content measure the copy sits on is this card's 1448px less
-     its 80px padding either side, so there's no second max-width mechanism
-     inside. */
-  .panel {
-    /* 80px all round. That is 86:211's padding exactly (p-[80px]); 19:109
-       instead has px-[328px] py-[80px], but its 328px is a centring device,
-       not padding — 1451 − 2×328 = 795, the width of its content row, which
-       .testing below centres in the card instead. Same result, and it
-       survives the card being narrower than 795 + 656. */
-    padding: var(--space-80);
-    border-radius: var(--radius-panel);
-    max-inline-size: var(--size-inset-measure);
-    margin-inline: auto;
-    background-color: var(--color-purple);
-    color: var(--color-white);
   }
 
   /* --- Talking to the experts (86:211) ----------------------------------- */

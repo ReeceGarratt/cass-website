@@ -4,7 +4,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-09-29):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and the first case study page is built end to end: `/work/streamlining-scoring`, its shared layout, sub nav and nine section components.
+**Status (2026-09-30):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and two case study pages are built end to end: `/work/streamlining-scoring` (Absa) and `/work/consolidating-import-collections` (Standard Bank), sharing one layout, the sub nav, and the shared section components listed below (`CaseStudyFigure` is used by CS2 only so far).
 
 ## Overview
 
@@ -40,33 +40,37 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `docs/superpowers/` | Specs and implementation plans from the superpowers skills. |
 | `astro.config.mjs` | Astro config: the Fonts API integration (D-015), no adapter, static output. |
 | `src/styles/tokens.css` | Every design value as a custom property on `:root`, hand-written from `docs/figma/` (D-014). |
-| `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles. |
+| `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles, one `.type-*` class per Figma text style (D-024), the case study grid and `.u-bleed` (invariant 8), and `.panel`, the inset Purple card used by both case studies (D-029). |
 | `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />` and a `head` slot, a `fullBleed` prop that drops `<main>`'s gutter padding, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
 | `src/layouts/CaseStudyLayout.astro` | Wraps `BaseLayout`; renders the page grid (`.case-study`), the sub nav, `<slot />` for the bespoke body, and the Read More row. Shared by every case study page (D-022). |
 | `src/components/SiteNav.astro` | The brand and nav list; sets `aria-current="page"` on the matching item (D-017). |
 | `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. Takes an optional `showClient` prop (renders a `Pill`) and no longer sets its own width — the layout that places it does (home row vs. Read More row). |
-| `src/components/CaseStudySubNav.astro` | Sticky sub nav: back link plus in-page anchors, with a scroll-position script (rAF-throttled `scroll`/`resize` listeners) driving a progress underline via `aria-current` and CSS custom properties (D-023). |
-| `src/components/CaseStudyIntro.astro` | Eyebrow, Red `Title 1`, user-type `Pill`s, lead paragraph slot, and the goal/outcome pair with its hairline divider. |
-| `src/components/SectionHeading.astro` | Handwritten eyebrow + Red `Title 2` + optional standfirst slot. `align` (`start`/`end`), `level` (`h2`/`h3`) and `titleWidth` props; used 3 times on CS1 (the two Purple-panel headings are hand-rolled `type-title-2`); ~12 projected across CS1–4 — see [componentisation](wiki/componentisation.md). |
-| `src/components/FindingBlock.astro` | Image plus a labelled `<dl>` of findings (`problem`/`solution`/`outcome`, etc. — labels are data, not fixed slots). `side` prop swaps which column the image sits in. |
-| `src/components/ProcessStrip.astro` | Full-bleed Purple band of labelled process steps, joined by a recoloured hand-drawn arrow (`background-image` + `filter`). |
+| `src/components/CaseStudySubNav.astro` | Sticky sub nav: back link plus in-page anchors, with a scroll-position script (rAF-throttled `scroll`/`resize` listeners, plus a `ResizeObserver` on the nav and links so late font swaps re-measure) driving a progress underline via `aria-current` and CSS custom properties (D-023). |
+| `src/components/CaseStudyIntro.astro` | Eyebrow, Red `Title 1`, user-type `Pill`s, lead paragraph slot, and the goal/outcome pair with its hairline divider. An optional `title` slot overrides the `title` prop where Figma breaks the title explicitly (CS2). |
+| `src/components/SectionHeading.astro` | Handwritten eyebrow + Red `Title 2` + optional standfirst slot. `align` (`start`/`end`), `level` (`h2`/`h3`) and `titleWidth` props; used 3 times on CS1 and once on CS2 (panel, band and Solutions headings are hand-rolled `type-title-2` in their own colours) — see [componentisation](wiki/componentisation.md). |
+| `src/components/FindingBlock.astro` | Image plus a heading and `LabelledFindings`. `side` swaps which column the image sits in; `columns` takes the measured image/text widths (default CS1's 802/566); `tone="inverse"` is White on Purple; `align` top-aligns or centres (D-029). 4 uses on CS1, 3 on CS2. |
+| `src/components/LabelledFindings.astro` | The `<dl>` of label/body pairs (`problem`/`solution`/`outcome`, etc. — labels are data), with `tone`. Used inside `FindingBlock` and directly 6 times on CS2. |
+| `src/components/FindingsList.astro` | Rule-separated statements beside a section heading (`items` are HTML strings). Once per case study so far. |
+| `src/components/CaseStudyFigure.astro` | A screenshot with the standard radius and shadow, plus an optional handwritten `<figcaption>` (`captionSize`, `captionTone`, `captionAlign`). Figma's crops are baked into the asset files (D-030). 6 uses on CS2. |
+| `src/components/ProcessStrip.astro` | Full-bleed Purple band of labelled process steps, joined by a recoloured hand-drawn arrow (`background-image` + `filter`). `steps` is `{ label, width }[]`, each width a measured `--size-process-step-*` token (D-028). Sizes are in `em` and the type is fitted to the band (a size container), so the row scales down from 30px to 20px, then wraps (D-033). |
 | `src/components/Pill.astro` | Two colourways (`client`: Purple/White; `userType`: Light purple/Purple + a 24px icon). Used on cards and `CaseStudyIntro`. |
 | `src/components/CircleArrow.astro` | The default/hover arrow-icon pair with a crossfade; extracted from `CaseStudyCard.astro`, used by it on every card, wherever the card renders (home page and Read More); `showClient` only controls the client pill. |
 | `src/components/DefinitionTip.astro` | A `popovertarget` trigger plus a native `<span popover>` bubble; ~8 lines of script position it under its trigger (D-023). The Figma speech-bubble tail is deliberately omitted (doesn't survive repositioning). |
-| `src/components/ReadMoreSection.astro` | "Other case studies" heading plus a `CaseStudyCard` for every collection entry except the current one, sorted by `order`. No cap: renders three today only because the collection holds four entries; a fifth case study would render four cards, unlike the home page row (which does cap at three, Q-019). Worth a look once a fifth case study exists. |
+| `src/components/ReadMoreSection.astro` | "Other case studies" heading plus a `CaseStudyCard` for every collection entry except the current one, sorted by `order`. Heading-to-cards gap is Figma's 60px (`--space-read-more-gap`), and the 448px cards may shrink, so the row never forces the page wider than the viewport. No cap: renders three today only because the collection holds four entries; a fifth case study would render four cards, unlike the home page row (which does cap at three, Q-019). Worth a look once a fifth case study exists. |
 | `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
 | `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema: `title`, `client`, `skills`, `summary`, `order`). |
 | `src/content/case-studies.json` | Card metadata for four case studies (D-013). |
-| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01-curve`, `arrow-01-head`, `arrow-03`, `corner-top-right`, `corner-bottom-left`), `icons/` (avatar SVGs for `Pill`), and the case study screenshots under `case-studies/<id>/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources (Q-018). |
+| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01-curve`, `arrow-01-head`, `arrow-02`, `arrow-03`, `corner-top-right`, `corner-bottom-left`), `icons/` (avatar SVGs for `Pill`), `personas/` (CS2 persona illustrations), and the case study screenshots under `case-studies/<id>/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources (Q-018). |
 | `src/pages/index.astro` | The home page: hero composition and a card list capped at the first three entries by `order` (Q-019). |
 | `src/pages/work/streamlining-scoring.astro` | The first case study page (Absa), composing `CaseStudyLayout` with `CaseStudyIntro`, `ProcessStrip`, `SectionHeading`, `FindingBlock` and bespoke per-section markup for Interviews, Design, User Testing and Handover. |
+| `src/pages/work/consolidating-import-collections.astro` | The second case study page (Standard Bank): the same layout and shared components, plus page markup for the persona cards, the full-bleed "new user journey" (Purple) and "reviewing" (White) bands, and the Easier Data Capture and Status tracker sections. |
 
 ### Planned
 
 | Path | Purpose |
 |---|---|
 | `src/pages/about.astro`, `src/pages/contact.astro` | Not built yet. |
-| `src/pages/work/<id>.astro` | The remaining three case studies (Standard Bank, MiX Telematics, TRANSEARCH), composing the same shared components as `streamlining-scoring.astro` (D-022). |
+| `src/pages/work/<id>.astro` | The remaining two case studies (MiX Telematics, TRANSEARCH), composing the same shared components as `streamlining-scoring.astro` (D-022). |
 | `src/pages/work/index.astro` | The `/work` index route; still 404s (Q-020). |
 | `public/` | Static files served as-is (favicon, resume, etc. — see Q-011). |
 

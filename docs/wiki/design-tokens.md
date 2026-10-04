@@ -60,7 +60,7 @@ Figma's two real spacing variables alias onto the scale so the link stays tracea
 
 Case study work added `--space-80` (the Design section's image/text gap and the purple panels' padding) and confirmed `--space-96` (the gap between finding blocks) as real, used values rather than speculative scale steps.
 
-**Still bespoke, not on the scale** (measured one-offs, not scale-worthy numbers): `--space-panel-columns` (240px, Interviews heading/quote gap), `--space-intro-columns` (118px, intro text/image gap), `--size-divider-width` (400px, the goal/outcome hairline's length), and the `--size-process-step-*` family (measured per-label wrap widths for `ProcessStrip`, with `--size-process-step-max` as a safety-net cap for any label without a measured entry).
+**Still bespoke, not on the scale** (measured one-offs, not scale-worthy numbers): `--space-panel-columns` (240px, Interviews heading/quote gap), `--space-intro-columns` (118px, intro text/image gap), `--size-divider-width` (400px, the goal/outcome hairline's length), and the `--size-process-step-*` family (measured per-label wrap widths for `ProcessStrip`, with `--size-process-step-max` as a safety-net cap for any label without a measured entry). Since D-033 the strip's sizes are `em` of its 30px label type, written as `calc(<figma px>em / 30)` so they're exact at 1920 and scale with the fitted type; `--size-process-row` (unitless, the widest row in em) and `--type-process-min-size` (20px) drive the fit.
 
 ## New tokens from the case study work
 
@@ -84,6 +84,33 @@ This is a **knock-on change to the existing home page**, not something scoped to
 Measured 2026-09-29 with the WCAG 2.x relative-luminance formula (sRGB channel linearisation, then `(L1+0.05)/(L2+0.05)`): Red `#cd2b2b` on Off-white `#f8f9ff` is **5.03:1**. That passes AA for normal text (4.5:1) as well as large text (3:1), so it covers every Red-on-Off-white use on the case study page, including the smallest case — the 14px bold finding-block labels (`.type-h3`, which is normal text at that size, not large). No design change needed; recorded here as the actual measured value rather than the spec's ~4.9:1 estimate.
 
 Note this only covers Red directly on the Off-white page background. Red also appears on White (`DefinitionTip`, unmeasured) and Red text never appears on Purple in this build — those are separate pairs were they to occur.
+
+## Contrast on the case study palette (2026-09-30)
+
+Measured for CS2 with the same formula:
+
+| Pair | Ratio | Used for |
+|---|---|---|
+| White on Purple | 9.35:1 | Band and panel copy, journey labels (14–16px) |
+| Light purple on Purple | 5.96:1 | Panel and band headings (45px); would pass as body text too |
+| Purple on White | 9.35:1 | Reviewing band, persona cards, future state card |
+| Red on White | 5.28:1 | Finding labels in the White reviewing band (14px bold) |
+| Purple on Off-white | 8.90:1 | Body copy |
+
+All pass AA for normal text.
+
+## New tokens from case study 2 (2026-09-30)
+
+- **Type:** `.type-handwritten-small` (Figma "Hand written small", La Belle Aurore 20 / 1.11 / −2%) for captions under screenshots, and `.type-sub-titles` (Figma "Sub Titles", Inter Medium 14 / 1.5 / −1.1%).
+- **Space:** `--space-2` (a one-off 2px value, kept in the scale block because its name follows the scale), plus bespoke measured values: `--space-persona-note` (21px), `--space-capture-images` (90px), `--space-capture-before-offset` (14px), `--space-capture-heading-offset` (59.54px), `--space-future-card` (20px) and `--space-personas-clearance` (84px).
+- **Size:** six `--size-process-step-import-*` label widths (D-028).
+- **Not added:** Figma's `Image Drop` effect (its −36px spread makes it invisible; Q-022) and `Background colour` `#F3F3F4` (reported but not visibly used). Figma's `--h1-&-h2` (24px) and `--h2-&-body` (16px) spacing variables map onto `--space-24` and `--space-16`.
+
+## MVP fix round (2026-09-30)
+
+- **`--space-160`** (scale step): the case study grid's section gap. Both frames space every section 160px apart; the build had used 96px, chosen before the frames were fetched.
+- **`--space-read-more-gap`** (60px): Figma's Read More gap had been rounded up to `--space-64`, which made the row 1702px in a 1700px track (a 2px horizontal overflow at 1920).
+- **`--space-personas-clearance`** is now Figma's 52px (it was 84px to compensate for the 96px gap).
 
 ## Unit rules
 

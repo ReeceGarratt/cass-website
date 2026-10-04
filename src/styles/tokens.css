@@ -120,10 +120,25 @@
   --type-h3-letter-spacing: -0.011em;
   --type-h3-weight: 700;
 
+  /* Type: Hand written small (La Belle Aurore 20 / 1.11 / -2%): captions
+     under CS2 screenshots (91:1057, 91:1107) */
+  --type-handwritten-small-size: 1.25rem; /* 20px */
+  --type-handwritten-small-line-height: 1.11;
+  --type-handwritten-small-letter-spacing: -0.02em;
+  --type-handwritten-small-weight: 400;
+
+  /* Type: Sub Titles (Inter Medium 14 / 1.5 / -1.1%): CS2's future state
+     card body (163:2240) */
+  --type-sub-titles-size: 0.875rem; /* 14px */
+  --type-sub-titles-line-height: 1.5;
+  --type-sub-titles-letter-spacing: -0.011em;
+  --type-sub-titles-weight: 500;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
 
   /* Space: scale. The number is the px value at a 16px root */
+  --space-2: 0.125rem; /* CS2 future state card title-to-body gap (163:2238) */
   --space-8: 0.5rem;
   --space-16: 1rem;
   --space-24: 1.5rem;
@@ -134,6 +149,8 @@
   --space-64: 4rem;
   --space-80: 5rem;
   --space-96: 6rem;
+  --space-160: 10rem; /* case study section spacing: every section in both
+  frames starts 160px after the previous one (e.g. CS1 1105 → 1265) */
 
   /* Figma's two spacing variables, aliased so the link stays traceable */
   --space-headings-body: var(--space-16); /* Figma: Headings & Body */
@@ -166,6 +183,19 @@
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
   new scale step. */
+  --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
+  --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
+  handwritten note (92:1608 top 584 − card bottom 563) */
+  --space-capture-images: 5.625rem; /* 90px; CS2 Easier Data Capture before
+  and after screenshots (91:1085: after at x=697, before 607 wide) */
+  --space-capture-before-offset: 0.875rem; /* 14px; CS2 "before" screenshot
+  sits lower than "after" (91:1086 mt-[14px]) */
+  --space-capture-heading-offset: 3.72rem; /* 59.54px; CS2 Easier Data Capture
+  info row starts below the heading's first line (91:1067 mt-[59.54px]) */
+  --space-future-card: 1.25rem; /* 20px; CS2 future state card padding (163:2237) */
+  --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
+  below the top of the Personas frame (92:1579). The checker illustration
+  (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
@@ -188,20 +218,43 @@
      designed, and this is expressed where it's used. */
   --size-inset-measure: 90.5rem;
 
-  /* Process strip step wrap widths (67:334 outline). Without a width, a
-  label can't shrink below its own min-content and forces the six-step row
-  to ~1420px wide, overflowing at narrower viewports. Each value is the
-  fixed width Figma gives that text node, so long labels wrap the same way
-  as the design (verified against the fetched screenshot's crop). */
-  --size-process-step-identify: 8.3125rem; /* 133px: "identify business needs" */
-  --size-process-step-asis: 13.125rem; /* 210px: "as-is journey investigations" */
-  --size-process-step-sme: 9.375rem; /* 150px: "sme interviews" */
-  --size-process-step-research: 8.0625rem; /* 129px: "user research" */
-  --size-process-step-design: 6.0625rem; /* 97px: "design" */
-  --size-process-step-testing: 7.6875rem; /* 123px: "usability testing" */
-  --size-process-step-max: 16rem; /* 256px; safety-net cap for a step label with
-  no entry above, so it wraps instead of overflowing. Comfortably above the
-  widest measured value here (210px) so the current six are unaffected. */
+  /* Process strip. Everything is in em of the strip's label type, which is
+  30px at the design size, so the whole row (labels, arrows, gaps) scales
+  as one when ProcessStrip shrinks its type on narrower viewports, and
+  each label keeps Figma's line breaks at every size. Each value is its
+  Figma px over 30.
+
+  Step wrap widths (67:334 outline): the fixed width Figma gives each text
+  node, so long labels wrap as designed (verified against the fetched
+  screenshot's crop). */
+  --size-process-step-identify: calc(133em / 30); /* identify business needs */
+  --size-process-step-asis: calc(210em / 30); /* as-is journey investigations */
+  --size-process-step-sme: calc(150em / 30); /* sme interviews */
+  --size-process-step-research: calc(129em / 30); /* user research */
+  --size-process-step-design: calc(97em / 30); /* design */
+  --size-process-step-testing: calc(123em / 30); /* usability testing */
+  /* CS2 (Standard Bank) process strip label widths, from the 91:701 outline. */
+  --size-process-step-import-identify: calc(129em / 30);
+  --size-process-step-import-research: calc(126em / 30);
+  --size-process-step-import-personas: calc(134em / 30);
+  --size-process-step-import-journeys: calc(129em / 30);
+  --size-process-step-import-wireframing: calc(198em / 30);
+  --size-process-step-import-development: calc(187em / 30);
+  /* Safety-net cap on a step label (256px), so a label passed an oversized
+  width wraps instead of overflowing. Comfortably above the widest measured
+  value (210px), so real labels never reach it. */
+  --size-process-step-max: calc(256em / 30);
+  --space-process-step-gap: calc(32em / 30); /* gap-32px in 67:334 */
+  /* Arrow_01 instance box, 41.83 x 27.33px */
+  --size-process-arrow-width: calc(41.8304em / 30);
+  --size-process-arrow-height: calc(27.3296em / 30);
+  /* The widest row, CS2's, in em: 903px of labels + 5 arrows + 10 gaps =
+  1432px at 30px. The strip's type shrinks once the row would no longer
+  fit this many em inside the gutters. */
+  --size-process-row: 47.75;
+  /* Smallest the strip's type scales to before the row wraps instead.
+  A starting value to test, not from Figma (Figma only has desktop). */
+  --type-process-min-size: 1.25rem; /* 20px */
 
   /* Hero decoration and offsets, relative to the title size */
   --hero-flower-size: 0.9em; /* 90px at 100px */

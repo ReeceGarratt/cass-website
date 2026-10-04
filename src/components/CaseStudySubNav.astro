@@ -154,7 +154,13 @@ const { links } = Astro.props;
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     update();
-    // Link widths change when the web font swaps in, so measure again.
-    document.fonts.ready.then(update);
+    // Link widths change when the web font swaps in, and the links are
+    // right-aligned, so any late change moves the first link. Re-measure on
+    // actual size changes rather than on document.fonts.ready, which can
+    // resolve before a later font load starts: that left the underline 2px
+    // out on some loads.
+    const resizes = new ResizeObserver(update);
+    resizes.observe(nav);
+    anchors.forEach((link) => resizes.observe(link));
   }
 </script>
