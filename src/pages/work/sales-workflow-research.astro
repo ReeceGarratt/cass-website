@@ -1,0 +1,110 @@
+---
+import { getEntry } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
+import BusinessProblem from '../../components/BusinessProblem.astro';
+import Man3 from '../../assets/icons/man-3.svg';
+import journeyMapHero from '../../assets/case-studies/sales-workflow-research/journey-map-hero.png';
+
+const entry = await getEntry('caseStudies', 'sales-workflow-research');
+if (!entry) throw new Error('Missing case study: sales-workflow-research');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#as-is-discovery', label: 'AS-IS Discovery' },
+  { href: '#user-interviews', label: 'User Interviews' },
+  { href: '#design', label: 'Design' },
+  { href: '#proposal', label: 'Proposal' },
+];
+---
+
+<!--
+  Every measurement below is from docs/figma/case-study-3-desktop/context.md.
+  TODO(cass): all image alt text is drafted from the surrounding copy and
+  needs review (Q-024).
+-->
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+  <CaseStudyIntro
+    eyebrow="UX lead"
+    title={entry.data.title}
+    userTypes={[{ label: 'Sales employees', icon: Man3 }]}
+    image={journeyMapHero}
+    imageAlt="The redesigned sales journey map: swimlanes for the customer, sales representative, finance, sales manager and technical teams, running from the lead and credit vet stages into a new opportunity and quote."
+    imageBleed
+    id="project-overview"
+  >
+    <Fragment slot="title">
+      using research to build a better sales workflow.
+    </Fragment>
+    <DefinitionTip id="def-mix-telematics" term="MiX Telematics">
+      A telematics company providing connected and secure fleet telematics data
+      and mobile asset management solutions.
+    </DefinitionTip>{' '}
+    , a local telematics company providing connected and secure fleet telematics
+    data and mobile asset management solutions for transportation businesses,
+    identified that their out of date Salesforce sales platform that impacted
+    their ability to provide new or updated quotes in a timely manner.
+    <Fragment slot="goal">
+      Create a report that provides <strong>actionable recommendations</strong>{' '}
+      to optimise the user experience of the sales platform with the ultimate
+      goal of <strong>reducing their 7 day quoting cycle.</strong>
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I led a research-based <strong>review and journey redesign</strong> of
+        the sales platform's workflow, cutting it from{' '}
+        <strong>22 to 14 steps</strong>.
+      </p>
+      <p>
+        I led a team of 4 junior designers to{' '}
+        <strong>review, research, ideation, UX report and proposal</strong>{' '}
+        while working with a Salesforce Architect to keep the recommendations
+        feasible.
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
+
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-sales-identify)',
+      },
+      {
+        label: 'AS-IS journey investigations',
+        width: 'var(--size-process-step-sales-asis)',
+      },
+      {
+        label: 'user interviews',
+        width: 'var(--size-process-step-sales-interviews)',
+      },
+      {
+        label: 'ideation workshop',
+        width: 'var(--size-process-step-sales-ideation)',
+      },
+      {
+        label: 'user journey design',
+        width: 'var(--size-process-step-sales-journey)',
+      },
+      { label: 'proposal', width: 'var(--size-process-step-sales-proposal)' },
+    ]}
+  />
+
+  <BusinessProblem
+    variant="compact"
+    items={[
+      'A <strong>streamlined </strong>quoting and sales <strong>workflow.</strong>',
+      '<strong>Self-sufficient </strong>users for new and existing features.',
+      'A <strong>lower barrier to entry</strong> for new staff that require fewer days of training.',
+      '<strong>Automation &amp; auto population</strong> in the journey where possible.',
+      '<strong>Reduce quoting turnaround time </strong>from 7 days.',
+    ]}
+  >
+    A conversation with business stakeholders revealed the following needs:
+  </BusinessProblem>
+</CaseStudyLayout>
