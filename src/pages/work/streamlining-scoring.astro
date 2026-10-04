@@ -7,6 +7,7 @@ import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import FindingBlock from '../../components/FindingBlock.astro';
 import BusinessProblem from '../../components/BusinessProblem.astro';
+import PullQuote from '../../components/PullQuote.astro';
 import Arrow03 from '../../assets/arrow-03.svg';
 import Woman3 from '../../assets/icons/woman-3.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
@@ -109,19 +110,11 @@ const subNav = [
         <h2 class="interviews__heading type-title-2" id="interviews-heading">
           Talking to the experts
         </h2>
-        <blockquote class="interviews__quote type-handwritten">
-          <span class="interviews__quote-mark" aria-hidden="true">
-            &ldquo;
-          </span>
-          <p>
-            Customers always ask &lsquo;how much longer?&rsquo; or &lsquo;why do
-            you need to know this?&rsquo; because the system asks unnecessary
-            questions and it takes forever
-          </p>
-          <span class="interviews__quote-mark" aria-hidden="true">
-            &rdquo;
-          </span>
-        </blockquote>
+        <PullQuote tone="inverse">
+          Customers always ask &lsquo;how much longer?&rsquo; or &lsquo;why do
+          you need to know this?&rsquo; because the system asks unnecessary
+          questions and it takes forever
+        </PullQuote>
       </div>
       <div class="interviews__details">
         <ul class="interviews__list" role="list">
@@ -359,27 +352,13 @@ const subNav = [
     text-transform: lowercase;
   }
 
-  .interviews__quote {
-    display: flex;
-    /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
-       quote holds the design's measure at full width and rewraps below it. */
+  /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
+     quote holds the design's measure at full width and rewraps below it.
+     Figma fills it Light x 2 (#E3E7FF), which has no token: PullQuote's
+     inverse tone is White, near-identical at 28px on Purple (Q-021). */
+  .interviews__top > :global(.pull-quote) {
     flex: 1 1 39.5rem;
     max-inline-size: 39.5rem; /* 632px */
-    gap: var(--space-16);
-    align-items: flex-start;
-    margin: 0;
-    /* Figma: Light x 2 (#E3E7FF), which has no token — the nearest tokenised
-       value is White, and at 28px on Purple the two are near-identical.
-       Flagged in the task report. */
-    color: var(--color-white);
-    text-transform: lowercase;
-  }
-
-  .interviews__quote-mark {
-    /* 35px against the 28px handwritten style — expressed relative so it
-       stays tied to the type token rather than being a second size. */
-    flex: none;
-    font-size: 1.25em;
   }
 
   /* 86:221, another 1220px row inset 34px inside the 1288px measure: WHAT
