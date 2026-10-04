@@ -538,13 +538,14 @@ Not fetched (built). The frame is 551px with the instance 80px down, so Figma le
 
 ## Assets
 
-Downloaded from the `get_design_context` asset URLs (2026-10-04, no `download_assets` calls), cropped as Figma crops them (D-030), downscaled to at most 2× the placed width and capped at 1600px, and saved to `src/assets/case-studies/sales-workflow-research/`:
+Downloaded from the `get_design_context` asset URLs (2026-10-04, no `download_assets` calls), cropped as Figma crops them (D-030), downscaled to at most 2× the placed width and capped at 1600px (PNGs palette-encoded), and saved to `src/assets/case-studies/sales-workflow-research/` (~167 KB in all). The crop script is `.superpowers/sdd/2026-10-04-case-study-three/crop.mjs`:
 
 | File | Slot (node) | Placed size | Source |
 |---|---|---|---|
-| `sales-journey-map.png` | Intro hero `99:2503` (cropped to the visible left part) **and** journey `98:2268` (whole) | 1005 × 629 visible; 1246 × 566 | `d546e.png`, 2410 × 1094 |
-| `workshop-artifact.jpg` | AS-IS band photo `99:2618` | 449 × 327, cropped | `621b0.png` (actually a JPEG), 4000 × 1848 |
-| `as-is-journey.png` | AS-IS band journey `99:2625` | 1444 × 539, cropped | `6dbb5.png`, 4096 × 1744 |
+| `journey-map-hero.png` | Intro hero `99:2503`, cropped to the visible left 1750px of the source | 1005 × 629 visible | `d546e.png`, 2410 × 1094 → 1600 × 1000 |
+| `journey-map.png` | Journey `98:2268`, whole | 1246 × 566 | `d546e.png` → 1600 × 726 |
+| `workshop-artifact.jpg` | AS-IS band photo `99:2618` | 449 × 327, cropped | `621b0.png` (actually a JPEG), 4000 × 1848 → 898 × 654 |
+| `as-is-journey.png` | AS-IS band journey `99:2625` | 1444 × 539, cropped | `6dbb5.png`, 4096 × 1744 → 1600 × 597 |
 | `src/assets/arrow-04.svg` | "workshop artifact" arrow `99:2647` | 41.36 × 26.58, rotated 180° | `37816.svg`, stroke recoloured to `currentColor` |
 
 The pill icon (`7fde3.svg`) is the existing `src/assets/icons/man-3.svg` (same path data).

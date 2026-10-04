@@ -135,3 +135,6 @@ The strip's ~1432px minimum wasn't a chosen breakpoint, just the width of its fi
 
 ## [2026-10-04] update | Sub nav: no text underline, white bar to the viewport edge
 Removed the text underline on the current sub nav link; the progress bar is the only marker, and `aria-current` is unchanged. The sub nav's white now runs to the viewport edge above 1920px through a `border-image` outset. Its contents stay on the grid, and there's no horizontal overflow at 2560 or 1440. Added the gotcha to componentisation.md.
+
+## [2026-10-04] update | Case study 3 (MiX Telematics) built; bottom padding on every case study
+Fetched and saved the CS3 Figma snapshot (10 reads; images from the design context's own asset URLs). Built `/work/sales-workflow-research`, extracted `BusinessProblem` and `PullQuote`, moved band padding to `.band`, and gave `FindingsList` and `CaseStudyIntro` new options (D-034). Every case study page now ends with 80px of padding (D-035). CS1 and CS2 diff pixel-identical apart from that. Updated Q-022, Q-023, Q-024 and Q-026, componentisation.md, figma-mcp.md and architecture.md.

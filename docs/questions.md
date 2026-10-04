@@ -180,6 +180,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; one shadow used consistently in the build
 - **Context:** In the Design section's four finding-block images, P1 and P2 use the `Portfolio Drop` effect style and P3 and P4 use `Portfolio Card drop` — the same drift pattern already flagged for the card shadows (see Q-013's history). `FindingBlock.astro` applies `--shadow-card` (`Portfolio Drop`) to every image consistently rather than reproducing the split.
 - **Update 2026-09-30 (CS2):** the Status tracker screenshot (`91:1036`) uses a third effect, `Image Drop` (2, 4, 10.2, −36, `#0000000D`); its −36px spread makes it effectively invisible. `CaseStudyFigure` uses `--shadow-card` for it like every other screenshot.
+- **Update 2026-10-04 (CS3):** both renders of the sales journey map, the intro hero (`99:2503`) and the "realistic user journey" figure (`98:2268`), use `Portfolio Card drop` (`--shadow-card-warm`, still with no call site). The AS-IS journey (`99:2625`) uses `Portfolio Drop`, and the five pain point cards use the invisible `Image Drop`. The build keeps `--shadow-card` on every screenshot and no shadow on the cards, pending this question.
 - **Options:** confirm `Portfolio Drop` is correct for all four and fix the drifted Figma layers · confirm the split is intentional (e.g. image vs. screenshot-with-UI) and give `FindingBlock` a shadow prop.
 
 ### Q-023 · Copy defects transcribed faithfully from Figma
@@ -195,6 +196,12 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Step by step: "…due to legal restraints." — probably "restrictions".
   - Checker persona, pain point 2: "long feedback threads via email;" starts lowercase where the others are capitalised.
   - Trade officer flow insight: "swopping" — a valid variant spelling of "swapping", listed only for Cass to confirm.
+
+  In `src/pages/work/sales-workflow-research.astro` (added 2026-10-04):
+  - Intro lead: "MiX Telematics , a local…" — a space before the comma; and "…identified that their out of date Salesforce sales platform that impacted their ability…" doesn't parse (perhaps "…platform was impacting…").
+  - AS-IS band: "…platforms and processes ." — a space before the full stop.
+  - Pain point 01: "wiki’s" — an apostrophe in a plural. Pain point 02: "early enough  resulting" has a double space in Figma (it collapses in HTML).
+  - **The caption "AS-IS map"** sits under the "building a realistic user journey" figure, which shows the new journey (the same image is the intro hero). Possibly a copy slip for "to-be map" or similar; it's Cass's call.
 - **Options:** Cass confirms and the typos are fixed as a copy change · Cass says these are intentional (unlikely) and they stay.
 
 ### Q-024 · Case study alt text needs Cass's review
@@ -202,7 +209,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; drafted text is live, marked for review
 - **Context:** The case study spec calls for alt text to be drafted from the surrounding copy but not presented as finished, because what each screenshot is meant to *demonstrate* is Cass's design intent, not something inferable from the image alone. Every image in `src/pages/work/streamlining-scoring.astro` has drafted alt text and a `TODO(cass)` comment above it.
 - **Update 2026-09-30:** `src/pages/work/consolidating-import-collections.astro` adds 10 more drafted alt strings (the intro hero, the as-is journey, three journey flows, the before and after capture screens, the two reviewing screens, and the Status tracker dashboard), each with a `TODO(cass)` comment. Persona illustrations and the capture arrow are decorative (`aria-hidden`).
-- **Options:** Cass reviews and edits the 15 drafted `alt` strings across both pages · Cass supplies replacement copy directly.
+- **Update 2026-10-04:** `src/pages/work/sales-workflow-research.astro` adds 4 more (the intro hero, the workshop photo, the AS-IS journey and the new journey map), each with a `TODO(cass)` comment. The "workshop artifact" arrow is decorative.
+- **Options:** Cass reviews and edits the 19 drafted `alt` strings across the three pages · Cass supplies replacement copy directly.
 
 ### Q-025 · Is the redaction blur on the Standard Bank "before" screenshot strong enough?
 - **Raised:** 2026-09-30
@@ -214,4 +222,5 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Raised:** 2026-10-01
 - **Blocks:** nothing yet; the responsive pass
 - **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
+- **Update 2026-10-04 (CS3):** CS3 fits at 1280 and wider, and scrolls sideways below 1155px. Measuring each grid child's min-content at 1024 shows the floor on every page is the **Read More row** (1059px of content on CS3, 995px on CS2): its heading, gap and three cards don't shrink below their longest words. The floor therefore depends on which three cards a page shows. CS3's intro image bleeds into the end gutter and stays inside the viewport at every width tested.
 - **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.

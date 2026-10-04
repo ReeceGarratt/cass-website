@@ -254,3 +254,21 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** Figma's 30px is the default. Every strip size (label widths, arrows, gaps) is in `em` of the label type, and the type is fitted to the band with `clamp(20px, (100cqi - 2 gutters) / 47.75, 30px)`, so the whole row scales as one and keeps Figma's line breaks. Below the 20px minimum (`--type-process-min-size`) the row wraps and the band grows taller. 20px is a starting value to revisit after testing.
 - **Alternatives considered:** percentage or `vw` label widths (they save at most 38px, since the words themselves are the limit) · a breakpoint to a stacked layout (a design call Figma doesn't cover; the wrap covers it for now) · measuring each strip's own row length (one constant from the widest row is simpler; CS1 starts scaling slightly earlier than strictly needed).
 - **Consequences:** introduces the site's first container query (`container-type: inline-size` on the band; `vw` would count a classic scrollbar). Both case studies are pixel-identical at 1920 and fit at 1280; the strip wraps without overflowing down to 390. Pages still overflow below ~1100px from the rest of the case study grid (Q-026).
+
+### D-034 · Case study 3's shared components: BusinessProblem, PullQuote, .band, and two component options
+- **Date:** 2026-10-04 · **Status:** Accepted
+- **Context:** CS3 (MiX Telematics) repeats three things CS1 and CS2 already had as page markup: the business problem grid (its third use, which CS2's page comment named as the trigger), CS1's handwritten pull quote (second use), and CS2's full-bleed band padding (second page). It also needs a tighter business problem, an inverse findings list on a Purple panel, and a hero image that bleeds off the page edge.
+- **Decision:**
+  - `BusinessProblem.astro` (`items`, `variant: 'default' | 'compact'`, the standfirst as its slot), used by all three pages. Compact is CS3's 48px gap, top alignment and 32px list.
+  - `PullQuote.astro` (`tone: 'default' | 'inverse'`), used by CS1 and CS3. Pages size it with `.parent > :global(.pull-quote)`, because Astro's attribute-scoped styles don't reach a child component's root through `class`.
+  - `.band`, `.band--purple`, `.band--white` in `global.css`, used by CS2's two bands and CS3's two. The inner measure stays page CSS.
+  - `FindingsList` gains `tone` and `spacing`. `CaseStudyIntro` gains `imageBleed` (the image spans its column plus the end gutter and drops 111px). Defaults reproduce CS1 and CS2 exactly.
+  - `--size-process-row` becomes 49.47, CS3's row (1484px), the widest now. D-033's single shared constant holds.
+- **Alternatives considered:** keeping the business problem as page markup with three copies of the grid · giving `PullQuote` a `class` pass-through (it doesn't carry the page's scope under the attribute strategy) · a `.band` component (it would be a `<section>` with a slot, the same reasoning as `.panel`, D-029).
+- **Consequences:** CS1 and CS2 sections are pixel-identical at 1920 before and after (headless Edge diffs). The pain point cards, the AS-IS band's contents, the key insight and both stats stay page markup at their first use.
+
+### D-035 · Case study pages end with 80px of padding
+- **Date:** 2026-10-04 · **Status:** Accepted
+- **Context:** The pages ended flush with the Read More cards. Figma leaves 80px below them on CS1 and CS3, 89 on CS4 and 103 on CS2. Asked for by the user while CS3 was being built.
+- **Decision:** `.case-study` has `padding-block-end: var(--space-80)`, one rule for every case study page. CS2's and CS4's larger gaps are treated as drift.
+- **Consequences:** each case study page is 80px taller; nothing else moves.
