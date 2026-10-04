@@ -8,11 +8,13 @@ import BusinessProblem from '../../components/BusinessProblem.astro';
 import { Image } from 'astro:assets';
 import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
 import FindingsList from '../../components/FindingsList.astro';
+import PullQuote from '../../components/PullQuote.astro';
 import Man3 from '../../assets/icons/man-3.svg';
 import Arrow04 from '../../assets/arrow-04.svg';
 import journeyMapHero from '../../assets/case-studies/sales-workflow-research/journey-map-hero.png';
 import workshopArtifact from '../../assets/case-studies/sales-workflow-research/workshop-artifact.jpg';
 import asIsJourney from '../../assets/case-studies/sales-workflow-research/as-is-journey.png';
+import journeyMap from '../../assets/case-studies/sales-workflow-research/journey-map.png';
 
 const entry = await getEntry('caseStudies', 'sales-workflow-research');
 if (!entry) throw new Error('Missing case study: sales-workflow-research');
@@ -206,6 +208,168 @@ const subNav = [
       />
     </div>
   </section>
+
+  <section class="pain-points" aria-labelledby="pain-points-heading">
+    <div class="pain-points__header">
+      <h2 class="pain-points__heading type-title-2" id="pain-points-heading">
+        Key
+        <br />
+        Pain points
+      </h2>
+      <PullQuote>
+        there are things that I'm gonna be capturing, but if you ask me
+        &lsquo;why are you capturing this?&rsquo; I won't know.
+      </PullQuote>
+    </div>
+    <ol class="pain-points__list" role="list">
+      <li class="pain-point pain-point--detailed">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          01
+        </span>
+        <div class="pain-point__content">
+          <h3 class="pain-point__title type-h1">An overly complex system</h3>
+          <ul class="pain-point__points type-body-med">
+            <li>
+              <strong>Training new sales representatives took 1 month</strong>{' '}
+              with an additional month of monitored work.
+            </li>
+            <li>
+              The complex system design meant that new sales representatives{' '}
+              <strong>relied on notes and recordings</strong> for years before
+              becoming experts.
+            </li>
+            <li>
+              There were <strong>no self-help tools</strong> like tooltips or
+              wiki&rsquo;s available to users.
+            </li>
+            <li>
+              The system relied on user{' '}
+              <strong>memory and not recognition</strong>.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="pain-point pain-point--detailed">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          02
+        </span>
+        <div class="pain-point__content">
+          <h3 class="pain-point__title type-h1">
+            The real world journey was different
+          </h3>
+          <ul class="pain-point__points type-body-med">
+            <li>
+              Steps were placed in <strong>unrealistic times</strong> in the
+              journey.
+            </li>
+            <li>
+              Options in dropdowns or radio buttons{' '}
+              <strong>didn&rsquo;t match real information</strong> causing users
+              to need to input additional information.
+            </li>
+            <li>
+              Some vetting <strong>steps weren&rsquo;t happening early</strong>{' '}
+              enough resulting in wasted time and disappointed clients.
+            </li>
+            <li>
+              There were <strong>unnecessary approvals</strong> being required.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          03
+        </span>
+        <h3 class="pain-point__title pain-point__title--03 type-h1">
+          No platform integration or automation
+        </h3>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          04
+        </span>
+        <h3 class="pain-point__title type-h1">
+          No
+          <br />
+          notifications
+        </h3>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          05
+        </span>
+        <h3 class="pain-point__title pain-point__title--05 type-h1">
+          Inaccessible language
+        </h3>
+      </li>
+    </ol>
+  </section>
+
+  <section
+    class="realistic-journey u-bleed band band--white"
+    id="design"
+    aria-labelledby="design-heading"
+  >
+    <div class="realistic-journey__inner">
+      <div class="realistic-journey__intro">
+        <h2 class="realistic-journey__heading type-title-2" id="design-heading">
+          Building a realistic user journey
+        </h2>
+        <p class="realistic-journey__description type-sub-text-2">
+          Using the information gathered we brainstormed ways to improve the
+          <br />
+          AS-IS journey, with the sole goal of making the process{' '}
+          <strong>match our users real-life sales journey</strong> and creating
+          an <strong>agile approach to their workflow</strong>, allowing for{' '}
+          <strong>multiple work streams to happen at once</strong>.
+        </p>
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={journeyMap}
+        alt="The new sales journey map: swimlanes for the customer, sales representative, finance, sales manager and technical teams. A lead and credit vet stage now comes before a new opportunity, with steps in different lanes running in parallel through creating the quote."
+        caption="AS-IS map"
+        captionSize="large"
+      />
+    </div>
+  </section>
+
+  <section class="proposal" id="proposal" aria-labelledby="proposal-heading">
+    <p class="proposal__stat">
+      <span class="proposal__stat-lead type-body-bold">
+        <span>Reducing the</span>
+        <span class="proposal__stat-lead-indent">journey from 22 to</span>
+      </span>
+      <span class="proposal__stat-figure type-stats">14 steps</span>
+    </p>
+    <div class="proposal__body">
+      <h2 class="proposal__heading type-title-2" id="proposal-heading">
+        The proposal &amp;
+        <br />
+        future steps
+      </h2>
+      <div class="proposal__copy type-body-med">
+        <p>
+          Leveraging all the information gathered and artifacts created I
+          prepared and presented a UX proposal for the CTO that outlined:
+        </p>
+        <ul>
+          <li>My process;</li>
+          <li>The problems found;</li>
+          <li>
+            A breakdown of detailed key feedback, recommendations (based on user
+            research and desktop research) and indication of if it is a quick
+            win or a future win.
+          </li>
+          <li>
+            A list of key metrics to measure the ROI of the changes such as
+            average time on task, new user onboarding time etc.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </CaseStudyLayout>
 
 <style>
@@ -323,5 +487,201 @@ const subNav = [
   .interviews__stat {
     display: flex;
     flex-direction: column;
+  }
+
+  /* --- Key pain points (168:2839) ------------------------------------------
+     1446px (inset measure). Heading 243px at the start, the quote 677px at
+     the end and 18px down; the cards 24px below. */
+  .pain-points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    /* Auto inline margins stop a grid item stretching (wiki: layout
+       gotchas), so the width is explicit. */
+    inline-size: 100%;
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .pain-points__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .pain-points__heading {
+    max-inline-size: 15.1875rem; /* 243px */
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .pain-points__header > :global(.pull-quote) {
+    flex: 0 1 42.3125rem; /* 677px */
+    margin-block-start: var(--space-pain-quote-offset);
+  }
+
+  /* Two 700px cards, then three 456px, 40px apart (Figma's row gap is 41:
+     drift). Six tracks so both rows share one grid: 3 + 3, then 2 + 2 + 2. */
+  .pain-points__list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-40);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* White, 25px radius. Figma's Image Drop shadow has a −36px spread, so it
+     draws nothing (Q-022). */
+  .pain-point {
+    display: flex;
+    grid-column: span 2;
+    gap: var(--space-16);
+    align-items: flex-start;
+    padding: var(--space-card-padding);
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+    color: var(--color-purple);
+  }
+
+  .pain-point--detailed {
+    grid-column: span 3;
+    gap: var(--space-24);
+    padding: var(--space-40);
+  }
+
+  /* Figma's "Process name" style reports 30 / 0.88; .type-h1 is 30 / 0.92,
+     the value the process strip was built to. */
+  .pain-point__number {
+    flex: none;
+    color: var(--color-red);
+  }
+
+  .pain-point__title {
+    text-transform: lowercase;
+  }
+
+  /* Figma's title boxes, so the lines break where the design has them. */
+  .pain-point__title--03 {
+    max-inline-size: 19.6875rem; /* 315px */
+  }
+
+  .pain-point__title--05 {
+    max-inline-size: 12.6875rem; /* 203px */
+  }
+
+  .pain-point__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    max-inline-size: 33.0625rem; /* 529px */
+  }
+
+  .pain-point__points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 0;
+    /* Nested inside the card's <li>, so the UA default would be circle. */
+    list-style-type: disc;
+  }
+
+  /* --- Building a realistic user journey (92:1958) -------------------------
+     A full-bleed White .band, content 1246px, centred (Figma's 319/351px
+     side padding is 16px off-centre: drift). */
+  .realistic-journey__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: 77.875rem; /* 1246px */
+    margin-inline: auto;
+  }
+
+  /* Heading 397px, right-aligned, 48px, description 695px, centred. */
+  .realistic-journey__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 24.8125rem) minmax(0, 43.4375rem);
+    gap: var(--space-48);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .realistic-journey__heading {
+    color: var(--color-red);
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .realistic-journey__description {
+    color: var(--color-purple);
+  }
+
+  /* --- The proposal & future steps (99:2794) -------------------------------
+     Stat 293px, 48px, text 573px: the 962px row centred. */
+  .proposal {
+    display: grid;
+    grid-template-columns: minmax(0, 18.3125rem) minmax(0, 35.8125rem);
+    gap: var(--space-48);
+    align-items: start;
+    justify-content: center;
+  }
+
+  /* The same 292 × 163 right-aligned Stats box as CS1's "14 out of 15"
+     (88:626). The Body Bold lead-in sits over its first line, 32px down,
+     its second line 23px in (99:2799, 99:2800), so it reads as one sentence
+     ending in the figure. */
+  .proposal__stat {
+    display: grid;
+    margin: 0;
+    color: var(--color-purple);
+  }
+
+  .proposal__stat > * {
+    grid-area: 1 / 1;
+  }
+
+  .proposal__stat-figure {
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .proposal__stat-lead {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    margin-block-start: var(--space-32);
+  }
+
+  .proposal__stat-lead-indent {
+    margin-inline-start: 1.4375rem; /* 23px */
+  }
+
+  .proposal__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .proposal__heading {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .proposal__copy {
+    color: var(--color-purple);
+  }
+
+  /* An empty line between the paragraph and the list (a spacer paragraph
+     in Figma), then bullets 16px apart. */
+  .proposal__copy ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 1lh 0 0;
+    list-style-type: disc;
   }
 </style>
