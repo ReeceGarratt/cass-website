@@ -1,0 +1,51 @@
+---
+interface Props {
+  // 'default' is Purple on the page (CS3 99:2654). 'inverse' is White on a
+  // Purple panel (CS1 86:212, filled "Light x 2", which has no token: Q-021).
+  tone?: 'default' | 'inverse';
+}
+
+const { tone = 'default' } = Astro.props;
+---
+
+<blockquote
+  class:list={['pull-quote', 'type-handwritten', `pull-quote--${tone}`]}
+>
+  <span class="pull-quote__mark" aria-hidden="true">
+    &ldquo;
+  </span>
+  <p>
+    <slot />
+  </p>
+  <span class="pull-quote__mark" aria-hidden="true">
+    &rdquo;
+  </span>
+</blockquote>
+
+<style>
+  /* A handwritten quote between two larger marks, 16px apart (CS1 86:212,
+     CS3 99:2654). The page sizes it in its own layout, through
+     `.parent > :global(.pull-quote)`. */
+  .pull-quote {
+    display: flex;
+    gap: var(--space-16);
+    align-items: flex-start;
+    margin: 0;
+    text-transform: lowercase;
+  }
+
+  .pull-quote--default {
+    color: var(--color-purple);
+  }
+
+  .pull-quote--inverse {
+    color: var(--color-white);
+  }
+
+  /* 35px against the 28px handwritten style, expressed relative so it stays
+     tied to the type token rather than being a second size. */
+  .pull-quote__mark {
+    flex: none;
+    font-size: 1.25em;
+  }
+</style>

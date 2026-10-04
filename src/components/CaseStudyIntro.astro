@@ -13,13 +13,27 @@ interface Props {
   userTypes: { label: string; icon: ImageMetadata }[];
   image: ImageMetadata;
   imageAlt: string;
+  // CS3's hero (99:2503) runs through the end gutter to the page edge,
+  // where Figma's frame clips it, and sits 111px below the intro's top.
+  imageBleed?: boolean;
   id?: string;
 }
 
-const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
+const {
+  eyebrow,
+  title,
+  userTypes,
+  image,
+  imageAlt,
+  imageBleed = false,
+  id,
+} = Astro.props;
 ---
 
-<div class="case-study-intro" id={id}>
+<div
+  class:list={['case-study-intro', { 'case-study-intro--bleed': imageBleed }]}
+  id={id}
+>
   <div class="case-study-intro__stack">
     <div class="case-study-intro__title-block">
       <div class="case-study-intro__header">
@@ -156,5 +170,17 @@ const { eyebrow, title, userTypes, image, imageAlt, id } = Astro.props;
   .case-study-intro__image {
     border-radius: var(--radius-image);
     box-shadow: var(--shadow-card);
+  }
+
+  /* The image column plus the end gutter, so the image meets the page's
+     edge (the viewport's, below 1920px). Figma's frame cuts it there, so
+     its end corners are square; the asset is cropped to the visible part. */
+  .case-study-intro--bleed .case-study-intro__image {
+    inline-size: calc(100% + var(--space-gutter));
+    max-inline-size: none;
+    margin-block-start: var(--space-intro-image-drop);
+    margin-inline-end: calc(-1 * var(--space-gutter));
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
   }
 </style>

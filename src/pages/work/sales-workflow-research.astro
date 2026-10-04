@@ -1,0 +1,687 @@
+---
+import { getEntry } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
+import BusinessProblem from '../../components/BusinessProblem.astro';
+import { Image } from 'astro:assets';
+import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
+import FindingsList from '../../components/FindingsList.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Man3 from '../../assets/icons/man-3.svg';
+import Arrow04 from '../../assets/arrow-04.svg';
+import journeyMapHero from '../../assets/case-studies/sales-workflow-research/journey-map-hero.png';
+import workshopArtifact from '../../assets/case-studies/sales-workflow-research/workshop-artifact.jpg';
+import asIsJourney from '../../assets/case-studies/sales-workflow-research/as-is-journey.png';
+import journeyMap from '../../assets/case-studies/sales-workflow-research/journey-map.png';
+
+const entry = await getEntry('caseStudies', 'sales-workflow-research');
+if (!entry) throw new Error('Missing case study: sales-workflow-research');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#as-is-discovery', label: 'AS-IS Discovery' },
+  { href: '#user-interviews', label: 'User Interviews' },
+  { href: '#design', label: 'Design' },
+  { href: '#proposal', label: 'Proposal' },
+];
+---
+
+<!--
+  Every measurement below is from docs/figma/case-study-3-desktop/context.md.
+  TODO(cass): all image alt text is drafted from the surrounding copy and
+  needs review (Q-024).
+-->
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+  <CaseStudyIntro
+    eyebrow="UX lead"
+    title={entry.data.title}
+    userTypes={[{ label: 'Sales employees', icon: Man3 }]}
+    image={journeyMapHero}
+    imageAlt="The redesigned sales journey map: swimlanes for the customer, sales representative, finance, sales manager and technical teams, running from the lead and credit vet stages into a new opportunity and quote."
+    imageBleed
+    id="project-overview"
+  >
+    <Fragment slot="title">
+      using research to build a better sales workflow.
+    </Fragment>
+    <DefinitionTip id="def-mix-telematics" term="MiX Telematics">
+      A telematics company providing connected and secure fleet telematics data
+      and mobile asset management solutions.
+    </DefinitionTip>{' '}
+    , a local telematics company providing connected and secure fleet telematics
+    data and mobile asset management solutions for transportation businesses,
+    identified that their out of date Salesforce sales platform that impacted
+    their ability to provide new or updated quotes in a timely manner.
+    <Fragment slot="goal">
+      Create a report that provides <strong>actionable recommendations</strong>{' '}
+      to optimise the user experience of the sales platform with the ultimate
+      goal of <strong>reducing their 7 day quoting cycle.</strong>
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I led a research-based <strong>review and journey redesign</strong> of
+        the sales platform's workflow, cutting it from{' '}
+        <strong>22 to 14 steps</strong>.
+      </p>
+      <p>
+        I led a team of 4 junior designers to{' '}
+        <strong>review, research, ideation, UX report and proposal</strong>{' '}
+        while working with a Salesforce Architect to keep the recommendations
+        feasible.
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
+
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-sales-identify)',
+      },
+      {
+        label: 'AS-IS journey investigations',
+        width: 'var(--size-process-step-sales-asis)',
+      },
+      {
+        label: 'user interviews',
+        width: 'var(--size-process-step-sales-interviews)',
+      },
+      {
+        label: 'ideation workshop',
+        width: 'var(--size-process-step-sales-ideation)',
+      },
+      {
+        label: 'user journey design',
+        width: 'var(--size-process-step-sales-journey)',
+      },
+      { label: 'proposal', width: 'var(--size-process-step-sales-proposal)' },
+    ]}
+  />
+
+  <BusinessProblem
+    variant="compact"
+    items={[
+      'A <strong>streamlined </strong>quoting and sales <strong>workflow.</strong>',
+      '<strong>Self-sufficient </strong>users for new and existing features.',
+      'A <strong>lower barrier to entry</strong> for new staff that require fewer days of training.',
+      '<strong>Automation &amp; auto population</strong> in the journey where possible.',
+      '<strong>Reduce quoting turnaround time </strong>from 7 days.',
+    ]}
+  >
+    A conversation with business stakeholders revealed the following needs:
+  </BusinessProblem>
+
+  <section
+    class="as-is u-bleed"
+    id="as-is-discovery"
+    aria-labelledby="as-is-heading"
+  >
+    <div class="as-is__band band band--purple">
+      <div class="as-is__inner">
+        <div class="as-is__context">
+          <figure class="as-is__photo">
+            <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+            <Image
+              src={workshopArtifact}
+              alt="The workshop wall: sticky notes and hand-drawn arrows mapping the as-is sales journey through baby lead, convert lead, new proposal, add solutions, create BOM, quote create and credit vet."
+            />
+            <figcaption class="as-is__label type-handwritten">
+              <Arrow04 class="as-is__arrow" aria-hidden="true" />
+              workshop artifact
+            </figcaption>
+          </figure>
+          <div class="as-is__text">
+            <h2 class="as-is__heading type-title-2" id="as-is-heading">
+              AS-IS Journey Investigations
+            </h2>
+            <p class="as-is__copy type-body-med">
+              To better understand how the platform was supposed to be used my
+              team and I had a workshop with a leader that manages training of
+              new staff. With her help we developed an in-depth AS IS map with
+              explanations of related responsibilities, platforms and processes
+              .
+            </p>
+          </div>
+        </div>
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={asIsJourney}
+          alt="The AS-IS sales journey as a swimlane diagram across the customer, sales representative, finance, MD and technical lanes: lead, convert lead and new proposal, a long run of create-quote steps, then credit vet and creating the database, with most steps falling to the sales representative."
+          caption="AS-is journey"
+          captionSize="large"
+          captionTone="inverse"
+          captionAlign="end"
+        />
+      </div>
+    </div>
+    <p class="as-is__hook">
+      <span class="type-handwritten">key session insight</span>
+      <span class="type-title-2">
+        Employees were <span class="as-is__hook-accent">leaving</span>
+        <br />
+        because of the system
+      </span>
+    </p>
+  </section>
+
+  <section
+    class="panel"
+    id="user-interviews"
+    aria-labelledby="user-interviews-heading"
+  >
+    <div class="interviews">
+      <div class="interviews__summary">
+        <h2
+          class="interviews__heading type-title-2"
+          id="user-interviews-heading"
+        >
+          User interviews
+          <br />
+          &amp; observations
+        </h2>
+        <p class="type-subtitle">
+          If a new sales quote was found to be incorrect at any step past the
+          original &lsquo;data capture form&rsquo; the sale would be considered
+          a &lsquo;Lost lead&rsquo; and would have to be redone. The term
+          &lsquo;Lost lead&rsquo; was then recorded on the sales persons monthly
+          sales reports, same as leads that were actually lost/failed.
+        </p>
+        <p class="interviews__stat">
+          <span class="type-stats">15+</span>
+          <span class="type-body-med">users spoken to</span>
+        </p>
+      </div>
+      <FindingsList
+        tone="inverse"
+        spacing="compact"
+        items={[
+          'There were fields that nobody understood.',
+          'The sales team had to follow steps in the system that they felt were redundant.',
+          'Many key steps were being presented to the user either too early or too late in the journey.',
+          'New staff found the platform very hard to learn and had to rely on notes and recordings.',
+        ]}
+      />
+    </div>
+  </section>
+
+  <section class="pain-points" aria-labelledby="pain-points-heading">
+    <div class="pain-points__header">
+      <h2 class="pain-points__heading type-title-2" id="pain-points-heading">
+        Key
+        <br />
+        Pain points
+      </h2>
+      <PullQuote>
+        there are things that I'm gonna be capturing, but if you ask me
+        &lsquo;why are you capturing this?&rsquo; I won't know.
+      </PullQuote>
+    </div>
+    <ol class="pain-points__list" role="list">
+      <li class="pain-point pain-point--detailed">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          01
+        </span>
+        <div class="pain-point__content">
+          <h3 class="pain-point__title type-h1">An overly complex system</h3>
+          <ul class="pain-point__points type-body-med">
+            <li>
+              <strong>Training new sales representatives took 1 month</strong>{' '}
+              with an additional month of monitored work.
+            </li>
+            <li>
+              The complex system design meant that new sales representatives{' '}
+              <strong>relied on notes and recordings</strong> for years before
+              becoming experts.
+            </li>
+            <li>
+              There were <strong>no self-help tools</strong> like tooltips or
+              wiki&rsquo;s available to users.
+            </li>
+            <li>
+              The system relied on user{' '}
+              <strong>memory and not recognition</strong>.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="pain-point pain-point--detailed">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          02
+        </span>
+        <div class="pain-point__content">
+          <h3 class="pain-point__title type-h1">
+            The real world journey was different
+          </h3>
+          <ul class="pain-point__points type-body-med">
+            <li>
+              Steps were placed in <strong>unrealistic times</strong> in the
+              journey.
+            </li>
+            <li>
+              Options in dropdowns or radio buttons{' '}
+              <strong>didn&rsquo;t match real information</strong> causing users
+              to need to input additional information.
+            </li>
+            <li>
+              Some vetting <strong>steps weren&rsquo;t happening early</strong>{' '}
+              enough resulting in wasted time and disappointed clients.
+            </li>
+            <li>
+              There were <strong>unnecessary approvals</strong> being required.
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          03
+        </span>
+        <h3 class="pain-point__title pain-point__title--03 type-h1">
+          No platform integration or automation
+        </h3>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          04
+        </span>
+        <h3 class="pain-point__title type-h1">
+          No
+          <br />
+          notifications
+        </h3>
+      </li>
+      <li class="pain-point">
+        <span class="pain-point__number type-h1" aria-hidden="true">
+          05
+        </span>
+        <h3 class="pain-point__title pain-point__title--05 type-h1">
+          Inaccessible language
+        </h3>
+      </li>
+    </ol>
+  </section>
+
+  <section
+    class="realistic-journey u-bleed band band--white"
+    id="design"
+    aria-labelledby="design-heading"
+  >
+    <div class="realistic-journey__inner">
+      <div class="realistic-journey__intro">
+        <h2 class="realistic-journey__heading type-title-2" id="design-heading">
+          Building a realistic user journey
+        </h2>
+        <p class="realistic-journey__description type-sub-text-2">
+          Using the information gathered we brainstormed ways to improve the
+          <br />
+          AS-IS journey, with the sole goal of making the process{' '}
+          <strong>match our users real-life sales journey</strong> and creating
+          an <strong>agile approach to their workflow</strong>, allowing for{' '}
+          <strong>multiple work streams to happen at once</strong>.
+        </p>
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={journeyMap}
+        alt="The new sales journey map: swimlanes for the customer, sales representative, finance, sales manager and technical teams. A lead and credit vet stage now comes before a new opportunity, with steps in different lanes running in parallel through creating the quote."
+        caption="AS-IS map"
+        captionSize="large"
+      />
+    </div>
+  </section>
+
+  <section class="proposal" id="proposal" aria-labelledby="proposal-heading">
+    <p class="proposal__stat">
+      <span class="proposal__stat-lead type-body-bold">
+        <span>Reducing the</span>
+        <span class="proposal__stat-lead-indent">journey from 22 to</span>
+      </span>
+      <span class="proposal__stat-figure type-stats">14 steps</span>
+    </p>
+    <div class="proposal__body">
+      <h2 class="proposal__heading type-title-2" id="proposal-heading">
+        The proposal &amp;
+        <br />
+        future steps
+      </h2>
+      <div class="proposal__copy type-body-med">
+        <p>
+          Leveraging all the information gathered and artifacts created I
+          prepared and presented a UX proposal for the CTO that outlined:
+        </p>
+        <ul>
+          <li>My process;</li>
+          <li>The problems found;</li>
+          <li>
+            A breakdown of detailed key feedback, recommendations (based on user
+            research and desktop research) and indication of if it is a quick
+            win or a future win.
+          </li>
+          <li>
+            A list of key metrics to measure the ROI of the changes such as
+            average time on task, new user onboarding time etc.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</CaseStudyLayout>
+
+<style>
+  /* --- AS-IS journey investigations (99:2631) -----------------------------
+     A full-bleed Purple .band (99:2596, content 1447px, the inset measure),
+     then the key insight 80px below it, inside the same frame. */
+  .as-is {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+  }
+
+  .as-is__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  /* Photo 449px, 80px, text 764px, start-aligned in the measure. */
+  .as-is__context {
+    display: grid;
+    grid-template-columns: minmax(0, 28.0625rem) minmax(0, 47.75rem);
+    gap: var(--space-80);
+    align-items: start;
+  }
+
+  /* No radius or shadow on the photo in Figma (99:2618). */
+  .as-is__photo {
+    position: relative;
+    margin: 0;
+  }
+
+  /* 99:2651: 44px before the text column (so 36px past the photo) and
+     289.82px down, beside the photo's bottom edge. */
+  .as-is__label {
+    position: absolute;
+    inset-block-start: 18.11rem; /* 289.82px */
+    inset-inline-start: calc(100% + 2.25rem); /* 36px */
+    display: flex;
+    gap: 1.4375rem; /* 23px */
+    align-items: flex-start;
+    color: var(--color-white);
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+
+  /* 37816.svg is stroked Light Purple (#C1CBFF, the known drift), rotated
+     180deg so it points back at the photo. */
+  .as-is__arrow {
+    flex: none;
+    color: var(--color-light-purple);
+    transform: rotate(180deg);
+  }
+
+  /* Heading box 407px, copy 718px, 24px apart (113.82 − 90). */
+  .as-is__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .as-is__heading {
+    max-inline-size: 25.4375rem; /* 407px */
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .as-is__copy {
+    max-inline-size: 44.875rem; /* 718px */
+    color: var(--color-white);
+  }
+
+  /* 99:2529: centred, Purple with one Red word, 16px apart. */
+  .as-is__hook {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-headings-body);
+    padding-inline: var(--space-gutter);
+    margin: 0;
+    color: var(--color-purple);
+    text-align: center;
+    text-transform: lowercase;
+  }
+
+  .as-is__hook-accent {
+    color: var(--color-red);
+  }
+
+  /* --- User interviews (98:2316) -------------------------------------------
+     A .panel (1444px). Summary 669px, 80px, list 467px, the row centred.
+     Figma's first two findings are 487 and 492px wide: drift, built at the
+     list width. */
+  .interviews {
+    display: grid;
+    grid-template-columns: minmax(0, 41.8125rem) minmax(0, 29.1875rem);
+    gap: var(--space-80);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .interviews__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-white);
+  }
+
+  .interviews__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .interviews__stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- Key pain points (168:2839) ------------------------------------------
+     1446px (inset measure). Heading 243px at the start, the quote 677px at
+     the end and 18px down; the cards 24px below. */
+  .pain-points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    /* Auto inline margins stop a grid item stretching (wiki: layout
+       gotchas), so the width is explicit. */
+    inline-size: 100%;
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  .pain-points__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .pain-points__heading {
+    max-inline-size: 15.1875rem; /* 243px */
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .pain-points__header > :global(.pull-quote) {
+    flex: 0 1 42.3125rem; /* 677px */
+    margin-block-start: var(--space-pain-quote-offset);
+  }
+
+  /* Two 700px cards, then three 456px, 40px apart (Figma's row gap is 41:
+     drift). Six tracks so both rows share one grid: 3 + 3, then 2 + 2 + 2. */
+  .pain-points__list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-40);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* White, 25px radius. Figma's Image Drop shadow has a −36px spread, so it
+     draws nothing (Q-022). */
+  .pain-point {
+    display: flex;
+    grid-column: span 2;
+    gap: var(--space-16);
+    align-items: flex-start;
+    padding: var(--space-card-padding);
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+    color: var(--color-purple);
+  }
+
+  .pain-point--detailed {
+    grid-column: span 3;
+    gap: var(--space-24);
+    padding: var(--space-40);
+  }
+
+  /* Figma's "Process name" style reports 30 / 0.88; .type-h1 is 30 / 0.92,
+     the value the process strip was built to. */
+  .pain-point__number {
+    flex: none;
+    color: var(--color-red);
+  }
+
+  .pain-point__title {
+    text-transform: lowercase;
+  }
+
+  /* Figma's title boxes, so the lines break where the design has them. */
+  .pain-point__title--03 {
+    max-inline-size: 19.6875rem; /* 315px */
+  }
+
+  .pain-point__title--05 {
+    max-inline-size: 12.6875rem; /* 203px */
+  }
+
+  .pain-point__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    max-inline-size: 33.0625rem; /* 529px */
+  }
+
+  .pain-point__points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 0;
+    /* Nested inside the card's <li>, so the UA default would be circle. */
+    list-style-type: disc;
+  }
+
+  /* --- Building a realistic user journey (92:1958) -------------------------
+     A full-bleed White .band, content 1246px, centred (Figma's 319/351px
+     side padding is 16px off-centre: drift). */
+  .realistic-journey__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: 77.875rem; /* 1246px */
+    margin-inline: auto;
+  }
+
+  /* Heading 397px, right-aligned, 48px, description 695px, centred. */
+  .realistic-journey__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 24.8125rem) minmax(0, 43.4375rem);
+    gap: var(--space-48);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .realistic-journey__heading {
+    color: var(--color-red);
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .realistic-journey__description {
+    color: var(--color-purple);
+  }
+
+  /* --- The proposal & future steps (99:2794) -------------------------------
+     Stat 293px, 48px, text 573px: the 962px row centred. */
+  .proposal {
+    display: grid;
+    grid-template-columns: minmax(0, 18.3125rem) minmax(0, 35.8125rem);
+    gap: var(--space-48);
+    align-items: start;
+    justify-content: center;
+  }
+
+  /* The same 292 × 163 right-aligned Stats box as CS1's "14 out of 15"
+     (88:626). The Body Bold lead-in sits over its first line, 32px down,
+     its second line 23px in (99:2799, 99:2800), so it reads as one sentence
+     ending in the figure. */
+  .proposal__stat {
+    display: grid;
+    margin: 0;
+    color: var(--color-purple);
+  }
+
+  .proposal__stat > * {
+    grid-area: 1 / 1;
+  }
+
+  .proposal__stat-figure {
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .proposal__stat-lead {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    margin-block-start: var(--space-32);
+  }
+
+  .proposal__stat-lead-indent {
+    margin-inline-start: 1.4375rem; /* 23px */
+  }
+
+  .proposal__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .proposal__heading {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .proposal__copy {
+    color: var(--color-purple);
+  }
+
+  /* An empty line between the paragraph and the list (a spacer paragraph
+     in Figma), then bullets 16px apart. */
+  .proposal__copy ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding-inline-start: var(--space-24);
+    margin: 1lh 0 0;
+    list-style-type: disc;
+  }
+</style>

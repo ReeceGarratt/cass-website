@@ -132,3 +132,12 @@ Fixed on the case-study-2 branch: CS1's handover heading showed "&amp;" (entity 
 
 ## [2026-10-01] decision | ProcessStrip scales to fit, then wraps (D-033); Q-026 opened
 The strip's ~1432px minimum wasn't a chosen breakpoint, just the width of its fixed-size content. Percentage label widths couldn't help (the widths were already at their longest words), so all strip sizes moved to `em` and the type is fitted to the band with a container query: 30px by default, down to 20px, then the row wraps. Pixel-identical at 1920 on both case studies; no overflow at 1440 or 1280. Opened Q-026 (case study pages below desktop width), since the rest of the grid still needs ~1100px. Updated componentisation.md, design-tokens.md and architecture.md.
+
+## [2026-10-04] update | Sub nav: no text underline, white bar to the viewport edge
+Removed the text underline on the current sub nav link; the progress bar is the only marker, and `aria-current` is unchanged. The sub nav's white now runs to the viewport edge above 1920px through a `border-image` outset. Its contents stay on the grid, and there's no horizontal overflow at 2560 or 1440. Added the gotcha to componentisation.md.
+
+## [2026-10-04] update | Case study 3 (MiX Telematics) built; bottom padding on every case study
+Fetched and saved the CS3 Figma snapshot (10 reads; images from the design context's own asset URLs). Built `/work/sales-workflow-research`, extracted `BusinessProblem` and `PullQuote`, moved band padding to `.band`, and gave `FindingsList` and `CaseStudyIntro` new options (D-034). Every case study page now ends with 80px of padding (D-035). CS1 and CS2 diff pixel-identical apart from that. Updated Q-022, Q-023, Q-024 and Q-026, componentisation.md, figma-mcp.md and architecture.md.
+
+## [2026-10-04] decision | Process strip arrow re-exported; case study bleed reaches the viewport edge (D-036)
+The process strip's arrows were built from two loose vectors paired with Arrow_01 by size; re-exporting the symbol (`129:3488`) whole showed they weren't Arrow_01 at all, which is a near-straight line pointing right. The strip now uses the composed `arrow-01.svg`. Separately, `<main>` and `.case-study` no longer cap the page at 1920px; the content track is capped instead, so `u-bleed` bands reach the viewport edge on wider screens. Measured identical at 1920 and 1440 on both case studies. Updated architecture.md (invariant 8), componentisation.md, figma-mcp.md and the shapes-arrows snapshot notes.

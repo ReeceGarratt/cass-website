@@ -4,7 +4,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-09-30):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and two case study pages are built end to end: `/work/streamlining-scoring` (Absa) and `/work/consolidating-import-collections` (Standard Bank), sharing one layout, the sub nav, and the shared section components listed below (`CaseStudyFigure` is used by CS2 only so far).
+**Status (2026-10-04):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), and three case study pages are built end to end: `/work/streamlining-scoring` (Absa), `/work/consolidating-import-collections` (Standard Bank) and `/work/sales-workflow-research` (MiX Telematics), sharing one layout, the sub nav, and the shared section components listed below.
 
 ## Overview
 
@@ -15,7 +15,7 @@ Figma (docs/figma/, hand-written until Q-005) ──▶ tokens CSS ──▶ com
 case-studies.json ──▶ caseStudies collection ──▶ cards on / ──▶ bespoke /work/<id> pages, composing shared section components (D-013, D-022)
 ```
 
-- **Pages:** home (built), about, contact (planned), one bespoke page per case study (first one built, three planned), `/work` index (planned, Q-020).
+- **Pages:** home (built), about, contact (planned), one bespoke page per case study (three built, one planned), `/work` index (planned, Q-020).
 - **No client JavaScript by default.** An interactive component becomes an island only when it needs to.
 - **Design values** come only from tokens (D-002).
 
@@ -40,18 +40,20 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `docs/superpowers/` | Specs and implementation plans from the superpowers skills. |
 | `astro.config.mjs` | Astro config: the Fonts API integration (D-015), no adapter, static output. |
 | `src/styles/tokens.css` | Every design value as a custom property on `:root`, hand-written from `docs/figma/` (D-014). |
-| `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles, one `.type-*` class per Figma text style (D-024), the case study grid and `.u-bleed` (invariant 8), and `.panel`, the inset Purple card used by both case studies (D-029). |
-| `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />` and a `head` slot, a `fullBleed` prop that drops `<main>`'s gutter padding, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
+| `src/styles/global.css` | Reset, base `body` type, shared `:focus-visible` style, `.visually-hidden` and skip-link styles, one `.type-*` class per Figma text style (D-024), the case study grid and `.u-bleed` (invariant 8), `.panel`, the inset Purple card (D-029), `.band` / `.band--purple` / `.band--white`, the full-bleed band padding and background (D-034), and the 80px of padding that ends every case study page (D-035). |
+| `src/layouts/BaseLayout.astro` | `<html lang="en-GB">`, `<head>` with `<Font />` and a `head` slot, a `fullBleed` prop that drops `<main>`'s max width and gutter padding, skip link, `<header>` with `SiteNav`, `<main id="main">`. |
 | `src/layouts/CaseStudyLayout.astro` | Wraps `BaseLayout`; renders the page grid (`.case-study`), the sub nav, `<slot />` for the bespoke body, and the Read More row. Shared by every case study page (D-022). |
 | `src/components/SiteNav.astro` | The brand and nav list; sets `aria-current="page"` on the matching item (D-017). |
 | `src/components/CaseStudyCard.astro` | One case study card, rendered from a `caseStudies` collection entry. Takes an optional `showClient` prop (renders a `Pill`) and no longer sets its own width — the layout that places it does (home row vs. Read More row). |
 | `src/components/CaseStudySubNav.astro` | Sticky sub nav: back link plus in-page anchors, with a scroll-position script (rAF-throttled `scroll`/`resize` listeners, plus a `ResizeObserver` on the nav and links so late font swaps re-measure) driving a progress underline via `aria-current` and CSS custom properties (D-023). |
-| `src/components/CaseStudyIntro.astro` | Eyebrow, Red `Title 1`, user-type `Pill`s, lead paragraph slot, and the goal/outcome pair with its hairline divider. An optional `title` slot overrides the `title` prop where Figma breaks the title explicitly (CS2). |
-| `src/components/SectionHeading.astro` | Handwritten eyebrow + Red `Title 2` + optional standfirst slot. `align` (`start`/`end`), `level` (`h2`/`h3`) and `titleWidth` props; used 3 times on CS1 and once on CS2 (panel, band and Solutions headings are hand-rolled `type-title-2` in their own colours) — see [componentisation](wiki/componentisation.md). |
+| `src/components/CaseStudyIntro.astro` | Eyebrow, Red `Title 1`, user-type `Pill`s, lead paragraph slot, and the goal/outcome pair with its hairline divider. An optional `title` slot overrides the `title` prop where Figma breaks the title explicitly (CS2) or adds punctuation (CS3). `imageBleed` runs the image through the end gutter to the page edge, 111px down (CS3, D-034). |
+| `src/components/SectionHeading.astro` | Handwritten eyebrow + Red `Title 2` + optional standfirst slot. `align` (`start`/`end`), `level` (`h2`/`h3`) and `titleWidth` props; used twice on CS1 directly and once per page inside `BusinessProblem` (panel, band and Solutions headings are hand-rolled `type-title-2` in their own colours) — see [componentisation](wiki/componentisation.md). |
 | `src/components/FindingBlock.astro` | Image plus a heading and `LabelledFindings`. `side` swaps which column the image sits in; `columns` takes the measured image/text widths (default CS1's 802/566); `tone="inverse"` is White on Purple; `align` top-aligns or centres (D-029). 4 uses on CS1, 3 on CS2. |
 | `src/components/LabelledFindings.astro` | The `<dl>` of label/body pairs (`problem`/`solution`/`outcome`, etc. — labels are data), with `tone`. Used inside `FindingBlock` and directly 6 times on CS2. |
-| `src/components/FindingsList.astro` | Rule-separated statements beside a section heading (`items` are HTML strings). Once per case study so far. |
-| `src/components/CaseStudyFigure.astro` | A screenshot with the standard radius and shadow, plus an optional handwritten `<figcaption>` (`captionSize`, `captionTone`, `captionAlign`). Figma's crops are baked into the asset files (D-030). 6 uses on CS2. |
+| `src/components/FindingsList.astro` | Rule-separated statements (`items` are HTML strings). `tone` (`inverse`: White with Light purple rules) and `spacing` (`compact`: 32px rather than 48). Inside `BusinessProblem` on every page, and directly in CS3's interviews panel. |
+| `src/components/BusinessProblem.astro` | The `#business-needs` section: `SectionHeading` ("the business problem", the standfirst as its slot) beside a `FindingsList`. `variant="compact"` is CS3's tighter, top-aligned layout. One per case study (D-034). |
+| `src/components/PullQuote.astro` | A handwritten quote between two larger marks; `tone` Purple or White. The page sizes it with `.parent > :global(.pull-quote)`. CS1 interviews and CS3 pain points (D-034). |
+| `src/components/CaseStudyFigure.astro` | A screenshot with the standard radius and shadow, plus an optional handwritten `<figcaption>` (`captionSize`, `captionTone`, `captionAlign`). Figma's crops are baked into the asset files (D-030). 6 uses on CS2, 2 on CS3. |
 | `src/components/ProcessStrip.astro` | Full-bleed Purple band of labelled process steps, joined by a recoloured hand-drawn arrow (`background-image` + `filter`). `steps` is `{ label, width }[]`, each width a measured `--size-process-step-*` token (D-028). Sizes are in `em` and the type is fitted to the band (a size container), so the row scales down from 30px to 20px, then wraps (D-033). |
 | `src/components/Pill.astro` | Two colourways (`client`: Purple/White; `userType`: Light purple/Purple + a 24px icon). Used on cards and `CaseStudyIntro`. |
 | `src/components/CircleArrow.astro` | The default/hover arrow-icon pair with a crossfade; extracted from `CaseStudyCard.astro`, used by it on every card, wherever the card renders (home page and Read More); `showClient` only controls the client pill. |
@@ -60,17 +62,18 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `src/utils/base-path.ts` | `withBase` / `withoutBase`: prefix root-relative links with the build's base path, and strip it from `Astro.url.pathname` (D-019). |
 | `src/content.config.ts` | Defines the `caseStudies` collection (`file()` loader, Zod schema: `title`, `client`, `skills`, `summary`, `order`). |
 | `src/content/case-studies.json` | Card metadata for four case studies (D-013). |
-| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01-curve`, `arrow-01-head`, `arrow-02`, `arrow-03`, `corner-top-right`, `corner-bottom-left`), `icons/` (avatar SVGs for `Pill`), `personas/` (CS2 persona illustrations), and the case study screenshots under `case-studies/<id>/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources (Q-018). |
+| `src/assets/` | SVGs (`flower`, `arrow-default`, `arrow-hover`, `arrow-01`, `arrow-02`, `arrow-03`, `arrow-04`, `corner-top-right`, `corner-bottom-left`), `icons/` (avatar SVGs for `Pill`), `personas/` (CS2 persona illustrations), and the case study screenshots under `case-studies/<id>/`, copied from `docs/figma/` and imported as Astro components or `<Image>` sources (Q-018). |
 | `src/pages/index.astro` | The home page: hero composition and a card list capped at the first three entries by `order` (Q-019). |
 | `src/pages/work/streamlining-scoring.astro` | The first case study page (Absa), composing `CaseStudyLayout` with `CaseStudyIntro`, `ProcessStrip`, `SectionHeading`, `FindingBlock` and bespoke per-section markup for Interviews, Design, User Testing and Handover. |
 | `src/pages/work/consolidating-import-collections.astro` | The second case study page (Standard Bank): the same layout and shared components, plus page markup for the persona cards, the full-bleed "new user journey" (Purple) and "reviewing" (White) bands, and the Easier Data Capture and Status tracker sections. |
+| `src/pages/work/sales-workflow-research.astro` | The third case study page (MiX Telematics): the shared components plus page markup for the AS-IS band and key insight, the interviews stat, the five pain point cards, the White "realistic user journey" band and the proposal stat. |
 
 ### Planned
 
 | Path | Purpose |
 |---|---|
 | `src/pages/about.astro`, `src/pages/contact.astro` | Not built yet. |
-| `src/pages/work/<id>.astro` | The remaining two case studies (MiX Telematics, TRANSEARCH), composing the same shared components as `streamlining-scoring.astro` (D-022). |
+| `src/pages/work/<id>.astro` | The remaining case study (TRANSEARCH), composing the same shared components (D-022). |
 | `src/pages/work/index.astro` | The `/work` index route; still 404s (Q-020). |
 | `public/` | Static files served as-is (favicon, resume, etc. — see Q-011). |
 
@@ -85,7 +88,7 @@ These rules must always hold. Code that breaks one is a bug, even if the page lo
 5. **Accessibility baseline:** semantic landmarks, one `h1` per page, a visible focus state, full keyboard operation, alt text on meaningful images, and WCAG AA contrast.
 6. **Figma is the visual source of truth.** When code and Figma disagree, Figma wins unless a decision in `decisions.md` says otherwise.
 7. **Root-relative URLs go through `withBase`.** The site must work at `/` and under a sub-path (the Pages preview, D-019). Never hard-code `href="/…"`; in-page `#anchors` are fine.
-8. **The case study page grid defaults to content, opts out to bleed.** `.case-study > *` is constrained to the content track; `.case-study > .u-bleed` opts out to full-bleed. This lives in `global.css`, not a layout's scoped `<style>`, because a scoped `.case-study > *` cannot match a child component's root element (Astro only scopes selectors to elements in a component's own template). **A section component's root element must be a direct child of the grid** — wrapping it in a stray `<div>` makes the wrapper the grid child (landing in `content`), and anything inside it marked `u-bleed` can no longer bleed. `CaseStudyLayout` passes `fullBleed` to `BaseLayout`, so `<main>` has no gutter padding and the grid's own gutter tracks are the only gutter.
+8. **The case study page grid defaults to content, opts out to bleed.** `.case-study > *` is constrained to the content track; `.case-study > .u-bleed` opts out to full-bleed. This lives in `global.css`, not a layout's scoped `<style>`, because a scoped `.case-study > *` cannot match a child component's root element (Astro only scopes selectors to elements in a component's own template). **A section component's root element must be a direct child of the grid** — wrapping it in a stray `<div>` makes the wrapper the grid child (landing in `content`), and anything inside it marked `u-bleed` can no longer bleed. `CaseStudyLayout` passes `fullBleed` to `BaseLayout`, so `<main>` has no max width or gutter padding: the full track is always the whole viewport, and the content track is capped at 1700px (the 1920px page less its gutters) instead (D-036). A bleed section's contents must cap themselves if they shouldn't spread past 1920px, as the sub nav's and the bands' inner wrappers do.
 
 ## Cross-cutting concerns
 

@@ -1,0 +1,51 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import FindingsList from './FindingsList.astro';
+
+interface Props {
+  // Inline markup (<strong>), rendered by FindingsList with set:html.
+  items: string[];
+  // 'default': CS1 (86:190) and CS2 (91:1422), an 80px gap, the heading
+  // centred on the list, 48px between findings. 'compact': CS3 (92:1878),
+  // a 48px gap, top-aligned, 32px between findings.
+  variant?: 'default' | 'compact';
+}
+
+const { items, variant = 'default' } = Astro.props;
+---
+
+<section
+  class:list={['business-problem', `business-problem--${variant}`]}
+  id="business-needs"
+  aria-labelledby="business-needs-heading"
+>
+  <SectionHeading
+    eyebrow="the"
+    title="Business problem"
+    id="business-needs-heading"
+    titleWidth="12.625rem"
+  >
+    <slot />
+  </SectionHeading>
+  <FindingsList items={items} spacing={variant} />
+</section>
+
+<style>
+  /* The same Business Problem Heading instance on every case study
+     (144:1870): heading block 391.8px, its title box 202px (the titleWidth
+     above, without which "business problem" falls on one line), list 585px,
+     the row centred in the content track. Figma's later items run to 596px,
+     11px wider than their list: drift, built at the list width. */
+  .business-problem {
+    display: grid;
+    grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
+    gap: var(--space-80);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .business-problem--compact {
+    gap: var(--space-48);
+    align-items: start;
+  }
+</style>

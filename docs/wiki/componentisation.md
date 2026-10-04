@@ -1,6 +1,6 @@
 ---
-summary: What actually got built for Case Studies 1 and 2 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
-updated: 2026-09-30
+summary: What actually got built for Case Studies 1, 2 and 3 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
+updated: 2026-10-04
 related: [design-tokens.md, figma-mcp.md, index.md]
 decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017]
 ---
@@ -56,6 +56,25 @@ The second page is where "extract on second use" was tested. Counts are from `gr
 
 **The "full-bleed Purple panel" section type is really two things.** CS1 only had inset panels, but CS2 has both inset panels (`.panel`) and genuinely full-bleed bands (`u-bleed` + background), in Purple and White. Check the outline's x and width before deciding which (D-026).
 
+## What case study 3 added (MiX Telematics, 2026-10-04)
+
+Counts are component tags from `grep -cE "<Name( |$|>)"` on the three page files (CS1 / CS2 / CS3).
+
+| Piece | Uses | What happened |
+|---|---|---|
+| `BusinessProblem` | 1 / 1 / 1 | Extracted at its third use, as CS2's page comment planned. CS3's is tighter (48px gap, top-aligned, 32px list), hence `variant="compact"` |
+| `PullQuote` | 1 / 0 / 1 | Extracted at its second use: CS1's White quote on Purple and CS3's Purple quote on the page |
+| `.band` | 0 / 2 / 2 | CS2's band padding and background moved to `global.css` once a second page needed them. Each page still sets its own inner measure |
+| `FindingsList` | via `BusinessProblem` + 1 direct on CS3 | Gained `tone` (Light purple rules, White text) and `spacing` (32px) |
+| `CaseStudyIntro` | 1 / 1 / 1 | Gained `imageBleed`: CS3's hero runs off the page edge |
+| `CaseStudyFigure` | 0 / 6 / 2 | Reused unchanged, including CS2's inverse, end-aligned "AS-is journey" caption |
+| `SectionHeading` | 2 / 0 / 0 directly | Plus one inside every `BusinessProblem`. CS3's other headings are Light purple on Purple or Red with no eyebrow, so hand-rolled `type-title-2` |
+| `FindingBlock` | 4 / 3 / 0 | CS3 has no image-plus-findings blocks, so the "most repeated block on the site" estimate (~4 per case study) doesn't hold for every case study |
+
+**Stayed page markup (first use):** the five numbered pain point cards, the "workshop artifact" photo and label, the centred key insight, and both stats ("15+ users spoken to", and "14 steps" with its lead-in over the figure). CS1's "14 out of 15" shares the stat box with CS3's "14 steps" but not the lead-in, so there's still no stat component.
+
+**Inline-space gotcha, three more times.** Astro drops the space between a text line and a `<strong>` on the next line, and between `</strong>` and text on the next line. CS3 hit it three times; `{' '}` fixes each. After a build, grep the HTML for `[a-z]<strong` and `</strong>[a-z]` and check each hit has its space inside the `<strong>`.
+
 ## Layout gotchas
 
 - **`display` on a `[popover]` element overrides the closed-popover hiding.** Browsers hide closed popovers with a user-agent `[popover]:not(:popover-open) { display: none }`; any author `display` beats it, so the popover renders permanently in the flow. Set `display` only under `:popover-open`, or not at all (an open popover is `position: fixed`, which already blockifies it). Check the built CSS for an unguarded `display` on any popover class.
@@ -65,7 +84,8 @@ The second page is where "extract on second use" was tested. Counts are from `gr
 - **Shrinking text boxes doesn't shrink a row of fixed-size type.** `ProcessStrip` used to need ~1432px, and percentage label widths couldn't fix it: each Figma width was already within 1–27px of its longest word, and the arrows and gaps never shrink. What worked was putting every size in `em` and fitting the font size to the container (D-033). Measure min-content before reaching for percentages.
 - **Case study pages still need ~1100px.** With the strip fixed, the grid's own sections set the floor (1108px CS1, 1091px CS2). That's for the responsive pass (Q-026).
 - **Check a new shot's `scrollWidth` against the viewport.** A 2px overflow is invisible in a screenshot but gives users a horizontal scrollbar. It also shifts anything measured relative to a full-bleed element (the sub nav underline was 2px out because of it).
-- **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
+- **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` caps `<main>` at `--page-max-width` and pads it with `--space-gutter` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
+- **Bleed means the viewport, not 1920px.** `.case-study` used to be capped at `--page-max-width` too, so on wider screens every `u-bleed` band stopped short of the edges with the off-white page showing either side. The grid now caps the content track instead (D-036). A bleed section whose contents shouldn't spread (like the sub nav's links) needs its own `max-inline-size: var(--page-max-width)` inner wrapper, as `SiteNav` already has.
 
 ## What Figma actually defines
 

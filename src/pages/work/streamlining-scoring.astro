@@ -6,7 +6,8 @@ import DefinitionTip from '../../components/DefinitionTip.astro';
 import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import FindingBlock from '../../components/FindingBlock.astro';
-import FindingsList from '../../components/FindingsList.astro';
+import BusinessProblem from '../../components/BusinessProblem.astro';
+import PullQuote from '../../components/PullQuote.astro';
 import Arrow03 from '../../assets/arrow-03.svg';
 import Woman3 from '../../assets/icons/woman-3.svg';
 import scoringHero from '../../assets/case-studies/streamlining-scoring/scoring-page-hero.png';
@@ -93,27 +94,15 @@ const subNav = [
     ]}
   />
 
-  <section
-    class="business-problem"
-    id="business-needs"
-    aria-labelledby="business-needs-heading"
+  <BusinessProblem
+    items={[
+      'Each business unit operated its own <strong>team of specialised Agents</strong>, each <strong>focused on one or two products.</strong>',
+      '<strong>Repeated transfers</strong> were happening in the call centres and <strong>Customers were dropping calls</strong> to go to branches.',
+      'Agents had <strong>limited cross-selling</strong> opportunities.',
+    ]}
   >
-    <SectionHeading
-      eyebrow="the"
-      title="Business problem"
-      id="business-needs-heading"
-      titleWidth="12.625rem"
-    >
-      During a full day workshop with my key stakeholders I identified:
-    </SectionHeading>
-    <FindingsList
-      items={[
-        'Each business unit operated its own <strong>team of specialised Agents</strong>, each <strong>focused on one or two products.</strong>',
-        '<strong>Repeated transfers</strong> were happening in the call centres and <strong>Customers were dropping calls</strong> to go to branches.',
-        'Agents had <strong>limited cross-selling</strong> opportunities.',
-      ]}
-    />
-  </section>
+    During a full day workshop with my key stakeholders I identified:
+  </BusinessProblem>
 
   <section class="panel" id="interviews" aria-labelledby="interviews-heading">
     <div class="interviews">
@@ -121,19 +110,11 @@ const subNav = [
         <h2 class="interviews__heading type-title-2" id="interviews-heading">
           Talking to the experts
         </h2>
-        <blockquote class="interviews__quote type-handwritten">
-          <span class="interviews__quote-mark" aria-hidden="true">
-            &ldquo;
-          </span>
-          <p>
-            Customers always ask &lsquo;how much longer?&rsquo; or &lsquo;why do
-            you need to know this?&rsquo; because the system asks unnecessary
-            questions and it takes forever
-          </p>
-          <span class="interviews__quote-mark" aria-hidden="true">
-            &rdquo;
-          </span>
-        </blockquote>
+        <PullQuote tone="inverse">
+          Customers always ask &lsquo;how much longer?&rsquo; or &lsquo;why do
+          you need to know this?&rsquo; because the system asks unnecessary
+          questions and it takes forever
+        </PullQuote>
       </div>
       <div class="interviews__details">
         <ul class="interviews__list" role="list">
@@ -332,23 +313,6 @@ const subNav = [
      rather than forcing the page wider than the viewport; the rows are
      centred, matching Figma's justify-center on each of these frames. */
 
-  /* --- The business problem (86:190) -------------------------------------
-     flex gap-80 items-center justify-center; heading 391.809px, list 585px,
-     the whole frame 1056.809px centred in the 1699px content track.
-
-     The heading block is 392px but its title box is only 202px of that
-     (144:1870: the H1 group 86:193 is inset 0 to 48.44%), which is why the
-     SectionHeading above carries titleWidth. Without it "business problem"
-     is a hair narrower than the full 392px track and falls on one line
-     instead of the design's two. */
-  .business-problem {
-    display: grid;
-    grid-template-columns: minmax(0, 24.5rem) minmax(0, 36.5625rem);
-    gap: var(--space-80);
-    align-items: center;
-    justify-content: center;
-  }
-
   /* --- Talking to the experts (86:211) ----------------------------------- */
   .interviews {
     display: flex;
@@ -388,27 +352,13 @@ const subNav = [
     text-transform: lowercase;
   }
 
-  .interviews__quote {
-    display: flex;
-    /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
-       quote holds the design's measure at full width and rewraps below it. */
+  /* Basis is Figma's 632px; it may shrink but never exceeds it, so the
+     quote holds the design's measure at full width and rewraps below it.
+     Figma fills it Light x 2 (#E3E7FF), which has no token: PullQuote's
+     inverse tone is White, near-identical at 28px on Purple (Q-021). */
+  .interviews__top > :global(.pull-quote) {
     flex: 1 1 39.5rem;
     max-inline-size: 39.5rem; /* 632px */
-    gap: var(--space-16);
-    align-items: flex-start;
-    margin: 0;
-    /* Figma: Light x 2 (#E3E7FF), which has no token — the nearest tokenised
-       value is White, and at 28px on Purple the two are near-identical.
-       Flagged in the task report. */
-    color: var(--color-white);
-    text-transform: lowercase;
-  }
-
-  .interviews__quote-mark {
-    /* 35px against the 28px handwritten style — expressed relative so it
-       stays tied to the type token rather than being a second size. */
-    flex: none;
-    font-size: 1.25em;
   }
 
   /* 86:221, another 1220px row inset 34px inside the 1288px measure: WHAT

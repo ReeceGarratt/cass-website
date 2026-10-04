@@ -134,6 +134,20 @@
   --type-sub-titles-letter-spacing: -0.011em;
   --type-sub-titles-weight: 500;
 
+  /* Type: Sub Text 2 (Inter Medium 20 / 1.5 / -1.1%): CS3's journey
+     description (98:2266) */
+  --type-sub-text-2-size: 1.25rem; /* 20px */
+  --type-sub-text-2-line-height: 1.5;
+  --type-sub-text-2-letter-spacing: -0.011em;
+  --type-sub-text-2-weight: 500;
+
+  /* Type: Body Bold (Inter Bold 17 / 1.5 / -1.1%, the nav's values): CS3's
+     proposal stat lead-in (99:2799) */
+  --type-body-bold-size: 1.0625rem; /* 17px */
+  --type-body-bold-line-height: 1.5;
+  --type-body-bold-letter-spacing: -0.011em;
+  --type-body-bold-weight: 700;
+
   /* Page */
   --page-max-width: 120rem; /* 1920px */
 
@@ -196,6 +210,10 @@
   --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
   below the top of the Personas frame (92:1579). The checker illustration
   (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
+  --space-intro-image-drop: 6.9375rem; /* 111px; CS3's hero (99:2503) sits
+  this far below the top of the intro (y=441 against 330) */
+  --space-pain-quote-offset: 1.125rem; /* 18px; CS3's pain points quote below
+  the top of its heading (99:2654 mt-[18.07px]) */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
@@ -240,6 +258,13 @@
   --size-process-step-import-journeys: calc(129em / 30);
   --size-process-step-import-wireframing: calc(198em / 30);
   --size-process-step-import-development: calc(187em / 30);
+  /* CS3 (MiX Telematics) process strip label widths, from the 92:1866 outline. */
+  --size-process-step-sales-identify: calc(129em / 30);
+  --size-process-step-sales-asis: calc(204em / 30);
+  --size-process-step-sales-interviews: calc(159em / 30);
+  --size-process-step-sales-ideation: calc(142em / 30);
+  --size-process-step-sales-journey: calc(196em / 30);
+  --size-process-step-sales-proposal: calc(125em / 30);
   /* Safety-net cap on a step label (256px), so a label passed an oversized
   width wraps instead of overflowing. Comfortably above the widest measured
   value (210px), so real labels never reach it. */
@@ -248,10 +273,11 @@
   /* Arrow_01 instance box, 41.83 x 27.33px */
   --size-process-arrow-width: calc(41.8304em / 30);
   --size-process-arrow-height: calc(27.3296em / 30);
-  /* The widest row, CS2's, in em: 903px of labels + 5 arrows + 10 gaps =
-  1432px at 30px. The strip's type shrinks once the row would no longer
+  /* The widest row, CS3's, in em: 955px of labels + 5 arrows + 10 gaps =
+  1484px at 30px (CS2's is 1432, CS1's 1371). Shared so every strip uses
+  one type size. The strip's type shrinks once the row would no longer
   fit this many em inside the gutters. */
-  --size-process-row: 47.75;
+  --size-process-row: 49.47;
   /* Smallest the strip's type scales to before the row wraps instead.
   A starting value to test, not from Figma (Figma only has desktop). */
   --type-process-min-size: 1.25rem; /* 20px */

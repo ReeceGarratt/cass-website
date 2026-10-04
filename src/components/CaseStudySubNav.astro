@@ -43,6 +43,10 @@ const { links } = Astro.props;
     align-items: center;
     justify-content: space-between;
     block-size: var(--space-80); /* 80px */
+    /* The bar bleeds to the viewport edge; its contents stop at the page
+       width, like the site header's. */
+    max-inline-size: var(--page-max-width);
+    margin-inline: auto;
     padding-inline: var(--space-gutter);
   }
 
@@ -81,14 +85,6 @@ const { links } = Astro.props;
     .sub-nav__progress {
       transition: none;
     }
-  }
-
-  .sub-nav__link[aria-current='true'] {
-    /* Marks the current link in text as well as the sweeping bar. Only
-       applies once the script has set aria-current; without JS nothing is
-       marked, and the links still work as plain in-page anchors. */
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
   }
 </style>
 
