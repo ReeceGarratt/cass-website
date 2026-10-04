@@ -202,20 +202,24 @@ a {
    fall through to the `full` track.
 
    CaseStudyLayout passes `fullBleed` to BaseLayout so <main> carries no
-   gutter padding: this grid's own [full-start]/[full-end] gutter tracks are
-   the only gutter. At 1920px the full track is the whole 1920px viewport,
-   the gutter is 110px and the content track is 1920 - 2 * 110 = 1700px
-   (Figma measures 1699px, a sub-pixel frame offset, hence the 1699px in
-   comments elsewhere). */
+   max width or gutter padding: the full track is always the whole viewport,
+   so bleed sections reach its edges on any screen. The content track is
+   capped instead, at what a --page-max-width page leaves inside its
+   gutters, and the side tracks take the rest. At 1920px and below the
+   side tracks are exactly the gutter; at 1920px that's 110px and the
+   content track is 1920 - 2 * 110 = 1700px (Figma measures 1699px, a
+   sub-pixel frame offset, hence the 1699px in comments elsewhere). Above
+   1920px the content stays 1700px and centred, like the site header's. */
 .case-study {
   display: grid;
   grid-template-columns:
-    [full-start] var(--space-gutter)
-    [content-start] 1fr [content-end]
-    var(--space-gutter) [full-end];
+    [full-start] minmax(var(--space-gutter), 1fr)
+    [content-start] minmax(
+      0,
+      calc(var(--page-max-width) - 2 * var(--space-gutter))
+    )
+    [content-end] minmax(var(--space-gutter), 1fr) [full-end];
   row-gap: var(--space-160);
-  max-inline-size: var(--page-max-width);
-  margin-inline: auto;
   /* Figma leaves 80px under the Read More row at the bottom of the page
      (CS1: 6003 − 5923; CS3: 92:2089 is 551px with the row 80px down).
      CS2's 103px and CS4's 89px are drift. */

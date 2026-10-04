@@ -7,10 +7,10 @@ import '../styles/global.css';
 interface Props {
   title: string;
   /**
-   * Skip <main>'s inline gutter padding. For layouts that lay out their own
-   * full-width grid (CaseStudyLayout's .case-study owns its gutter), where
-   * padding on <main> would be a second gutter and `u-bleed` could never
-   * reach the viewport edge.
+   * Skip <main>'s max width and inline gutter padding. For layouts that lay
+   * out their own full-width grid (CaseStudyLayout's .case-study owns its
+   * gutter and content cap), where either would stop `u-bleed` reaching the
+   * viewport edge.
    */
   fullBleed?: boolean;
 }
@@ -37,7 +37,7 @@ const { title, fullBleed = false } = Astro.props;
     </header>
     <main
       id="main"
-      class:list={['site-main', { 'site-main--gutter': !fullBleed }]}
+      class:list={['site-main', { 'site-main--contained': !fullBleed }]}
       tabindex="-1"
     >
       <slot />
@@ -50,12 +50,9 @@ const { title, fullBleed = false } = Astro.props;
     background-color: var(--color-purple);
   }
 
-  .site-main {
+  .site-main--contained {
     max-inline-size: var(--page-max-width);
     margin-inline: auto;
-  }
-
-  .site-main--gutter {
     padding-inline: var(--space-gutter);
   }
 

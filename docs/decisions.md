@@ -272,3 +272,10 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Context:** The pages ended flush with the Read More cards. Figma leaves 80px below them on CS1 and CS3, 89 on CS4 and 103 on CS2. Asked for by the user while CS3 was being built.
 - **Decision:** `.case-study` has `padding-block-end: var(--space-80)`, one rule for every case study page. CS2's and CS4's larger gaps are treated as drift.
 - **Consequences:** each case study page is 80px taller; nothing else moves.
+
+### D-036 · Case study bleed reaches the viewport edge
+- **Date:** 2026-10-04 · **Status:** Accepted
+- **Context:** `<main>` and `.case-study` were both capped at `--page-max-width` (1920px), so above 1920px every `u-bleed` section (the sub nav, the process strip, and the `.band` sections on CS2 and CS3) stopped short of the screen edges.
+- **Decision:** With `fullBleed`, `<main>` has no max width, and `.case-study` has none either. Its side tracks are `minmax(var(--space-gutter), 1fr)` and its content track is capped at `calc(var(--page-max-width) - 2 * var(--space-gutter))`, so the full track is always the viewport and the content stays 1700px and centred above 1920px. The sub nav's inner row is capped at `--page-max-width`, matching `SiteNav`.
+- **Alternatives considered:** keeping the cap and painting each band's colour past it with a `border-image` outset (as first done for the sub nav, and removed with this change). Rejected: it's repeated per band, only works for solid backgrounds, and leaves "bleed" meaning "1920px".
+- **Consequences:** identical layout at 1920px and below (measured at 1920 and 1440 on both case studies).
