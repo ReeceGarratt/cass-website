@@ -66,6 +66,7 @@ The second page is where "extract on second use" was tested. Counts are from `gr
 - **Case study pages still need ~1100px.** With the strip fixed, the grid's own sections set the floor (1108px CS1, 1091px CS2). That's for the responsive pass (Q-026).
 - **Check a new shot's `scrollWidth` against the viewport.** A 2px overflow is invisible in a screenshot but gives users a horizontal scrollbar. It also shifts anything measured relative to a full-bleed element (the sub nav underline was 2px out because of it).
 - **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` puts `padding-inline: var(--space-gutter)` on `<main>` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
+- **"Full-bleed" stops at 1920px.** `<main>` and `.case-study` are both capped at `--page-max-width`, so `u-bleed` reaches the viewport edge only up to 1920px. The sub nav paints its white past the cap with a `border-image` outset (`border-image-outset: 0 100vmax`). That leaves its box and contents on the grid and adds no scrollable overflow. Write it as longhands: Prettier misreads the `//` in the `border-image` shorthand as a comment and breaks the declaration.
 
 ## What Figma actually defines
 

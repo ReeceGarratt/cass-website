@@ -132,3 +132,6 @@ Fixed on the case-study-2 branch: CS1's handover heading showed "&amp;" (entity 
 
 ## [2026-10-01] decision | ProcessStrip scales to fit, then wraps (D-033); Q-026 opened
 The strip's ~1432px minimum wasn't a chosen breakpoint, just the width of its fixed-size content. Percentage label widths couldn't help (the widths were already at their longest words), so all strip sizes moved to `em` and the type is fitted to the band with a container query: 30px by default, down to 20px, then the row wraps. Pixel-identical at 1920 on both case studies; no overflow at 1440 or 1280. Opened Q-026 (case study pages below desktop width), since the rest of the grid still needs ~1100px. Updated componentisation.md, design-tokens.md and architecture.md.
+
+## [2026-10-04] update | Sub nav: no text underline, white bar to the viewport edge
+Removed the text underline on the current sub nav link; the progress bar is the only marker, and `aria-current` is unchanged. The sub nav's white now runs to the viewport edge above 1920px through a `border-image` outset. Its contents stay on the grid, and there's no horizontal overflow at 2560 or 1440. Added the gotcha to componentisation.md.

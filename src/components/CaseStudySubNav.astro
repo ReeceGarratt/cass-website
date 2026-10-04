@@ -35,6 +35,14 @@ const { links } = Astro.props;
     inset-block-start: 0;
     z-index: 2;
     background-color: var(--color-white);
+    /* The case study grid stops at --page-max-width, but the bar should run
+       to the viewport edges like the site header, with only its contents
+       capped. A border-image outset paints the white past the box without
+       widening it, so it adds no horizontal scroll and the links stay on
+       the grid's gutter. */
+    border-image-source: conic-gradient(var(--color-white) 0 0);
+    border-image-slice: 0 fill;
+    border-image-outset: 0 100vmax;
   }
 
   .sub-nav__inner {
@@ -81,14 +89,6 @@ const { links } = Astro.props;
     .sub-nav__progress {
       transition: none;
     }
-  }
-
-  .sub-nav__link[aria-current='true'] {
-    /* Marks the current link in text as well as the sweeping bar. Only
-       applies once the script has set aria-current; without JS nothing is
-       marked, and the links still work as plain in-page anchors. */
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
   }
 </style>
 
