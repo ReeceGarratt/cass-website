@@ -5,8 +5,14 @@ import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
 import DefinitionTip from '../../components/DefinitionTip.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import BusinessProblem from '../../components/BusinessProblem.astro';
+import { Image } from 'astro:assets';
+import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
+import FindingsList from '../../components/FindingsList.astro';
 import Man3 from '../../assets/icons/man-3.svg';
+import Arrow04 from '../../assets/arrow-04.svg';
 import journeyMapHero from '../../assets/case-studies/sales-workflow-research/journey-map-hero.png';
+import workshopArtifact from '../../assets/case-studies/sales-workflow-research/workshop-artifact.jpg';
+import asIsJourney from '../../assets/case-studies/sales-workflow-research/as-is-journey.png';
 
 const entry = await getEntry('caseStudies', 'sales-workflow-research');
 if (!entry) throw new Error('Missing case study: sales-workflow-research');
@@ -107,4 +113,215 @@ const subNav = [
   >
     A conversation with business stakeholders revealed the following needs:
   </BusinessProblem>
+
+  <section
+    class="as-is u-bleed"
+    id="as-is-discovery"
+    aria-labelledby="as-is-heading"
+  >
+    <div class="as-is__band band band--purple">
+      <div class="as-is__inner">
+        <div class="as-is__context">
+          <figure class="as-is__photo">
+            <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+            <Image
+              src={workshopArtifact}
+              alt="The workshop wall: sticky notes and hand-drawn arrows mapping the as-is sales journey through baby lead, convert lead, new proposal, add solutions, create BOM, quote create and credit vet."
+            />
+            <figcaption class="as-is__label type-handwritten">
+              <Arrow04 class="as-is__arrow" aria-hidden="true" />
+              workshop artifact
+            </figcaption>
+          </figure>
+          <div class="as-is__text">
+            <h2 class="as-is__heading type-title-2" id="as-is-heading">
+              AS-IS Journey Investigations
+            </h2>
+            <p class="as-is__copy type-body-med">
+              To better understand how the platform was supposed to be used my
+              team and I had a workshop with a leader that manages training of
+              new staff. With her help we developed an in-depth AS IS map with
+              explanations of related responsibilities, platforms and processes
+              .
+            </p>
+          </div>
+        </div>
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <CaseStudyFigure
+          image={asIsJourney}
+          alt="The AS-IS sales journey as a swimlane diagram across the customer, sales representative, finance, MD and technical lanes: lead, convert lead and new proposal, a long run of create-quote steps, then credit vet and creating the database, with most steps falling to the sales representative."
+          caption="AS-is journey"
+          captionSize="large"
+          captionTone="inverse"
+          captionAlign="end"
+        />
+      </div>
+    </div>
+    <p class="as-is__hook">
+      <span class="type-handwritten">key session insight</span>
+      <span class="type-title-2">
+        Employees were <span class="as-is__hook-accent">leaving</span>
+        <br />
+        because of the system
+      </span>
+    </p>
+  </section>
+
+  <section
+    class="panel"
+    id="user-interviews"
+    aria-labelledby="user-interviews-heading"
+  >
+    <div class="interviews">
+      <div class="interviews__summary">
+        <h2
+          class="interviews__heading type-title-2"
+          id="user-interviews-heading"
+        >
+          User interviews
+          <br />
+          &amp; observations
+        </h2>
+        <p class="type-subtitle">
+          If a new sales quote was found to be incorrect at any step past the
+          original &lsquo;data capture form&rsquo; the sale would be considered
+          a &lsquo;Lost lead&rsquo; and would have to be redone. The term
+          &lsquo;Lost lead&rsquo; was then recorded on the sales persons monthly
+          sales reports, same as leads that were actually lost/failed.
+        </p>
+        <p class="interviews__stat">
+          <span class="type-stats">15+</span>
+          <span class="type-body-med">users spoken to</span>
+        </p>
+      </div>
+      <FindingsList
+        tone="inverse"
+        spacing="compact"
+        items={[
+          'There were fields that nobody understood.',
+          'The sales team had to follow steps in the system that they felt were redundant.',
+          'Many key steps were being presented to the user either too early or too late in the journey.',
+          'New staff found the platform very hard to learn and had to rely on notes and recordings.',
+        ]}
+      />
+    </div>
+  </section>
 </CaseStudyLayout>
+
+<style>
+  /* --- AS-IS journey investigations (99:2631) -----------------------------
+     A full-bleed Purple .band (99:2596, content 1447px, the inset measure),
+     then the key insight 80px below it, inside the same frame. */
+  .as-is {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+  }
+
+  .as-is__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-80);
+    max-inline-size: var(--size-inset-measure);
+    margin-inline: auto;
+  }
+
+  /* Photo 449px, 80px, text 764px, start-aligned in the measure. */
+  .as-is__context {
+    display: grid;
+    grid-template-columns: minmax(0, 28.0625rem) minmax(0, 47.75rem);
+    gap: var(--space-80);
+    align-items: start;
+  }
+
+  /* No radius or shadow on the photo in Figma (99:2618). */
+  .as-is__photo {
+    position: relative;
+    margin: 0;
+  }
+
+  /* 99:2651: 44px before the text column (so 36px past the photo) and
+     289.82px down, beside the photo's bottom edge. */
+  .as-is__label {
+    position: absolute;
+    inset-block-start: 18.11rem; /* 289.82px */
+    inset-inline-start: calc(100% + 2.25rem); /* 36px */
+    display: flex;
+    gap: 1.4375rem; /* 23px */
+    align-items: flex-start;
+    color: var(--color-white);
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+
+  /* 37816.svg is stroked Light Purple (#C1CBFF, the known drift), rotated
+     180deg so it points back at the photo. */
+  .as-is__arrow {
+    flex: none;
+    color: var(--color-light-purple);
+    transform: rotate(180deg);
+  }
+
+  /* Heading box 407px, copy 718px, 24px apart (113.82 − 90). */
+  .as-is__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .as-is__heading {
+    max-inline-size: 25.4375rem; /* 407px */
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .as-is__copy {
+    max-inline-size: 44.875rem; /* 718px */
+    color: var(--color-white);
+  }
+
+  /* 99:2529: centred, Purple with one Red word, 16px apart. */
+  .as-is__hook {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-headings-body);
+    padding-inline: var(--space-gutter);
+    margin: 0;
+    color: var(--color-purple);
+    text-align: center;
+    text-transform: lowercase;
+  }
+
+  .as-is__hook-accent {
+    color: var(--color-red);
+  }
+
+  /* --- User interviews (98:2316) -------------------------------------------
+     A .panel (1444px). Summary 669px, 80px, list 467px, the row centred.
+     Figma's first two findings are 487 and 492px wide: drift, built at the
+     list width. */
+  .interviews {
+    display: grid;
+    grid-template-columns: minmax(0, 41.8125rem) minmax(0, 29.1875rem);
+    gap: var(--space-80);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .interviews__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    color: var(--color-white);
+  }
+
+  .interviews__heading {
+    color: var(--color-light-purple);
+    text-transform: lowercase;
+  }
+
+  .interviews__stat {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
