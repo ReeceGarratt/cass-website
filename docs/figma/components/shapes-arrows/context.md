@@ -24,8 +24,9 @@ tools: [get_metadata, download_assets]
 
 | File | Size | Belongs to |
 |---|---|---|
-| `arrow-01-curve.svg` | 40 x 29 | Arrow_01 (`129:3488`) |
-| `arrow-01-head.svg` | 17 x 12.96 | Arrow_01 |
+| `arrow-01-curve.svg` | 40 x 29 | **Not Arrow_01** (see notes): grouped by size match, but the shape is wrong |
+| `arrow-01-head.svg` | 17 x 12.96 | **Not Arrow_01** (see notes) |
+| `arrow-01.svg` | 44 x 28 | Arrow_01 (`129:3488`), whole node |
 | `arrow-02-curve.svg` | 71.29 x 48.33 | Arrow_02 (`129:3489`) |
 | `arrow-02-head.svg` | 17 x 16 | Arrow_02 |
 | `arrow-03-curve.svg` | 38.03 x 15.38 | Arrow_03 (`129:3490`) |
@@ -39,4 +40,5 @@ tools: [get_metadata, download_assets]
 - **Rectangle** (`129:3466`) is the solid Purple 288x77 rounded pill used behind the home page hero headline. It has no SVG export because it's a plain rounded rectangle — build it in CSS, as the home page already does (`--hero-pill-*` tokens).
 - These arrows don't appear in any component fetched so far. They're loose decoration, presumably placed on the Work or case study pages.
 - **`arrow-03.svg` (refetch, 2026-09-29, task 17):** the two loose `arrow-03-*` part exports can't be reassembled — their relative placement isn't recoverable from the part sizes, and every attempted arrangement produced an arrowhead detached from the curve and pointing the wrong way. `download_assets` was re-run on the `129:3490` node itself with `defaultFormat: svg`, which returns the composed arrow (curve plus head, pointing up and to the left). Saved here as `arrow-03.svg`; the two background `<rect>`s the node export wraps it in were stripped and the strokes changed from `#CD2B2B` to `currentColor` before copying it to `src/assets/arrow-03.svg`, so the embedding page sets the colour (the case study's user-testing panel draws it White on Purple). Used by `src/pages/work/streamlining-scoring.astro`.
-- **The same trap applies to `Arrow_01` and `Arrow_02`.** None of the three symbols' part exports carry their relative placement, so any of them will look wrong if reassembled from the loose files. `ProcessStrip.astro`'s Arrow_01 is composited from `arrow-01-curve.svg` + `arrow-01-head.svg` and its own comments describe the head's position as "a best-effort visual approximation, not a measured value" — it could be replaced with a composed `arrow-01.svg` the same way, for one `download_assets` call on `129:3488`. **Before building an arrow into case studies 2-4, re-export the symbol node itself** (`download_assets` with `defaultFormat: svg` on the symbol's id) rather than reaching for the part files here.
+- **`arrow-01.svg` (refetch, 2026-10-04):** `download_assets` on `129:3488` with `defaultFormat: svg`. The composed Arrow_01 is a near-straight line with its head, pointing right, which matches the Process strips in both case study screenshots. The `arrow-01-*` part files above don't belong to it: the "curve" rises to the top right and isn't in the symbol at all. Grouping by bounding-box size had paired the wrong vectors, and `ProcessStrip` rendered them as a misshapen curved arrow until this fix. As with Arrow_03, the background `<rect>`s were stripped and the strokes changed to `currentColor` for `src/assets/arrow-01.svg`.
+- **Arrow_02 has the same trap.** Its part files are grouped by size too, so the grouping may be wrong as well as the placement. **Before building an arrow, re-export the symbol node itself** (`download_assets` with `defaultFormat: svg` on the symbol's id) rather than reaching for the part files here.

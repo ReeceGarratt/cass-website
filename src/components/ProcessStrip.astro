@@ -89,36 +89,22 @@ const { steps, class: className } = Astro.props;
   }
 
   /* Decorative arrow between steps, an image so it never enters the
-     accessibility tree. Composited from the two loose Arrow_01 exports in
-     docs/figma/components/shapes-arrows/ (a curve and a separate
-     arrowhead) — the fetched snapshot has each part's own size but not
-     their relative offset, so the head's position here (top right, ~45%
-     of the box) is a best-effort visual approximation, not a measured
-     value. Box size is the Arrow_01 instance bounding box from the
-     Process section outline (67:334): 41.83 x 27.33px.
+     accessibility tree. arrow-01.svg is the composed Arrow_01 symbol
+     (129:3488) exported whole: a near-straight line with its head, pointing
+     right. Box size is the Arrow_01 instance bounding box from the Process
+     section outline (67:334): 41.83 x 27.33px.
 
-     Colour: the source SVGs are stroked Red (#CD2B2B, their default
-     colourway from shapes-arrows), but this section's own reported styles
-     are White/H1/Purple with no Red, and the fetched screenshot confirms
-     the arrows render White on the Purple band. brightness(0) forces every
-     opaque pixel to black regardless of the source stroke colour (alpha is
-     preserved), then invert(1) flips that black to White — a standard
-     recolour trick for a background-image SVG, since url()-referenced SVGs
-     don't take `currentColor` from the embedding page. */
+     Colour: the arrows render White on the Purple band (fetched
+     screenshot), but url()-referenced SVGs don't take `currentColor` from
+     the embedding page, so the stroke resolves to black. invert(1) flips
+     that black to White (alpha is preserved); brightness(0) first keeps it
+     correct whatever colour the source stroke is. */
   .process-strip__step:not(:last-child)::after {
     content: '';
     display: block;
     inline-size: var(--size-process-arrow-width);
     block-size: var(--size-process-arrow-height);
-    background-image:
-      url('../assets/arrow-01-head.svg'), url('../assets/arrow-01-curve.svg');
-    background-repeat: no-repeat, no-repeat;
-    background-position:
-      100% 0%,
-      0% 100%;
-    background-size:
-      45% 50%,
-      100% 100%;
+    background: url('../assets/arrow-01.svg') center / contain no-repeat;
     filter: brightness(0) invert(1);
   }
 </style>
