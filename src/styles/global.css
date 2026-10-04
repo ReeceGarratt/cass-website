@@ -176,6 +176,20 @@ a {
   letter-spacing: var(--type-sub-titles-letter-spacing);
 }
 
+.type-sub-text-2 {
+  font-size: var(--type-sub-text-2-size);
+  font-weight: var(--type-sub-text-2-weight);
+  line-height: var(--type-sub-text-2-line-height);
+  letter-spacing: var(--type-sub-text-2-letter-spacing);
+}
+
+.type-body-bold {
+  font-size: var(--type-body-bold-size);
+  font-weight: var(--type-body-bold-weight);
+  line-height: var(--type-body-bold-line-height);
+  letter-spacing: var(--type-body-bold-letter-spacing);
+}
+
 /* Case study page grid.
    Sections are constrained to the content track by default and opt out to
    full-bleed with .u-bleed. Correct-by-default: forgetting the class yields
@@ -202,6 +216,10 @@ a {
   row-gap: var(--space-160);
   max-inline-size: var(--page-max-width);
   margin-inline: auto;
+  /* Figma leaves 80px under the Read More row at the bottom of the page
+     (CS1: 6003 − 5923; CS3: 92:2089 is 551px with the row 80px down).
+     CS2's 103px and CS4's 89px are drift. */
+  padding-block-end: var(--space-80);
 }
 
 /* Direct children only — a section's root element must be a direct child
@@ -250,6 +268,26 @@ a {
   margin-inline: auto;
   background-color: var(--color-purple);
   color: var(--color-white);
+}
+
+/* Full-bleed band: CS2's "new user journey" (92:1636, Purple) and
+   "reviewing" (91:1039, White), CS3's AS-IS investigations (99:2596,
+   Purple) and "realistic user journey" (92:1958, White). x=0, w=1920 in
+   Figma with no radius, unlike the inset .panel. 80px block padding; the
+   gutter keeps the content off the edges. Each page sets its own inner
+   measure (1450, 1564, 1447, 1246px), so that stays page CSS. Use it on a
+   .u-bleed section, or inside one. */
+.band {
+  padding-block: var(--space-80);
+  padding-inline: var(--space-gutter);
+}
+
+.band--purple {
+  background-color: var(--color-purple);
+}
+
+.band--white {
+  background-color: var(--color-white);
 }
 
 @media (prefers-reduced-motion: no-preference) {

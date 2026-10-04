@@ -275,7 +275,7 @@ const subNav = [
   </section>
 
   <section
-    class="journey u-bleed"
+    class="journey u-bleed band band--purple"
     id="user-journey"
     aria-labelledby="user-journey-heading"
   >
@@ -420,7 +420,10 @@ const subNav = [
     </div>
   </section>
 
-  <section class="reviewing u-bleed" aria-labelledby="reviewing-heading">
+  <section
+    class="reviewing u-bleed band band--white"
+    aria-labelledby="reviewing-heading"
+  >
     <div class="reviewing__inner">
       <div class="reviewing__info">
         <div class="reviewing__column">
@@ -702,15 +705,9 @@ const subNav = [
   }
 
   /* --- The new user journey (92:1636) -------------------------------------
-     Genuinely full-bleed (x=0, w=1920), unlike the panels: Purple, no
-     radius, 80px block padding, content at 235px each side, i.e. the
-     1450px inset measure. 80px between the heading and each row. */
-  .journey {
-    padding-block: var(--space-80);
-    padding-inline: var(--space-gutter);
-    background-color: var(--color-purple);
-  }
-
+     Genuinely full-bleed (x=0, w=1920), unlike the panels: a Purple .band,
+     content at 235px each side, i.e. the 1450px inset measure. 80px
+     between the heading and each row. */
   .journey__inner {
     display: flex;
     flex-direction: column;
@@ -850,15 +847,9 @@ const subNav = [
   }
 
   /* --- Reviewing data & requesting changes (91:1039) ----------------------
-     Full-bleed White band, 80px block padding, content 1564px centred.
-     Info row: left 509px, 80px, right 509px, bottom-aligned; images 752px
-     and 764px, 48px apart. */
-  .reviewing {
-    padding-block: var(--space-80);
-    padding-inline: var(--space-gutter);
-    background-color: var(--color-white);
-  }
-
+     A full-bleed White .band, content 1564px centred. Info row: left
+     509px, 80px, right 509px, bottom-aligned; images 752px and 764px, 48px
+     apart. */
   .reviewing__inner {
     display: flex;
     flex-direction: column;
