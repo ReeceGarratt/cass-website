@@ -143,7 +143,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - `30:339` on the `Work` page — another 1920x1080 `Landing` frame.
 
   The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
-- **Questions:** which frame is the current home page design? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
+- **Update 2026-10-20:** a fourth candidate turned up. The new Portfolio style guide on the Design system page (`306:1542`) describes **"Portfolio landing — Desktop" (`267:1855`, 1920 × 3161)** as "one authoritative desktop page": hero, client strip, four Detailed Cards, about and contact, with the new `White` nav variant. It hasn't been located on a page yet. Phase 1b of the 2026-10-20 macro plan fetches it. See [figma/design-system/style-guide/context.md](figma/design-system/style-guide/context.md).
+- **Questions:** which frame is the current home page design? Is `267:1855` it? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
 - **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
 
 ### Q-018 · Image delivery: in-repo with Astro's pipeline, or hosted off-repo

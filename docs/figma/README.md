@@ -91,28 +91,30 @@ Images that ship with the site go in `src/` or `public/`, not here.
 
 | Frame | Folder | Node ID | Fetched |
 |---|---|---|---|
-| **Design system page** | [`design-system/`](design-system/README.md) | `129:3321` | 2026-09-29 (outline, variables, screenshot) |
+| **Design system page** | [`design-system/`](design-system/README.md) | `129:3321` | 2026-10-20 (outline, variables; delta in [`delta-2026-10-20.md`](design-system/delta-2026-10-20.md)) |
+| Portfolio style guide (new) | [`design-system/style-guide/`](design-system/style-guide/context.md) | `306:1542` | 2026-10-20 (outline, screenshot transcribed) |
 | Detailed Card (component set) | [`components/detailed-card/`](components/detailed-card/) | `129:3554` | 2026-09-29 (outline, context) |
-| Sub Nav (component set) | [`components/sub-nav/`](components/sub-nav/) | `185:2566` | 2026-09-29 (outline, context) |
+| Sub Nav (component set) | [`components/sub-nav/`](components/sub-nav/) | `185:2566` | 2026-10-20 (context, screenshot, assets); variants `02`–`04` removed |
 | Pills (component set) | [`components/pills/`](components/pills/) | `144:592` | 2026-09-29 (outline, context) |
-| Definition Tip | [`components/definition-tip/`](components/definition-tip/) | `99:2845` | 2026-09-29 (outline, context) |
-| Read More (other case studies row) | [`components/read-more/`](components/read-more/) | `99:2461` | 2026-09-29 (outline, context) |
-| Case Study / Intro | [`components/case-study-intro/`](components/case-study-intro/) | `144:1045` | 2026-09-29 (outline, context) |
+| Definition Tip | [`components/definition-tip/`](components/definition-tip/) | `99:2845` | 2026-09-29 (outline, context); rechecked 2026-10-20, unchanged |
+| Read More (other case studies row) | [`components/read-more/`](components/read-more/) | `99:2461` | 2026-09-29 (outline, context); rechecked 2026-10-20, unchanged |
+| Case Study / Intro | [`components/case-study-intro/`](components/case-study-intro/) | `144:1045` | 2026-09-29 (outline, context); rechecked 2026-10-20, unchanged |
 | Case Study / Business Problem Heading | [`components/case-study-intro/`](components/case-study-intro/business-problem-heading.md) | `144:1870` | 2026-09-29 (context) |
 | Icons (6 avatar symbols) | [`components/icons/`](components/icons/) | `144:1321` | 2026-09-29 (outline, assets) |
 | Shapes & Arrows | [`components/shapes-arrows/`](components/shapes-arrows/) | `129:3457` | 2026-09-29 (outline, assets) |
-| Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-09-16 (outline, screenshot, context, assets) — a 5th `Prototype` variant (`181:2514`) has since been added and is **not** in the snapshot |
+| Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-10-20 (context, screenshot, assets); new `White` variant, `Prototype` removed, utility links added |
 | Case study Card / Compact Card (component set) | [`components/case-study-card/`](components/case-study-card/) | `4:123` | 2026-09-16 (outline, context, assets) |
 | arrow_upward / Button_Circle Arrow (component set) | [`components/arrow/`](components/arrow/) (context is in `case-study-card/`) | `4:137` | 2026-09-16 (assets) |
 | Flower (symbol) | [`components/flower/`](components/flower/) (context is in `case-study-card/`) | `1:162` | 2026-09-16 (asset) |
 | **Work page** (Landing frame + 4 case studies) | [`outline-work-page.md`](outline-work-page.md) | `19:104` | 2026-09-29 (outline) |
-| 💻 Case Study 1 — Absa, streamlining scoring | [`case-study-1-desktop/`](case-study-1-desktop/) | `53:156` | 2026-09-29 (screenshot, outline, context for all 7 sections, images) |
-| 💻 Case Study 2 — Standard Bank, import collections | [`case-study-2-desktop/`](case-study-2-desktop/) | `91:669` | 2026-09-30 (screenshot, context for all 9 sections and the Definition Tip, images, persona SVGs) |
-| 💻 Case Study 3 — MiX Telematics, sales workflow | [`case-study-3-desktop/`](case-study-3-desktop/) | `92:1823` | 2026-10-04 (context for all 8 sections, the Sub Nav and the Definition Tip, section renders, images; screenshot 2026-09-29) |
+| 💻 Case Study 1 — Absa, streamlining scoring | [`case-study-1-desktop/`](case-study-1-desktop/) | `53:156` | 2026-09-29 (screenshot, outline, context for all 7 sections, images); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
+| 💻 Case Study 2 — Standard Bank, import collections | [`case-study-2-desktop/`](case-study-2-desktop/) | `91:669` | 2026-09-30 (screenshot, context for all 9 sections and the Definition Tip, images, persona SVGs); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
+| 💻 Case Study 3 — MiX Telematics, sales workflow | [`case-study-3-desktop/`](case-study-3-desktop/) | `92:1823` | 2026-10-04 (context for all 8 sections, the Sub Nav and the Definition Tip, section renders, images; screenshot 2026-09-29); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
 | 💻 Case Study 4 — TRANSEARCH, interactive workbook | [`case-study-4-desktop/`](case-study-4-desktop/) | `144:269` | 2026-09-29 (screenshot) |
 | Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
 | Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
 | Landing, desktop — second frame | _not fetched_ | `127:3171` | **New since 2026-09-16.** Same size as `1:79`; purpose unknown |
+| Portfolio landing — Desktop | _not fetched (phase 1b)_ | `267:1855` | **New; found 2026-10-20** via the style guide, which calls it the authoritative desktop page (1920 × 3161). Not located on a page yet |
 | Landing frame on the Work page | _not fetched_ | `30:339` | A second copy of the landing design, on the Work page |
 | iPad Pro 11" - 1 | _not fetched (desktop first)_ | `19:327` | outline only |
 | iPhone 16 - 1 | _not fetched (desktop first)_ | `19:328` | outline only |

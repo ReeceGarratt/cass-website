@@ -141,3 +141,9 @@ Fetched and saved the CS3 Figma snapshot (10 reads; images from the design conte
 
 ## [2026-10-04] decision | Process strip arrow re-exported; case study bleed reaches the viewport edge (D-036)
 The process strip's arrows were built from two loose vectors paired with Arrow_01 by size; re-exporting the symbol (`129:3488`) whole showed they weren't Arrow_01 at all, which is a near-straight line pointing right. The strip now uses the composed `arrow-01.svg`. Separately, `<main>` and `.case-study` no longer cap the page at 1920px; the content track is capped instead, so `u-bleed` bands reach the viewport edge on wider screens. Measured identical at 1920 and 1440 on both case studies. Updated architecture.md (invariant 8), componentisation.md, figma-mcp.md and the shapes-arrows snapshot notes.
+
+## [2026-10-20] ingest | Cass's case study feedback and the 2026-10-20 macro plan
+Added `raw/2026-10-20-cass-feedback-case-studies.md` and the macro plan that triages it. Opened Q-027 to Q-031 (the five questions for Cass).
+
+## [2026-10-20] update | Design system refresh (macro plan phase 1a)
+Refetched the Design system page, Navigation, Sub Nav, Intro, Read More and Definition Tip, and rechecked CS1–3 (18 Figma reads). New: a Portfolio style guide frame (`306:1542`) describing a new landing frame (`267:1855`); a `White` nav variant plus Resume and Email me utility links; a per-item red sub-nav underline in place of the progress sweep; 80px (was 160px) above every case study intro. Findings, and the rulings phase 2 needs, are in `figma/design-system/delta-2026-10-20.md`. Updated Q-017 and the Figma frame index.
