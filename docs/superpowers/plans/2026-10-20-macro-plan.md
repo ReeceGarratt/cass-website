@@ -87,15 +87,15 @@ These go in phase 2.
 | Item | Touches | Notes |
 |---|---|---|
 | Nav font 16px | `SiteNav` / new nav | Check against the new nav in Figma |
-| Show the nav when scrolling up | Nav, `BaseLayout` | A small client script, a new pattern (invariant 3: state the reason). Must work with the sticky sub-nav. Cass Q5 |
+| Show the nav when scrolling up | Nav, `BaseLayout` | A small client script, a new pattern (invariant 3: state the reason). Hides on scroll down, returns on scroll up; **the sub-nav always stays visible** (D-045) |
 | "All projects" arrow → Material `arrow_back` | `CaseStudySubNav` | Inline SVG from Material Symbols; no icon font or new dependency |
-| "Skip to content" button | `BaseLayout`, `global.css` | **Keep it**: it's an accessibility requirement (invariant 5). Restyle it to the design system, and find out what focused it for Cass. Cass Q1 |
+| "Skip to content" button | `BaseLayout`, `global.css` | **Keep it**: it's an accessibility requirement (invariant 5). Restyle it to the design system, and find out what focused it for Cass (D-041) |
 | Intro: space above the intro halved, eyebrow-to-title halved, title-to-pill +20% | `CaseStudyIntro` | "Updated in designs": measure from Figma; don't apply the percentages blindly |
 | Call centre agent icon 22px at 1920 | `Pill` / icons | |
-| Company name bold + underlined; info block on hover | `DefinitionTip` | Opens on click today. Hover must also work on focus and tap, and stay open while hovered (WCAG 1.4.13). Cass Q2 |
+| Company name bold + underlined; info block on hover | `DefinitionTip` | Opens on click today. Opens on hover, focus and tap; stays open while hovered; closes on Escape (D-042) |
 | Process arrows `#C4CDF4` | `ProcessStrip` | That's `--color-light-purple` |
 | Read More: client pills left-aligned and not full width; arrow buttons right-aligned | `CaseStudyCard` | |
-| Regular weight for description text on blue cards | `.panel`, `LabelledFindings`, `FindingsList` | Every case study, assuming Cass Q4 confirms "all font on a blue card" |
+| Regular weight for description text on blue cards | `.panel`, `LabelledFindings`, `FindingsList` | Every case study (D-044) |
 
 ### Page-specific feedback items
 
@@ -105,18 +105,21 @@ These go in phase 3C.
 |---|---|---|
 | Standard Bank | Business needs: not all text bold | Check the design |
 | Standard Bank | Reviewing section: left-align the right-hand text with the checker summary image | |
-| Standard Bank | Other case studies in a blue block | If Cass Q3 says every page, this moves into `ReadMoreSection` in phase 2 |
 | Absa | User testing arrow closer to the text | Check the design |
 
 ### Questions for Cass
 
-Reece is relaying these.
+The first five were answered on 2026-10-20 ([raw answers](../../raw/2026-10-20-cass-feedback-answers.md)), resolving Q-027 to Q-031:
 
-1. **Skip to content:** it's an accessibility feature for keyboard and screen reader users, and it only shows on keyboard focus. We propose keeping it, styling it to match, and finding out why it appeared. OK?
-2. **Info on hover:** it also needs to open on keyboard focus and on tap, and stay open while hovered. OK?
-3. **Other case studies in a blue block:** Standard Bank only, or every case study?
-4. **Regular weight on blue cards:** every case study, or Standard Bank only?
-5. **Nav on scroll up:** does it hide while scrolling down? When it reappears, does the case study sub-nav sit below it or get covered?
+| Q | Answer | Decision |
+|---|---|---|
+| Q-027 Skip to content | Keep it, restyled | D-041 |
+| Q-028 Info on hover | Hover, focus and tap; stays open while hovered | D-042 |
+| Q-029 Other case studies in a blue block | Ignore the request; follow the designs | D-043 |
+| Q-030 Regular weight on blue cards | Every case study | D-044 |
+| Q-031 Nav on scroll up | Hides on scroll down; the sub-nav stays visible | D-045 |
+
+**Still with Cass** (raised in phase 1a; see `questions.md`): Q-032 intro spacing not in the design, Q-033 pill icon 22px or 24px, Q-034 the "Email me" copied state. Q-032 and Q-033 affect phase 2; if they're unanswered when it starts, build to Figma and leave them flagged.
 
 ## Starting prompts
 

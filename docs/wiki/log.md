@@ -150,3 +150,6 @@ Refetched the Design system page, Navigation, Sub Nav, Intro, Read More and Defi
 
 ## [2026-10-20] decision | Style guide is the source of truth; nav, sub nav and Email me rulings (D-037 to D-040)
 Reece ruled on the phase 1a delta. The Portfolio style guide wins over the component sets (D-037), which also covers the new 55px arrow hover (refetched `4:137`). "Email me" copies to the clipboard (D-038). The sub nav underlines the current section only (D-039, amends D-023). Nav is purple on case studies and White on home (D-040). Opened Q-032 to Q-034 for Cass.
+
+## [2026-10-20] decision | Cass answers the five feedback questions (D-041 to D-045)
+Filed `raw/2026-10-20-cass-feedback-answers.md`. Resolved Q-027 to Q-031: keep and restyle the skip link (D-041); the Definition Tip opens on hover, focus and tap (D-042); no blue block behind "Other case studies", follow the designs (D-043); Regular weight on every blue card (D-044); the nav hides on scroll down and returns on scroll up, with the sub nav always visible (D-045). Q-032 to Q-034 are still with Cass.

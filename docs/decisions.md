@@ -307,3 +307,38 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision (Reece):** Case study pages use the purple bar with "Work" selected. The home page uses `White`, to be confirmed when phase 1b fetches the landing frame.
 - **Alternatives considered:** one variant everywhere.
 - **Consequences:** `SiteNav` takes a variant. Figma's `Purple` is unchanged at `#4832A1`. The built `--color-purple` wasn't checked in phase 1a, so phase 2 confirms it.
+
+### D-041 · Keep the skip link, styled to the design system
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-027
+- **Context:** Cass saw the "Skip to content" link and reported it as a stray button. It's the `BaseLayout` skip link, required by WCAG 2.4.1 and invariant 5, and only shows on keyboard focus.
+- **Decision (Cass):** Keep it, restyle it so it looks like part of the site, and find out what focused it during her visit.
+- **Alternatives considered:** removing it (fails WCAG 2.4.1).
+- **Consequences:** Phase 2 restyles the skip link from tokens and checks what focused it (a Tab press, or the browser restoring focus).
+
+### D-042 · The Definition Tip opens on hover, focus and tap
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-028
+- **Context:** Cass wants the company name bold and underlined, with its info block appearing on hover. It opens on click today. Hover-only content excludes keyboard and touch users (WCAG 1.4.13).
+- **Decision (Cass):** It opens on hover, keyboard focus and tap, and stays open while the pointer is over it.
+- **Alternatives considered:** hover only.
+- **Consequences:** Phase 2 changes `DefinitionTip`. It must also close on Escape (WCAG 1.4.13, dismissable), and the trigger is styled bold and underlined.
+
+### D-043 · No blue block behind "Other case studies"; follow the designs
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-029
+- **Context:** Cass's feedback asked for the Standard Bank page's "Other case studies" row in a blue block.
+- **Decision (Cass):** Ignore that request and follow the designs.
+- **Alternatives considered:** a blue block on Standard Bank only, or on every case study.
+- **Consequences:** The Read More row matches Figma on every page. Dropped from phase 3C.
+
+### D-044 · Regular weight for text on every blue card
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-030
+- **Context:** Under Standard Bank's User Journey, Cass asked for Regular weight in descriptions, adding "this change needs to happen on all font on a blue card".
+- **Decision (Cass):** Every blue card on every case study.
+- **Alternatives considered:** Standard Bank only.
+- **Consequences:** Phase 2 changes the description weight in the shared blue card styles (`.panel`, `LabelledFindings`, `FindingsList` with `tone="inverse"`), so all three built case studies and TRANSEARCH pick it up. Headings on the cards are unaffected.
+
+### D-045 · The nav hides on scroll down and returns on scroll up; the sub nav stays visible
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-031
+- **Context:** Cass asked for the nav bar to show when scrolling up. The case study sub nav is already sticky.
+- **Decision (Cass):** The nav hides while scrolling down and reappears on scroll up. The sub nav stays visible throughout: it never sits under the returning nav.
+- **Alternatives considered:** the returning nav covering the sub nav.
+- **Consequences:** A small client script (invariant 3: the reason is this behaviour). On case study pages the sub nav sticks at the top while the nav is hidden, and moves down below the nav when it returns. It must respect `prefers-reduced-motion`, and keyboard focus inside the nav must bring the nav back.
