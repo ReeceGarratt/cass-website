@@ -510,13 +510,37 @@ export default function Component06Contact() {
 
 Styles reported: Title 1: Font(family: "Inter", style: Black, size: 50, weight: 900, lineHeight: 48, letterSpacing: -4), H3: Font(family: "Inter", style: Bold, size: 14, weight: 700, lineHeight: 1.5, letterSpacing: -1.100000023841858), Red: #CD2B2B.
 
+## Section: Email pill, copied state (node 272:2302, in frame 272:2292)
+
+Render: [`sections/07-email-pill-copied.png`](sections/07-email-pill-copied.png). Icon: [`icon-check-copied.svg`](icon-check-copied.svg), the Material Symbols `check` glyph, Purple `#4832A1`, 24px (the same 24px slot as the copy icon). Frame `272:2292` is a copy of `267:1855` whose only difference is this post-click state of the email pill (per Reece, 2026-10-20; the rest of `272:2292` wasn't fetched). Everything else about the pill is unchanged: the label, the Light purple fill, the padding and the 10px gap.
+
+```tsx
+const assetPathPrefix = "https://www.figma.com/api/mcp/asset/5385bdc6-2eab-4caf-916f-288f51a0b90b";
+const imgCheck = `${assetPathPrefix}/2c809.svg`;
+
+export default function ContactPillEmail() {
+  return (
+    <div className="bg-[var(--light-purple,#c4cdf4)] content-stretch flex gap-[10px] items-center justify-center px-[16px] py-[8px] relative rounded-[25px] size-full" data-node-id="272:2302" data-name="Contact pill · Email">
+      <p className="[word-break:break-word] font-['Inter:Bold'] font-bold leading-[1.5] lowercase not-italic relative shrink-0 text-[#4832a1] text-[14px] tracking-[-0.154px] whitespace-nowrap" data-node-id="272:2303">
+        hello@cassandragarratt.com
+      </p>
+      <div className="relative shrink-0 size-[24px]" data-node-id="272:2492" data-name="check">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCheck} />
+      </div>
+    </div>
+  );
+}
+```
+
+Styles reported: H3: Font(family: "Inter", style: Bold, size: 14, weight: 700, lineHeight: 1.5, letterSpacing: -1.100000023841858).
+
 ## Notes
 
-Fetched in phase 1b of the [2026-10-20 macro plan](../../superpowers/plans/2026-10-20-macro-plan.md), for stream 3A. 8 Figma reads: 1 `get_metadata`, 1 `get_screenshot`, 5 `get_design_context`, 1 `download_assets`.
+Fetched in phase 1b of the [2026-10-20 macro plan](../../superpowers/plans/2026-10-20-macro-plan.md), for stream 3A. 9 Figma reads: 1 `get_metadata`, 1 `get_screenshot`, 6 `get_design_context` (one of them the copied state, `272:2302`), 1 `download_assets`.
 
 ### Q-017: which landing frame is current
 
-**Evidence for `267:1855`** (Reece decides; Q-017 stays open until then):
+**Confirmed by Reece (2026-10-20): `267:1855` is the current landing design.** Frame `272:2292` is the same page with the email pill in its copied state (see the section above). The evidence that pointed to it:
 
 - The style guide (`306:1542`, dated "Observed 19 Oct 2026") is built entirely from this frame and calls it "one authoritative desktop page". D-037 makes the style guide the source of truth.
 - Its outline matches the style guide's measurements exactly: 1920 × 3161, the 160px gap between root sections, the 114px main inset, four 405 × 633 cards 24px apart, 96px about padding and a 1040px contact column.
@@ -542,7 +566,7 @@ There's no footer.
 ### For stream 3A (building the page)
 
 - **Email:** both pills show `hello@cassandragarratt.com`. Confirm it's the real address before shipping.
-- **No copied state in this frame.** D-043 ("Email me" shows a tick after copying, the second of the two D-043s in `decisions.md`) says "the new landing page designs already use a tick", but `267:1855` only has the copy icon (`icon-copy-email.svg`). The style guide also says "Copy success and other interaction states: not specified". So the tick glyph phase 2 builds as provisional has nothing here to standardise against. Ask Cass, or keep phase 2's glyph.
+- **Copied state:** designed in `272:2292` / `272:2302` (section above). After copying, the copy icon is swapped for a Purple Material Symbols `check` in the same 24px slot, and nothing else changes. That's the glyph D-043 ("Email me" shows a tick after copying, the second of the two D-043s) said to standardise against, so phase 2's provisional tick should match [`icon-check-copied.svg`](icon-check-copied.svg). The design doesn't say how long the tick stays.
 - **Curved "open to work" text** (`267:1863`) is missing from the code output. [`open-to-work-curved-text.svg`](open-to-work-curved-text.svg) is its `download_assets` SVG export: the text is outlined as one `#EE0E0E` path, but the file also contains background `<rect>`s (canvas `#F5F5F5`, page `#F8F9FF`) and Figma layer-name `id`s. Strip both before inlining (see [figma-mcp → usage notes](../../wiki/figma-mcp.md#usage-notes)). The text is outlined, so it needs an accessible name in the markup (e.g. a visually hidden "Open to work").
 - **Client names are `<a>`s to `standardbank.co.za`,** the copied-link artefact also seen on CS4. Build them as plain text.
 - **The Flower differs from the saved one:** [`flower.svg`](flower.svg) isn't byte-identical to [`components/flower/flower.svg`](../components/flower/flower.svg). Compare the paths before choosing one. It's drawn at 106px in the hero and 66px in contact.
@@ -560,7 +584,7 @@ There's no footer.
 
 ### Assets
 
-Saved here (small SVGs): `flower.svg`, `icon-copy-email.svg`, `separator.svg`, `arrow-button-default.svg`, `open-to-work-curved-text.svg`.
+Saved here (small SVGs): `flower.svg`, `icon-copy-email.svg`, `icon-check-copied.svg`, `separator.svg`, `arrow-button-default.svg`, `open-to-work-curved-text.svg`.
 
 Card preview rasters were downloaded but **not committed** (Q-018). They're staged with the CS4 images (see the macro plan's Status row), and the URLs in the sections above expire on **2026-10-27**. The built home cards (`CaseStudyCard`) have no preview images. Whether these match the case study images already in `src/assets/case-studies/` wasn't checked:
 
