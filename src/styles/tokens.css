@@ -228,6 +228,8 @@
   --size-arrow: 3.125rem; /* 50px */
   --size-nav-dot: 0.625rem; /* 10px */
   --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
+  --size-back-arrow: 1.379rem; /* 22.06px; sub nav arrow_back (144:540) */
+  --size-sub-nav-underline: 0.1875rem; /* 3px; current section (144:529) */
   --size-hero-intro-width: 27.625rem; /* 442px */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
