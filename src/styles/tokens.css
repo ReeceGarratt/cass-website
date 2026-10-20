@@ -199,6 +199,13 @@
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
   new scale step. */
+  /* D-046: Cass's intro spacing, applied to the gaps a reader sees, which
+     include the letters' tails (Figma's 16px gaps compensate; ours don't).
+     Measured on CS1 at 1920px (ink.mjs), 2026-10-20: eyebrow → title ink
+     13px, halved → 10px (9.5 rounded); title → pills 11px, +20% → 18px.
+     CS2: 13/11px; CS3: 31/21px. */
+  --space-intro-eyebrow-title: 0.625rem; /* 10px */
+  --space-intro-title-pills: 1.125rem; /* 18px */
   --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
   --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
   handwritten note (92:1608 top 584 − card bottom 563) */
@@ -212,8 +219,10 @@
   --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
   below the top of the Personas frame (92:1579). The checker illustration
   (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
-  --space-intro-image-drop: 6.9375rem; /* 111px; CS3's hero (99:2503) sits
-  this far below the top of the intro (y=441 against 330) */
+  --space-intro-image-drop: 10rem; /* 160px; CS3's hero (99:2503) sits this
+  far below the top of the intro (y=410 against 250, 2026-10-20; was 111) */
+  --space-intro-image-nudge: 0.4375rem; /* 7px; and this far right of its
+  column (x=922, was 915) */
   --space-pain-quote-offset: 1.125rem; /* 18px; CS3's pain points quote below
   the top of its heading (99:2654 mt-[18.07px]) */
 
@@ -230,6 +239,10 @@
   --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
   --size-back-arrow: 1.379rem; /* 22.06px; sub nav arrow_back (144:540) */
   --size-sub-nav-underline: 0.1875rem; /* 3px; current section (144:529) */
+  /* D-047: the user-type icon's frame is 24px; the artwork inside it is
+     22px, centred. The icon files are cropped to their artwork. */
+  --size-pill-icon: 1.5rem; /* 24px */
+  --size-pill-icon-glyph: 1.375rem; /* 22px */
   --size-hero-intro-width: 27.625rem; /* 442px */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
