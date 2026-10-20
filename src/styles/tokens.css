@@ -235,6 +235,10 @@
   --size-card-title-height: 5.1875rem; /* 83px, fixed in Figma so captions align */
   --size-card-summary-min-height: 6rem; /* 96px */
   --size-arrow: 3.125rem; /* 50px */
+  /* Hover flower 55px over the 50px slot (Button_Circle Arrow 4:137,
+     2026-10-20, D-037): 3px over the top and left, 2px over the bottom and
+     right, so the arrow inside keeps its size and place */
+  --inset-arrow-hover: -6% -4% -4% -6%;
   --size-nav-dot: 0.625rem; /* 10px */
   --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
   --size-back-arrow: 1.379rem; /* 22.06px; sub nav arrow_back (144:540) */
