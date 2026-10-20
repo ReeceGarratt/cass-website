@@ -292,6 +292,9 @@ const isCurrent = (href: string) =>
       );
 
     const setHidden = (value: boolean) => {
+      // Never hide the nav while keyboard focus is inside it. (:focus-visible
+      // leaves mouse-focused controls, like Email me, free to hide.)
+      if (value && header.querySelector(':focus-visible')) return;
       if (value === hidden) return;
       hidden = value;
       header.toggleAttribute('data-hidden', value);
@@ -321,10 +324,27 @@ const isCurrent = (href: string) =>
       jumping = false;
       clearTimeout(jumpTimer);
       lastY = scrollY;
+      // A jump that ended near the top, or never scrolled, gets the nav back;
+      // no scroll event follows to do it.
+      if (scrollY <= height) setHidden(false);
     };
     document.addEventListener('click', (event) => {
       const link = (event.target as Element | null)?.closest?.('a[href^="#"]');
       if (!link || header.contains(link)) return;
+      // Not a same-page jump: another handler took the click, the browser
+      // opens a new tab or window, or the link is a bare "#".
+      if (
+        event.defaultPrevented ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        link.getAttribute('href') === '#'
+      )
+        return;
+      // The page can't scroll, so the jump won't move and nothing would
+      // bring the nav back.
+      if (root.scrollHeight <= innerHeight) return;
       jumping = true;
       setHidden(true);
       clearTimeout(jumpTimer);
