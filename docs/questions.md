@@ -38,6 +38,11 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
+| Q-027 | Cass: keep "Skip to content", restyled? | Phase 2 restyle of the skip link |
+| Q-028 | Cass: Definition Tip opens on hover, focus and tap? | Phase 2 `DefinitionTip` change |
+| Q-029 | Cass: "Other case studies" in a blue block on every page, or Standard Bank only? | Whether it goes in `ReadMoreSection` (phase 2) or one page (phase 3C) |
+| Q-030 | Cass: regular weight on every blue card, or Standard Bank only? | Phase 2 blue card text weight |
+| Q-031 | Cass: nav on scroll up, hide on scroll down, and the sub-nav | Phase 2 nav scroll script |
 
 ---
 
@@ -224,3 +229,33 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
 - **Update 2026-10-04 (CS3):** CS3 fits at 1280 and wider, and scrolls sideways below 1155px. Measuring each grid child's min-content at 1024 shows the floor on every page is the **Read More row** (1059px of content on CS3, 995px on CS2): its heading, gap and three cards don't shrink below their longest words. The floor therefore depends on which three cards a page shows. CS3's intro image bleeds into the end gutter and stays inside the viewport at every width tested.
 - **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.
+
+### Q-027 · Cass: keep "Skip to content", restyled?
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 restyle of the skip link
+- **Context:** Cass saw a "Skip to content" button at the top left that jumped to the case study. It's the skip link in `BaseLayout`, an accessibility requirement for keyboard and screen reader users (architecture invariant 5). It only shows on keyboard focus, so something focused it during Cass's visit (a Tab press, or the browser restoring focus).
+- **Options (proposed first):** keep it, style it to the design system, and find out what focused it · remove it (not recommended: it fails WCAG 2.4.1).
+
+### Q-028 · Cass: Definition Tip opens on hover, focus and tap?
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 `DefinitionTip` change
+- **Context:** Cass wants the company name (e.g. "Absa") bold and underlined, with the info block appearing on hover. Today it opens on click. Hover-only content excludes keyboard and touch users, and WCAG 1.4.13 requires content shown on hover to stay open while the pointer is over it and to be dismissable.
+- **Options (proposed first):** open on hover, keyboard focus and tap, stay open while hovered, close on Escape · hover only (not recommended).
+
+### Q-029 · Cass: "Other case studies" in a blue block on every page, or Standard Bank only?
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** where the change goes: `ReadMoreSection` in phase 2 if every page, the Standard Bank page in phase 3C if one
+- **Context:** The feedback lists it under Standard Bank only.
+- **Options:** every case study · Standard Bank only.
+
+### Q-030 · Cass: regular weight on every blue card, or Standard Bank only?
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 blue card text weight (`.panel`, `LabelledFindings`, `FindingsList`)
+- **Context:** Under Standard Bank's User Journey, Cass wrote "this change needs to happen on all font on a blue card". That reads as every blue card on every case study, but it sits under one page.
+- **Options:** every case study (assumed in the macro plan) · Standard Bank only.
+
+### Q-031 · Cass: nav on scroll up, hide on scroll down, and the sub-nav
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 nav scroll script
+- **Context:** Cass wants the navigation bar to show when scrolling up. That implies it hides on the way down. The case study sub-nav is already sticky, so the two have to stack or one has to give way. This needs a small client script, a new pattern (invariant 3).
+- **Options:** (a) does the nav hide while scrolling down? (b) when it reappears, does the sub-nav sit below it, or does the nav cover it?
