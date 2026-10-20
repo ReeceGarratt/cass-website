@@ -153,3 +153,6 @@ Reece ruled on the phase 1a delta. The Portfolio style guide wins over the compo
 
 ## [2026-10-20] decision | Cass answers the five feedback questions (D-041 to D-045)
 Filed `raw/2026-10-20-cass-feedback-answers.md`. Resolved Q-027 to Q-031: keep and restyle the skip link (D-041); the Definition Tip opens on hover, focus and tap (D-042); no blue block behind "Other case studies", follow the designs (D-043); Regular weight on every blue card (D-044); the nav hides on scroll down and returns on scroll up, with the sub nav always visible (D-045). Q-032 to Q-034 are still with Cass.
+
+## [2026-10-20] decision | Cass's answers: intro spacing, pill icon, copy tick; nav trimmed (D-041 to D-044)
+Resolved Q-032 (apply Cass's intro spacing to the rendered gaps, because Figma's gaps compensate for letter tails), Q-033 (22px icon in a 24px frame) and Q-034 (a tick after copying, standardised with the landing in phase 3A). The nav drops About and Resume for now (D-044). Updated Q-011, the delta doc and the macro plan.

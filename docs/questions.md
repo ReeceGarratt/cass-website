@@ -38,9 +38,6 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
-| Q-032 | Cass: intro spacing that isn't in the design (eyebrow → title, title → pills) | Phase 2 `CaseStudyIntro` spacing |
-| Q-033 | Cass: user-type pill icon, 22px or 24px? | Phase 2 `Pill` icon size |
-| Q-034 | Cass: what "Email me" looks like after copying | Nothing; placeholder success state in use (D-038) |
 
 ---
 
@@ -116,6 +113,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing yet
 - **Context:** The nav currently points to `/resume`, which 404s.
 - **Options:** a PDF in `public/` · a page · an external link.
+- **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-044).
 
 ### Q-012 · Brand link
 - **Raised:** 2026-09-16
@@ -228,21 +226,3 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
 - **Update 2026-10-04 (CS3):** CS3 fits at 1280 and wider, and scrolls sideways below 1155px. Measuring each grid child's min-content at 1024 shows the floor on every page is the **Read More row** (1059px of content on CS3, 995px on CS2): its heading, gap and three cards don't shrink below their longest words. The floor therefore depends on which three cards a page shows. CS3's intro image bleeds into the end gutter and stays inside the viewport at every width tested.
 - **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.
-
-### Q-032 · Cass: intro spacing that isn't in the design (eyebrow → title, title → pills)
-- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
-- **Blocks:** the phase 2 `CaseStudyIntro` spacing
-- **Context:** Cass asked for three intro changes. Only one is in Figma: the space between the sub-nav and the intro is now 80px (was 160px) on all three case studies. "Half the space between 'UX/UI designer' and the title" and "increase spacing between title and pill by 20%" aren't in the Intro component (`144:1045`, unchanged since 2026-09-29) or its instances, and the style guide (the source of truth, D-037) doesn't cover the case study intro. Both gaps are currently the same 16px.
-- **Options:** Cass updates the Intro component in Figma · confirm the values: eyebrow → title 8px, title → pills 20px (16 × 1.2 = 19.2, rounded).
-
-### Q-033 · Cass: user-type pill icon, 22px or 24px?
-- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
-- **Blocks:** the phase 2 `Pill` icon size
-- **Context:** Cass asked for the call centre agent icon to be 22px at 1920. The Pills component (`144:592`) and every Intro instance still draw it at 24px (checked 2026-10-20), and the style guide doesn't cover user-type pills.
-- **Options:** 22px, and Cass updates the Pills component · keep 24px.
-
-### Q-034 · Cass: what "Email me" looks like after copying
-- **Raised:** 2026-10-20
-- **Blocks:** nothing; a placeholder success state is in use (D-038)
-- **Context:** "Email me" copies the address to the clipboard (D-038). Neither the nav component nor the style guide designs the "copied" feedback. The style guide's email pill says "Copy success and other interaction states: not specified".
-- **Options:** Cass designs the success state (e.g. a label change to "Copied", a tick icon, or a short toast) · keep the placeholder.

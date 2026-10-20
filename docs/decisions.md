@@ -342,3 +342,28 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision (Cass):** The nav hides while scrolling down and reappears on scroll up. The sub nav stays visible throughout: it never sits under the returning nav.
 - **Alternatives considered:** the returning nav covering the sub nav.
 - **Consequences:** A small client script (invariant 3: the reason is this behaviour). On case study pages the sub nav sticks at the top while the nav is hidden, and moves down below the nav when it returns. It must respect `prefers-reduced-motion`, and keyboard focus inside the nav must bring the nav back.
+
+### D-041 · Case study intro: apply Cass's spacing to the rendered gaps
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-032**
+- **Context:** Cass asked for the "ux/ui designer" → title gap to be halved and the title → pill gap to grow by 20%. Neither change is in Figma: both gaps are still 16px in the Intro component.
+- **Decision (Reece, relaying Cass):** Figma's 16px gaps already compensate for the tails on the letters (the handwritten eyebrow's descenders, the title's line box); our text doesn't. So the changes apply to the **gaps as they render in the build**: halve the visible eyebrow → title space, and add 20% to the visible title → pill space. They're measured in the browser, not taken from Figma's numbers.
+- **Alternatives considered:** waiting for Cass to change the Intro component in Figma.
+- **Consequences:** Phase 2 measures the rendered gaps on a case study at 1920px, sets the new values, and records the measurement in a comment beside the tokens. The 80px space above the intro (from Figma) is a separate change.
+
+### D-042 · User-type pill icon: 22px icon in a 24px frame
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-033**
+- **Context:** Cass asked for the call centre agent icon to be 22px at 1920. The Pills component draws a 24px frame.
+- **Decision (Cass, via Reece):** The 24px is the icon's **frame**. The icon artwork one level deeper in Figma is 22px. Render the icon at 22px, centred in the 24px slot, so the pill's size and spacing don't change.
+- **Consequences:** `Pill.astro` changes the icon's rendered size, not the slot. The saved icon SVGs are frame-sized (24px, or 22px for `man-3.svg`; see [figma/components/icons/context.md](figma/components/icons/context.md)), so check each icon's artwork bounds when sizing it.
+
+### D-043 · "Email me" shows a tick after copying
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-034**
+- **Context:** D-038 left the copy success state as a placeholder.
+- **Decision (Reece):** After copying, the copy icon is replaced by a tick. The new landing page designs already use a tick (not fetched for this).
+- **Consequences:** Phase 2 builds the tick swap with a code comment saying the tick glyph is provisional and gets standardised against the landing page's tick in phase 3A. The live-region announcement from D-038 still applies.
+
+### D-044 · Nav shows Home and Work, plus "Email me", for now
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav design has Home · Work · About, then Resume and Email me. There's no design for an About screen yet, and the Resume target is still open (Q-011).
+- **Decision (Reece):** Leave **About** and **Resume** out of the built nav for now. Each comes back when its screen or target exists.
+- **Consequences:** The nav renders Home, Work and Email me. The old Contact item goes too (D-038 replaces it with Email me). `/work` still 404s (Q-020).
