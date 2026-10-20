@@ -165,3 +165,6 @@ Reece confirmed `267:1855` as the current landing. Frame `272:2292` differs only
 
 ## [2026-10-20] decision | Landing client strip is a looping carousel
 Reece: the purple client strip scrolls as a looping carousel that stops on hover (Figma shows it static). The WCAG 2.2.2 pause mechanism for keyboard, touch and reduced-motion users is an open question with a proposed default in `superpowers/notes/2026-10-20-phase-1b.md`; the stream 3A row in the macro plan points to it.
+
+## [2026-10-20] decision | Client strip carousel: configurable speed, no button
+Reece: the carousel sticks to the design (no pause button), and its speed is a GitHub Actions variable (`CLIENT_STRIP_LOOP_SECONDS`, default 40s per loop, baked in at build). The WCAG 2.2.2 gap for touch and keyboard users is accepted for now. Details in `superpowers/notes/2026-10-20-phase-1b.md`.
