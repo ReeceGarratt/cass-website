@@ -52,6 +52,9 @@
 | Items | White | Purple |
 | Utility link text and icon | Off-white | Purple |
 | Hover / focus-visible | Light purple text + 10px Light purple dot (unchanged) | **Purple text + 10px Purple dot** (undesigned; Light purple on Off-white is ~1.4:1) |
+| Selected | Light purple pill, Purple text | the same pill |
+
+The White bar works like the purple one, in its own colours (Reece, 2026-10-20): hover shows the dot, and the selected item shows the pill. No pill on hover, and no dot on the selected item.
 
 **Email me (D-038, D-048).**
 
@@ -102,6 +105,7 @@
 
 - **Process arrows (build bug):** replace `background` + `filter: brightness(0) invert(1)` with `mask: url(arrow-01.svg) center / contain no-repeat` and `background-color: var(--color-light-purple)` (`#C4CDF4`).
 - **Regular weight on blue cards (D-044):** one rule in `global.css`: `.panel :is(.type-body-med), .band--purple :is(.type-body-med) { font-weight: var(--type-body-weight) }`. On the case study pages, `.panel` and `.band--purple` are the only purple surfaces with body text, and Cass's own example (CS2's journey) is a band. `<strong>` runs and headings keep their weights. List every element it changes in the plan and check each against the screenshots.
+- **Open with Cass:** should Regular weight apply only to the rounded, inset purple cards (`.panel`), or to the full-bleed purple bands too? Bands are included for now (Reece, 2026-10-20). Raise it as a question at the end of the phase (see [Docs](#docs)); if Cass says cards only, drop `.band--purple` from the selector.
 
 ## Skip link (D-041)
 
@@ -119,9 +123,18 @@
 ## Docs
 
 - `architecture.md`: `SiteNav` owns the header and its two scripts; the `--site-header-offset` contract between `SiteNav` and `CaseStudySubNav`; the changes to `BaseLayout`, `CaseStudySubNav`, `DefinitionTip`, `CircleArrow`, `Pill` and `global.css`.
-- `decisions.md`: one decision recording the three undesigned details Reece approved (the White nav hover, the 3-second tick revert, the nav staying hidden during in-page jumps). Before numbering it, check `reece/feature/design-system-refresh` for entries added since `2a83323` and take the next free number.
+- `decisions.md`: one decision recording the three undesigned details Reece approved (the White nav hover, the 3-second tick revert, the nav staying hidden during in-page jumps).
+- `questions.md`: the blue-card question for Cass (cards only, or bands too).
+- Before numbering either, check `reece/feature/design-system-refresh` for entries added since `2a83323` and take the next free numbers.
 - Wiki: the skip link findings, the scoped-root-class gotcha (the Read More bug) in [componentisation](../../wiki/componentisation.md), and `log.md`.
 - Macro plan: the phase 2 status row, including the branch change.
+
+## For Reece to check
+
+Raise these in the phase summary and the PR description:
+
+1. **The branch change.** Phase 2 is on `reece/feature/foundation` (worktree `../cass-website-foundation`), not `reece/feature/design-system-refresh` as the macro plan says. The PR will also carry every phase 1a docs commit up to `2a83323`, and the renumbering fix.
+2. **The measured intro gaps (D-046).** Report the measured ink gaps, the resulting values, and before/after crops of the CS1 intro at 1920px, so Reece can confirm they match what Cass meant.
 
 ## Out of scope
 
