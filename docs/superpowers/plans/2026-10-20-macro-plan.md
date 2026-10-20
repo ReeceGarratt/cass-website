@@ -75,7 +75,7 @@ Runs while phase 2 builds, because phase 2 makes no Figma calls. **Phase 2 must 
 | CS2 | 13 / 11 | 7 / 13 | 6.5 / 13.2, met |
 | CS3 | 31 / 21 (no descenders in its eyebrow) | 25 / 23 | 15.5 / 25.2, missed |
 
-CS1 set the two shared tokens: the margins went from 16px to 10px and 18px (13 to 7px and 11 to 13px of ink gap). CS3 misses its own targets because its eyebrow has no descenders, so its ink gap was 31px to begin with (CS1 and CS2: 13px) and a 6px margin change can't halve it. One shared pair was kept (ruling R8) rather than tuning spacing to glyph shapes; a per-page override is a one-line change. Crops to compare: `.superpowers/sdd/2026-10-20-foundation/shots/intro-before.png` and `intro-after.png` (local scratch, not committed; they live in the foundation worktree).
+CS1 set the two shared tokens: the margins went from 16px to 10px and 18px (13 to 7px and 11 to 13px of ink gap). CS3 misses its own targets because its eyebrow has no descenders, so its ink gap was 31px to begin with (CS1 and CS2: 13px) and a 6px margin change can't halve it. One shared pair was kept (ruling R8) rather than tuning spacing to glyph shapes; a per-page override is a one-line change. Crops to compare: [before](2026-10-20-foundation/intro-before.png) and [after](2026-10-20-foundation/intro-after.png).
 
 Also: `woman-3.svg` was cropped to its artwork (its export already included its 24px frame), and the user-type icons are sized by height (22px tall, width from the aspect ratio), so `woman-3` renders 23.62px by 22px (ruling R9).
 
