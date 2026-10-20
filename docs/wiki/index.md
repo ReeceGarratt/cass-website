@@ -38,6 +38,7 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 
 - [Design tokens](design-tokens.md): where the tokens live, the naming scheme, unit rules, how the fluid `clamp()` values were derived, and an accepted residual in the card caption wrap.
 - [Componentisation](componentisation.md): what the Figma Design system page defines, which of it is worth building as a component, and what has to be decided first.
+- [Skip link](skip-link.md): how the skip link is shown (`:focus-visible` only, D-041), what was and wasn't reproduced about Cass's report, and the manual check on a real Mac and phone.
 
 ## Sources
 

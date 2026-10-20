@@ -55,13 +55,29 @@ Runs while phase 2 builds, because phase 2 makes no Figma calls. **Phase 2 must 
 
 ### Phase 2: Foundation
 
-- **Branch:** `reece/feature/design-system-refresh`. **Plan with `superpowers:writing-plans`.** It changes shared components and adds a client script pattern, so it's significant.
+- **Branch:** `reece/feature/foundation`, in the worktree `../cass-website-foundation`. It was first planned on `reece/feature/design-system-refresh`, but that branch was retired (see [Branches](#branches)) so phase 1b and phase 2 could run side by side without colliding. **Plan with `superpowers:writing-plans`.** It changes shared components and adds a client script pattern, so it's significant.
 - **Scope:**
   - Apply the delta doc's *apply* rows and Reece's rulings on the conflicts (tokens, type, shadows, hover states).
   - Build the **new nav** and **new sub-nav**, and swap them into the home page and all three existing case studies.
   - The [shared feedback items](#shared-feedback-items).
   - Reece's rulings from phase 1a: D-037 to D-040 and D-046 to D-049 (style guide as the source of truth, 55px arrow hover, Email me copies with a provisional tick, a per-item sub-nav underline, nav variant per page, rendered-gap intro spacing, a 22px pill icon, and a nav of Home, Work and Email me only).
 - **Exit:** checks pass, visual compare against the saved snapshots, docs updated. **PR to `main`** (push needs Reece's approval). Getting this to `main` early puts the feedback fixes in front of recruiters sooner, and gives phase 3 a clean base.
+
+### Phase 2 notes for Reece
+
+**1. The branch changed.** The plan named `reece/feature/design-system-refresh`. Phase 1a was already committed there and phase 1b needed its own docs-only branch, so phase 2 moved to `reece/feature/foundation` in its own worktree (D-046 to D-049 were renumbered at the same time). The old branch is retired.
+
+**2. Check the intro gaps (D-046).** The gaps were measured in the browser on CS1 at 1920px, as ink to ink (eyebrow ink to title ink, title ink to the pill's top):
+
+| Page | Before (eyebrow to title / title to pill) | After | Target |
+|---|---|---|---|
+| CS1 | 13 / 11 | 7 / 13 | 6.5 / 13.2, met |
+| CS2 | 13 / 11 | 7 / 13 | 6.5 / 13.2, met |
+| CS3 | 31 / 21 (no descenders in its eyebrow) | 25 / 23 | 15.5 / 25.2, missed |
+
+CS1 set the two shared tokens: the margins went from 16px to 10px and 18px (13 to 7px and 11 to 13px of ink gap). CS3 misses its own targets because its eyebrow has no descenders, so its ink gap was 31px to begin with (CS1 and CS2: 13px) and a 6px margin change can't halve it. One shared pair was kept (ruling R8) rather than tuning spacing to glyph shapes; a per-page override is a one-line change. Crops to compare: `.superpowers/sdd/2026-10-20-foundation/shots/intro-before.png` and `intro-after.png` (local scratch, not committed; they live in the foundation worktree).
+
+Also: `woman-3.svg` was cropped to its artwork (its export already included its 24px frame), and the user-type icons are sized by height (22px tall, width from the aspect ratio), so `woman-3` renders 23.62px by 22px (ruling R9).
 
 ### Phase 3: three parallel streams (worktrees off `main` after phase 2 merges)
 
@@ -164,7 +180,7 @@ Update this table at the end of each phase.
 |---|---|---|---|
 | 1a | **Done** | `reece/feature/design-system-refresh` | 19 Figma reads. Delta: `docs/figma/design-system/delta-2026-10-20.md`; rulings recorded as D-037 to D-040. Questions for Cass: Q-027 to Q-034. Local `main` was **not** fast-forwarded: it has a stray local commit (`5133022`, 2026-09-16) that isn't on `origin/main`; the branch was cut from `origin/main` directly. Built token values weren't compared (reading `tokens.css` was blocked by a tool permission), so phase 2 checks the rows marked *check token*. |
 | 1b | Not started | | |
-| 2 | Not started | | |
+| 2 | **In review** | `reece/feature/foundation` | Built in the worktree `../cass-website-foundation`; nine commits, Tasks 2 to 9 of the foundation plan. The renumbering fix (the second D-041 to D-044 became D-046 to D-049) is in the log. New: D-050 (undesigned nav details), Q-035 and Q-036 for Cass. **Not pushed, and 1b is not merged yet** (Branches item 3). Two items for Reece to check: the branch change, and the measured intro gaps (see [Phase 2 notes](#phase-2-notes-for-reece)). Manual checks: the Definition Tip (Escape and click-outside), a touch tap on Android, the skip link on a real Mac and phone, and the Read More pill on hover. |
 | 3A landing | Not started | | Waiting on Reece's clarifications |
 | 3B TRANSEARCH | Not started | | |
 | 3C page fixes | Not started | | |

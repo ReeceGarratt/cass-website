@@ -367,3 +367,9 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Context:** The new nav design has Home · Work · About, then Resume and Email me. There's no design for an About screen yet, and the Resume target is still open (Q-011).
 - **Decision (Reece):** Leave **About** and **Resume** out of the built nav for now. Each comes back when its screen or target exists.
 - **Consequences:** The nav renders Home, Work and Email me. The old Contact item goes too (D-038 replaces it with Email me). `/work` still 404s (Q-020).
+
+### D-050 · Undesigned nav details for phase 2
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav (D-038, D-040, D-045) left three states undesigned.
+- **Decision (Reece):** (1) The White nav works like the purple one in its own colours: hover shows the 10px dot with the text staying Purple, and the selected item shows the Light purple pill; Light purple text on Off-white would be ~1.4:1. (2) The "Email me" tick shows for 3 seconds, then the copy icon returns. (3) An in-page jump (a sub nav link, the skip link) hides the nav and keeps it hidden until the scroll ends, so it doesn't return over the section's heading.
+- **Consequences:** Each is a constant or a colour in `SiteNav.astro`; change it there if Cass designs these states.

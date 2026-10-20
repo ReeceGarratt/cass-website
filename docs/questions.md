@@ -38,6 +38,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
+| Q-035 | Cass: Regular weight on blue cards: rounded cards only, or the full-bleed bands too? | Nothing; bands are included for now (D-044) |
+| Q-036 | Cass: what should a Read More card's client pill look like on hover and focus? | Nothing; the pill is invisible on the hovered card for now |
 
 ---
 
@@ -226,3 +228,15 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
 - **Update 2026-10-04 (CS3):** CS3 fits at 1280 and wider, and scrolls sideways below 1155px. Measuring each grid child's min-content at 1024 shows the floor on every page is the **Read More row** (1059px of content on CS3, 995px on CS2): its heading, gap and three cards don't shrink below their longest words. The floor therefore depends on which three cards a page shows. CS3's intro image bleeds into the end gutter and stays inside the viewport at every width tested.
 - **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.
+
+### Q-035 · Cass: Regular weight on blue cards: cards only, or bands too?
+- **Raised:** 2026-10-20 (Reece)
+- **Blocks:** nothing; built with bands included
+- **Context:** D-044 sets body text on every "blue card" to Regular. The case studies have two purple surfaces: rounded, inset cards (`.panel`) and full-bleed bands (`.band--purple`). Cass's own example, Standard Bank's user journey, is a band, so both are included (one rule in `global.css`). The rule also makes CS3's "users spoken to" stat caption (`src/pages/work/sales-workflow-research.astro`, around line 196) Regular.
+- **Options:** both (as built) · rounded cards only (drop `.band--purple` from the rule).
+
+### Q-036 · Cass: what should a Read More card's client pill look like on hover and focus?
+- **Raised:** 2026-10-20 (Reece)
+- **Blocks:** nothing
+- **Context:** A Read More card turns Purple on hover and focus, so the Purple client pill disappears into it and only its white text is left. The Read More cards have no hover variant in Figma (`figma/components/read-more/context.md`, around lines 118 to 133), while the compact and detailed cards do. The card already turned Purple on hover before phase 2; phase 2 only fixed the pill's width and alignment.
+- **Options:** Cass draws a hover state for the Read More card · reuse the detailed card's hover pill (Light purple background, Purple text) · leave the pill as text only.

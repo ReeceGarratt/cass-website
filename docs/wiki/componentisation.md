@@ -1,6 +1,6 @@
 ---
 summary: What actually got built for Case Studies 1, 2 and 3 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
-updated: 2026-10-04
+updated: 2026-10-20
 related: [design-tokens.md, figma-mcp.md, index.md]
 decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017]
 ---
@@ -86,6 +86,7 @@ Counts are component tags from `grep -cE "<Name( |$|>)"` on the three page files
 - **Check a new shot's `scrollWidth` against the viewport.** A 2px overflow is invisible in a screenshot but gives users a horizontal scrollbar. It also shifts anything measured relative to a full-bleed element (the sub nav underline was 2px out because of it).
 - **`<main>` already carries the gutter unless a layout opts out.** `BaseLayout` caps `<main>` at `--page-max-width` and pads it with `--space-gutter` unless `fullBleed` is set. A page grid that adds its own gutter tracks (`.case-study`) must pass `fullBleed`, or it gets a double gutter and `u-bleed` stops short of the viewport edge. At 1920px the content track is 1700px (Figma measures 1699px).
 - **Bleed means the viewport, not 1920px.** `.case-study` used to be capped at `--page-max-width` too, so on wider screens every `u-bleed` band stopped short of the edges with the off-white page showing either side. The grid now caps the content track instead (D-036). A bleed section whose contents shouldn't spread (like the sub nav's links) needs its own `max-inline-size: var(--page-max-width)` inner wrapper, as `SiteNav` already has.
+- **A `class` passed to a child component isn't matched by the parent's scoped styles.** Astro scopes a selector to elements in the component's own template, so a parent's `.card__client { align-self: start }` never reached the `Pill` rendered inside it: on the Read More cards the client pill stretched to the full 388px width and the arrow sat left. Write `.parent > :global(.child-class)` instead, and probe the rendered size (`probes/cards.js` in phase 2) rather than trusting the CSS. The same applies to `CircleArrow`.
 
 ## What Figma actually defines
 
