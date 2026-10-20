@@ -69,7 +69,7 @@ The White bar works like the purple one, in its own colours (Reece, 2026-10-20):
 - Hidden is `translate: 0 -100%`, with a transition from `--duration-hover` / `--ease-hover`. There's no transition under `prefers-reduced-motion: reduce`.
 - The script writes `--site-header-offset` on `<html>`: the header's height when shown, 0 when hidden. A `ResizeObserver` keeps the height current.
 - `focusin` inside the header shows it.
-- **In-page jumps:** a click on a same-page `#anchor` link suspends direction tracking until `scrollend` (with a timeout fallback for browsers without it), and the nav stays hidden. Otherwise jumping up to a section would bring the nav back over its heading.
+- **In-page jumps:** a click on a same-page `#anchor` link outside the header hides the nav and suspends direction tracking until `scrollend` (with a timeout fallback for browsers without it), so the nav stays hidden for the whole jump. Otherwise jumping up to a section would bring the nav back over its heading.
 - **Anchor clearance:** `.case-study [id]`'s `scroll-margin-block-start` stays 96px (the sub nav plus 16px), which is right while the nav is hidden.
 
 ## Sub nav (`CaseStudySubNav.astro`, D-039)
