@@ -75,7 +75,31 @@ Each runs in its own chat and worktree (`superpowers:using-git-worktrees`), with
 
 ### Phase 4: Integrate
 
-Merge C, B, A (in that order, smallest first) into `main` via PRs or one integration branch, whichever Reece prefers. Fold the stream token blocks into `tokens.css`. Number the Q/D entries from the stream notes files and move them into `questions.md` / `decisions.md`. Update `architecture.md`, the wiki and `log.md`. Run the full checks, visually compare every page, then push with Reece's approval.
+Merge C, B, A (in that order, smallest first) into `main` via PRs or one integration branch, whichever Reece prefers. Fold the stream token blocks into `tokens.css`. Number the Q/D entries from the stream notes files (and from [phase 1b's notes](../notes/2026-10-20-phase-1b.md)) and move them into `questions.md` / `decisions.md`. Update `architecture.md`, the wiki and `log.md`. Run the full checks, visually compare every page, then push with Reece's approval.
+
+## Branches
+
+Agreed with Reece on 2026-10-20, after phase 1b finished and while phase 2 was in progress.
+
+```
+origin/main ──(phase 1a commits)── 2a83323  ← reece/feature/design-system-refresh (1a only)
+                                    ├── reece/feature/foundation       phase 2, worktree ../cass-website-foundation
+                                    └── reece/docs/figma-landing-cs4   phase 1b, worktree ../cass-website-figma-1b (docs only)
+```
+
+1. **`reece/feature/design-system-refresh` is retired.** It holds only phase 1a, which both branches above already contain, so nothing merges into it.
+2. **Phase 2 doesn't wait for 1b.** If it needs a 1b file before the merge, it reads it from the branch without merging, e.g. `git show reece/docs/figma-landing-cs4:docs/figma/landing-v2-desktop/icon-check-copied.svg` (the landing's copy tick, D-048).
+3. **At the end of phase 2, before its PR, merge 1b into `foundation`.** In the foundation worktree, run `git merge --no-ff reece/docs/figma-landing-cs4`. Use a merge, not a rebase, so 1b stays one unit in the history. Only two files are expected to conflict:
+   - `docs/wiki/log.md`: keep both sides' entries, in date order.
+   - This plan: keep phase 2's version, then re-add 1b's Status row and its additions to the 3A and 3B rows in the phase 3 table.
+
+   Then re-run the [checks](../../../AGENTS.md#testing). 1b's docs already use phase 2's renumbered decisions (D-046 to D-049).
+4. **One PR, `reece/feature/foundation` → `main`,** carrying phases 1a, 1b and 2. A separate 1b PR gains nothing: phase 3 can't start until phase 2 lands, and streams 3A and 3B need 1b's snapshots at that point. Pushing needs Reece's approval.
+5. **After it merges:**
+   - Cut the phase 3 worktrees from `origin/main`, **not local `main`** (see 6).
+   - Remove the 1b worktree (`git worktree remove ../cass-website-figma-1b`), and delete `reece/docs/figma-landing-cs4` and `reece/feature/design-system-refresh`.
+   - Keep `F:/Code/cass-website-staging/figma-2026-10-20/` (the raw images) until stream 3B has used it.
+6. **Local `main` has a stray commit,** `5133022` (2026-09-16, "docs(docs): further context"), that isn't on `origin/main`. Reece inspects it, then either cherry-picks it onto a branch or resets local `main` to `origin/main`. The reset would discard it, so no agent does it unasked.
 
 ## Cass feedback triage
 
