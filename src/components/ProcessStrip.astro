@@ -104,6 +104,16 @@ const { steps, class: className } = Astro.props;
     inline-size: var(--size-process-arrow-width);
     block-size: var(--size-process-arrow-height);
     background-color: var(--color-light-purple);
+    -webkit-mask: url('../assets/arrow-01.svg') center / contain no-repeat;
     mask: url('../assets/arrow-01.svg') center / contain no-repeat;
+  }
+
+  /* Forced colors replaces background-color, which would paint the masked
+     arrow in the band's colour and hide it. Keep it as text colour. */
+  @media (forced-colors: active) {
+    .process-strip__step:not(:last-child)::after {
+      forced-color-adjust: none;
+      background-color: CanvasText;
+    }
   }
 </style>

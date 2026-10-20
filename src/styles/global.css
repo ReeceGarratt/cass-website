@@ -71,7 +71,8 @@ a {
 }
 
 /* Keyboard focus only. On :focus it also appeared for focus the reader
-   didn't ask for, which is likely what Cass saw (D-041). */
+   didn't ask for, which is may be what Cass saw (D-041; unconfirmed, see
+   docs/wiki/skip-link.md). */
 .skip-link:focus-visible {
   translate: 0 0;
 }

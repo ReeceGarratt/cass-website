@@ -71,7 +71,8 @@
   --type-brand-weight: 900;
 
   /* Type: nav items (Navigation 20:703, 2026-10-20: Inter Bold 16 / 1.48 /
-     -1.1%; was 17 / 1.5). Also the skip link and the sub nav's back link */
+     -1.1%; was 17 / 1.5). Also the skip link. The sub nav's back link takes only
+     --type-nav-weight */
   --type-nav-size: 1rem;
   --type-nav-line-height: 1.48;
   --type-nav-letter-spacing: -0.011em;
@@ -201,7 +202,8 @@
      include the letters' tails (Figma's 16px gaps compensate; ours don't).
      Measured on CS1 at 1920px (ink.mjs), 2026-10-20: eyebrow → title ink
      13px, halved → 10px (9.5 rounded); title → pills 11px, +20% → 18px.
-     CS2: 13/11px; CS3: 31/21px. */
+     CS2: 13/11px; CS3: 31/21px. CS3 misses its own targets (after 25/23
+     against 15.5/25.2): its eyebrow has no descenders (ruling R8). */
   --space-intro-eyebrow-title: 0.625rem; /* 10px */
   --space-intro-title-pills: 1.125rem; /* 18px */
   --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
@@ -345,7 +347,8 @@
   A filter function, not a box-shadow, so it follows the bubble's rounded shape */
   --shadow-definition-tip: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
 
-  /* Motion: not in Figma yet. Colour and opacity fades only, no movement.
+  /* Motion: not in Figma yet. Hover is a colour or opacity fade, no movement;
+  the slide tokens below are for the nav and sub nav motion.
   ease-out starts fast so hover feels responsive, then settles */
   --duration-hover: 200ms;
   --ease-hover: ease-out;

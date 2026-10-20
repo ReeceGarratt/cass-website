@@ -372,4 +372,8 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Date:** 2026-10-20 · **Status:** Accepted
 - **Context:** The new nav (D-038, D-040, D-045) left three states undesigned.
 - **Decision (Reece):** (1) The White nav works like the purple one in its own colours: hover shows the 10px dot with the text staying Purple, and the selected item shows the Light purple pill; Light purple text on Off-white would be ~1.4:1. (2) The "Email me" tick shows for 3 seconds, then the copy icon returns. (3) An in-page jump (a sub nav link, the skip link) hides the nav and keeps it hidden until the scroll ends, so it doesn't return over the section's heading.
+- **Alternatives considered:**
+  - **Light purple text on the White nav:** matches the purple nav literally, but is ~1.4:1 on Off-white.
+  - **Leaving the nav free to return mid-jump:** simpler, but it covers the heading the jump aims at.
+  - **A shorter or longer tick time:** undesigned; 3 seconds was approved.
 - **Consequences:** Each is a constant or a colour in `SiteNav.astro`; change it there if Cass designs these states.
