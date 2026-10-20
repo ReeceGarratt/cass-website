@@ -89,6 +89,26 @@ const isCurrent = (href: string) =>
     background-color: var(--color-off-white);
   }
 
+  /* Hide on scroll down, return on scroll up (D-045). The script adds the
+     class, so without JS the header simply scrolls away as before. Above
+     the sub nav (z-index 2), below the skip link (100). */
+  .site-header--scroll-aware {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 3;
+    transition: translate var(--duration-slide) var(--ease-slide);
+  }
+
+  .site-header--scroll-aware[data-hidden] {
+    translate: 0 -100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header--scroll-aware {
+      transition: none;
+    }
+  }
+
   /* Brand, links and utility link as three flex children spread apart, as
      Figma lays them out (justify-between, so the links sit between the two
      rather than exactly centred). */
@@ -242,5 +262,88 @@ const isCurrent = (href: string) =>
         status.textContent = '';
       }, COPIED_MS);
     });
+  }
+</script>
+
+<script>
+  // Reason for client JS (invariant 3), D-045: the nav hides while the page
+  // scrolls down and returns when it scrolls up. CSS can't read scroll
+  // direction in every browser. The script publishes the header's visible
+  // height as --site-header-offset on <html>; the case study sub nav sticks
+  // at that offset, so it moves below the returning nav and is never
+  // covered by it.
+  const header = document.querySelector<HTMLElement>('.site-header');
+
+  if (header) {
+    const root = document.documentElement;
+    const DEAD_BAND = 8; // px; smaller movements are jitter, not intent
+    const JUMP_TIMEOUT = 1500; // ms; fallback where scrollend never fires
+    let height = header.offsetHeight;
+    let hidden = false;
+    let lastY = scrollY;
+    let jumping = false;
+    let jumpTimer = 0;
+    let frame = 0;
+
+    const writeOffset = () =>
+      root.style.setProperty(
+        '--site-header-offset',
+        `${hidden ? 0 : height}px`,
+      );
+
+    const setHidden = (value: boolean) => {
+      if (value === hidden) return;
+      hidden = value;
+      header.toggleAttribute('data-hidden', value);
+      writeOffset();
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const y = scrollY;
+        // Near the top the header is in its own place: always show it.
+        if (y <= height) {
+          setHidden(false);
+          lastY = y;
+          return;
+        }
+        if (Math.abs(y - lastY) < DEAD_BAND) return;
+        if (!jumping) setHidden(y > lastY);
+        lastY = y;
+      });
+    };
+
+    // An in-page jump (the sub nav, the skip link) hides the nav and holds
+    // it hidden until the scroll ends. Otherwise jumping up would bring the
+    // nav back over the heading the jump was aiming at.
+    const endJump = () => {
+      jumping = false;
+      clearTimeout(jumpTimer);
+      lastY = scrollY;
+    };
+    document.addEventListener('click', (event) => {
+      const link = (event.target as Element | null)?.closest?.('a[href^="#"]');
+      if (!link || header.contains(link)) return;
+      jumping = true;
+      setHidden(true);
+      clearTimeout(jumpTimer);
+      jumpTimer = window.setTimeout(endJump, JUMP_TIMEOUT);
+    });
+    addEventListener('scrollend', () => {
+      if (jumping) endJump();
+    });
+
+    // Keyboard focus inside the nav brings it back.
+    header.addEventListener('focusin', () => setHidden(false));
+
+    new ResizeObserver(() => {
+      height = header.offsetHeight;
+      writeOffset();
+    }).observe(header);
+
+    header.classList.add('site-header--scroll-aware');
+    writeOffset();
+    addEventListener('scroll', onScroll, { passive: true });
   }
 </script>

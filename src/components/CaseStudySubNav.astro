@@ -32,9 +32,18 @@ const { links } = Astro.props;
 <style>
   .sub-nav {
     position: sticky;
-    inset-block-start: 0;
+    /* Below the site header while it shows, at the top while it's hidden.
+       SiteNav writes the offset (D-045); 0 without JS. */
+    inset-block-start: var(--site-header-offset, 0);
+    transition: inset-block-start var(--duration-slide) var(--ease-slide);
     z-index: 2;
     background-color: var(--color-white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sub-nav {
+      transition: none;
+    }
   }
 
   .sub-nav__inner {
