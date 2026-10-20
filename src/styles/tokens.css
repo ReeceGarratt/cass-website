@@ -239,8 +239,9 @@
   --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
   --size-back-arrow: 1.379rem; /* 22.06px; sub nav arrow_back (144:540) */
   --size-sub-nav-underline: 0.1875rem; /* 3px; current section (144:529) */
-  /* D-047: the user-type icon's frame is 24px; the artwork inside it is
-     22px, centred. The icon files are cropped to their artwork. */
+  /* D-047: the user-type icon's slot is 24px tall; the artwork is 22px tall,
+     centred, and as wide as its aspect ratio gives. The icon files are cropped
+     to their artwork. */
   --size-pill-icon: 1.5rem; /* 24px */
   --size-pill-icon-glyph: 1.375rem; /* 22px */
   --size-hero-intro-width: 27.625rem; /* 442px */
