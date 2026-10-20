@@ -294,6 +294,14 @@ a {
   background-color: var(--color-white);
 }
 
+/* D-044: body text on a purple card is Regular, not Body Med, on every
+   case study. Bands count as cards for now; whether Cass meant only the
+   rounded .panel cards is an open question. If she did, drop
+   .band--purple here. <strong> runs and headings keep their weights. */
+:is(.panel, .band--purple) .type-body-med {
+  font-weight: var(--type-body-weight);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

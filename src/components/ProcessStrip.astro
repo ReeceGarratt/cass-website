@@ -94,17 +94,16 @@ const { steps, class: className } = Astro.props;
      right. Box size is the Arrow_01 instance bounding box from the Process
      section outline (67:334): 41.83 x 27.33px.
 
-     Colour: the arrows render White on the Purple band (fetched
-     screenshot), but url()-referenced SVGs don't take `currentColor` from
-     the embedding page, so the stroke resolves to black. invert(1) flips
-     that black to White (alpha is preserved); brightness(0) first keeps it
-     correct whatever colour the source stroke is. */
+     Colour: Light purple (#C4CDF4, Cass's feedback; the Figma screenshots
+     show it light on the band). The SVG is a mask, so the arrow takes
+     background-color from a token: url()-referenced SVGs can't take
+     currentColor from the page. */
   .process-strip__step:not(:last-child)::after {
     content: '';
     display: block;
     inline-size: var(--size-process-arrow-width);
     block-size: var(--size-process-arrow-height);
-    background: url('../assets/arrow-01.svg') center / contain no-repeat;
-    filter: brightness(0) invert(1);
+    background-color: var(--color-light-purple);
+    mask: url('../assets/arrow-01.svg') center / contain no-repeat;
   }
 </style>
