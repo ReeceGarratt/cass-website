@@ -113,7 +113,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing yet
 - **Context:** The nav currently points to `/resume`, which 404s.
 - **Options:** a PDF in `public/` · a page · an external link.
-- **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-044).
+- **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-049).
 
 ### Q-012 · Brand link
 - **Raised:** 2026-09-16

@@ -60,7 +60,7 @@ Runs while phase 2 builds, because phase 2 makes no Figma calls. **Phase 2 must 
   - Apply the delta doc's *apply* rows and Reece's rulings on the conflicts (tokens, type, shadows, hover states).
   - Build the **new nav** and **new sub-nav**, and swap them into the home page and all three existing case studies.
   - The [shared feedback items](#shared-feedback-items).
-  - Reece's rulings from phase 1a: D-037 to D-044 (style guide as the source of truth, 55px arrow hover, Email me copies with a provisional tick, a per-item sub-nav underline, nav variant per page, rendered-gap intro spacing, a 22px pill icon, and a nav of Home, Work and Email me only).
+  - Reece's rulings from phase 1a: D-037 to D-040 and D-046 to D-049 (style guide as the source of truth, 55px arrow hover, Email me copies with a provisional tick, a per-item sub-nav underline, nav variant per page, rendered-gap intro spacing, a 22px pill icon, and a nav of Home, Work and Email me only).
 - **Exit:** checks pass, visual compare against the saved snapshots, docs updated. **PR to `main`** (push needs Reece's approval). Getting this to `main` early puts the feedback fixes in front of recruiters sooner, and gives phase 3 a clean base.
 
 ### Phase 3: three parallel streams (worktrees off `main` after phase 2 merges)
@@ -71,7 +71,7 @@ Each runs in its own chat and worktree (`superpowers:using-git-worktrees`), with
 |---|---|---|---|
 | **C** page fixes | `reece/fix/cass-feedback-pages` | `../cass-website-page-fixes` | The [page-specific feedback items](#page-specific-feedback-items). Small; well suited to a subagent. Run first if time is short. |
 | **B** TRANSEARCH | `reece/feature/case-study-4` | `../cass-website-cs4` | The fourth case study page, its `case-studies.json` entry and images. **Q-018 (image delivery)** is pressing at this point; raise it before committing images. |
-| **A** landing | `reece/feature/landing-v2` | `../cass-website-landing` | The new home page. **Starts with Reece's clarifications.** Touches Q-017, Q-019, Q-012, Q-011 and probably Q-020. **Also standardise the tick icons:** the nav's "Email me" copy tick (D-043, built in phase 2 as provisional) must match the landing page's tick, so use one shared tick everywhere. |
+| **A** landing | `reece/feature/landing-v2` | `../cass-website-landing` | The new home page. **Starts with Reece's clarifications.** Touches Q-017, Q-019, Q-012, Q-011 and probably Q-020. **Also standardise the tick icons:** the nav's "Email me" copy tick (D-048, built in phase 2 as provisional) must match the landing page's tick, so use one shared tick everywhere. |
 
 ### Phase 4: Integrate
 
