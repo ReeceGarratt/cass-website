@@ -70,9 +70,10 @@
   --type-brand-letter-spacing: -0.011em;
   --type-brand-weight: 900;
 
-  /* Type: nav items */
-  --type-nav-size: 1.0625rem;
-  --type-nav-line-height: 1.5;
+  /* Type: nav items (Navigation 20:703, 2026-10-20: Inter Bold 16 / 1.48 /
+     -1.1%; was 17 / 1.5). Also the skip link and the sub nav's back link */
+  --type-nav-size: 1rem;
+  --type-nav-line-height: 1.48;
   --type-nav-letter-spacing: -0.011em;
   --type-nav-weight: 700;
 
@@ -175,10 +176,11 @@
   --space-hero-top: clamp(6rem, -3.375rem + 12.5vw, 11.625rem); /* 96 → 186px */
   --space-hero-stack-gap: 4rem; /* stacked layout only; not designed (see spec) */
   --space-nav-block: 1.5625rem; /* 25px */
-  --space-nav-gap: 2.6875rem; /* 43px */
-  --space-nav-row-gap: 1.5rem; /* 24px; not designed — chosen so a wrapped Selected pill (12px vertical inset) doesn't overlap the row above */
-  --space-nav-pill-inline: 1.46875rem; /* 23.5px */
-  --space-nav-pill-block: 0.75rem; /* 12px */
+  --space-nav-gap: 2.5rem; /* 40px (was 43px) */
+  --space-nav-row-gap: 1.5rem; /* 24px; not designed — the gap between rows if the nav wraps */
+  --space-nav-pill-inline: 1.5rem; /* 24px; selected item padding, 8px 24px */
+  --space-nav-pill-block: 0.5rem; /* 8px */
+  --space-nav-utility-gap: 1.0625rem; /* 17px; utility link text to icon */
   --space-card-padding: 1.875rem; /* 30px */
   --space-card-stack: 1.375rem; /* 22px */
   --space-card-row-gap: 0.9375rem; /* 15px */
@@ -225,6 +227,7 @@
   --size-card-summary-min-height: 6rem; /* 96px */
   --size-arrow: 3.125rem; /* 50px */
   --size-nav-dot: 0.625rem; /* 10px */
+  --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
   --size-hero-intro-width: 27.625rem; /* 442px */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 

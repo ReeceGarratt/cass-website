@@ -13,9 +13,11 @@ interface Props {
    * viewport edge.
    */
   fullBleed?: boolean;
+  /** The nav bar's colourway (D-040): purple on case studies, White on home. */
+  navVariant?: 'purple' | 'white';
 }
 
-const { title, fullBleed = false } = Astro.props;
+const { title, fullBleed = false, navVariant = 'purple' } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,9 +34,7 @@ const { title, fullBleed = false } = Astro.props;
     <a class="skip-link" href="#main">
       Skip to content
     </a>
-    <header class="site-header">
-      <SiteNav currentPath={Astro.url.pathname} />
-    </header>
+    <SiteNav currentPath={Astro.url.pathname} variant={navVariant} />
     <main
       id="main"
       class:list={['site-main', { 'site-main--contained': !fullBleed }]}
@@ -46,10 +46,6 @@ const { title, fullBleed = false } = Astro.props;
 </html>
 
 <style>
-  .site-header {
-    background-color: var(--color-purple);
-  }
-
   .site-main--contained {
     max-inline-size: var(--page-max-width);
     margin-inline: auto;
