@@ -40,6 +40,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
 | Q-035 | Cass: Regular weight on blue cards: rounded cards only, or the full-bleed bands too? | Nothing; bands are included for now (D-044) |
 | Q-036 | Cass: what should a Read More card's client pill look like on hover and focus? | Nothing; the pill is invisible on the hovered card for now |
+| Q-037 | Reece: fix the skip link comment typo now, or with the next edit to `global.css`? | Nothing; comment only |
 
 ---
 
@@ -240,3 +241,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing
 - **Context:** A Read More card turns Purple on hover and focus, so the Purple client pill disappears into it and only its white text is left. The Read More cards have no hover variant in Figma (`figma/components/read-more/context.md`, around lines 118 to 133), while the compact and detailed cards do. The card already turned Purple on hover before phase 2; phase 2 only fixed the pill's width and alignment.
 - **Options:** Cass draws a hover state for the Read More card · reuse the detailed card's hover pill (Light purple background, Purple text) · leave the pill as text only.
+
+### Q-037 · Reece: fix the skip link comment typo now, or with the next edit to `global.css`?
+- **Raised:** 2026-10-20 (phase 2 final review, ruling R15)
+- **Blocks:** nothing; it's a comment, so the built site is unaffected
+- **Context:** The phase 2 fix wave reworded the skip link comment in `src/styles/global.css` (line 74) and left a typo: "which is may be what Cass saw" should read "which may be what Cass saw". The re-review caught it after the single fix wave, and the process allows no second wave, so it was parked rather than fixed.
+- **Options:** fix it in its own `style:` commit · fix it in the next commit that touches `global.css` (phase 3).

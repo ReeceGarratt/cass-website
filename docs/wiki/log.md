@@ -162,3 +162,6 @@ Two sessions recorded decisions in parallel, and the second reused D-041 to D-04
 
 ## [2026-10-20] build | Phase 2 foundation: new nav, sub nav and shared feedback
 Built on `reece/feature/foundation` (worktree `../cass-website-foundation`): the new nav with purple and White variants, Home · Work · Email me, the copy tick and hide on scroll (D-038, D-040, D-045, D-049, D-050); the sub nav's per-item underline and 80px intro gap (D-039); Cass's intro spacing and the 22px pill icon (D-046, D-047); the Definition Tip on hover, focus and tap (D-042); flat Read More cards with aligned pills and arrows and the 55px arrow hover (D-037, D-043); Regular text on blue cards and light purple process arrows (D-044); and the restyled skip link (D-041). Added `wiki/skip-link.md`, the scoped-styles gotcha in `componentisation.md`, D-050, and Q-035 and Q-036 for Cass. Phase 2 is in review; Reece has manual checks (see the macro plan).
+
+## [2026-10-20] decision | Q-037: a parked comment typo from the phase 2 fix wave
+Opened Q-037 for Reece: the skip link comment in `src/styles/global.css` (line 74) reads "which is may be"; fix it now or with the next edit to the file.
