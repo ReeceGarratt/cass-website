@@ -174,7 +174,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** amends D-013 rather than reversing it. Building case study 2 should mostly mean composing the existing components in a new order, with new bespoke sections only where CS2 genuinely differs (personas, user journey). Revisit if CS2 shows the toolkit isn't holding.
 
 ### D-023 · Progressive enhancement over a UI framework
-- **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-016**
+- **Date:** 2026-09-29 · **Status:** Accepted; the sub nav part is amended by D-039 · **Resolves Q-016**
 - **Context:** Two case study components need interactivity that invariant 3 (no client JS without a stated reason) requires be justified: the sub nav's progress underline, which needs scroll position, and the Definition Tip's popup, whose open/close/Escape/focus behaviour Figma draws but doesn't specify.
 - **Decision:** The Definition Tip uses the native `popover` attribute (Popover API): opening, closing, `Escape`, light dismiss, top-layer stacking and focus handling are all native, with about 8 lines of script only to position the bubble under its trigger on `beforetoggle` (popovers render in the top layer and can't be positioned by an ancestor with CSS alone). The sub nav's progress underline uses a small `IntersectionObserver` module script. No UI framework, and no scroll-driven CSS (`animation-timeline`) — cross-browser support wasn't certain enough to depend on for the only implementation.
 - **Alternatives considered:** CSS-only (`:target` or `<details>` for the tip, a static current-section marker for the sub nav) — rejected, loses the sweeping progress indicator entirely and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
@@ -279,3 +279,31 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** With `fullBleed`, `<main>` has no max width, and `.case-study` has none either. Its side tracks are `minmax(var(--space-gutter), 1fr)` and its content track is capped at `calc(var(--page-max-width) - 2 * var(--space-gutter))`, so the full track is always the viewport and the content stays 1700px and centred above 1920px. The sub nav's inner row is capped at `--page-max-width`, matching `SiteNav`.
 - **Alternatives considered:** keeping the cap and painting each band's colour past it with a `border-image` outset (as first done for the sub nav, and removed with this change). Rejected: it's repeated per band, only works for solid backgrounds, and leaves "bleed" meaning "1920px".
 - **Consequences:** identical layout at 1920px and below (measured at 1920 and 1440 on both case studies).
+
+### D-037 · The Portfolio style guide is the design source of truth
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** A Portfolio style guide frame (`306:1542`) appeared on the Figma Design system page, describing the new landing page (`267:1855`). Some of its values differ from the older component sets on the same page, and it says library hover variants are "not evidence" of behaviour. See [figma/design-system/delta-2026-10-20.md](figma/design-system/delta-2026-10-20.md).
+- **Decision (Reece):** The style guide is the source of truth. Where a component set or a frame disagrees with it, the style guide wins, and the component sets are expected to change to match it. Interaction states the guide doesn't cover (hover, selected) still come from the component sets. The `Button_Circle Arrow` hover is a deliberate change: the red flower grows to 55px while the arrow keeps its size and position.
+- **Alternatives considered:** treating the guide as landing-only, with the component sets still authoritative elsewhere. Rejected by Reece.
+- **Consequences:** Cards are flat (no `--shadow-card` on `CaseStudyCard`). The style guide only describes the landing, so case study details it doesn't mention still come from the case study frames. Questions it doesn't answer go to Cass (Q-032, Q-033).
+
+### D-038 · "Email me" in the nav copies the address to the clipboard
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav replaces the Resume and Contact items with utility links: "Resume" with a download icon and "Email me" with a copy icon. Figma draws the copy icon but no behaviour or success state.
+- **Decision (Reece):** "Email me" copies the email address to the clipboard, for now. It can be revisited later.
+- **Alternatives considered:** a `mailto:` link; a link to `/contact`.
+- **Consequences:** A small client script, stated under invariant 3: the Clipboard API has no HTML-only equivalent. Without JS, or if copying fails, the link must still work as a `mailto:` link. The success feedback needs an accessible announcement (a polite live region) as well as a visual change. Its look is a placeholder until Cass designs one (Q-034). Resume's target is still Q-011.
+
+### D-039 · The sub nav underlines the current section only
+- **Date:** 2026-10-20 · **Status:** Accepted · Amends D-023 (the sub nav part)
+- **Context:** Figma's Sub Nav dropped its progress variants (`02`–`04`). The current item is now Bold with a 3px Red underline under that item alone, and the other items are Regular. The built sub nav draws a Purple underline that sweeps from the first link to the current one.
+- **Decision (Reece):** Keep following the section in view as the page scrolls, but mark only the current item: Bold, with the Red underline under it.
+- **Alternatives considered:** a static marker with no script.
+- **Consequences:** The existing scroll script stays, minus the sweep geometry (it no longer measures from the first link). `aria-current` is unchanged.
+
+### D-040 · Nav variant per page: purple on case studies, White on home
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The case study frames use the purple Navigation with "Work" selected. The style guide says the landing uses the new `White` variant (Off-white bar, Red wordmark, Purple links).
+- **Decision (Reece):** Case study pages use the purple bar with "Work" selected. The home page uses `White`, to be confirmed when phase 1b fetches the landing frame.
+- **Alternatives considered:** one variant everywhere.
+- **Consequences:** `SiteNav` takes a variant. Figma's `Purple` is unchanged at `#4832A1`. The built `--color-purple` wasn't checked in phase 1a, so phase 2 confirms it.

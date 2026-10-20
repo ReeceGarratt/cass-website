@@ -43,6 +43,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-029 | Cass: "Other case studies" in a blue block on every page, or Standard Bank only? | Whether it goes in `ReadMoreSection` (phase 2) or one page (phase 3C) |
 | Q-030 | Cass: regular weight on every blue card, or Standard Bank only? | Phase 2 blue card text weight |
 | Q-031 | Cass: nav on scroll up, hide on scroll down, and the sub-nav | Phase 2 nav scroll script |
+| Q-032 | Cass: intro spacing that isn't in the design (eyebrow → title, title → pills) | Phase 2 `CaseStudyIntro` spacing |
+| Q-033 | Cass: user-type pill icon, 22px or 24px? | Phase 2 `Pill` icon size |
+| Q-034 | Cass: what "Email me" looks like after copying | Nothing; placeholder success state in use (D-038) |
 
 ---
 
@@ -260,3 +263,21 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** the phase 2 nav scroll script
 - **Context:** Cass wants the navigation bar to show when scrolling up. That implies it hides on the way down. The case study sub-nav is already sticky, so the two have to stack or one has to give way. This needs a small client script, a new pattern (invariant 3).
 - **Options:** (a) does the nav hide while scrolling down? (b) when it reappears, does the sub-nav sit below it, or does the nav cover it?
+
+### Q-032 · Cass: intro spacing that isn't in the design (eyebrow → title, title → pills)
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 `CaseStudyIntro` spacing
+- **Context:** Cass asked for three intro changes. Only one is in Figma: the space between the sub-nav and the intro is now 80px (was 160px) on all three case studies. "Half the space between 'UX/UI designer' and the title" and "increase spacing between title and pill by 20%" aren't in the Intro component (`144:1045`, unchanged since 2026-09-29) or its instances, and the style guide (the source of truth, D-037) doesn't cover the case study intro. Both gaps are currently the same 16px.
+- **Options:** Cass updates the Intro component in Figma · confirm the values: eyebrow → title 8px, title → pills 20px (16 × 1.2 = 19.2, rounded).
+
+### Q-033 · Cass: user-type pill icon, 22px or 24px?
+- **Raised:** 2026-10-20 (Cass's feedback; Reece is relaying)
+- **Blocks:** the phase 2 `Pill` icon size
+- **Context:** Cass asked for the call centre agent icon to be 22px at 1920. The Pills component (`144:592`) and every Intro instance still draw it at 24px (checked 2026-10-20), and the style guide doesn't cover user-type pills.
+- **Options:** 22px, and Cass updates the Pills component · keep 24px.
+
+### Q-034 · Cass: what "Email me" looks like after copying
+- **Raised:** 2026-10-20
+- **Blocks:** nothing; a placeholder success state is in use (D-038)
+- **Context:** "Email me" copies the address to the clipboard (D-038). Neither the nav component nor the style guide designs the "copied" feedback. The style guide's email pill says "Copy success and other interaction states: not specified".
+- **Options:** Cass designs the success state (e.g. a label change to "Copied", a tick icon, or a short toast) · keep the placeholder.

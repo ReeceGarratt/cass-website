@@ -134,7 +134,7 @@ Update this table at the end of each phase.
 
 | Phase | State | Branch | Notes |
 |---|---|---|---|
-| 1a | **Done, waiting on Reece** (rulings R1–R6 in the delta doc) | `reece/feature/design-system-refresh` | 18 Figma reads. Delta: `docs/figma/design-system/delta-2026-10-20.md`. Q-027–Q-031 added. Local `main` was **not** fast-forwarded: it has a stray local commit (`5133022`, 2026-09-16) that isn't on `origin/main`; the branch was cut from `origin/main` directly. Built token values weren't compared (reading `tokens.css` was blocked by a tool permission), so phase 2 should check the rows marked *check token*. |
+| 1a | **Done** | `reece/feature/design-system-refresh` | 19 Figma reads. Delta: `docs/figma/design-system/delta-2026-10-20.md`; rulings recorded as D-037 to D-040. Questions for Cass: Q-027 to Q-034. Local `main` was **not** fast-forwarded: it has a stray local commit (`5133022`, 2026-09-16) that isn't on `origin/main`; the branch was cut from `origin/main` directly. Built token values weren't compared (reading `tokens.css` was blocked by a tool permission), so phase 2 checks the rows marked *check token*. |
 | 1b | Not started | | |
 | 2 | Not started | | |
 | 3A landing | Not started | | Waiting on Reece's clarifications |

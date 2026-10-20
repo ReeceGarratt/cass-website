@@ -147,3 +147,6 @@ Added `raw/2026-10-20-cass-feedback-case-studies.md` and the macro plan that tri
 
 ## [2026-10-20] update | Design system refresh (macro plan phase 1a)
 Refetched the Design system page, Navigation, Sub Nav, Intro, Read More and Definition Tip, and rechecked CS1–3 (18 Figma reads). New: a Portfolio style guide frame (`306:1542`) describing a new landing frame (`267:1855`); a `White` nav variant plus Resume and Email me utility links; a per-item red sub-nav underline in place of the progress sweep; 80px (was 160px) above every case study intro. Findings, and the rulings phase 2 needs, are in `figma/design-system/delta-2026-10-20.md`. Updated Q-017 and the Figma frame index.
+
+## [2026-10-20] decision | Style guide is the source of truth; nav, sub nav and Email me rulings (D-037 to D-040)
+Reece ruled on the phase 1a delta. The Portfolio style guide wins over the component sets (D-037), which also covers the new 55px arrow hover (refetched `4:137`). "Email me" copies to the clipboard (D-038). The sub nav underlines the current section only (D-039, amends D-023). Nav is purple on case studies and White on home (D-040). Opened Q-032 to Q-034 for Cass.

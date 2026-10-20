@@ -104,7 +104,7 @@ Images that ship with the site go in `src/` or `public/`, not here.
 | Shapes & Arrows | [`components/shapes-arrows/`](components/shapes-arrows/) | `129:3457` | 2026-09-29 (outline, assets) |
 | Navigation (component set) | [`components/navigation/`](components/navigation/) | `20:703` | 2026-10-20 (context, screenshot, assets); new `White` variant, `Prototype` removed, utility links added |
 | Case study Card / Compact Card (component set) | [`components/case-study-card/`](components/case-study-card/) | `4:123` | 2026-09-16 (outline, context, assets) |
-| arrow_upward / Button_Circle Arrow (component set) | [`components/arrow/`](components/arrow/) (context is in `case-study-card/`) | `4:137` | 2026-09-16 (assets) |
+| arrow_upward / Button_Circle Arrow (component set) | [`components/arrow/`](components/arrow/context-2026-10-20.md) | `4:137` | 2026-10-20 (context, screenshot, assets); hover flower now 55px |
 | Flower (symbol) | [`components/flower/`](components/flower/) (context is in `case-study-card/`) | `1:162` | 2026-09-16 (asset) |
 | **Work page** (Landing frame + 4 case studies) | [`outline-work-page.md`](outline-work-page.md) | `19:104` | 2026-09-29 (outline) |
 | 💻 Case Study 1 — Absa, streamlining scoring | [`case-study-1-desktop/`](case-study-1-desktop/) | `53:156` | 2026-09-29 (screenshot, outline, context for all 7 sections, images); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
