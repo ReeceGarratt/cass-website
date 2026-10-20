@@ -32,7 +32,7 @@ All tooling lives in `.superpowers/sdd/2026-10-20-foundation/` (call it `$T`), s
 # Serve dist/ (once per session, in the background); rebuild with `npm run build` and it picks up the new files.
 npx astro preview --port 4392
 # Run a probe against a page: home | cs1 | cs2 | cs3. Prints the probe's JSON first.
-sh .superpowers/sdd/2026-10-20-foundation/probe.sh <probe> <page> [--nojs] [--reduced-motion] [--width=1440]
+sh .superpowers/sdd/2026-10-20-foundation/probe.sh <probe> <page> [--nojs] [--reduced-motion] [--width=1440] [--pretab=n] [--tab=n]
 # Screenshot all four pages into shots/<name>-<page>/ (full.png plus one PNG per section).
 sh .superpowers/sdd/2026-10-20-foundation/shoot-all.sh <name>
 # Pixel diff: prints IDENTICAL or "DIFFERS: n px, rows a-b"; optional out.png marks differences in red.
@@ -59,7 +59,11 @@ Pages: `cs1` = `/work/streamlining-scoring/` (Absa), `cs2` = `/work/consolidatin
 mkdir -p .superpowers/sdd/2026-10-20-foundation/probes
 cp F:/Code/cass-website/.superpowers/sdd/2026-10-04-case-study-three/shoot.mjs F:/Code/cass-website/.superpowers/sdd/2026-10-04-case-study-three/diff.mjs .superpowers/sdd/2026-10-20-foundation/
 sed -i "s#F:/Code/cass-website/node_modules/sharp#F:/Code/cass-website-foundation/node_modules/sharp#" .superpowers/sdd/2026-10-20-foundation/diff.mjs
+sed -i "s#Number(process.env.SHOOT_PRETAB ?? 0)#Number(flag('pretab')?.split('=')[1] ?? 0)#" .superpowers/sdd/2026-10-20-foundation/shoot.mjs
+grep -n "pretab" .superpowers/sdd/2026-10-20-foundation/shoot.mjs
 ```
+
+The last command must print the patched loop line. `--pretab=n` presses Tab n times before shooting, replacing the old `SHOOT_PRETAB` env var, so every command starts with `node` or `sh` (the project's permission allowlist matches on the command's start).
 
 - [ ] **Step 2: Write `probe.sh`.**
 
@@ -592,10 +596,10 @@ node .superpowers/sdd/2026-10-20-foundation/shoot.mjs http://localhost:4392/work
 Then shoot the White bar's focus state on Work: the 4th Tab stop is skip link, brand, Home, then Work.
 
 ```bash
-SHOOT_PRETAB=4 node .superpowers/sdd/2026-10-20-foundation/shoot.mjs http://localhost:4392/ .superpowers/sdd/2026-10-20-foundation/shots/t2-focus-home
+node .superpowers/sdd/2026-10-20-foundation/shoot.mjs http://localhost:4392/ .superpowers/sdd/2026-10-20-foundation/shots/t2-focus-home --pretab=4
 ```
 
-Read the top of `full.png`. Expected: Work stays Purple with a Purple 10px dot under it, plus the shared focus ring; Home keeps its pill. Repeat with the cs1 URL: Home turns Light purple with a Light purple dot (the 3rd stop, so `SHOOT_PRETAB=3`).
+Read the top of `full.png`. Expected: Work stays Purple with a Purple 10px dot under it, plus the shared focus ring; Home keeps its pill. Repeat with the cs1 URL: Home turns Light purple with a Light purple dot (the 3rd stop, so `--pretab=3`).
 
 - [ ] **Step 12: Checks, then commit.**
 
@@ -1440,7 +1444,7 @@ git commit -m "feat(intro): apply Cass's intro spacing and the 22px pill icon" -
 
 - [ ] **Step 5: Build, re-run** `probe.sh tip` on cs1, cs2 and cs3. Expected on each: `"weight":"700"`, `"underline":"underline"`, `"action":"show"`, and every other key `true`.
 
-- [ ] **Step 6: Real keyboard focus.** Run `node …/shoot.mjs http://localhost:4392/work/streamlining-scoring/ …/shots/t6-tab-cs1 --tab=16` and find the line in `focus.txt` whose href column is `def-absa`. Its number is n. Then run `SHOOT_PRETAB=<n> node …/shoot.mjs http://localhost:4392/work/streamlining-scoring/ …/shots/t6-tip-cs1` and Read `01-project-overview.png`: the bubble is open under "Absa". Escape and light dismiss are native to `popover="auto"` and aren't automated here; list them as a manual check for Reece in the PR.
+- [ ] **Step 6: Real keyboard focus.** Run `node …/shoot.mjs http://localhost:4392/work/streamlining-scoring/ …/shots/t6-tab-cs1 --tab=16` and find the line in `focus.txt` whose href column is `def-absa`. Its number is n. Then run `node …/shoot.mjs http://localhost:4392/work/streamlining-scoring/ …/shots/t6-tip-cs1 --pretab=<n>` and Read `01-project-overview.png`: the bubble is open under "Absa". Escape and light dismiss are native to `popover="auto"` and aren't automated here; list them as a manual check for Reece in the PR.
 
 - [ ] **Step 7: Screenshots.** `shoot-all.sh t6`: on each case study only `01-project-overview.png` differs from `t5`, because the bold company name may rewrap the lead paragraph. Read it: check the paragraph still wraps acceptably. Report a changed line count.
 
@@ -1668,7 +1672,7 @@ git commit -m "fix(case-study): light purple process arrows, regular text on blu
 - Modify: `src/styles/tokens.css` (remove the two skip link padding tokens)
 - Test: `$T/probes/skip.js`, `$T/probes/skip-script.js`
 
-- [ ] **Step 1: Write the probes.** `$T/probes/skip.js` (run with `SHOOT_PRETAB=1`, so the skip link has real keyboard focus):
+- [ ] **Step 1: Write the probes.** `$T/probes/skip.js` (run with `--pretab=1`, so the skip link has real keyboard focus):
 
 ```js
 (() => {
@@ -1703,7 +1707,7 @@ git commit -m "fix(case-study): light purple process arrows, regular text on blu
 - [ ] **Step 2: Run them before the change, and record the results.**
 
 ```bash
-SHOOT_PRETAB=1 sh .superpowers/sdd/2026-10-20-foundation/probe.sh skip cs1
+sh .superpowers/sdd/2026-10-20-foundation/probe.sh skip cs1 --pretab=1
 sh .superpowers/sdd/2026-10-20-foundation/probe.sh skip-script cs1
 ```
 
@@ -1744,7 +1748,7 @@ Keep the existing `position`, insets, `z-index` and their comment. In `tokens.cs
 
   Write the findings, and what still can't be reproduced headless (for example Safari's behaviour, or a click before Tab), into the Task 10 wiki note. **Add a manual check for Reece** to the PR list: on a real Mac and phone, open a case study from the home page, scroll, go back and forward, and see whether the link appears unasked.
 
-- [ ] **Step 6: Screenshot** cs1 and home with `SHOOT_PRETAB=1`. Read the top-left corner: a Light purple pill reading "Skip to content", above the header on both variants.
+- [ ] **Step 6: Screenshot** cs1 and home with `--pretab=1`. Read the top-left corner: a Light purple pill reading "Skip to content", above the header on both variants.
 
 - [ ] **Step 7: Checks, commit.**
 
