@@ -156,3 +156,6 @@ Filed `raw/2026-10-20-cass-feedback-answers.md`. Resolved Q-027 to Q-031: keep a
 
 ## [2026-10-20] decision | Cass's answers: intro spacing, pill icon, copy tick; nav trimmed (D-041 to D-044)
 Resolved Q-032 (apply Cass's intro spacing to the rendered gaps, because Figma's gaps compensate for letter tails), Q-033 (22px icon in a 24px frame) and Q-034 (a tick after copying, standardised with the landing in phase 3A). The nav drops About and Resume for now (D-044). Updated Q-011, the delta doc and the macro plan.
+
+## [2026-10-20] update | Figma refresh for TRANSEARCH and the new landing (macro plan phase 1b)
+Snapshotted CS4 (`144:269`; changed since 2026-09-29: restructured, 80px above the intro, one added sentence, less bottom padding) and the new landing `267:1855` (full page: hero, client strip, four cards, about, contact) in 22 Figma reads. Images staged outside the repo pending Q-018. Added two Figma MCP gotchas (text-path dropped, content-addressed asset URLs). Findings and questions, including duplicate D-041 to D-044 numbers, are in `superpowers/notes/2026-10-20-phase-1b.md`.
