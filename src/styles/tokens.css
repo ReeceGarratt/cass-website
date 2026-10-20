@@ -186,8 +186,6 @@
   --space-card-row-gap: 0.9375rem; /* 15px */
   --space-skill-separator: 0.4518em; /* two literal spaces either side of "|", measured in the caption font (~5.42px at 12px) */
   --space-skip-link-inset: 1rem;
-  --space-skip-link-padding-block: 0.75rem;
-  --space-skip-link-padding-inline: 1rem;
   --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
   quote in the case study "talking to the experts" panel (86:212). Like
   --space-intro-columns it's a one-off measured gap rather than a scale step. */
