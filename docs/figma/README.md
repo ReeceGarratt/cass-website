@@ -83,7 +83,7 @@ Keep tool output unedited so it can be compared against a fresh fetch. Put your 
 
 **Screenshots (checked 2026-09-16):** `get_screenshot` returns a short-lived URL, not a file. Download it straight away with `curl -sL -o <folder>/screenshot.png "<url>"`. Pass `maxDimension` equal to the frame's longer edge (e.g. `1920`) to get it at 1:1; the default is 1024. Don't commit or paste the URL, because Figma says to treat it like a secret.
 
-**`download_assets`:** not tried yet. Check what it returns on first use and update this section.
+**`download_assets`:** returns a composed `export` render plus raw images and SVGs; usually not needed, because `get_design_context` already returns every asset URL. See [figma-mcp → usage notes](../wiki/figma-mcp.md#usage-notes).
 
 Images that ship with the site go in `src/` or `public/`, not here.
 
@@ -110,11 +110,12 @@ Images that ship with the site go in `src/` or `public/`, not here.
 | 💻 Case Study 1 — Absa, streamlining scoring | [`case-study-1-desktop/`](case-study-1-desktop/) | `53:156` | 2026-09-29 (screenshot, outline, context for all 7 sections, images); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
 | 💻 Case Study 2 — Standard Bank, import collections | [`case-study-2-desktop/`](case-study-2-desktop/) | `91:669` | 2026-09-30 (screenshot, context for all 9 sections and the Definition Tip, images, persona SVGs); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
 | 💻 Case Study 3 — MiX Telematics, sales workflow | [`case-study-3-desktop/`](case-study-3-desktop/) | `92:1823` | 2026-10-04 (context for all 8 sections, the Sub Nav and the Definition Tip, section renders, images; screenshot 2026-09-29); 2026-10-20 screenshot and positions ([recheck](design-system/delta-2026-10-20.md#case-study-rechecks)) |
-| 💻 Case Study 4 — TRANSEARCH, interactive workbook | [`case-study-4-desktop/`](case-study-4-desktop/) | `144:269` | 2026-09-29 (screenshot) |
+| 💻 Case Study 4 — TRANSEARCH, interactive workbook | [`case-study-4-desktop/`](case-study-4-desktop/context.md) | `144:269` | 2026-10-20 (screenshot, outline, context for every section, section renders; images staged outside the repo, Q-018). The 2026-09-29 screenshot is kept for comparison |
 | Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
 | Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
 | Landing, desktop — second frame | _not fetched_ | `127:3171` | **New since 2026-09-16.** Same size as `1:79`; purpose unknown |
-| Portfolio landing — Desktop | _not fetched (phase 1b)_ | `267:1855` | **New; found 2026-10-20** via the style guide, which calls it the authoritative desktop page (1920 × 3161). Not located on a page yet |
+| **Portfolio landing — Desktop** (the current landing, Q-017 confirmed by Reece) | [`landing-v2-desktop/`](landing-v2-desktop/context.md) | `267:1855` | 2026-10-20 (outline, 1:1 screenshot, context for every section, section renders, SVGs). Which page it sits on wasn't checked |
+| Portfolio landing, email copied state | [`landing-v2-desktop/`](landing-v2-desktop/context.md#section-email-pill-copied-state-node-2722302-in-frame-2722292) | `272:2292` (pill `272:2302`) | 2026-10-20 (context of the pill only). A copy of `267:1855` whose only difference is the copied state |
 | Landing frame on the Work page | _not fetched_ | `30:339` | A second copy of the landing design, on the Work page |
 | iPad Pro 11" - 1 | _not fetched (desktop first)_ | `19:327` | outline only |
 | iPhone 16 - 1 | _not fetched (desktop first)_ | `19:328` | outline only |

@@ -160,6 +160,18 @@ Resolved Q-032 (apply Cass's intro spacing to the rendered gaps, because Figma's
 ## [2026-10-20] fix | Renumber the second D-041 to D-044 as D-046 to D-049
 Two sessions recorded decisions in parallel, and the second reused D-041 to D-044. The first set (Cass's answers to Q-027 to Q-031, D-041 to D-045) keeps its numbers; the second (intro gaps, pill icon, copy tick, trimmed nav) is now D-046 to D-049. Fixed the references in `decisions.md`, the delta doc, the macro plan, Q-011 and the entry above.
 
+## [2026-10-20] update | Figma refresh for TRANSEARCH and the new landing (macro plan phase 1b)
+Snapshotted CS4 (`144:269`; changed since 2026-09-29: restructured, 80px above the intro, one added sentence, less bottom padding) and the new landing `267:1855` (full page: hero, client strip, four cards, about, contact) in 22 Figma reads. Images staged outside the repo pending Q-018. Added two Figma MCP gotchas (text-path dropped, content-addressed asset URLs). Findings and questions, including duplicate D-041 to D-044 numbers, are in `superpowers/notes/2026-10-20-phase-1b.md`.
+
+## [2026-10-20] decision | Q-017 confirmed: 267:1855 is the landing; email copied state fetched
+Reece confirmed `267:1855` as the current landing. Frame `272:2292` differs only in the email pill's copied state (`272:2302`, a Purple Material Symbols check), now snapshotted (1 more Figma read, 23 for phase 1b). New designs are the source of truth, so stream 3B now starts by confirming the TRANSEARCH content is current. Recorded in the phase 1b notes for phase 4 to number.
+
+## [2026-10-20] decision | Landing client strip is a looping carousel
+Reece: the purple client strip scrolls as a looping carousel that stops on hover (Figma shows it static). The WCAG 2.2.2 pause mechanism for keyboard, touch and reduced-motion users is an open question with a proposed default in `superpowers/notes/2026-10-20-phase-1b.md`; the stream 3A row in the macro plan points to it.
+
+## [2026-10-20] decision | Client strip carousel: configurable speed, no button
+Reece: the carousel sticks to the design (no pause button), and its speed is a GitHub Actions variable (`CLIENT_STRIP_LOOP_SECONDS`, default 40s per loop, baked in at build). The WCAG 2.2.2 gap for touch and keyboard users is accepted for now. Details in `superpowers/notes/2026-10-20-phase-1b.md`.
+
 ## [2026-10-20] build | Phase 2 foundation: new nav, sub nav and shared feedback
 Built on `reece/feature/foundation` (worktree `../cass-website-foundation`): the new nav with purple and White variants, Home · Work · Email me, the copy tick and hide on scroll (D-038, D-040, D-045, D-049, D-050); the sub nav's per-item underline and 80px intro gap (D-039); Cass's intro spacing and the 22px pill icon (D-046, D-047); the Definition Tip on hover, focus and tap (D-042); flat Read More cards with aligned pills and arrows and the 55px arrow hover (D-037, D-043); Regular text on blue cards and light purple process arrows (D-044); and the restyled skip link (D-041). Added `wiki/skip-link.md`, the scoped-styles gotcha in `componentisation.md`, D-050, and Q-035 and Q-036 for Cass. Phase 2 is in review; Reece has manual checks (see the macro plan).
 
