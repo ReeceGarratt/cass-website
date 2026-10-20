@@ -162,3 +162,6 @@ Snapshotted CS4 (`144:269`; changed since 2026-09-29: restructured, 80px above t
 
 ## [2026-10-20] decision | Q-017 confirmed: 267:1855 is the landing; email copied state fetched
 Reece confirmed `267:1855` as the current landing. Frame `272:2292` differs only in the email pill's copied state (`272:2302`, a Purple Material Symbols check), now snapshotted (1 more Figma read, 23 for phase 1b). New designs are the source of truth, so stream 3B now starts by confirming the TRANSEARCH content is current. Recorded in the phase 1b notes for phase 4 to number.
+
+## [2026-10-20] decision | Landing client strip is a looping carousel
+Reece: the purple client strip scrolls as a looping carousel that stops on hover (Figma shows it static). The WCAG 2.2.2 pause mechanism for keyboard, touch and reduced-motion users is an open question with a proposed default in `superpowers/notes/2026-10-20-phase-1b.md`; the stream 3A row in the macro plan points to it.
