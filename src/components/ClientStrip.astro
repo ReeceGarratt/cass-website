@@ -88,15 +88,18 @@ const copies = [0, 1, 2];
     display: block;
   }
 
-  /* D-053: a continuous loop that stops on hover. Nothing in the strip can
-     take focus, so the keyboard and touch gap is Q-039. */
+  /* D-053: a continuous loop that stops on hover, only where hover exists
+     (on touch, :hover sticks after a tap and would leave it paused). Nothing
+     in the strip can take focus, so the keyboard and touch gap is Q-039. */
   @media (prefers-reduced-motion: no-preference) {
     .client-strip__track {
       animation: client-strip-loop var(--client-strip-loop) linear infinite;
     }
 
-    .client-strip:hover .client-strip__track {
-      animation-play-state: paused;
+    @media (hover: hover) {
+      .client-strip:hover .client-strip__track {
+        animation-play-state: paused;
+      }
     }
   }
 
