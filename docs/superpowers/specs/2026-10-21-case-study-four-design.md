@@ -60,7 +60,7 @@ None. If building shows a shared component needs a change, stop and raise it: th
 | 4 | Competitor research (`144:335`) | `.panel` | `#research` Research |
 | 5 | Proto-personas (`144:348`) | page-local layout + note box | — |
 | 6 | User journeys (`144:367`) | `.panel`, two columns + note box | `#user-journeys` User Journeys |
-| 7 | Wireframing (`144:390`) | `CaseStudyFigure` (the composed `196:2697` export) + heading and text | — |
+| 7 | Wireframing (`144:390`) | a plain `<Image>` of the composed `196:2697` export (shadow baked in, no caption) + heading and text | — |
 | 8 | Typography & design (`144:396`) | page-local image grid | `#design` Design |
 | 9 | Bookmarking where you left off (`144:406`) | `LabelledFindings` + `CaseStudyFigure`, image start | — |
 | 10 | Highlighting & note taking (`144:423`) | the same, image end | — |
@@ -81,7 +81,7 @@ Measurements come from the snapshot's outline and design context, section by sec
 
 The source is the staged raw exports in `F:/Code/cass-website-staging/figma-2026-10-20/case-study-4/` (Figma URLs expire 2026-10-27).
 
-- A one-off `sharp` script, run from the session scratchpad and not committed, resizes each raster to **2× its largest rendered width at 1920px**: PNG for screenshots and icons, JPEG for the photos (the cover and the references), as on CS3. `astro:assets` then generates the formats and `srcset` at build time, as on CS1–3.
+- A one-off `sharp` script, run from the session scratchpad and not committed, resizes each raster to **2× its largest rendered width at 1920px**: PNG for screenshots and icons, JPEG for the photos (the cover and the references), as on CS3. `astro:assets` then converts them to WebP with width and height at build time, as on CS1–3 (no `srcset`: every case study image ships at its 2× desktop width).
 - The output goes in `src/assets/case-studies/designing-an-interactive-workbook/`, with descriptive file names.
 - The wireframe uses the composed export (`07-wireframe-composed@2x.png`), not the raw sketch.
 - `01-pill-icon.svg` and `03-vertical-divider.svg` aren't needed: the pill icon is `woman-2.svg`, and the dividers come from `FindingsList`.
