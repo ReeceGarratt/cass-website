@@ -15,6 +15,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 | `docs/architecture.md` | Repo map, data flow, invariants |
 | `docs/questions.md` | Open questions (Q-xxx): decisions waiting on the user, some spanning several features |
 | `docs/decisions.md` | Decisions that have been made (D-xxx) |
+| `docs/test-plan.md` | Manual checks for the deployed site, by feature, as tickboxes |
 | `docs/wiki/` | Knowledge built up along the way: how-tos, gotchas, research. Start at `index.md` |
 | `docs/raw/` | Source material from the user (briefs, notes). Never edited |
 | `docs/figma/` | Saved copies of what the Figma MCP returned, so frames aren't fetched twice (D-008) |
@@ -103,6 +104,7 @@ Every change needs at least:
 - A successful `npm run build`, `npm run check` passing, and `npm run format:check` passing.
 - **Visual changes:** compare the page in the dev server against Figma.
 - **Interactive or layout changes:** check keyboard navigation, focus order and visible focus.
+- **Anything you can't verify yourself** (real devices, Safari, touch, design judgement): add it to [`docs/test-plan.md`](docs/test-plan.md) as an unticked box under its feature, while you build.
 
 The wider approach (accessibility automation, performance budgets, lint, CI) is still open (Q-006).
 

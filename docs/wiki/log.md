@@ -177,3 +177,6 @@ Built on `reece/feature/foundation` (worktree `../cass-website-foundation`): the
 
 ## [2026-10-20] decision | Q-037: a parked comment typo from the phase 2 fix wave
 Opened Q-037 for Reece: the skip link comment in `src/styles/global.css` (line 74) reads "which is may be"; fix it now or with the next edit to the file.
+
+## [2026-10-21] docs | Live test plan for manual checks
+PR #8 (phases 1a, 1b and 2) merged to `main`. Its manual checks and Reece's intro spacing review moved into a new `docs/test-plan.md`, split by feature, with empty sections for streams 3A, 3B and 3C. AGENTS.md now asks agents to add checks they can't verify themselves to it while they build.
