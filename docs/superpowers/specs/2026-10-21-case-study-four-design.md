@@ -33,7 +33,7 @@
 - `CaseStudyIntro`: eyebrow "ux/ui designer" (`I144:1594;53:249`), the "Clients" pill with the existing `woman-2.svg` (the node is `Icons/Woman 2`, whatever its asset constant is called), and the intro hero.
 - `ProcessStrip`: six steps whose labels and widths are identical to CS2's, so it reuses the `--size-process-step-import-*` tokens. CS4's row is the same width as CS2's, so `--size-process-row` doesn't change.
 - `CaseStudyIntro`'s image drop and nudge are custom properties; the page sets its own values (67px and 3px) on the intro, so the component doesn't change.
-- **Business problem: not `BusinessProblem`.** Planning showed that it matches neither variant here (an 80px gap, top-aligned, with 32px between rules) and has no room for the book cover. The page composes its two parts, `SectionHeading` (left-aligned, as in this frame) and `FindingsList`, instead of changing the shared component. The four needs keep the Medium/Bold mix within each line, as in the frame (not all bold).
+- **Business problem: not `BusinessProblem`.** Planning showed that it matches neither variant here (an 80px gap, top-aligned, with 32px between rules) and has no room for the book cover. The page composes its two parts, `SectionHeading` (left-aligned, as in this frame) and `FindingsList`, instead of changing the shared component. The four needs keep the Medium/Bold mix within each line, as in the frame (not all bold). CS4's heading is left-aligned, so the page overrides `SectionHeading`'s standfirst indent locally; there is no shared change.
 - `LabelledFindings` + `CaseStudyFigure`: CS2's "tracker" pattern, used for Bookmarking, Highlighting & note taking, and Responsive design.
 
 ### Changed

@@ -51,7 +51,14 @@ From phase 2 (D-037, D-043).
 
 ## TRANSEARCH case study
 
-<!-- The cs4 stream adds its checks here. -->
+- [ ] At 1920px, the page matches the TRANSEARCH frame (`docs/figma/case-study-4-desktop/screenshot-2026-10-20.png`) section by section.
+- [ ] The intro image runs to the right edge of the window, with square right-hand corners.
+- [ ] Hovering, focusing or tapping "TRANSEARCH International" opens its definition; Escape closes it.
+- [ ] Each sub nav link (Project Overview, Business Needs, Research, User Journeys, Design, Handover) jumps to its section, and the underline follows as you scroll.
+- [ ] The white wireframing band sits flush under the purple user journeys panel.
+- [ ] The phone image overlaps the tablet in Responsive design, and the caption isn't covered.
+- [ ] Other case studies shows Absa, Standard Bank and MiX Telematics, not TRANSEARCH.
+- [ ] On the home page and in Other case studies, TRANSEARCH's card says "Designing an interactive book" with UI Design | Interaction Design | Typography, and Absa's badge says "Absa Banking".
 
 ## Case study page fixes
 

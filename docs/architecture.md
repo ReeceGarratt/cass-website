@@ -4,7 +4,7 @@ A map of the repo for agents and developers. Read it to learn **where things liv
 
 > **Keeping this doc current:** update it in the same change that adds, moves or removes a top-level directory, a key module, or an invariant. Describe modules and boundaries, not individual lines of code, so the doc doesn't go stale. Mark anything not built yet as **(planned)**.
 
-**Status (2026-10-20):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), the nav, sub nav and Cass's shared feedback are built (phase 2), and three case study pages are built end to end: `/work/streamlining-scoring` (Absa), `/work/consolidating-import-collections` (Standard Bank) and `/work/sales-workflow-research` (MiX Telematics), sharing one layout, the sub nav, and the shared section components listed below.
+**Status (2026-10-20):** scaffolded. The desktop home page POC exists (navigation, hero and three case study cards), the nav, sub nav and Cass's shared feedback are built (phase 2), and four case study pages are built end to end: `/work/streamlining-scoring` (Absa), `/work/consolidating-import-collections` (Standard Bank), `/work/sales-workflow-research` (MiX Telematics) and `/work/designing-an-interactive-workbook` (TRANSEARCH), sharing one layout, the sub nav, and the shared section components listed below.
 
 ## Overview
 
@@ -67,13 +67,13 @@ case-studies.json ──▶ caseStudies collection ──▶ cards on / ──�
 | `src/pages/work/streamlining-scoring.astro` | The first case study page (Absa), composing `CaseStudyLayout` with `CaseStudyIntro`, `ProcessStrip`, `SectionHeading`, `FindingBlock` and bespoke per-section markup for Interviews, Design, User Testing and Handover. |
 | `src/pages/work/consolidating-import-collections.astro` | The second case study page (Standard Bank): the same layout and shared components, plus page markup for the persona cards, the full-bleed "new user journey" (Purple) and "reviewing" (White) bands, and the Easier Data Capture and Status tracker sections. |
 | `src/pages/work/sales-workflow-research.astro` | The third case study page (MiX Telematics): the shared components plus page markup for the AS-IS band and key insight, the interviews stat, the five pain point cards, the White "realistic user journey" band and the proposal stat. |
+| `src/pages/work/designing-an-interactive-workbook.astro` | The fourth case study page (TRANSEARCH): the shared components plus page markup for the book cover, the app icons, the White "future state" notes, the White wireframing band, the typography reference grid, the three feature rows and the overlapping tablet and phone figure. |
 
 ### Planned
 
 | Path | Purpose |
 |---|---|
 | `src/pages/about.astro`, `src/pages/contact.astro` | Not built yet. |
-| `src/pages/work/<id>.astro` | The remaining case study (TRANSEARCH), composing the same shared components (D-022). |
 | `src/pages/work/index.astro` | The `/work` index route; still 404s (Q-020). |
 | `public/` | Static files served as-is (favicon, resume, etc. — see Q-011). |
 
