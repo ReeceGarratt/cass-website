@@ -58,7 +58,7 @@ From phase 2 (D-037, D-043).
 - [ ] The white wireframing band sits flush under the purple user journeys panel.
 - [ ] The phone image overlaps the tablet in Responsive design, and the caption isn't covered.
 - [ ] Other case studies shows Absa, Standard Bank and MiX Telematics, not TRANSEARCH.
-- [ ] On the home page and in Other case studies, TRANSEARCH's card says "Designing an interactive book" with UI Design | Interaction Design | Typography, and Absa's badge says "Absa Banking".
+- [ ] In Other case studies, TRANSEARCH's card says "Designing an interactive book" with UI Design | Interaction Design | Typography, and Absa's badge says "Absa Banking". The home page shows neither yet: it lists the first three case studies by order, without badges (Q-019).
 
 ## Case study page fixes
 
