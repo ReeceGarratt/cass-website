@@ -192,3 +192,9 @@ Stream `cs4`: `/work/designing-an-interactive-workbook` from the 2026-10-20 snap
 
 ## [2026-10-21] decision | Stream cs4 finished: Q-041 and Q-042
 `cs4` finished first (Reece's call; `fixes` had not started). Its two temporary question IDs became Q-041 (book vs workbook) and Q-042 (drafted TRANSEARCH definition). The `stream: cs4` tokens were folded into the Space and Radius groups.
+
+## [2026-10-21] update | Landing v2 built (stream landing)
+The home page is rebuilt from `267:1855`: hero, client strip carousel, four detailed cards, about and contact. New `EmailPill`, `ClientStrip`, `CopyStateIcon` and `src/scripts/copy-email.ts`; `CaseStudyCard` gains a detailed size. Pages touched: componentisation, github-pages, architecture, test-plan.
+
+## [2026-10-21] decision | Stream landing: D-landing-1 to D-landing-3
+Resume back in the nav (D-landing-1), four detailed cards (D-landing-2), `cardTitleBreak` (D-landing-3). Q-011 and Q-019 updated.

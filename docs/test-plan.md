@@ -22,6 +22,7 @@ From phase 2 (D-040, D-045, D-048, D-049, D-050). The headless probes passed; th
 - [ ] Tabbing into the hidden nav brings it back.
 - [ ] "Email me" copies the address and shows the tick for about 3 seconds, then the copy icon returns. Paste it somewhere to confirm what was copied.
 - [ ] **Phone:** "Email me" copies the address, or opens the mail app if copying isn't available.
+- [ ] Resume shows its download icon on both nav colours. Once the document exists (Q-011), it downloads, or opens if it's hosted off-site.
 
 ## Skip link
 
@@ -47,7 +48,15 @@ From phase 2 (D-037, D-043).
 
 ## Landing page
 
-<!-- The landing stream adds its checks here. -->
+From stream `landing` (D-051 to D-054, D-landing-1 to D-landing-3). The headless probes passed; these confirm it in real browsers.
+
+- [ ] The client strip loops smoothly with no jump or gap at the end of each loop, at 1920px and on a wider screen if one's available.
+- [ ] Hovering the client strip pauses it, and moving away resumes it.
+- [ ] With the OS's reduced motion setting on, the strip is still and shows each client once.
+- [ ] Both email pills copy the address and show the tick for about 3 seconds. Paste it somewhere to confirm what was copied.
+- [ ] **Phone:** tapping an email pill copies the address, or opens the mail app if copying isn't available.
+- [ ] Hovering or tabbing to a project card turns it Purple, with a White title and summary, a Light purple pill and skills, and the Red arrow.
+- [ ] **Keyboard:** on the home page, Tab then Enter on the skip link moves focus to the main content, and the nav comes back.
 
 ## TRANSEARCH case study
 

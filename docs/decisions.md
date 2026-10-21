@@ -404,3 +404,23 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Context:** D-053's carousel needs a speed, and the design has none.
 - **Decision (Reece):** A GitHub Actions repository variable, `CLIENT_STRIP_LOOP_SECONDS`, defaulting to 40 seconds per loop (about 40px/s across the 1646px row).
 - **Consequences:** The proposed shape, for the landing stream to confirm: `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}` to the build step (the same `env:` pattern `BASE_PATH` uses); Astro reads `import.meta.env.PUBLIC_CLIENT_STRIP_LOOP_SECONDS` at build time and writes it into the animation duration, falling back to 40 when it's unset or not a positive number. Changing it needs a redeploy. It's a new build-config pattern. The Cloudflare Workers deploy (D-009) will need the same variable.
+
+### D-landing-1 · Resume returns to the nav, linked to `/resume.pdf` for now
+- **Date:** 2026-10-21 · **Status:** Accepted
+- **Context:** D-049 left Resume out of the nav until its target existed (Q-011). The landing design (`267:1855`) shows it on every nav variant.
+- **Decision (Reece):** Show Resume, with its download icon, on both nav variants. Link it to `/resume.pdf` with `download`, through one `RESUME_URL` constant in `SiteNav.astro`, until a later task adds the document.
+- **Alternatives considered:** hiding it behind a flag until the document exists; showing it without a link.
+- **Consequences:** The link 404s until the file is in `public/` (Reece accepted this). The document may be hosted off-site so it can change without a deploy; then only `RESUME_URL` changes, but browsers ignore `download` on another origin, so it opens instead of downloading. Replaces D-049's Resume clause; About stays out.
+
+### D-landing-2 · The home page shows four detailed cards
+- **Date:** 2026-10-21 · **Status:** Accepted
+- **Context:** The built home page showed the first three case studies (Q-019). The landing design shows four Detailed Cards.
+- **Decision (Reece):** Show four, the first four by `order`. Four makes it clearer that there are more than three case studies.
+- **Consequences:** `index.astro` takes the first four entries, and each needs a thumbnail in `src/assets/landing/` (the build fails without one). Q-019 stays open for what happens at five or more.
+
+### D-landing-3 · An optional `cardTitleBreak` for detailed card titles
+- **Date:** 2026-10-21 · **Status:** Accepted
+- **Context:** Figma breaks two detailed card titles by hand ("consolidating / import collections", "designing an / interactive book"). Measured on 2026-10-21, no single title width reproduces all four cards' breaks.
+- **Decision (Reece):** `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must start `title` (the schema fails the build otherwise). Detailed cards break there; compact cards ignore it.
+- **Alternatives considered:** accepting the browser's wraps; keeping the breaks in `index.astro` beside the thumbnails.
+- **Consequences:** Set on the Standard Bank and TRANSEARCH entries only. A title change needs its break checked.

@@ -95,7 +95,7 @@ Counts are component tags from `grep -cE "<Name( |$|>)"` on the three page files
 | Navigation (`20:703`) | Default, Selected, Hover, iPad, **Prototype** | Yes — `SiteNav.astro`. The Prototype variant is new and unfetched. |
 | Sub Nav (`185:2566`) | Default, 02, 03, 04 | No |
 | Compact Card (`4:123`) | Default, Hover | Yes — `CaseStudyCard.astro` |
-| Detailed Card (`129:3554`) | Default, Variant2 (= hover) | No |
+| Detailed Card (`129:3554`) | Default, Variant2 (= hover) | Yes — `CaseStudyCard size="detailed"` |
 | Pills (`144:592`) | Client name, User types | No |
 | Button_Circle Arrow (`4:137`) | Default, Hover | Inline inside `CaseStudyCard.astro` |
 | Definition Tip (`99:2845`) | — | No |
@@ -151,6 +151,8 @@ arrow (bottom-right)
 **Leave width out of the component.** The three widths are a property of where the card sits — a home page row, a Work page grid, an end-of-page related row — not of the card. Let the card fill its grid track and drop `--size-card-width` from the component into the layouts. This is what stops three "variants" from existing at all.
 
 The 12px-vs-15px skills and the two summary colours are almost certainly stale, since the Read More cards are detached copies that predate the caption font change ([design-tokens](design-tokens.md)). **Confirm before building both** (Q-014) — otherwise we implement a bug faithfully.
+
+The skeleton-with-optional-slots finding held: the detailed size added a thumbnail slot and its own hover (2026-10-21).
 
 ## Worth building as components
 

@@ -26,11 +26,11 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-008 | Monitoring: how much, and which tools | Deferred to a later pass (D-010) |
 | Q-009 | Deploy pipeline and account ownership | **Blocks the first production deploy** (an interim Pages preview exists, D-019) |
 | Q-010 | Home page below 1880px | Nothing yet |
-| Q-011 | Resume link target | Nothing yet |
+| Q-011 | Resume link target | Nothing; the nav links to /resume.pdf, which 404s until the document exists |
 | Q-012 | Brand link | Nothing yet |
 | Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
-| Q-019 | Which case studies the home page features | Nothing yet; first three by `order` in use as a placeholder |
+| Q-019 | Which case studies the home page features | Nothing; four by order in use (D-landing-2) |
 | Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume`) |
 | Q-021 | A third undocumented light purple, `#E3E7FF` | Nothing yet; `--color-white` used as the nearest tokenised stand-in |
 | Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
@@ -122,6 +122,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The nav currently points to `/resume`, which 404s.
 - **Options:** a PDF in `public/` · a page · an external link.
 - **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-049).
+- **Update (2026-10-21, stream `landing`):** Resume is back in the nav (D-landing-1), linked to `/resume.pdf` through `RESUME_URL` in `SiteNav.astro`, which 404s until the document is added. If it's hosted off-site, browsers ignore `download` on another origin, so it opens rather than downloads.
 
 ### Q-012 · Brand link
 - **Raised:** 2026-09-16
@@ -161,6 +162,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **A separate `featured: boolean` field** in the schema: explicit, decoupled from ordering, but another field to keep in sync as case studies are added.
   - **Cass redesigns the hero for four (or however many) cards.**
 - **Also decide:** what should happen as a fifth case study is added — does the home page still show only three, or does the count change too?
+- **Update (2026-10-21, stream `landing`):** the home page now shows four detailed cards, the first four by `order` (D-landing-2). Still open: what happens at five or more, and which are featured then.
 
 ### Q-020 · The `/work` index route
 - **Raised:** 2026-09-29
