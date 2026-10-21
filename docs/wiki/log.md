@@ -198,3 +198,6 @@ The home page is rebuilt from `267:1855`: hero, client strip carousel, four deta
 
 ## [2026-10-21] decision | Stream landing: D-landing-1 to D-landing-3
 Resume back in the nav (D-landing-1), four detailed cards (D-landing-2), `cardTitleBreak` (D-landing-3). Q-011 and Q-019 updated.
+
+## [2026-10-21] question | Stream landing: Q-landing-1
+Contrast of the curved "open to work" text (`#EE0E0E` on Off-white, 4.25:1) raised for Cass. Q-010 updated: the 1880px composition is gone and nothing below 1920px is designed. Stale hero sections removed from design-tokens; D-020, D-048, D-049, D-053 and D-054 annotated.

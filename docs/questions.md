@@ -25,13 +25,13 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-006 | Testing, linting and formatting | AGENTS.md Testing/Commands; best settled at scaffolding |
 | Q-008 | Monitoring: how much, and which tools | Deferred to a later pass (D-010) |
 | Q-009 | Deploy pipeline and account ownership | **Blocks the first production deploy** (an interim Pages preview exists, D-019) |
-| Q-010 | Home page below 1880px | Nothing yet |
+| Q-010 | Home page below 1920px | Nothing yet; mobile designs expected soon |
 | Q-011 | Resume link target | Nothing; the nav links to /resume.pdf, which 404s until the document exists |
 | Q-012 | Brand link | Nothing yet |
 | Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
 | Q-019 | Which case studies the home page features | Nothing; four by order in use (D-landing-2) |
-| Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume`) |
+| Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume.pdf`) |
 | Q-021 | A third undocumented light purple, `#E3E7FF` | Nothing yet; `--color-white` used as the nearest tokenised stand-in |
 | Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
 | Q-023 | Copy defects transcribed faithfully from Figma | Nothing; copy is live as transcribed |
@@ -46,6 +46,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
 | Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
 | Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
+| Q-landing-1 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
 
 ---
 
@@ -107,7 +108,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Where is the domain registered? DNS is on Cloudflare; turn on registrar lock and MFA wherever the domain is registered.
 - **Update (2026-09-17, D-019):** an interim preview deploys to GitHub Pages. It doesn't settle this question. Remove `.github/workflows/deploy-pages.yml` once the Cloudflare pipeline is running.
 
-### Q-010 · Home page below 1880px
+### Q-010 · Home page below 1920px
 - **Raised:** 2026-09-16
 - **Blocks:** nothing yet
 - **Context:** The Figma composition (the overlapping hero grid and card row) only fits at 1880px and wider. Below that, the POC uses an undesigned stacked layout: the headline and intro stacked at the top, the card row below, left-aligned with the gutter.
@@ -115,6 +116,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Cass designs a laptop frame (1280–1536px).
   - Cass approves the stacked layout as-is.
 - **Note (2026-09-17):** an accepted residual from the caption font change (browser vs Figma Inter shaping) means card 2's caption fits on one line in the browser at 373px, where Figma now wraps it to 391px like card 1. See [wiki/design-tokens.md](wiki/design-tokens.md).
+- **Update (2026-10-21, stream `landing`):** the landing rebuild replaced the 1880px overlap composition (D-landing-2, [spec](superpowers/specs/2026-10-21-landing-v2-design.md)). Nothing below 1920px is designed yet; the title scales down with the viewport to 48px and the page only avoids overlaps. Mobile designs are expected in the next few days.
 
 ### Q-011 · Resume link target
 - **Raised:** 2026-09-16
@@ -279,3 +281,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; drafted text is live, marked `TODO(cass)`
 - **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."
 - **Options:** Cass confirms it · Cass gives her own wording.
+
+### Q-landing-1 · Cass: contrast of the curved "open to work" text
+- **Raised:** 2026-10-21 (stream `landing`)
+- **Blocks:** nothing; built as designed
+- **Context:** The curved "open to work" text on the hero (`267:1863`) is Figma's local red `#EE0E0E` (`--color-status`) on Off-white `#F8F9FF`. Measured with the WCAG 2.x formula that is 4.25:1, below the 4.5:1 AA threshold for small text. It is an image of text with a visually hidden "Open to work" equivalent, so screen readers are covered, and it isn't blocking. The palette Red `#CD2B2B` on Off-white is 5.03:1 (see [wiki/design-tokens.md](wiki/design-tokens.md)).
+- **Options:** keep it as designed · use the palette Red `#CD2B2B` (5.03:1) · darken `#EE0E0E` to a shade of Cass's choosing.

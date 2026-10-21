@@ -149,7 +149,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** Every new root-relative link or `public/` asset URL must use `withBase` (architecture invariant 7). The workflow, and `withBase` if it's no longer needed, go when the Cloudflare pipeline is running. Setup and gotchas: [wiki/github-pages.md](wiki/github-pages.md).
 
 ### D-020 · Home page cards: equal heights, baseline alignment, shadow and hover fade
-- **Date:** 2026-09-17 · **Status:** Accepted
+- **Date:** 2026-09-17 · **Status:** Partly superseded by D-landing-2 (the baseline-alignment bullet; equal heights and the hover fade still hold)
 - **Context:** Requested by the user ahead of updated Figma frames. The current Figma row lets cards differ in height (391 / 391 / 373px) and centres them, which read as uneven. The hover swap was instant and felt jarring. Figma has no shadow or motion values yet.
 - **Decision:**
   - **Equal heights:** the card list is a grid with `grid-auto-rows: 1fr`, so every card matches the tallest, including when the stacked layout wraps. At 1880px and wider it's a single auto-flow column row.
@@ -159,6 +159,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Alternatives considered:** a flex row with `align-items: stretch` for equal heights. It matches the grid in the single-row desktop layout, but only equalises cards on the same line once the row wraps.
 - **Consequences:** The build now differs from the current Figma frames on card height and position, which invariant 6 allows through this entry. Shadow, timing and alignment values get replaced when Cass's updated frames land (Q-013).
 - **Update (2026-09-29):** the real shadow values landed with the case study work — `--shadow-card` and `--shadow-card-warm` are no longer placeholders. See Q-013.
+- **Update (2026-10-21, stream `landing`):** the landing rebuild (D-landing-2) removed the baseline alignment: the hero is a new composition and the cards no longer sit on the headline's first baseline. Equal card heights and the hover fade still hold.
 
 ### D-021 · Fonts: Inter only, Roboto retired
 - **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-014**
@@ -362,12 +363,14 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Context:** D-038 left the copy success state as a placeholder.
 - **Decision (Reece):** After copying, the copy icon is replaced by a tick. The new landing page designs already use a tick (not fetched for this).
 - **Consequences:** Phase 2 builds the tick swap with a code comment saying the tick glyph is provisional and gets standardised against the landing page's tick in phase 3A. The live-region announcement from D-038 still applies.
+- **Update (2026-10-21, stream `landing`):** the provisional tick was replaced with the landing tick (`272:2302`), which closes the phase 3A follow-up.
 
 ### D-049 · Nav shows Home and Work, plus "Email me", for now
-- **Date:** 2026-10-20 · **Status:** Accepted
+- **Date:** 2026-10-20 · **Status:** Partly superseded by D-landing-1 (the Resume clause: Resume is back; About still stays out)
 - **Context:** The new nav design has Home · Work · About, then Resume and Email me. There's no design for an About screen yet, and the Resume target is still open (Q-011).
 - **Decision (Reece):** Leave **About** and **Resume** out of the built nav for now. Each comes back when its screen or target exists.
 - **Consequences:** The nav renders Home, Work and Email me. The old Contact item goes too (D-038 replaces it with Email me). `/work` still 404s (Q-020).
+- **Update (2026-10-21, stream `landing`):** D-landing-1 brings Resume back, linked to `/resume.pdf`. About still stays out.
 
 ### D-050 · Undesigned nav details for phase 2
 - **Date:** 2026-10-20 · **Status:** Accepted
@@ -398,12 +401,14 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision (Reece):** It scrolls continuously as a looping carousel that stops on hover. Otherwise it sticks to the design: no pause button.
 - **Alternatives considered:** a static strip as drawn; a visible pause button.
 - **Consequences:** CSS only: the name list duplicated once with the copy `aria-hidden`, a `translateX` keyframe, paused on `:hover` and `:focus-within`, and static (the row from Figma) under `prefers-reduced-motion: reduce`. Hover only helps mouse users, so touch and keyboard users can't pause it, a known gap against WCAG 2.2.2 (Pause, Stop, Hide), accepted for now and open as Q-039.
+- **Update (2026-10-21, stream `landing`):** built with three copies of the name list (one copy is narrower than a 1920px screen, so two would leave a gap), the second and third `aria-hidden`. It pauses on hover, only on devices that can hover (`@media (hover: hover)`, because `:hover` sticks after a tap on touch). `:focus-within` was dropped: nothing in the strip can take focus. Q-039 remains the keyboard and touch gap.
 
 ### D-054 · The client strip's speed comes from a build variable
 - **Date:** 2026-10-20 · **Status:** Accepted
 - **Context:** D-053's carousel needs a speed, and the design has none.
 - **Decision (Reece):** A GitHub Actions repository variable, `CLIENT_STRIP_LOOP_SECONDS`, defaulting to 40 seconds per loop (about 40px/s across the 1646px row).
 - **Consequences:** The proposed shape, for the landing stream to confirm: `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}` to the build step (the same `env:` pattern `BASE_PATH` uses); Astro reads `import.meta.env.PUBLIC_CLIENT_STRIP_LOOP_SECONDS` at build time and writes it into the animation duration, falling back to 40 when it's unset or not a positive number. Changing it needs a redeploy. It's a new build-config pattern. The Cloudflare Workers deploy (D-009) will need the same variable.
+- **Update (2026-10-21, stream `landing`):** built as proposed. `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}`, and `ClientStrip.astro` parses it with a 40s fallback for unset, empty or non-positive values.
 
 ### D-landing-1 · Resume returns to the nav, linked to `/resume.pdf` for now
 - **Date:** 2026-10-21 · **Status:** Accepted
