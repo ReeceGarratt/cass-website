@@ -538,7 +538,7 @@ Styles reported: H3: Font(family: "Inter", style: Bold, size: 14, weight: 700, l
 
 Fetched in phase 1b of the [2026-10-20 macro plan](../../superpowers/plans/2026-10-20-macro-plan.md), for stream 3A. 9 Figma reads: 1 `get_metadata`, 1 `get_screenshot`, 6 `get_design_context` (one of them the copied state, `272:2302`), 1 `download_assets`.
 
-### Q-017: which landing frame is current
+### Q-017: which landing frame is current (resolved as D-051)
 
 **Confirmed by Reece (2026-10-20): `267:1855` is the current landing design.** Frame `272:2292` is the same page with the email pill in its copied state (see the section above). The evidence that pointed to it:
 
@@ -569,7 +569,7 @@ There's no footer.
 - **Copied state:** designed in `272:2292` / `272:2302` (section above). After copying, the copy icon is swapped for a Purple Material Symbols `check` in the same 24px slot, and nothing else changes. That's the glyph D-048 ("Email me" shows a tick after copying) said to standardise against, so phase 2's provisional tick should match [`icon-check-copied.svg`](icon-check-copied.svg). The design doesn't say how long the tick stays.
 - **Curved "open to work" text** (`267:1863`) is missing from the code output. [`open-to-work-curved-text.svg`](open-to-work-curved-text.svg) is its `download_assets` SVG export: the text is outlined as one `#EE0E0E` path, but the file also contains background `<rect>`s (canvas `#F5F5F5`, page `#F8F9FF`) and Figma layer-name `id`s. Strip both before inlining (see [figma-mcp → usage notes](../../wiki/figma-mcp.md#usage-notes)). The text is outlined, so it needs an accessible name in the markup (e.g. a visually hidden "Open to work").
 - **Client names are `<a>`s to `standardbank.co.za`,** the copied-link artefact also seen on CS4. Build them as plain text.
-- **The client strip is a looping carousel that stops on hover** (Reece, 2026-10-20). The frame shows it static. Otherwise it's as designed (no pause button), and its speed is a GitHub build variable (default 40s per loop). See the [phase 1b notes](../../superpowers/notes/2026-10-20-phase-1b.md).
+- **The client strip is a looping carousel that stops on hover** (Reece, 2026-10-20). The frame shows it static. Otherwise it's as designed (no pause button), and its speed is a GitHub build variable (default 40s per loop). See [D-053, D-054 and Q-039](../../decisions.md).
 - **The Flower differs from the saved one:** [`flower.svg`](flower.svg) isn't byte-identical to [`components/flower/flower.svg`](../components/flower/flower.svg). Compare the paths before choosing one. It's drawn at 106px in the hero and 66px in contact.
 - **`#EE0E0E`** for the curved text is a local exception per the style guide, not a palette token. Keep it as a page-specific token in the stream's labelled block.
 - **Card copy vs `case-studies.json`:**

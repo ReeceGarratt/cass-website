@@ -29,7 +29,6 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-011 | Resume link target | Nothing yet |
 | Q-012 | Brand link | Nothing yet |
 | Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
-| Q-017 | Which Landing frame is current, and what the second one is for | Nothing yet; matters before further home page work |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
 | Q-019 | Which case studies the home page features | Nothing yet; first three by `order` in use as a placeholder |
 | Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume`) |
@@ -42,6 +41,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-035 | Cass: Regular weight on blue cards: rounded cards only, or the full-bleed bands too? | Nothing; bands are included for now (D-044) |
 | Q-036 | Cass: what should a Read More card's client pill look like on hover and focus? | Nothing; the pill is invisible on the hovered card for now |
 | Q-037 | Reece: fix the skip link comment typo now, or with the next edit to `global.css`? | Nothing; comment only |
+| Q-038 | Cass: the copied `standardbank.co.za` links on CS4 and the landing client strip | Nothing; built as plain text |
+| Q-039 | A pause control for the client strip carousel (WCAG 2.2.2) | Nothing; the gap is accepted for now (D-053) |
+| Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
 
 ---
 
@@ -134,19 +136,6 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 
 ---
 
-### Q-017 · Which Landing frame is current, and what the second one is for
-- **Raised:** 2026-09-29 · **Rewritten:** 2026-09-29 (the original question — where the Work page lives — is answered)
-- **Blocks:** nothing yet; matters before any further home page work
-- **Context:** The Work page was found at `19:104` in the same file. While mapping it, three copies of the landing design turned up:
-  - `1:79` on the `Landing` page — the frame the home page POC was built from;
-  - `127:3171` on the `Landing` page — **new since 2026-09-16**, the same 1920x1080 size, holding the same `Navigation` and `Content` instances;
-  - `30:339` on the `Work` page — another 1920x1080 `Landing` frame.
-
-  The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
-- **Update 2026-10-20:** a fourth candidate turned up. The new Portfolio style guide on the Design system page (`306:1542`) describes **"Portfolio landing — Desktop" (`267:1855`, 1920 × 3161)** as "one authoritative desktop page": hero, client strip, four Detailed Cards, about and contact, with the new `White` nav variant. It hasn't been located on a page yet. Phase 1b of the 2026-10-20 macro plan fetches it. See [figma/design-system/style-guide/context.md](figma/design-system/style-guide/context.md).
-- **Questions:** which frame is the current home page design? Is `267:1855` it? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
-- **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
-
 ### Q-018 · Image delivery: in-repo with Astro's pipeline, or hosted off-repo
 - **Raised:** 2026-09-29
 - **Blocks:** nothing for the first case study; becomes pressing once all four are built
@@ -158,6 +147,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Decide before:** committing the full image set for all four case studies. The first case study can proceed in-repo either way, as long as originals are downscaled first.
 - **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
 - **Update (2026-09-29):** Case Study 1 (Absa) committed 5 images under `src/assets/case-studies/streamlining-scoring/` — the intro hero screenshot and one per finding block — totalling **259,729 bytes (about 254 KiB / 260 KB)**, from 19.5 KB to 97.6 KB each. At that rate, four case studies of similar length would be roughly 1 MB of committed PNGs; CS2–4 are longer frames (7400–9337px vs CS1's 6003px) with more finding blocks, so the real total is likely somewhat higher. Numbers are pre-`astro:assets` processing (the committed source files); build output (AVIF/WebP/`srcset`) isn't counted here.
+- **Update (2026-10-20):** Reece: staging images outside the repo is fine for now. Phase 1b's raw TRANSEARCH and landing images are at `F:/Code/cass-website-staging/figma-2026-10-20/`, not committed; their Figma URLs expire 2026-10-27. Settle this before the TRANSEARCH stream commits images.
 
 ### Q-019 · Which case studies the home page features
 - **Raised:** 2026-09-29
@@ -208,6 +198,12 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - AS-IS band: "…platforms and processes ." — a space before the full stop.
   - Pain point 01: "wiki’s" — an apostrophe in a plural. Pain point 02: "early enough  resulting" has a double space in Figma (it collapses in HTML).
   - **The caption "AS-IS map"** sits under the "building a realistic user journey" figure, which shows the new journey (the same image is the intro hero). Possibly a copy slip for "to-be map" or similar; it's Cass's call.
+
+  In the TRANSEARCH frame (`144:269`, not built yet; recheck if newer content turns up):
+  - "the feature tutorial mentioned above": nothing above mentions one.
+  - Both screenshot captions say "reader Dashboard".
+  - "my developer this made handover…" doesn't parse.
+  - "a interface": should be "an interface".
 - **Options:** Cass confirms and the typos are fixed as a copy change · Cass says these are intentional (unlikely) and they stay.
 
 ### Q-024 · Case study alt text needs Cass's review
@@ -248,3 +244,21 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; it's a comment, so the built site is unaffected
 - **Context:** The phase 2 fix wave reworded the skip link comment in `src/styles/global.css` (line 74) and left a typo: "which is may be what Cass saw" should read "which may be what Cass saw". The re-review caught it after the single fix wave, and the process allows no second wave, so it was parked rather than fixed.
 - **Options:** fix it in its own `style:` commit · fix it in the next commit that touches `global.css` (phase 3).
+
+### Q-038 · Cass: the copied `standardbank.co.za` links on CS4 and the landing
+- **Raised:** 2026-10-20 (phase 1b)
+- **Blocks:** nothing; built as plain text
+- **Context:** Almost every text block on the TRANSEARCH frame (`144:269`), and every client name on the landing's client strip, carries a Figma hyperlink to `https://www.standardbank.co.za/southafrica/business`, apparently copied from CS2. It's invisible in the design (only "TRANSEARCH International" is styled like a link) and shows up as `<a href>` in `get_design_context` output.
+- **Options:** plain text everywhere (the default) · Cass gives "TRANSEARCH International" in the CS4 intro a real target.
+
+### Q-039 · A pause control for the client strip carousel (WCAG 2.2.2)
+- **Raised:** 2026-10-20 (phase 1b)
+- **Blocks:** nothing; the gap is accepted for now (D-053)
+- **Context:** WCAG 2.2.2 (Pause, Stop, Hide, level A) requires a way to pause content that moves automatically for more than 5 seconds. The carousel stops on hover and focus, and is static under reduced motion, but touch and keyboard users can't pause it. Reece ruled out a button for now.
+- **Options:** keep as built · add a pause control (Cass designs it) · a static strip on touch devices.
+
+### Q-040 · Is `hello@cassandragarratt.com` the real address?
+- **Raised:** 2026-10-20 (phase 1b)
+- **Blocks:** nothing; the nav's "Email me" already copies it (`SiteNav.astro`), and the landing will show it
+- **Context:** The landing frame (`267:1855`) shows `hello@cassandragarratt.com`.
+- **Options:** Cass confirms it · Cass gives the real address.

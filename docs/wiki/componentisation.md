@@ -2,7 +2,7 @@
 summary: What actually got built for Case Studies 1, 2 and 3 against the pre-build predictions below, plus the original analysis of the Figma Design system page.
 updated: 2026-10-20
 related: [design-tokens.md, figma-mcp.md, index.md]
-decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, Q-017]
+decisions: [D-013, D-002, D-022, D-025, D-028, D-029, D-030, Q-005, Q-013, D-051]
 ---
 
 # Componentisation

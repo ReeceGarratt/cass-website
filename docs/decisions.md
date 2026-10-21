@@ -378,3 +378,29 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
   - **Leaving the nav free to return mid-jump:** simpler, but it covers the heading the jump aims at.
   - **A shorter or longer tick time:** undesigned; 3 seconds was approved.
 - **Consequences:** Each is a constant or a colour in `SiteNav.astro`; change it there if Cass designs these states.
+
+### D-051 · `267:1855` is the current landing design
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-017**
+- **Context:** Four candidate landing frames existed in Figma. The Portfolio style guide (`306:1542`) calls "Portfolio landing — Desktop" (`267:1855`) "one authoritative desktop page".
+- **Decision (Reece):** Build the new home page from `267:1855`. Frame `272:2292` is the same page with the email pill in its copied state (`272:2302`).
+- **Alternatives considered:** the older 1920 × 1080 hero-only frames (`1:79`, `127:3171`, `30:339`); they weren't refetched.
+- **Consequences:** Phase 1b's snapshot is [figma/landing-v2-desktop/context.md](figma/landing-v2-desktop/context.md). The landing's copy tick (`272:2302`) is the one D-048's provisional tick gets standardised against.
+
+### D-052 · New designs are the source of truth for case study content
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new landing cards disagree with `case-studies.json` and the CS4 frame: Absa's badge says "Absa Banking", and the TRANSEARCH card says "Designing an interactive book" with the skills "UI Design | Interaction Design | Typography", where the JSON and the CS4 frame say "workbook" and "User Research | Process Design | Systems Thinking".
+- **Decision (Reece):** Where they disagree, the newest designs win.
+- **Consequences:** The TRANSEARCH stream first confirms whether `144:269` is still the current case study design, then updates `case-studies.json` to the new designs, including Absa's "Absa Banking" badge.
+
+### D-053 · The landing client strip is a looping carousel, with no pause button
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The purple client strip (`267:1887`) is static in Figma.
+- **Decision (Reece):** It scrolls continuously as a looping carousel that stops on hover. Otherwise it sticks to the design: no pause button.
+- **Alternatives considered:** a static strip as drawn; a visible pause button.
+- **Consequences:** CSS only: the name list duplicated once with the copy `aria-hidden`, a `translateX` keyframe, paused on `:hover` and `:focus-within`, and static (the row from Figma) under `prefers-reduced-motion: reduce`. Hover only helps mouse users, so touch and keyboard users can't pause it, a known gap against WCAG 2.2.2 (Pause, Stop, Hide), accepted for now and open as Q-039.
+
+### D-054 · The client strip's speed comes from a build variable
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** D-053's carousel needs a speed, and the design has none.
+- **Decision (Reece):** A GitHub Actions repository variable, `CLIENT_STRIP_LOOP_SECONDS`, defaulting to 40 seconds per loop (about 40px/s across the 1646px row).
+- **Consequences:** The proposed shape, for the landing stream to confirm: `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}` to the build step (the same `env:` pattern `BASE_PATH` uses); Astro reads `import.meta.env.PUBLIC_CLIENT_STRIP_LOOP_SECONDS` at build time and writes it into the animation duration, falling back to 40 when it's unset or not a positive number. Changing it needs a redeploy. It's a new build-config pattern. The Cloudflare Workers deploy (D-009) will need the same variable.
