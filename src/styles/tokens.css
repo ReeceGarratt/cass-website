@@ -428,9 +428,9 @@
   --size-contact-flower: 4.125rem; /* 66px (267:1945) */
   --size-about-heading-height: 6.1875rem; /* 99px; the heading's fixed
   frame (282:919), 9px taller than its two 45px lines */
-  --size-principle-body-max: 46.125rem; /* 738px; Figma's column is 744px
-  (282:925), but Inter wraps 1-2px wider here, so at 744 the second body
-  ends "designs that" and breaks differently. 738 is the widest that keeps
-  the first two bodies' breaks; the third ("Users prioritize") still stays
-  on one line, because the first body's line needs 737 */
+  --size-principle-body-width: 46.5rem; /* 744px (282:926, 282:932) */
+  --size-principle-body-width-2: 46.125rem; /* 738px; Figma has 744 for
+  principle 2, but Inter renders 1-2px narrower here and "designs that" would
+  fit on line 1 */
+  --size-principle-body-width-3: 45.1875rem; /* 723px (282:938) */
 }

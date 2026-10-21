@@ -385,8 +385,16 @@ const principles = [
   }
 
   .about__principle-body {
-    flex: 1 1 20rem;
-    max-inline-size: var(--size-principle-body-max);
+    flex: 1 1 20rem; /* 320px; not designed: when the body drops under its title */
+    max-inline-size: var(--size-principle-body-width);
+  }
+
+  .about__principle:nth-child(2) .about__principle-body {
+    max-inline-size: var(--size-principle-body-width-2);
+  }
+
+  .about__principle:nth-child(3) .about__principle-body {
+    max-inline-size: var(--size-principle-body-width-3);
   }
 
   /* 06 · Contact (267:1938): heading, email pill and Flower, 32px apart. */
