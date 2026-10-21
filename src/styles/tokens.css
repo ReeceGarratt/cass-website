@@ -392,4 +392,21 @@
   --space-landing-end: 8.375rem; /* 134px; contact (267:1938) ends 133.7px
   above the frame's bottom */
   --space-email-pill-gap: 0.625rem; /* 10px; label to icon (267:1865) */
+  --size-landing-measure: 105.75rem; /* 1692px; four 405px cards 24px apart,
+  and the about band's content: 114px insets at 1920 */
+  --size-card-detailed-width: 25.3125rem; /* 405px (Detailed Card 129:3554) */
+  --size-card-detailed-min-height: 39.5625rem; /* 633px, fixed in Figma */
+  --size-card-detailed-title-height: 3.625rem; /* 58px, fixed in Figma
+  (129:3533) so the skills line up */
+  --ratio-card-thumbnail: 341 / 211; /* the thumbnail frame (129:3535) */
+  --space-work-heading-top: 1.5625rem; /* 25px; the heading text sits under
+  "favourite" (267:1904 mt-25) */
+  --space-work-heading-bottom: 0.97625rem; /* 15.62px; the caret's overhang
+  (frame 88.62 - 25 - 48) */
+  --work-favourite-left: 15rem; /* 240px (267:1905 ml-240) */
+  --work-caret-left: 15.8125rem; /* 253px (267:1906) */
+  --work-caret-top: 4.33625rem; /* 69.38px */
+  --size-work-caret-width: 2.0625rem; /* 33px; the rotated caret's box */
+  --size-work-caret-height: 1.2025rem; /* 19.24px */
+  --work-caret-rotate: 104.21deg;
 }

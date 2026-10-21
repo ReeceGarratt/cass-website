@@ -1,10 +1,43 @@
 ---
+import type { ImageMetadata } from 'astro';
 import { Font } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
 import ClientStrip from '../components/ClientStrip.astro';
 import EmailPill from '../components/EmailPill.astro';
 import Flower from '../assets/flower.svg';
 import OpenToWork from '../assets/landing/open-to-work.svg';
+import absaCard from '../assets/landing/card-streamlining-scoring.png';
+import standardBankCard from '../assets/landing/card-consolidating-import-collections.png';
+import mixCard from '../assets/landing/card-sales-workflow-research.png';
+import transearchCard from '../assets/landing/card-designing-an-interactive-workbook.png';
+
+// D-landing-2: four detailed cards, the first four by `order`. Q-019 stays
+// open for what happens at five or more.
+const FEATURED_COUNT = 4;
+
+// Each card's thumbnail, cropped as Figma shows it (267:1907). A featured
+// case study without one fails the build, so a renamed id can't ship a
+// card with no image.
+const cardImages: Record<string, ImageMetadata> = {
+  'streamlining-scoring': absaCard,
+  'consolidating-import-collections': standardBankCard,
+  'sales-workflow-research': mixCard,
+  'designing-an-interactive-workbook': transearchCard,
+};
+
+const featured = (await getCollection('caseStudies'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, FEATURED_COUNT)
+  .map((caseStudy) => {
+    const image = cardImages[caseStudy.id];
+    if (!image)
+      throw new Error(
+        `No landing card image for case study "${caseStudy.id}". Add src/assets/landing/card-${caseStudy.id}.png and an entry in cardImages in src/pages/index.astro.`,
+      );
+    return { caseStudy, image };
+  });
 ---
 
 <BaseLayout title="cassandra garratt" navVariant="white" fullBleed>
@@ -36,6 +69,28 @@ import OpenToWork from '../assets/landing/open-to-work.svg';
       <EmailPill />
     </div>
     <ClientStrip />
+    <section class="work" aria-labelledby="work-heading">
+      <h2 class="work__heading type-title-1" id="work-heading">
+        some of my&nbsp;
+        <span class="work__favourite type-handwritten">favourite</span>
+        <span class="work__caret type-handwritten" aria-hidden="true">
+          <span>&lt;</span>
+        </span>{' '}
+        projects
+      </h2>
+      <ul class="work__cards" role="list">
+        {featured.map(({ caseStudy, image }) => (
+          <li class="work__card">
+            <CaseStudyCard
+              caseStudy={caseStudy}
+              size="detailed"
+              image={image}
+              headingLevel={3}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
 </BaseLayout>
 
@@ -135,5 +190,80 @@ import OpenToWork from '../assets/landing/open-to-work.svg';
 
   .hero__intro strong {
     font-weight: var(--type-subtitle-emphasis-weight);
+  }
+
+  /* 04 · Selected work (267:1902): heading, 56px, four cards 24px apart. */
+  .work {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-56);
+    align-items: center;
+    padding-inline: var(--space-gutter);
+  }
+
+  .work__heading {
+    position: relative;
+    padding-block: var(--space-work-heading-top)
+      var(--space-work-heading-bottom);
+    color: var(--color-purple);
+    text-align: center;
+  }
+
+  .work__favourite,
+  .work__caret {
+    position: absolute;
+    color: var(--color-red);
+  }
+
+  .work__favourite {
+    inset-block-start: 0;
+    inset-inline-start: var(--work-favourite-left);
+    text-transform: lowercase;
+    white-space: nowrap;
+  }
+
+  .work__caret {
+    display: grid;
+    place-items: center;
+    inset-block-start: var(--work-caret-top);
+    inset-inline-start: var(--work-caret-left);
+    inline-size: var(--size-work-caret-width);
+    block-size: var(--size-work-caret-height);
+  }
+
+  .work__caret > span {
+    rotate: var(--work-caret-rotate);
+  }
+
+  /* Narrow screens (not designed): the heading wraps, so the accents can't
+     sit over its gap. "favourite" joins the line instead. */
+  @media (max-width: 37.5rem) {
+    .work__favourite {
+      position: static;
+    }
+
+    .work__caret {
+      display: none;
+    }
+  }
+
+  /* Equal rows; as many 405px columns as fit, centred (four at 1920). */
+  .work__cards {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(0, var(--size-card-detailed-width))
+    );
+    grid-auto-rows: 1fr;
+    gap: var(--space-24);
+    justify-content: center;
+    inline-size: 100%;
+    max-inline-size: var(--size-landing-measure);
+    padding: 0;
+    list-style: none;
+  }
+
+  .work__card {
+    display: grid;
   }
 </style>
