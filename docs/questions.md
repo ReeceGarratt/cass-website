@@ -38,14 +38,14 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
-| Q-cs4-1 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
-| Q-cs4-2 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
 | Q-035 | Cass: Regular weight on blue cards: rounded cards only, or the full-bleed bands too? | Nothing; bands are included for now (D-044) |
 | Q-036 | Cass: what should a Read More card's client pill look like on hover and focus? | Nothing; the pill is invisible on the hovered card for now |
 | Q-037 | Reece: fix the skip link comment typo now, or with the next edit to `global.css`? | Nothing; comment only |
 | Q-038 | Cass: the copied `standardbank.co.za` links on CS4 and the landing client strip | Nothing; built as plain text |
 | Q-039 | A pause control for the client strip carousel (WCAG 2.2.2) | Nothing; the gap is accepted for now (D-053) |
 | Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
+| Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
+| Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
 
 ---
 
@@ -266,13 +266,13 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The landing frame (`267:1855`) shows `hello@cassandragarratt.com`.
 - **Options:** Cass confirms it · Cass gives the real address.
 
-### Q-cs4-1 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
+### Q-041 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
 - **Raised:** 2026-10-21 (stream `cs4`)
 - **Blocks:** nothing; built as the designs have it
 - **Context:** The landing card (`267:1911`) titles TRANSEARCH "Designing an interactive book". The case study frame (`144:269`), confirmed current by Reece on 2026-10-21, says "interactive workbook" in its title and throughout its copy. By Reece's call, the card data (`case-studies.json`, which also sets the page's `<title>`) follows the landing card (D-052), and the page heading and copy follow the frame. The slug stays `designing-an-interactive-workbook`.
 - **Options:** keep both (the default) · "book" everywhere, with a copy change to the page · "workbook" everywhere, overriding the landing card's title.
 
-### Q-cs4-2 · Cass: the TRANSEARCH International definition
+### Q-042 · Cass: the TRANSEARCH International definition
 - **Raised:** 2026-10-21 (stream `cs4`)
 - **Blocks:** nothing; drafted text is live, marked `TODO(cass)`
 - **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."

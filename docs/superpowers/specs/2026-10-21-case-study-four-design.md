@@ -14,8 +14,8 @@
 |---|---|
 | Is `144:269` still the current TRANSEARCH design? | Yes. Build from the 2026-10-20 snapshot. |
 | Q-018, image delivery | **In-repo now, off-repo later.** Commit downscaled images under `src/assets/` like CS1–3; Q-018 stays open as a follow-up, with this stream's numbers added. |
-| "Book" (landing card) vs "workbook" (CS4 frame) | **The card says book, the page says workbook.** `case-studies.json` follows the landing card (D-052); the page heading and copy follow `144:269`; the slug stays `designing-an-interactive-workbook`. The mismatch goes to Cass as Q-cs4-1. |
-| "TRANSEARCH International" has no definition text in Figma | **Draft one and flag it for Cass:** `DefinitionTip` with "A global executive search and leadership consulting firm.", marked `TODO(cass)`, raised as Q-cs4-2. |
+| "Book" (landing card) vs "workbook" (CS4 frame) | **The card says book, the page says workbook.** `case-studies.json` follows the landing card (D-052); the page heading and copy follow `144:269`; the slug stays `designing-an-interactive-workbook`. The mismatch goes to Cass as Q-041. |
+| "TRANSEARCH International" has no definition text in Figma | **Draft one and flag it for Cass:** `DefinitionTip` with "A global executive search and leadership consulting firm.", marked `TODO(cass)`, raised as Q-042. |
 
 ## Content data
 
@@ -89,8 +89,8 @@ The source is the staged raw exports in `F:/Code/cass-website-staging/figma-2026
 
 ## Docs (temporary IDs)
 
-- **Q-cs4-1** (for Cass): the card says "interactive book" but the page says "interactive workbook".
-- **Q-cs4-2** (for Cass): the drafted TRANSEARCH International definition.
+- **Q-041** (for Cass): the card says "interactive book" but the page says "interactive workbook".
+- **Q-042** (for Cass): the drafted TRANSEARCH International definition.
 - **Q-018 update:** CS4 committed in-repo by Reece's call; the byte count; the move off-repo is still wanted later.
 - **`test-plan.md`:** manual checks for the CS4 page.
 - **`architecture.md`:** the new page in the repo map, if it lists pages.

@@ -225,6 +225,18 @@
   column (x=922, was 915) */
   --space-pain-quote-offset: 1.125rem; /* 18px; CS3's pain points quote below
   the top of its heading (99:2654 mt-[18.07px]) */
+  /* TRANSEARCH (144:269) */
+  --space-cs4-intro-image-drop: 4.1875rem; /* 67px; the hero (144:306) sits
+  66.93px below the top of the intro */
+  --space-cs4-intro-image-nudge: 0.1875rem; /* 3px; and 3px into its column
+  (x=918, against CS3's 922 for a 7px nudge) */
+  --space-cs4-panel-inline: 6.25rem; /* 100px; the user journeys panel's
+  inline padding (144:367 px-100), against .panel's 80px */
+  --space-cs4-design-rows: 9.0625rem; /* 145px; between the four rows of the
+  Design section (144:395) */
+  --space-cs4-reference-column-gap: 0.625rem; /* 10px; typography reference
+  grid (144:398) */
+  --space-cs4-reference-row-gap: 0.84375rem; /* 13.5px */
 
   /* Size */
   --size-card-width: 21.4375rem; /* 343px */
@@ -338,6 +350,8 @@
   --radius-panel: 0.75rem; /* 12px; the inset Purple case study panels
   (86:211, 19:109). Same value as --radius-image today, kept separate because
   they're different things in Figma and either could move independently. */
+  --radius-cs4-app-icon: 1.4375rem; /* 23px; the competitor research app
+  icons (144:338, 144:339) */
 
   /* Shadow: Figma effect styles (docs/figma/tokens.md) */
   --shadow-card:
@@ -362,20 +376,4 @@
   --focus-ring-width: 0.1875rem; /* 3px */
   --focus-ring-inner: var(--color-purple);
   --focus-ring-outer: var(--color-white);
-
-  /* --- stream: cs4 --- */
-  /* TRANSEARCH (144:269). Folded into the groups above before the PR. */
-  --space-cs4-intro-image-drop: 4.1875rem; /* 67px; the hero (144:306) sits
-  66.93px below the top of the intro */
-  --space-cs4-intro-image-nudge: 0.1875rem; /* 3px; and 3px into its column
-  (x=918, against CS3's 922 for a 7px nudge) */
-  --space-cs4-panel-inline: 6.25rem; /* 100px; the user journeys panel's
-  inline padding (144:367 px-100), against .panel's 80px */
-  --space-cs4-design-rows: 9.0625rem; /* 145px; between the four rows of the
-  Design section (144:395) */
-  --space-cs4-reference-column-gap: 0.625rem; /* 10px; typography reference
-  grid (144:398) */
-  --space-cs4-reference-row-gap: 0.84375rem; /* 13.5px */
-  --radius-cs4-app-icon: 1.4375rem; /* 23px; the competitor research app
-  icons (144:338, 144:339) */
 }

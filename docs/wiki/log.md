@@ -188,4 +188,7 @@ Added `wiki/parallel-streams.md` and a conditional "Parallel streams" section in
 D-051 (`267:1855` is the landing, resolves Q-017), D-052 (new designs win on case study content), D-053 (client strip carousel, no pause button), D-054 (`CLIENT_STRIP_LOOP_SECONDS`). Q-038 (copied links), Q-039 (carousel pause control, WCAG 2.2.2), Q-040 (the email address). Q-018 and Q-023 updated in place. The phase 1b notes file is deleted.
 
 ## [2026-10-21] update | Case study 4 (TRANSEARCH) built
-Stream `cs4`: `/work/designing-an-interactive-workbook` from the 2026-10-20 snapshot, no Figma calls. `case-studies.json` follows the landing cards (D-052). Images in-repo (Q-018 updated, still open). Opened Q-cs4-1 (book vs workbook) and Q-cs4-2 (drafted definition).
+Stream `cs4`: `/work/designing-an-interactive-workbook` from the 2026-10-20 snapshot, no Figma calls. `case-studies.json` follows the landing cards (D-052). Images in-repo (Q-018 updated, still open). Opened Q-041 (book vs workbook) and Q-042 (drafted definition).
+
+## [2026-10-21] decision | Stream cs4 finished: Q-041 and Q-042
+`cs4` finished first (Reece's call; `fixes` had not started). Its two temporary question IDs became Q-041 (book vs workbook) and Q-042 (drafted TRANSEARCH definition). The `stream: cs4` tokens were folded into the Space and Radius groups.

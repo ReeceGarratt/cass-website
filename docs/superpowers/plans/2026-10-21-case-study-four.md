@@ -264,7 +264,7 @@ const subNav = [
       <br />
       interactive workbook
     </Fragment>
-    <!-- TODO(cass): definition drafted, not in Figma (Q-cs4-2) -->
+    <!-- TODO(cass): definition drafted, not in Figma (Q-042) -->
     <DefinitionTip id="def-transearch" term="TRANSEARCH International">
       A global executive search and leadership consulting firm.
     </DefinitionTip>{' '}
@@ -435,7 +435,7 @@ Compare `shots/task2/*` with `docs/figma/case-study-4-desktop/sections/01-introd
 - The hero touches the right edge of the window, its top is about 67px below the eyebrow's top, and it has square right-hand corners.
 - The pill reads "Clients" with the woman icon.
 - "the business problem" is left-aligned, with the cover to its left and the list to its right, all top-aligned.
-- The page `<title>` is "Designing an interactive book — Cassandra Garratt" (expected: the card title, Q-cs4-1).
+- The page `<title>` is "Designing an interactive book — Cassandra Garratt" (expected: the card title, Q-041).
 
 Stop the server.
 
@@ -1304,20 +1304,20 @@ Expected: `focus.txt` runs skip link → nav → sub-nav links (6) → the TRANS
 In `docs/questions.md`, add two summary rows after Q-026 (keep the table's columns):
 
 ```markdown
-| Q-cs4-1 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
-| Q-cs4-2 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
+| Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
+| Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
 ```
 
 And two full entries, after the last existing entry:
 
 ```markdown
-### Q-cs4-1 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
+### Q-041 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
 - **Raised:** 2026-10-21 (stream `cs4`)
 - **Blocks:** nothing; built as the designs have it
 - **Context:** The landing card (`267:1911`) titles TRANSEARCH "Designing an interactive book". The case study frame (`144:269`), confirmed current by Reece on 2026-10-21, says "interactive workbook" in its title and throughout its copy. By Reece's call, the card data (`case-studies.json`, which also sets the page's `<title>`) follows the landing card (D-052), and the page heading and copy follow the frame. The slug stays `designing-an-interactive-workbook`.
 - **Options:** keep both (the default) · "book" everywhere, with a copy change to the page · "workbook" everywhere, overriding the landing card's title.
 
-### Q-cs4-2 · Cass: the TRANSEARCH International definition
+### Q-042 · Cass: the TRANSEARCH International definition
 - **Raised:** 2026-10-21 (stream `cs4`)
 - **Blocks:** nothing; drafted text is live, marked `TODO(cass)`
 - **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."
@@ -1356,18 +1356,18 @@ Under `## TRANSEARCH case study` in `docs/test-plan.md`, replace the placeholder
 
   ```markdown
   ## [2026-10-21] update | Case study 4 (TRANSEARCH) built
-  Stream `cs4`: `/work/designing-an-interactive-workbook` from the 2026-10-20 snapshot, no Figma calls. `case-studies.json` follows the landing cards (D-052). Images in-repo (Q-018 updated, still open). Opened Q-cs4-1 (book vs workbook) and Q-cs4-2 (drafted definition).
+  Stream `cs4`: `/work/designing-an-interactive-workbook` from the 2026-10-20 snapshot, no Figma calls. `case-studies.json` follows the landing cards (D-052). Images in-repo (Q-018 updated, still open). Opened Q-041 (book vs workbook) and Q-042 (drafted definition).
   ```
 
 - The spec: only if something changed during the build that it doesn't already describe.
-- The macro plan's `3B cs4` Status row: set State to **Built, not merged**, and Notes to the commit range, the image total, Q-cs4-1 and Q-cs4-2, and "Finishing (numbering, token fold, PR) waits until `fixes` has merged".
+- The macro plan's `3B cs4` Status row: set State to **Built, not merged**, and Notes to the commit range, the image total, Q-041 and Q-042, and "Finishing (numbering, token fold, PR) waits until `fixes` has merged".
 
 - [ ] **Step 7: Check and commit**
 
 ```bash
 npm run build && npm run check && npm run format:check
 git add docs/questions.md docs/test-plan.md docs/wiki/log.md docs/architecture.md docs/superpowers/specs/2026-10-21-case-study-four-design.md docs/superpowers/plans/2026-10-20-macro-plan.md
-git commit -m "docs(cs4): record the TRANSEARCH build, Q-cs4-1 and Q-cs4-2" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+git commit -m "docs(cs4): record the TRANSEARCH build, Q-041 and Q-042" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```
 
 - [ ] **Step 8: Report**
