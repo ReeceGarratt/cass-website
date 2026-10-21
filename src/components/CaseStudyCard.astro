@@ -230,7 +230,8 @@ const titleRest =
 
   .card--detailed .card__title {
     max-inline-size: none;
-    block-size: var(--size-card-detailed-title-height);
+    block-size: auto;
+    min-block-size: var(--size-card-detailed-title-height);
     color: var(--color-black);
     text-transform: lowercase;
   }
