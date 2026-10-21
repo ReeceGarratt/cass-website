@@ -42,6 +42,10 @@ jobs:
         env:
           SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # D-054: the landing client strip's seconds per loop. An unset
+          # repository variable passes an empty string, which ClientStrip
+          # treats as its 40s default.
+          PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}
 
       - uses: actions/upload-pages-artifact@v5
         with:
