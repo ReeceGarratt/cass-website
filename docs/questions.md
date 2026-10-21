@@ -12,6 +12,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **When the user makes a call:**
   1. Add a `D-` entry to [decisions.md](decisions.md) that says `Resolves Q-xxx`.
   2. Delete the question's entry and its summary row here.
+- **In a parallel stream,** use a temporary ID, `Q-<stream>-<n>`, instead of the next number. It gets a real number before the stream's PR ([wiki/parallel-streams.md](wiki/parallel-streams.md)).
 - **When new information comes in** (e.g. from Figma or pricing research), update the entry in place. Never reuse or renumber IDs.
 - **Log** when questions are opened or resolved in [`wiki/log.md`](wiki/log.md).
 

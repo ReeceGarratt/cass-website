@@ -6,6 +6,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 
 - **When a call is made,** add a `D-` entry at the bottom with **Date · Status**, **Context**, **Decision**, **Alternatives considered** and **Consequences**. If it answers an open question, add `Resolves Q-xxx` and remove the question from [questions.md](questions.md).
 - **Never reuse or renumber IDs.** Don't delete decisions. When a decision is replaced, set its status to `Superseded by D-xxx` and add the new entry.
+- **In a parallel stream,** use a temporary ID, `D-<stream>-<n>`, instead of the next number. It gets a real number before the stream's PR ([wiki/parallel-streams.md](wiki/parallel-streams.md)).
 - **Keep each entry short.** Longer research belongs in the [wiki](wiki/index.md).
 - Add a line to [`wiki/log.md`](wiki/log.md) whenever a decision is made or superseded.
 

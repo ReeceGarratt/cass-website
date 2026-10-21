@@ -49,10 +49,19 @@ If the docs and the code disagree, trust the code and fix the doc.
    - **Unsure:** treat it as significant and plan.
 4. **Execute.** If there's a plan, follow it with `superpowers:executing-plans`. Make the minimum viable change, meaning only what the task needs.
 5. **Validate.** Run the checks under [Testing](#testing) and look at the results (`superpowers:verification-before-completion`). Don't say it's done without evidence.
-6. **Update docs.** Record what you learned in the wiki, new questions in `questions.md`, decisions in `decisions.md` (removing any question they resolve), and structural changes in `architecture.md`.
+6. **Update docs.** Record what you learned in the wiki, new questions in `questions.md`, decisions in `decisions.md` (removing any question they resolve), and structural changes in `architecture.md`. In a parallel stream, use temporary IDs (see [Parallel streams](#parallel-streams)).
 7. **Summarise.** Say what changed, how it was validated, what's left or uncertain, and any new open questions.
 
 If superpowers skills aren't available (a different agent or machine), follow the same steps without them.
+
+## Parallel streams
+
+Only applies when the starting prompt or a plan's streams table says you're in a stream: several chats building at once, each in its own worktree. Steps are in [parallel-streams](docs/wiki/parallel-streams.md).
+
+- **Temporary IDs:** new questions and decisions are `Q-<stream>-<n>` and `D-<stream>-<n>`, written where entries normally go.
+- **Before your PR:** tell the user, merge the latest base, keep both sides of conflicts in append-only docs, then give each temporary ID the next free number. One stream finishes at a time.
+- **Tokens:** page-specific tokens go in a `/* --- stream: <id> --- */` block at the end of `tokens.css`, folded in before the PR.
+- **Ownership:** don't edit files the plan gives to another stream. Only the stream the plan names calls Figma.
 
 ## Working with Figma
 

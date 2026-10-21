@@ -26,6 +26,7 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 
 - [Agent tooling](agent-tooling.md): the Claude Code plugins and MCP servers this repo relies on, and where each one is configured.
 - [Figma MCP](figma-mcp.md): how agents connect to the Figma designs, plan rate limits, the tools used, and estimated calls for the build.
+- [Parallel streams](parallel-streams.md): running several streams at once in worktrees: the streams table, temporary Q/D IDs, token blocks, and the finishing steps before each PR.
 - [Windows dev environment](windows-dev-environment.md): symlink and text-encoding gotchas on the Windows dev machine.
 
 ## Hosting & operations
