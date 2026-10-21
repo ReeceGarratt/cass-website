@@ -7,12 +7,23 @@ import DefinitionTip from '../../components/DefinitionTip.astro';
 import ProcessStrip from '../../components/ProcessStrip.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import FindingsList from '../../components/FindingsList.astro';
+import CaseStudyFigure from '../../components/CaseStudyFigure.astro';
+import LabelledFindings from '../../components/LabelledFindings.astro';
 import Woman2 from '../../assets/icons/woman-2.svg';
 import introHero from '../../assets/case-studies/designing-an-interactive-workbook/intro-hero.png';
 import bookCover from '../../assets/case-studies/designing-an-interactive-workbook/book-cover.jpg';
 import kindleIcon from '../../assets/case-studies/designing-an-interactive-workbook/kindle-icon.png';
 import adobeReaderIcon from '../../assets/case-studies/designing-an-interactive-workbook/adobe-reader-icon.png';
 import wireframe from '../../assets/case-studies/designing-an-interactive-workbook/wireframe.png';
+import referenceTheGirls from '../../assets/case-studies/designing-an-interactive-workbook/reference-the-girls.jpg';
+import referenceTheSeason from '../../assets/case-studies/designing-an-interactive-workbook/reference-the-season.jpg';
+import referenceLifeInColor from '../../assets/case-studies/designing-an-interactive-workbook/reference-life-in-color.jpg';
+import referenceTheBeautyEdit from '../../assets/case-studies/designing-an-interactive-workbook/reference-the-beauty-edit.jpg';
+import referenceFakeTan from '../../assets/case-studies/designing-an-interactive-workbook/reference-fake-tan.jpg';
+import readerDashboard from '../../assets/case-studies/designing-an-interactive-workbook/reader-dashboard.png';
+import chapterOne from '../../assets/case-studies/designing-an-interactive-workbook/chapter-one.png';
+import tablet from '../../assets/case-studies/designing-an-interactive-workbook/tablet.png';
+import phone from '../../assets/case-studies/designing-an-interactive-workbook/phone.png';
 
 const entry = await getEntry(
   'caseStudies',
@@ -309,6 +320,182 @@ const subNav = [
       </div>
     </div>
   </section>
+  <section class="design" id="design" aria-labelledby="design-heading">
+    <div class="typography">
+      <div class="typography__content">
+        <h2 class="typography__heading type-title-2" id="design-heading">
+          Typography &amp;
+          <br />
+          Design
+        </h2>
+        <div class="typography__body type-body-med">
+          <p>
+            The client wanted the book to be distinctly on-brand but they were
+            open to applying the CI in new ways, as this wouldn&rsquo;t be
+            accessed using their existing website.
+          </p>
+          <p>
+            <strong>
+              I took inspiration from magazine designs to create a clean and
+              bold look that assisted in the scannability of the content.
+            </strong>
+          </p>
+        </div>
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <ul class="typography__references" role="list">
+        <li>
+          <Image
+            class="typography__image"
+            src={referenceTheGirls}
+            alt="Magazine reference: a page headlined “the girls” in a large serif."
+          />
+        </li>
+        <li>
+          <Image
+            class="typography__image"
+            src={referenceTheSeason}
+            alt="Magazine reference: a page headlined “It was the season that…” in a large serif."
+          />
+        </li>
+        <li class="typography__reference--tall">
+          <Image
+            class="typography__image"
+            src={referenceFakeTan}
+            alt="Magazine reference: a full page headlined “The best fake tan ever”."
+          />
+        </li>
+        <li>
+          <Image
+            class="typography__image"
+            src={referenceTheBeautyEdit}
+            alt="Magazine reference: a page headlined “The beauty edit”."
+          />
+        </li>
+        <li>
+          <Image
+            class="typography__image"
+            src={referenceLifeInColor}
+            alt="Magazine reference: a page headlined “Life in color”."
+          />
+        </li>
+      </ul>
+    </div>
+
+    <div class="feature feature--image-start">
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={readerDashboard}
+        alt="The reader dashboard: tabs for the introduction and four parts, a bookmark banner with a Continue link back to Part One, Chapter One, and four chapter cards showing how much of each has been read."
+        caption="reader Dashboard"
+      />
+      <div class="feature__content">
+        <h3 class="feature__heading type-h1">Bookmarking where you left off</h3>
+        <LabelledFindings
+          findings={[
+            {
+              label: 'problem',
+              body: 'A user was assumed to be reading this content <strong>over a few days</strong> and would need to mark where they stopped reading.',
+            },
+            {
+              label: 'solution',
+              body: 'I added in a bookmark feature that would <strong>automatically mark where you stopped interacting </strong>with the content. When a user opened the interface again they were presented with a button on the top right that would <strong>take them to the screen they left off on.</strong>',
+            },
+            {
+              label: 'Outcome',
+              body: 'Users are able to easily<strong> continue their journey</strong> working through the content without having to note their stopping point.',
+            },
+          ]}
+        />
+      </div>
+    </div>
+
+    <div class="feature feature--image-end">
+      <div class="feature__content">
+        <h3 class="feature__heading type-h1">
+          Highlighting &amp;
+          <br />
+          Note Taking
+        </h3>
+        <LabelledFindings
+          findings={[
+            {
+              label: 'problem',
+              body: 'The content needed to be <strong>easily referenced</strong> by our user without them needing to scroll through whole chapters.',
+            },
+            {
+              label: 'solution',
+              body: 'I made it possible for users to <strong>highlight or make a note in the content</strong>. To improve the access to the highlight or annotated content we implemented the ‘Quick Notes’ feature that allowed the user to scroll through all their notes without leaving a chapter.',
+            },
+            {
+              label: 'Outcome',
+              body: 'When a user chooses to make a note, a <strong>dialog box will appear on the right-most column of the screen</strong>. All text that the user highlights or makes notes on are available under ‘Quick Notes’ or ‘My Notes &amp; Exercises’. Including solutions like this also cater for users with impaired focus or cognitive processing.',
+            },
+          ]}
+        />
+      </div>
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <CaseStudyFigure
+        image={chapterOne}
+        alt="A chapter page headed “Do the research.”, with highlighted passages and an open note beside them reading “Talk to Jamie about this.”"
+        caption="reader Dashboard"
+      />
+    </div>
+
+    <div class="feature feature--image-start">
+      <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+      <figure class="devices">
+        <Image
+          class="devices__tablet"
+          src={tablet}
+          alt="The chapter page “Do the research.” on a tablet and, overlapping it, on a phone."
+        />
+        <Image class="devices__phone" src={phone} alt="" />
+        <figcaption class="devices__caption type-handwritten-small">
+          tABLET &amp; MOBILE DESIGNS
+        </figcaption>
+      </figure>
+      <div class="feature__content">
+        <h3 class="feature__heading type-h1">Responsive design</h3>
+        <LabelledFindings
+          findings={[
+            {
+              label: 'problem',
+              body: 'Our users were business people on the move during the day, reading between working sessions or meetings. This meant that they would need a interface that worked seamlessly between devices.',
+            },
+            {
+              label: 'solution',
+              body: 'I adapted the interface for tablet and mobile. On mobile I replaced the progress tracker with a progress bar that sticks to the top of the screen to give the reader an idea of how far they are in the section. I tested the base font sizes on both device types to ensure comfortable readability.',
+            },
+            {
+              label: 'Outcome',
+              body: 'Users could continue their reading, highlights and note taking seamlessly whether they were on desktop, tablet or phone.',
+            },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="handover" aria-labelledby="handover-heading">
+    <div class="handover">
+      <h2 class="handover__heading type-title-2" id="handover-heading">
+        Development &amp;
+        <br />
+        launch
+      </h2>
+      <div class="handover__body type-body-med">
+        <p>
+          From feature ideation to final UI designs I worked closely with my
+          developer this made handover and development seamless.
+        </p>
+        <p>
+          I spent time collaborating with my developer during the build of the
+          interface to assist with UI QA.
+        </p>
+      </div>
+    </div>
+  </section>
 </CaseStudyLayout>
 
 <style>
@@ -565,5 +752,168 @@ const subNav = [
     flex-direction: column;
     gap: 1lh;
     color: var(--color-purple);
+  }
+  /* --- Design (144:395) ---------------------------------------------------
+     Four 1443px rows, 145px apart: Typography & Design, then three feature
+     rows (a screenshot beside problem, solution and outcome). */
+  .design {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-cs4-design-rows);
+    inline-size: 100%;
+    max-inline-size: 90.1875rem;
+    margin-inline: auto;
+  }
+
+  /* 144:396: the 598px text (heading, 24px, body) and the 766px reference
+     grid, 80px apart, top-aligned. */
+  .typography {
+    display: grid;
+    grid-template-columns: minmax(0, 37.375rem) minmax(0, 47.875rem);
+    gap: var(--space-80);
+    align-items: start;
+  }
+
+  .typography__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .typography__heading {
+    color: var(--color-red);
+    text-transform: lowercase;
+  }
+
+  .typography__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1lh;
+    color: var(--color-purple);
+  }
+
+  /* 144:398: three columns (213, 209 and 323.5px) and two 209px rows; the
+     third image spans both. 10px across, 13.5px down. The small images
+     are near-square crops of square sources, so they're built square:
+     213px against Figma's 213 × 209 is drift. */
+  .typography__references {
+    display: grid;
+    grid-template-columns: 213fr 209fr 323.5fr;
+    column-gap: var(--space-cs4-reference-column-gap);
+    row-gap: var(--space-cs4-reference-row-gap);
+    margin: 0;
+    padding: 0;
+  }
+
+  .typography__reference--tall {
+    grid-row: span 2;
+  }
+
+  .typography__image {
+    inline-size: 100%;
+    block-size: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .typography__reference--tall .typography__image {
+    aspect-ratio: auto;
+  }
+
+  /* 144:406, 144:423, 144:440: a 765px screenshot and the 598px content
+     (heading, 24px, findings), 80px apart, top-aligned, alternating sides
+     (the same shape as CS2's status tracker). */
+  .feature {
+    display: grid;
+    gap: var(--space-80);
+    align-items: start;
+  }
+
+  .feature--image-start {
+    grid-template-columns: minmax(0, 47.8125rem) minmax(0, 37.375rem);
+  }
+
+  .feature--image-end {
+    grid-template-columns: minmax(0, 37.375rem) minmax(0, 47.8125rem);
+  }
+
+  .feature__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .feature__heading {
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  /* 48px between problem, solution and outcome on this frame (Sub-Sub
+     Sections), against LabelledFindings' 24px. Its 8px label gap is kept
+     (Figma: about 1px, drift). */
+  .feature__content > :global(.labelled-findings) {
+    gap: var(--space-sub-sections);
+  }
+
+  /* 144:441: a 765.5 × 555px group. The tablet (715px) at its top left,
+     the phone (222.5px) at its right edge 71px down, the caption 492px
+     down under the tablet. Percentages of the group, so it scales with its
+     column. One figure, one alt text (the phone's is empty). */
+  .devices {
+    position: relative;
+    aspect-ratio: 765.5 / 555;
+    margin: 0;
+  }
+
+  .devices__tablet,
+  .devices__phone {
+    position: absolute;
+    block-size: auto;
+    border-radius: var(--radius-image);
+    box-shadow: var(--shadow-card);
+  }
+
+  .devices__tablet {
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 93.43%;
+  }
+
+  .devices__phone {
+    inset-block-start: 12.86%;
+    inset-inline-end: 0;
+    inline-size: 29.06%;
+  }
+
+  .devices__caption {
+    position: absolute;
+    inset-block-start: 88.66%;
+    inset-inline-start: 0;
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+
+  /* --- Development & launch (144:459) -------------------------------------
+     A .panel (1446px). Heading 334px right-aligned, 48px, body 470px,
+     vertically centred, the 860px row centred. The same layout as CS2's
+     handover (99:2454). */
+  .handover {
+    display: grid;
+    grid-template-columns: minmax(0, 20.875rem) minmax(0, 29.375rem);
+    gap: var(--space-48);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .handover__heading {
+    color: var(--color-light-purple);
+    text-align: end;
+    text-transform: lowercase;
+  }
+
+  .handover__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1lh;
   }
 </style>
