@@ -404,8 +404,11 @@
   --space-work-heading-bottom: 0.97625rem; /* 15.62px; the caret's overhang
   (frame 88.62 - 25 - 48) */
   --work-favourite-left: 15rem; /* 240px (267:1905 ml-240) */
-  --work-caret-left: 15.8125rem; /* 253px (267:1906) */
-  --work-caret-top: 4.33625rem; /* 69.38px */
+  --work-caret-left: 15.75rem; /* 252px; Figma has 253 (267:1906), 1px less
+  because the rotated glyph ink lands 1px right of Figma's */
+  --work-caret-top: 3.93rem; /* 62.88px; Figma has 69.38 (267:1906), 6.5px
+  less because the La Belle Aurore line box inside the rotated cell puts the
+  glyph ink 6px lower than Figma's (measured) */
   --size-work-caret-width: 2.0625rem; /* 33px; the rotated caret's box */
   --size-work-caret-height: 1.2025rem; /* 19.24px */
   --work-caret-rotate: 104.21deg;
