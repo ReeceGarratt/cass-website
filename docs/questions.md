@@ -47,6 +47,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
 | Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
 | Q-043 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
+| Q-044 | Cass: Standard Bank business needs, "not all text should be bolded" | Nothing; the build already matches Figma |
+| Q-045 | Cass: Standard Bank Reviewing, which text lines up with the checker summary image? | Nothing; built as Figma has it |
 
 ---
 
@@ -287,3 +289,15 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; built as designed
 - **Context:** The curved "open to work" text on the hero (`267:1863`) is Figma's local red `#EE0E0E` (`--color-status`) on Off-white `#F8F9FF`. Measured with the WCAG 2.x formula that is 4.25:1, below the 4.5:1 AA threshold for small text. It is an image of text with a visually hidden "Open to work" equivalent, so screen readers are covered, and it isn't blocking. The palette Red `#CD2B2B` on Off-white is 5.03:1 (see [wiki/design-tokens.md](wiki/design-tokens.md)).
 - **Options:** keep it as designed · use the palette Red `#CD2B2B` (5.03:1) · darken `#EE0E0E` to a shade of Cass's choosing.
+
+### Q-044 · Cass: Standard Bank business needs, "not all text should be bolded"
+- **Raised:** 2026-10-21 (stream `fixes`)
+- **Blocks:** nothing; the build already matches Figma
+- **Context:** Cass's 2026-10-20 feedback says the Standard Bank business needs shouldn't be all bold ("check design"). The build and the saved Figma (`149:1945`) agree: Inter Medium, with only "data capturing.", "Tracking" and "better reporting." in Bold. Inter's Medium weight loads correctly, and phase 1a's 2026-10-20 recheck found the section unchanged. Figma above, the build below: [q-044-business-needs.png](superpowers/plans/2026-10-20-macro-plan/q-044-business-needs.png). She may have seen an older preview, or the design may have changed since 2026-10-20.
+- **Options:** no change (it's right as built) · Cass says which text should change, or updates Figma and the section is re-snapshotted.
+
+### Q-045 · Cass: Standard Bank Reviewing, which text lines up with the checker summary image?
+- **Raised:** 2026-10-21 (stream `fixes`)
+- **Blocks:** nothing; built as Figma has it
+- **Context:** Cass's note on Reviewing data & Requesting Changes reads "Left align right text to 'checker summary screen' image". The build follows the saved Figma (`91:1039`), where the heading and problem column starts 242px in from the checker summary image's left edge, and the outcome and solution column 31px in from the change request image's. Measured in Edge at 1920px, the build has 233px and 22px. Figma above, the build below: [q-045-reviewing.png](superpowers/plans/2026-10-20-macro-plan/q-045-reviewing.png). Reece chose to ask rather than guess. Either change is one CSS rule on `.reviewing__info` in `consolidating-import-collections.astro`.
+- **Options:** the left column lines up with the checker summary image · both columns line up with the image below each · something else, or Cass updates Figma.
