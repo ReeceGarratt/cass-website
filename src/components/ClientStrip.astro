@@ -1,0 +1,136 @@
+---
+import Separator from '../assets/landing/separator.svg';
+
+// 267:1888. Plain text: Figma's links to standardbank.co.za are a
+// copied-link artefact (Q-038).
+const clients = [
+  'Cell C',
+  'Transearch',
+  'Mercedes Benz',
+  'Manhattan Iced Tea',
+  'Clover',
+  'Standard Bank',
+  'MiX Telematics',
+];
+
+// D-054: seconds per loop, from the CLIENT_STRIP_LOOP_SECONDS repository
+// variable at build time (deploy-pages.yml). Unset, empty or not a
+// positive number falls back to 40.
+const DEFAULT_LOOP_SECONDS = 40;
+const fromEnv = Number(import.meta.env.PUBLIC_CLIENT_STRIP_LOOP_SECONDS);
+const loopSeconds =
+  Number.isFinite(fromEnv) && fromEnv > 0 ? fromEnv : DEFAULT_LOOP_SECONDS;
+
+// Three copies: one copy is 1646px of names plus its trailing separator
+// and gap, narrower than a 1920px screen, so two would leave a gap at the
+// end of every loop. Three cover screens up to about 3300px. Only the
+// first is read out.
+const copies = [0, 1, 2];
+---
+
+<div class="client-strip" style={{ '--client-strip-loop': `${loopSeconds}s` }}>
+  <div class="client-strip__track">
+    {copies.map((copy) => (
+      <ul
+        class="client-strip__list type-h2"
+        role="list"
+        aria-label={copy === 0 ? "Clients I've worked with" : undefined}
+        aria-hidden={copy === 0 ? undefined : 'true'}
+      >
+        {clients.map((name) => (
+          <li class="client-strip__item">
+            {name}
+            <span class="client-strip__separator" aria-hidden="true">
+              <Separator />
+            </span>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* 03 · Client strip (267:1887): a full-bleed Purple band, 40px padding,
+     Off-white names 64px either side of each hand-drawn separator. */
+  .client-strip {
+    overflow: hidden;
+    padding-block: var(--space-40);
+    background-color: var(--color-purple);
+    color: var(--color-off-white);
+  }
+
+  .client-strip__track {
+    display: flex;
+    inline-size: max-content;
+  }
+
+  .client-strip__list,
+  .client-strip__item {
+    display: flex;
+    gap: var(--space-64);
+    align-items: center;
+  }
+
+  /* Each copy ends with a separator and a gap, so copies join seamlessly
+     and one loop moves the track exactly one copy (a third of its width). */
+  .client-strip__list {
+    padding: 0;
+    padding-inline-end: var(--space-64);
+    list-style: none;
+  }
+
+  .client-strip__item {
+    white-space: nowrap;
+  }
+
+  .client-strip__separator :global(svg) {
+    display: block;
+  }
+
+  /* D-053: a continuous loop that stops on hover, only where hover exists
+     (on touch, :hover sticks after a tap and would leave it paused). Nothing
+     in the strip can take focus, so the keyboard and touch gap is Q-039. */
+  @media (prefers-reduced-motion: no-preference) {
+    .client-strip__track {
+      animation: client-strip-loop var(--client-strip-loop) linear infinite;
+    }
+
+    @media (hover: hover) {
+      .client-strip:hover .client-strip__track {
+        animation-play-state: paused;
+      }
+    }
+  }
+
+  @keyframes client-strip-loop {
+    to {
+      translate: calc(-100% / 3) 0;
+    }
+  }
+
+  /* Reduced motion: the static row from Figma, each client once. It wraps
+     when it doesn't fit (not designed). */
+  @media (prefers-reduced-motion: reduce) {
+    .client-strip__track {
+      inline-size: auto;
+      justify-content: center;
+      padding-inline: var(--space-gutter);
+    }
+
+    .client-strip__list {
+      flex-wrap: wrap;
+      row-gap: var(--space-16);
+      justify-content: center;
+      padding-inline-end: 0;
+    }
+
+    .client-strip__list[aria-hidden] {
+      display: none;
+    }
+
+    .client-strip__item:last-child .client-strip__separator {
+      display: none;
+    }
+  }
+</style>

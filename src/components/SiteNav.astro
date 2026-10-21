@@ -1,7 +1,8 @@
 ---
 import { withBase, withoutBase } from '../utils/base-path';
-import CopyIcon from '../assets/icons/copy.svg';
-import CheckIcon from '../assets/icons/check.svg';
+import { EMAIL } from '../utils/contact';
+import CopyStateIcon from './CopyStateIcon.astro';
+import DownloadIcon from '../assets/icons/download.svg';
 
 interface Props {
   currentPath: string;
@@ -11,14 +12,18 @@ interface Props {
 
 const { currentPath, variant = 'purple' } = Astro.props;
 
-// D-049: About and Resume return when each has a screen or a target
-// (Q-011). Contact is replaced by "Email me" (D-038).
+// D-049: About returns when it has a screen. Contact is replaced by
+// "Email me" (D-038). Resume is back (D-055).
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Work', href: '/work' },
 ];
 
-const email = 'hello@cassandragarratt.com';
+// TODO(Q-011): the resume document doesn't exist yet, so this 404s until a
+// later task adds it (D-055). If it's hosted off-site instead, change
+// only this constant. Browsers ignore `download` on another origin, so an
+// off-site file opens rather than downloads.
+const RESUME_URL = withBase('/resume.pdf');
 
 const path = withoutBase(currentPath);
 const current = path.length > 1 ? path.replace(/\/$/, '') : path;
@@ -47,21 +52,22 @@ const isCurrent = (href: string) =>
         </li>
       ))}
     </ul>
-    <a
-      class="site-nav__utility"
-      href={`mailto:${email}`}
-      data-copy-email={email}
-    >
-      Email me
-      <span class="site-nav__icon" aria-hidden="true">
-        <span class="site-nav__icon-copy">
-          <CopyIcon />
+    <div class="site-nav__utilities">
+      <a class="site-nav__utility" href={RESUME_URL} download>
+        Resume<span class="visually-hidden"> (PDF)</span>
+        <span class="site-nav__icon" aria-hidden="true">
+          <DownloadIcon />
         </span>
-        <span class="site-nav__icon-tick">
-          <CheckIcon />
-        </span>
-      </span>
-    </a>
+      </a>
+      <a
+        class="site-nav__utility"
+        href={`mailto:${EMAIL}`}
+        data-copy-email={EMAIL}
+      >
+        Email me
+        <CopyStateIcon />
+      </a>
+    </div>
   </nav>
   <span class="visually-hidden" role="status" data-copy-status></span>
 </header>
@@ -197,72 +203,28 @@ const isCurrent = (href: string) =>
     color: var(--nav-utility);
   }
 
-  /* Copy icon and tick share one 24px slot; data-copied swaps them. */
-  .site-nav__icon {
-    display: grid;
-    inline-size: var(--size-nav-icon);
-    block-size: var(--size-nav-icon);
+  .site-nav__utilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-nav-row-gap) var(--space-nav-utility-links);
+    align-items: center;
   }
 
-  .site-nav__icon > * {
-    grid-area: 1 / 1;
+  .site-nav__icon {
+    display: block;
+    flex-shrink: 0;
+    inline-size: var(--size-nav-icon);
+    block-size: var(--size-nav-icon);
   }
 
   .site-nav__icon :global(svg) {
     inline-size: 100%;
     block-size: 100%;
   }
-
-  .site-nav__icon-tick,
-  .site-nav__utility[data-copied] .site-nav__icon-copy {
-    visibility: hidden;
-  }
-
-  .site-nav__utility[data-copied] .site-nav__icon-tick {
-    visibility: visible;
-  }
 </style>
 
 <script>
-  // Reason for client JS (invariant 3), D-038: "Email me" copies the
-  // address to the clipboard, which has no HTML-only equivalent. Without JS,
-  // or if copying fails, the link opens its mailto: as normal.
-  //
-  // The tick is PROVISIONAL (D-048): phase 3A replaces check.svg with the
-  // landing page's tick, so one tick is used everywhere. How long it shows
-  // is undesigned (Reece approved 3 seconds).
-  const COPIED_MS = 3000;
-  const link = document.querySelector<HTMLAnchorElement>('[data-copy-email]');
-  const status = document.querySelector<HTMLElement>('[data-copy-status]');
-
-  if (link && status) {
-    let timer = 0;
-    link.addEventListener('click', async (event) => {
-      // Leave modified clicks (new tab, new window) to the browser.
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-        return;
-      event.preventDefault();
-      try {
-        // Read at click time: navigator.clipboard is missing outside
-        // secure contexts, and the TypeError lands in the catch.
-        await navigator.clipboard.writeText(link.dataset.copyEmail ?? '');
-      } catch {
-        location.href = link.href;
-        return;
-      }
-      link.toggleAttribute('data-copied', true);
-      // Clear first, so a second copy is announced again.
-      status.textContent = '';
-      requestAnimationFrame(() => {
-        status.textContent = 'Email address copied';
-      });
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        link.removeAttribute('data-copied');
-        status.textContent = '';
-      }, COPIED_MS);
-    });
-  }
+  import '../scripts/copy-email';
 </script>
 
 <script>

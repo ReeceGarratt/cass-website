@@ -1,0 +1,42 @@
+---
+import CopyIcon from '../assets/icons/copy.svg';
+import CheckIcon from '../assets/icons/check.svg';
+---
+
+<span class="copy-state" aria-hidden="true">
+  <span class="copy-state__copy">
+    <CopyIcon />
+  </span>
+  <span class="copy-state__tick">
+    <CheckIcon />
+  </span>
+</span>
+
+<style>
+  /* The copy icon and the tick share one 24px slot. The link that holds
+     this gets data-copied from src/scripts/copy-email.ts, which swaps them. */
+  .copy-state {
+    display: grid;
+    flex-shrink: 0;
+    inline-size: var(--size-nav-icon);
+    block-size: var(--size-nav-icon);
+  }
+
+  .copy-state > * {
+    grid-area: 1 / 1;
+  }
+
+  .copy-state :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .copy-state__tick,
+  :global([data-copied]) .copy-state__copy {
+    visibility: hidden;
+  }
+
+  :global([data-copied]) .copy-state__tick {
+    visibility: visible;
+  }
+</style>

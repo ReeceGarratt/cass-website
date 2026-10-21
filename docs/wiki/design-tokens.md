@@ -1,8 +1,8 @@
 ---
 summary: Where the design tokens live, their naming scheme, unit rules, how the fluid values were derived, the type classes and spacing scale, and the H1 line-height change.
-updated: 2026-09-29
+updated: 2026-10-21
 related: [figma-mcp.md, componentisation.md]
-decisions: [D-002, D-014, D-020, D-021, D-024, D-026, Q-005, Q-010, Q-013]
+decisions: [D-002, D-014, D-020, D-021, D-024, D-026, D-056, Q-005, Q-010, Q-013]
 ---
 
 # Design tokens
@@ -120,16 +120,16 @@ All pass AA for normal text.
 
 ## Fluid values
 
-`--type-title-size`, `--space-gutter` and `--space-hero-top` scale linearly between a 1200px and a 1920px viewport, using `clamp(min, preferred, max)`, and hold at each end. The `preferred` term is derived the usual way for a linear clamp between two breakpoints:
+`--type-title-size` is `clamp(3rem, 7.2917vw, 8.75rem)`: 140px at a 1920px viewport (7.2917vw is 140/1920), scaling linearly with the viewport down to a 48px floor, and held at 140px above 1920px. Nothing below 1920px is designed yet (Q-010), so the scaling only keeps the hero from overlapping or overflowing until the mobile frames arrive.
+
+`--space-gutter` is also fluid; see `tokens.css` for its worked values. The general recipe for a linear clamp between two breakpoints:
 
 ```
 slope = (valueMax - valueMin) / (viewportMax - viewportMin)
 preferred = valueMin - slope * viewportMin + slope * 100vw
 ```
 
-For `--type-title-size` (72px → 100px between 1200px and 1920px): slope = 28/720 ≈ 0.038889 (3.8889vw), intercept = 4.5rem − 0.038889 × 1200px ≈ 1.5833rem, giving `clamp(4.5rem, 1.5833rem + 3.8889vw, 6.25rem)`. `--space-gutter` and `--space-hero-top` are built the same way from their own min/max pairs (see `tokens.css` for the worked values).
-
-**The 117.5rem breakpoint (1880px)**, where the overlapping hero grid stops fitting and the layout switches to the stacked fallback (Q-010), can't be read from a custom property inside a media query, so it's a literal in both `tokens.css` (as a comment) and `src/pages/index.astro` (in the actual `@media` rule). If the breakpoint ever changes, update both.
+> **Historical (2026-10-21):** the earlier 72 to 100px title clamp, `--space-hero-top`, the 117.5rem (1880px) overlap breakpoint and `--hero-title-baseline` (cards on the headline's first baseline) belonged to the old hero. The landing rebuild removed all four: see D-056 and [the spec](../superpowers/specs/2026-10-21-landing-v2-design.md).
 
 ## `--space-skill-separator`
 
@@ -142,12 +142,3 @@ Figma's card caption is Inter Bold 12px. After the 2026-09-16 font change, capti
 The build matches Figma for cards 1 and 3. **Card 2's caption fits on one line in the browser** (373px, not 391px), because browser and Figma shape Inter by a few pixels differently at this size. This is an accepted residual, not a bug: fixing it would mean hard-coding a per-card height or line-break, which the tokens system and the content collection don't support. Revisit if Cass flags it, or as part of settling Q-010.
 
 Since D-020 every card stretches to the tallest card's height, so card 2's shorter caption no longer changes its outer height. Its summary still starts 18px higher than card 1's. The arrows line up, because the arrow is pinned to the bottom of the card.
-
-## `--hero-title-baseline` (card alignment)
-
-At 1880px and wider, the cards' bottom edge sits on the baseline of the first headline line, "effective &" (D-020). The hero grid's first row is `--hero-titles-offset-top + --hero-title-baseline` tall, and the cards are end-aligned in it.
-
-`--hero-title-baseline: calc(var(--type-title-size) * 0.853)` is the distance from the top of a headline line box to its baseline, worked out from Inter's metrics: ascent 0.96875em, less half the leading. Line height 0.98 minus a content area of 1.2109 gives −0.2309, so half-leading is −0.1155, and 0.96875 − 0.1155 = 0.853. In Edge, the baseline measured 85px at 100px, 64px at 75px and 61px at 72px, and the card bottoms landed within 1px of it at 1880, 1920 and 2400px.
-
-- **Gotcha:** the ratio depends on the font's ascent and descent and on `--type-title-line-height`. If either changes, recompute it. The measurement trick: append a zero-size `inline-block` with `vertical-align: baseline` to `.hero__line` and read its `top`.
-- **Gotcha:** the cards are taller (391px) than that row (about 374px at 100px), so they overflow the row upward into the hero's top padding. That relies on grid `align-self: end` overflowing towards the start edge, which it does in all current engines (none implement "safe" alignment by default).

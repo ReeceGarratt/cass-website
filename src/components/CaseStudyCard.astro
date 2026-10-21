@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../utils/base-path';
 import CircleArrow from './CircleArrow.astro';
@@ -10,18 +12,38 @@ interface Props {
   caseStudy: CollectionEntry<'caseStudies'>;
   showClient?: boolean;
   headingLevel?: 2 | 3;
+  /** Compact: the case study Read More rows (Figma Compact Card 4:123).
+   * Detailed: the home page (Detailed Card 129:3554), with the client pill
+   * and a thumbnail. */
+  size?: 'compact' | 'detailed';
+  /** The thumbnail. Detailed only. */
+  image?: ImageMetadata;
 }
 
-const { caseStudy, showClient = false, headingLevel = 2 } = Astro.props;
+const {
+  caseStudy,
+  showClient = false,
+  headingLevel = 2,
+  size = 'compact',
+  image,
+} = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
-const { title, client, skills, summary } = caseStudy.data;
+const { title, client, skills, summary, cardTitleBreak } = caseStudy.data;
+const detailed = size === 'detailed';
+// D-057: detailed cards break the title where Figma does.
+const titleRest =
+  detailed && cardTitleBreak
+    ? title.slice(cardTitleBreak.length).trim()
+    : undefined;
 ---
 
-<article class="card">
-  {showClient && <Pill class="card__client">{client}</Pill>}
+<article class:list={['card', { 'card--detailed': detailed }]}>
+  {(showClient || detailed) && <Pill class="card__client">{client}</Pill>}
   <Heading class="card__title">
     <a class="card__link" href={withBase(`/work/${caseStudy.id}`)}>
-      {title}
+      {titleRest ? cardTitleBreak : title}
+      {titleRest && <br />}
+      {titleRest}
     </a>
   </Heading>
   <ul class="card__skills" role="list">
@@ -29,14 +51,29 @@ const { title, client, skills, summary } = caseStudy.data;
       <li class="card__skill">{skill}</li>
     ))}
   </ul>
+  {detailed && image && (
+    <div class="card__thumbnail">
+      <Image
+        class="card__thumbnail-image"
+        src={image}
+        alt=""
+        widths={[341, 682]}
+        sizes="341px"
+      />
+    </div>
+  )}
   <p class="card__summary">{summary}</p>
   <CircleArrow class="card__arrow" />
-  <span class="card__corner card__corner--top-right" aria-hidden="true">
-    <CornerTopRight />
-  </span>
-  <span class="card__corner card__corner--bottom-left" aria-hidden="true">
-    <CornerBottomLeft />
-  </span>
+  {!detailed && (
+    <>
+      <span class="card__corner card__corner--top-right" aria-hidden="true">
+        <CornerTopRight />
+      </span>
+      <span class="card__corner card__corner--bottom-left" aria-hidden="true">
+        <CornerBottomLeft />
+      </span>
+    </>
+  )}
 </article>
 
 <style>
@@ -182,5 +219,59 @@ const { title, client, skills, summary } = caseStudy.data;
 
   .card:is(:hover, :focus-within) .card__corner {
     opacity: 1;
+  }
+
+  /* Detailed (Figma Detailed Card 129:3554), on the home page. */
+  .card--detailed {
+    gap: var(--space-24);
+    min-block-size: var(--size-card-detailed-min-height);
+    padding: var(--space-32);
+  }
+
+  .card--detailed .card__title {
+    max-inline-size: none;
+    block-size: auto;
+    min-block-size: var(--size-card-detailed-title-height);
+    color: var(--color-black);
+    text-transform: lowercase;
+  }
+
+  .card--detailed .card__summary {
+    min-block-size: 0;
+  }
+
+  .card__thumbnail {
+    overflow: hidden;
+    aspect-ratio: var(--ratio-card-thumbnail);
+    border: 1px solid var(--color-light-grey);
+    border-radius: var(--radius-card);
+  }
+
+  .card__thumbnail-image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .card--detailed > :global(.card__client) {
+    transition-property: background-color, color;
+    transition-duration: var(--duration-hover);
+    transition-timing-function: var(--ease-hover);
+  }
+
+  /* Its hover (Variant2) differs from the compact card's: White title and
+     summary, Light purple skills and pill, and no corner strokes. */
+  .card--detailed:is(:hover, :focus-within) .card__title,
+  .card--detailed:is(:hover, :focus-within) .card__summary {
+    color: var(--color-white);
+  }
+
+  .card--detailed:is(:hover, :focus-within) .card__skills {
+    color: var(--color-light-purple);
+  }
+
+  .card--detailed:is(:hover, :focus-within) > :global(.card__client) {
+    background-color: var(--color-light-purple);
+    color: var(--color-purple);
   }
 </style>

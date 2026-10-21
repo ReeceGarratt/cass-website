@@ -1,6 +1,6 @@
 ---
 summary: The interim GitHub Pages preview — one-off repo settings, how the workflow and base path work, gotchas, and how to remove it.
-updated: 2026-09-17
+updated: 2026-10-21
 related: [cloudflare-workers.md, hosting-options.md]
 decisions: [D-019, D-009, Q-009]
 ---
@@ -37,6 +37,10 @@ Action versions were checked on 2026-09-17: `checkout@v7`, `setup-node@v7`, `con
 - **In-page anchors** (`#main`) don't need the base.
 - **Git Bash on Windows mangles `--base /cass-website`** into `C:/Program Files/Git/cass-website`. To test a base build locally, run `MSYS_NO_PATHCONV=1 npm run build -- --site https://reecegarratt.github.io --base /cass-website`. CI runs on Linux, so it isn't affected.
 - **Custom domain:** `base_path` becomes empty, and the workflow falls back to `/`.
+
+## Build variables
+
+`CLIENT_STRIP_LOOP_SECONDS` is a repository variable (Settings → Secrets and variables → Actions → Variables) that the Build step passes as `PUBLIC_CLIENT_STRIP_LOOP_SECONDS`. It sets the landing client strip's seconds per loop and falls back to 40 when unset or invalid. A change needs a redeploy (re-run the workflow).
 
 ## Limits compared with Cloudflare
 
