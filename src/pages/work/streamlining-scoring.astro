@@ -490,18 +490,23 @@ const subNav = [
     gap: var(--space-8);
   }
 
-  /* DEPARTURE: Figma places this hand-written note in a grid cell that
-     overlaps the Insight block (19:118 puts 19:119 and 19:124 in the same
-     col-1/row-1, with the note offset down by 52.68px), so the arrow and
-     caption sit on top of the Insight text. That only holds at one fixed
-     text size; in flow it is an annotation that follows the paragraph it
-     points back at, which is what the design reads as. Flagged in the task
-     report. */
+  /* Figma overlaps this note with the Insight block (19:118 puts 19:119 and
+     19:124 in one grid cell, the note 5px in and 52.68px down), so the
+     arrow's top sits 5px below the top of the paragraph's last line, just
+     right of where that line ends (D-058, Cass: "closer to the text"). The
+     note stays in flow and is pulled up by the column's 24px gap plus one
+     paragraph line, less those 5px. Below 1920px a longer last line could
+     reach the arrow (Q-026). */
   .testing__annotation {
     display: flex;
     flex-direction: column;
     gap: var(--space-16);
     max-inline-size: 26.0625rem; /* 417px (19:119) */
+    margin-block-start: calc(
+      0.3125rem - var(--space-24) - var(--type-body-med-size) *
+        var(--type-body-med-line-height)
+    );
+    margin-inline-start: 0.3125rem; /* 5px (19:119) */
     text-transform: lowercase;
   }
 
