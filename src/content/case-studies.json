@@ -1,7 +1,7 @@
 [
   {
     "id": "streamlining-scoring",
-    "client": "Absa",
+    "client": "Absa Banking",
     "title": "Streamlining scoring for multiple products",
     "skills": ["User Research", "Process Design", "Systems Thinking"],
     "summary": "A consolidated scoring interface that allows Agents to score, customise and add multiple credit products in a single call.",
@@ -26,8 +26,8 @@
   {
     "id": "designing-an-interactive-workbook",
     "client": "TRANSEARCH",
-    "title": "Designing an interactive workbook",
-    "skills": ["User Research", "Process Design", "Systems Thinking"],
+    "title": "Designing an interactive book",
+    "skills": ["UI Design", "Interaction Design", "Typography"],
     "summary": "An interactive workbook that enabled users to engage with the content in a way similar to how they would with a physical workbook.",
     "order": 4
   }

@@ -44,6 +44,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-038 | Cass: the copied `standardbank.co.za` links on CS4 and the landing client strip | Nothing; built as plain text |
 | Q-039 | A pause control for the client strip carousel (WCAG 2.2.2) | Nothing; the gap is accepted for now (D-053) |
 | Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
+| Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
+| Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
 
 ---
 
@@ -148,6 +150,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Note:** raised by the user (2026-09-29) with the intent that case study images should not live in the repo long term.
 - **Update (2026-09-29):** Case Study 1 (Absa) committed 5 images under `src/assets/case-studies/streamlining-scoring/` — the intro hero screenshot and one per finding block — totalling **259,729 bytes (about 254 KiB / 260 KB)**, from 19.5 KB to 97.6 KB each. At that rate, four case studies of similar length would be roughly 1 MB of committed PNGs; CS2–4 are longer frames (7400–9337px vs CS1's 6003px) with more finding blocks, so the real total is likely somewhat higher. Numbers are pre-`astro:assets` processing (the committed source files); build output (AVIF/WebP/`srcset`) isn't counted here.
 - **Update (2026-10-20):** Reece: staging images outside the repo is fine for now. Phase 1b's raw TRANSEARCH and landing images are at `F:/Code/cass-website-staging/figma-2026-10-20/`, not committed; their Figma URLs expire 2026-10-27. Settle this before the TRANSEARCH stream commits images.
+- **Update (2026-10-21, stream `cs4`):** Reece: in-repo now, off-repo later. CS4's 14 images were committed under `src/assets/case-studies/designing-an-interactive-workbook/`, downscaled to 2× their rendered width (770,666 bytes). The move off-repo is still wanted, so this stays open. No case study image has a `srcset` yet, so phones download the 2× desktop files; worth settling with the off-repo move.
 
 ### Q-019 · Which case studies the home page features
 - **Raised:** 2026-09-29
@@ -262,3 +265,15 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; the nav's "Email me" already copies it (`SiteNav.astro`), and the landing will show it
 - **Context:** The landing frame (`267:1855`) shows `hello@cassandragarratt.com`.
 - **Options:** Cass confirms it · Cass gives the real address.
+
+### Q-041 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
+- **Raised:** 2026-10-21 (stream `cs4`)
+- **Blocks:** nothing; built as the designs have it
+- **Context:** The landing card (`267:1911`) titles TRANSEARCH "Designing an interactive book". The case study frame (`144:269`), confirmed current by Reece on 2026-10-21, says "interactive workbook" in its title and throughout its copy. By Reece's call, the card data (`case-studies.json`, which also sets the page's `<title>`) follows the landing card (D-052), and the page heading and copy follow the frame. The slug stays `designing-an-interactive-workbook`.
+- **Options:** keep both (the default) · "book" everywhere, with a copy change to the page · "workbook" everywhere, overriding the landing card's title.
+
+### Q-042 · Cass: the TRANSEARCH International definition
+- **Raised:** 2026-10-21 (stream `cs4`)
+- **Blocks:** nothing; drafted text is live, marked `TODO(cass)`
+- **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."
+- **Options:** Cass confirms it · Cass gives her own wording.
