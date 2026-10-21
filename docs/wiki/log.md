@@ -177,3 +177,12 @@ Built on `reece/feature/foundation` (worktree `../cass-website-foundation`): the
 
 ## [2026-10-20] decision | Q-037: a parked comment typo from the phase 2 fix wave
 Opened Q-037 for Reece: the skip link comment in `src/styles/global.css` (line 74) reads "which is may be"; fix it now or with the next edit to the file.
+
+## [2026-10-21] docs | Live test plan for manual checks
+PR #8 (phases 1a, 1b and 2) merged to `main`. Its manual checks and Reece's intro spacing review moved into a new `docs/test-plan.md`, split by feature, with empty sections for streams 3A, 3B and 3C. AGENTS.md now asks agents to add checks they can't verify themselves to it while they build.
+
+## [2026-10-21] update | Parallel streams convention
+Added `wiki/parallel-streams.md` and a conditional "Parallel streams" section in AGENTS.md: streams write temporary IDs (`Q-<stream>-<n>`, `D-<stream>-<n>`) in place and give them real numbers just before their own PR, one stream at a time. Replaces the macro plan's notes-file rule. Spec: `superpowers/specs/2026-10-21-parallel-streams-design.md`.
+
+## [2026-10-21] decision | Phase 1b notes numbered: D-051 to D-054, Q-038 to Q-040
+D-051 (`267:1855` is the landing, resolves Q-017), D-052 (new designs win on case study content), D-053 (client strip carousel, no pause button), D-054 (`CLIENT_STRIP_LOOP_SECONDS`). Q-038 (copied links), Q-039 (carousel pause control, WCAG 2.2.2), Q-040 (the email address). Q-018 and Q-023 updated in place. The phase 1b notes file is deleted.

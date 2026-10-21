@@ -114,7 +114,7 @@ Images that ship with the site go in `src/` or `public/`, not here.
 | Landing (default), desktop | [`landing-desktop/`](landing-desktop/) | `1:79` | 2026-09-16 (outline, screenshot; context taken from `4:489`) |
 | Landing (hover state), desktop | [`landing-desktop-hover/`](landing-desktop-hover/) | `4:489` | 2026-09-16 (outline, screenshot, variables, context of `4:490`) |
 | Landing, desktop — second frame | _not fetched_ | `127:3171` | **New since 2026-09-16.** Same size as `1:79`; purpose unknown |
-| **Portfolio landing — Desktop** (the current landing, Q-017 confirmed by Reece) | [`landing-v2-desktop/`](landing-v2-desktop/context.md) | `267:1855` | 2026-10-20 (outline, 1:1 screenshot, context for every section, section renders, SVGs). Which page it sits on wasn't checked |
+| **Portfolio landing — Desktop** (the current landing, D-051) | [`landing-v2-desktop/`](landing-v2-desktop/context.md) | `267:1855` | 2026-10-20 (outline, 1:1 screenshot, context for every section, section renders, SVGs). Which page it sits on wasn't checked |
 | Portfolio landing, email copied state | [`landing-v2-desktop/`](landing-v2-desktop/context.md#section-email-pill-copied-state-node-2722302-in-frame-2722292) | `272:2292` (pill `272:2302`) | 2026-10-20 (context of the pill only). A copy of `267:1855` whose only difference is the copied state |
 | Landing frame on the Work page | _not fetched_ | `30:339` | A second copy of the landing design, on the Work page |
 | iPad Pro 11" - 1 | _not fetched (desktop first)_ | `19:327` | outline only |

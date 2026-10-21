@@ -16,7 +16,7 @@ What the `Work` page (`19:104`) contains, and the section vocabulary the four ca
 
 | Frame | Node | Size | Snapshot |
 |---|---|---|---|
-| Landing | `30:339` | 1920 x 1080 | — (a third copy of the landing design; see Q-017) |
+| Landing | `30:339` | 1920 x 1080 | — (a third copy of the landing design; see D-051) |
 | 💻 Case Study 1 | `53:156` | 1920 x 6003 | [`case-study-1-desktop/`](case-study-1-desktop/) |
 | 💻 Case Study 2 | `91:669` | 1920 x 9337 | [`case-study-2-desktop/`](case-study-2-desktop/) |
 | 💻 Case Study 3 | `92:1823` | 1920 x 7400 | [`case-study-3-desktop/`](case-study-3-desktop/) |

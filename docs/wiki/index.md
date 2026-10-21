@@ -19,12 +19,14 @@ One line per page: `[Title](file.md): one-sentence summary`. Every wiki page mus
 - [Decisions](../decisions.md): numbered decisions that have been made (D-xxx).
 - [Figma build workflow and snapshots](../figma/README.md): the phases for building screens from Figma, saved MCP output (one folder per frame), and the frame index.
 - [Design system page snapshot](../figma/design-system/README.md): the frame inventory of the Figma Design system page, and the styles and variables it defines.
+- [Test plan](../test-plan.md): manual checks for the deployed preview, by feature, as tickboxes; agents add to it as they build.
 - [Work page snapshot](../figma/work-page.md): the four case study frames, how they're assembled from components, and the section vocabulary they share.
 
 ## Tooling & environment
 
 - [Agent tooling](agent-tooling.md): the Claude Code plugins and MCP servers this repo relies on, and where each one is configured.
 - [Figma MCP](figma-mcp.md): how agents connect to the Figma designs, plan rate limits, the tools used, and estimated calls for the build.
+- [Parallel streams](parallel-streams.md): running several streams at once in worktrees: the streams table, temporary Q/D IDs, token blocks, and the finishing steps before each PR.
 - [Windows dev environment](windows-dev-environment.md): symlink and text-encoding gotchas on the Windows dev machine.
 
 ## Hosting & operations

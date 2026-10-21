@@ -15,6 +15,7 @@ A portfolio website for Cass, a UX designer: home, case studies, about and conta
 | `docs/architecture.md` | Repo map, data flow, invariants |
 | `docs/questions.md` | Open questions (Q-xxx): decisions waiting on the user, some spanning several features |
 | `docs/decisions.md` | Decisions that have been made (D-xxx) |
+| `docs/test-plan.md` | Manual checks for the deployed site, by feature, as tickboxes |
 | `docs/wiki/` | Knowledge built up along the way: how-tos, gotchas, research. Start at `index.md` |
 | `docs/raw/` | Source material from the user (briefs, notes). Never edited |
 | `docs/figma/` | Saved copies of what the Figma MCP returned, so frames aren't fetched twice (D-008) |
@@ -48,10 +49,19 @@ If the docs and the code disagree, trust the code and fix the doc.
    - **Unsure:** treat it as significant and plan.
 4. **Execute.** If there's a plan, follow it with `superpowers:executing-plans`. Make the minimum viable change, meaning only what the task needs.
 5. **Validate.** Run the checks under [Testing](#testing) and look at the results (`superpowers:verification-before-completion`). Don't say it's done without evidence.
-6. **Update docs.** Record what you learned in the wiki, new questions in `questions.md`, decisions in `decisions.md` (removing any question they resolve), and structural changes in `architecture.md`.
+6. **Update docs.** Record what you learned in the wiki, new questions in `questions.md`, decisions in `decisions.md` (removing any question they resolve), and structural changes in `architecture.md`. In a parallel stream, use temporary IDs (see [Parallel streams](#parallel-streams)).
 7. **Summarise.** Say what changed, how it was validated, what's left or uncertain, and any new open questions.
 
 If superpowers skills aren't available (a different agent or machine), follow the same steps without them.
+
+## Parallel streams
+
+Only applies when the starting prompt or a plan's streams table says you're in a stream: several chats building at once, each in its own worktree. Steps are in [parallel-streams](docs/wiki/parallel-streams.md).
+
+- **Temporary IDs:** new questions and decisions are `Q-<stream>-<n>` and `D-<stream>-<n>`, written where entries normally go.
+- **Before your PR:** tell the user, merge the latest base, keep both sides of conflicts in append-only docs, then give each temporary ID the next free number. One stream finishes at a time.
+- **Tokens:** page-specific tokens go in a `/* --- stream: <id> --- */` block at the end of `tokens.css`, folded in before the PR.
+- **Ownership:** don't edit files the plan gives to another stream. Only the stream the plan names calls Figma.
 
 ## Working with Figma
 
@@ -103,6 +113,7 @@ Every change needs at least:
 - A successful `npm run build`, `npm run check` passing, and `npm run format:check` passing.
 - **Visual changes:** compare the page in the dev server against Figma.
 - **Interactive or layout changes:** check keyboard navigation, focus order and visible focus.
+- **Anything you can't verify yourself** (real devices, Safari, touch, design judgement): add it to [`docs/test-plan.md`](docs/test-plan.md) as an unticked box under its feature, while you build.
 
 The wider approach (accessibility automation, performance budgets, lint, CI) is still open (Q-006).
 
