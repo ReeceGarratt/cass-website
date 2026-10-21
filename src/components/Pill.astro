@@ -43,7 +43,11 @@ const { variant = 'client', icon, class: className } = Astro.props;
   }
 
   .pill__icon {
-    inline-size: 1.5rem;
-    block-size: 1.5rem;
+    block-size: var(--size-pill-icon-glyph);
+    inline-size: auto;
+    /* Keeps the pill's height: the slot is 24px tall, the artwork 22px. */
+    margin-block: calc(
+      (var(--size-pill-icon) - var(--size-pill-icon-glyph)) / 2
+    );
   }
 </style>

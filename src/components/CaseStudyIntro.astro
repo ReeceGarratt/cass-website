@@ -14,7 +14,7 @@ interface Props {
   image: ImageMetadata;
   imageAlt: string;
   // CS3's hero (99:2503) runs through the end gutter to the page edge,
-  // where Figma's frame clips it, and sits 111px below the intro's top.
+  // where Figma's frame clips it, and sits 160px below the intro's top and 7px into its column.
   imageBleed?: boolean;
   id?: string;
 }
@@ -110,7 +110,7 @@ const {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-16);
+    gap: 0;
   }
 
   .case-study-intro__eyebrow {
@@ -118,12 +118,16 @@ const {
     text-transform: lowercase;
   }
 
+  /* D-046: the measured gaps, as margins because the first may be
+     negative. */
   .case-study-intro__title {
+    margin-block-start: var(--space-intro-eyebrow-title);
     color: var(--color-red);
     text-transform: lowercase;
   }
 
   .case-study-intro__users {
+    margin-block-start: var(--space-intro-title-pills);
     display: flex;
     gap: var(--space-16);
   }
@@ -176,9 +180,12 @@ const {
      edge (the viewport's, below 1920px). Figma's frame cuts it there, so
      its end corners are square; the asset is cropped to the visible part. */
   .case-study-intro--bleed .case-study-intro__image {
-    inline-size: calc(100% + var(--space-gutter));
+    inline-size: calc(
+      100% + var(--space-gutter) - var(--space-intro-image-nudge)
+    );
     max-inline-size: none;
     margin-block-start: var(--space-intro-image-drop);
+    margin-inline-start: var(--space-intro-image-nudge);
     margin-inline-end: calc(-1 * var(--space-gutter));
     border-start-end-radius: 0;
     border-end-end-radius: 0;

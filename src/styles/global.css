@@ -56,18 +56,24 @@ a {
      .sub-nav at z-index: 2) whatever gets added later. Deliberately far
      above the next-highest z-index in the codebase, not just one above it. */
   z-index: 100;
-  padding-block: var(--space-skip-link-padding-block);
-  padding-inline: var(--space-skip-link-padding-inline);
-  background-color: var(--color-white);
+  /* D-041: styled like the nav's selected item */
+  padding-block: var(--space-nav-pill-block);
+  padding-inline: var(--space-nav-pill-inline);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-light-purple);
   color: var(--color-purple);
   font-size: var(--type-nav-size);
   font-weight: var(--type-nav-weight);
   line-height: var(--type-nav-line-height);
+  letter-spacing: var(--type-nav-letter-spacing);
   text-decoration: none;
   translate: 0 -200%;
 }
 
-.skip-link:focus {
+/* Keyboard focus only. On :focus it also appeared for focus the reader
+   didn't ask for, which is may be what Cass saw (D-041; unconfirmed, see
+   docs/wiki/skip-link.md). */
+.skip-link:focus-visible {
   translate: 0 0;
 }
 
@@ -292,6 +298,14 @@ a {
 
 .band--white {
   background-color: var(--color-white);
+}
+
+/* D-044: body text on a purple card is Regular, not Body Med, on every
+   case study. Bands count as cards for now; whether Cass meant only the
+   rounded .panel cards is an open question. If she did, drop
+   .band--purple here. <strong> runs and headings keep their weights. */
+:is(.panel, .band--purple) .type-body-med {
+  font-weight: var(--type-body-weight);
 }
 
 @media (prefers-reduced-motion: no-preference) {

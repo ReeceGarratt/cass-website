@@ -38,6 +38,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-024 | Case study alt text needs Cass's review | Nothing; drafted text is live, marked for review |
 | Q-025 | Is the redaction blur on the Standard Bank "before" screenshot strong enough? | Nothing; shipped as Cass drew it (D-032) |
 | Q-026 | Case study pages below desktop width | Nothing yet; the responsive pass |
+| Q-035 | Cass: Regular weight on blue cards: rounded cards only, or the full-bleed bands too? | Nothing; bands are included for now (D-044) |
+| Q-036 | Cass: what should a Read More card's client pill look like on hover and focus? | Nothing; the pill is invisible on the hovered card for now |
+| Q-037 | Reece: fix the skip link comment typo now, or with the next edit to `global.css`? | Nothing; comment only |
 
 ---
 
@@ -113,6 +116,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing yet
 - **Context:** The nav currently points to `/resume`, which 404s.
 - **Options:** a PDF in `public/` · a page · an external link.
+- **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-049).
 
 ### Q-012 · Brand link
 - **Raised:** 2026-09-16
@@ -138,7 +142,8 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - `30:339` on the `Work` page — another 1920x1080 `Landing` frame.
 
   The home page hero content is now a **`Content` component** (`144:763`), instanced into both Landing-page frames, so the hero has been componentised in Figma since we built it.
-- **Questions:** which frame is the current home page design? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
+- **Update 2026-10-20:** a fourth candidate turned up. The new Portfolio style guide on the Design system page (`306:1542`) describes **"Portfolio landing — Desktop" (`267:1855`, 1920 × 3161)** as "one authoritative desktop page": hero, client strip, four Detailed Cards, about and contact, with the new `White` nav variant. It hasn't been located on a page yet. Phase 1b of the 2026-10-20 macro plan fetches it. See [figma/design-system/style-guide/context.md](figma/design-system/style-guide/context.md).
+- **Questions:** which frame is the current home page design? Is `267:1855` it? Is `127:3171` a variant (hover, or a revision), and does the new `Content` component change the hero we've already built?
 - **Note:** an earlier reading of this concluded the Landing page had been deleted. It hadn't — `get_metadata` with no node ID listed only two of the file's four pages. See [figma/README.md](figma/README.md#the-file-has-four-pages-not-two-corrected-2026-09-29).
 
 ### Q-018 · Image delivery: in-repo with Astro's pipeline, or hosted off-repo
@@ -224,3 +229,21 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** Figma only has 1920px case study frames. The process strip now scales and then wraps (D-033), so it no longer sets a minimum width, but the rest of the case study grid does: both pages scroll sideways below ~1100px (1108px for CS1, 1091px for CS2 at a 1024 viewport). The strip's wrapped layout (arrows trailing each row) and its 20px minimum are undesigned placeholders.
 - **Update 2026-10-04 (CS3):** CS3 fits at 1280 and wider, and scrolls sideways below 1155px. Measuring each grid child's min-content at 1024 shows the floor on every page is the **Read More row** (1059px of content on CS3, 995px on CS2): its heading, gap and three cards don't shrink below their longest words. The floor therefore depends on which three cards a page shows. CS3's intro image bleeds into the end gutter and stays inside the viewport at every width tested.
 - **Options:** Cass designs tablet and mobile frames for the case study pages · agree general rules (stack the two-column sections, wrap or stack the strip) and build without frames, then review with Cass.
+
+### Q-035 · Cass: Regular weight on blue cards: cards only, or bands too?
+- **Raised:** 2026-10-20 (Reece)
+- **Blocks:** nothing; built with bands included
+- **Context:** D-044 sets body text on every "blue card" to Regular. The case studies have two purple surfaces: rounded, inset cards (`.panel`) and full-bleed bands (`.band--purple`). Cass's own example, Standard Bank's user journey, is a band, so both are included (one rule in `global.css`). The rule also makes CS3's "users spoken to" stat caption (`src/pages/work/sales-workflow-research.astro`, around line 196) Regular.
+- **Options:** both (as built) · rounded cards only (drop `.band--purple` from the rule).
+
+### Q-036 · Cass: what should a Read More card's client pill look like on hover and focus?
+- **Raised:** 2026-10-20 (Reece)
+- **Blocks:** nothing
+- **Context:** A Read More card turns Purple on hover and focus, so the Purple client pill disappears into it and only its white text is left. The Read More cards have no hover variant in Figma (`figma/components/read-more/context.md`, around lines 118 to 133), while the compact and detailed cards do. The card already turned Purple on hover before phase 2; phase 2 only fixed the pill's width and alignment.
+- **Options:** Cass draws a hover state for the Read More card · reuse the detailed card's hover pill (Light purple background, Purple text) · leave the pill as text only.
+
+### Q-037 · Reece: fix the skip link comment typo now, or with the next edit to `global.css`?
+- **Raised:** 2026-10-20 (phase 2 final review, ruling R15)
+- **Blocks:** nothing; it's a comment, so the built site is unaffected
+- **Context:** The phase 2 fix wave reworded the skip link comment in `src/styles/global.css` (line 74) and left a typo: "which is may be what Cass saw" should read "which may be what Cass saw". The re-review caught it after the single fix wave, and the process allows no second wave, so it was parked rather than fixed.
+- **Options:** fix it in its own `style:` commit · fix it in the next commit that touches `global.css` (phase 3).

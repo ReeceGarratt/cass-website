@@ -20,6 +20,7 @@ const { class: className } = Astro.props;
 
 <style>
   .circle-arrow {
+    position: relative;
     display: grid;
     inline-size: var(--size-arrow);
     block-size: var(--size-arrow);
@@ -42,7 +43,11 @@ const { class: className } = Astro.props;
     color: var(--color-light-purple);
   }
 
+  /* Out of the grid and overflowing the slot, so the 55px hover flower
+     doesn't move the layout. */
   .circle-arrow__icon--hover {
+    position: absolute;
+    inset: var(--inset-arrow-hover);
     opacity: 0;
     color: var(--color-red);
   }

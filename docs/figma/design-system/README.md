@@ -12,6 +12,8 @@ The **Design system** page (`129:3321`) is one of the file's four pages, alongsi
 
 This folder holds the page-level output. Per-component snapshots live in [`../components/`](../components/).
 
+> **Refreshed 2026-10-20.** See [`delta-2026-10-20.md`](delta-2026-10-20.md) for what changed and how it compares with the build, [`outline-2026-10-20.md`](outline-2026-10-20.md) for the current outline, [`variables-2026-10-20.md`](variables-2026-10-20.md) for variables and styles, and [`style-guide/`](style-guide/context.md) for the new **Portfolio style guide** frame (`306:1542`). In short: Navigation gained a `White` variant and utility links (Resume, Email me) and lost `Prototype`; Sub Nav lost its `02`–`04` progress variants; colours are unchanged. The inventory below is the 2026-09-29 state.
+
 ## Frame inventory
 
 | Frame | Node | Snapshot | Status |

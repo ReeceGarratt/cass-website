@@ -174,7 +174,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** amends D-013 rather than reversing it. Building case study 2 should mostly mean composing the existing components in a new order, with new bespoke sections only where CS2 genuinely differs (personas, user journey). Revisit if CS2 shows the toolkit isn't holding.
 
 ### D-023 · Progressive enhancement over a UI framework
-- **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-016**
+- **Date:** 2026-09-29 · **Status:** Accepted; the sub nav part is amended by D-039 · **Resolves Q-016**
 - **Context:** Two case study components need interactivity that invariant 3 (no client JS without a stated reason) requires be justified: the sub nav's progress underline, which needs scroll position, and the Definition Tip's popup, whose open/close/Escape/focus behaviour Figma draws but doesn't specify.
 - **Decision:** The Definition Tip uses the native `popover` attribute (Popover API): opening, closing, `Escape`, light dismiss, top-layer stacking and focus handling are all native, with about 8 lines of script only to position the bubble under its trigger on `beforetoggle` (popovers render in the top layer and can't be positioned by an ancestor with CSS alone). The sub nav's progress underline uses a small `IntersectionObserver` module script. No UI framework, and no scroll-driven CSS (`animation-timeline`) — cross-browser support wasn't certain enough to depend on for the only implementation.
 - **Alternatives considered:** CSS-only (`:target` or `<details>` for the tip, a static current-section marker for the sub nav) — rejected, loses the sweeping progress indicator entirely and CSS-only tooltips are hard to make keyboard- and screen-reader-safe.
@@ -279,3 +279,101 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision:** With `fullBleed`, `<main>` has no max width, and `.case-study` has none either. Its side tracks are `minmax(var(--space-gutter), 1fr)` and its content track is capped at `calc(var(--page-max-width) - 2 * var(--space-gutter))`, so the full track is always the viewport and the content stays 1700px and centred above 1920px. The sub nav's inner row is capped at `--page-max-width`, matching `SiteNav`.
 - **Alternatives considered:** keeping the cap and painting each band's colour past it with a `border-image` outset (as first done for the sub nav, and removed with this change). Rejected: it's repeated per band, only works for solid backgrounds, and leaves "bleed" meaning "1920px".
 - **Consequences:** identical layout at 1920px and below (measured at 1920 and 1440 on both case studies).
+
+### D-037 · The Portfolio style guide is the design source of truth
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** A Portfolio style guide frame (`306:1542`) appeared on the Figma Design system page, describing the new landing page (`267:1855`). Some of its values differ from the older component sets on the same page, and it says library hover variants are "not evidence" of behaviour. See [figma/design-system/delta-2026-10-20.md](figma/design-system/delta-2026-10-20.md).
+- **Decision (Reece):** The style guide is the source of truth. Where a component set or a frame disagrees with it, the style guide wins, and the component sets are expected to change to match it. Interaction states the guide doesn't cover (hover, selected) still come from the component sets. The `Button_Circle Arrow` hover is a deliberate change: the red flower grows to 55px while the arrow keeps its size and position.
+- **Alternatives considered:** treating the guide as landing-only, with the component sets still authoritative elsewhere. Rejected by Reece.
+- **Consequences:** Cards are flat (no `--shadow-card` on `CaseStudyCard`). The style guide only describes the landing, so case study details it doesn't mention still come from the case study frames. Questions it doesn't answer go to Cass (Q-032, Q-033).
+
+### D-038 · "Email me" in the nav copies the address to the clipboard
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav replaces the Resume and Contact items with utility links: "Resume" with a download icon and "Email me" with a copy icon. Figma draws the copy icon but no behaviour or success state.
+- **Decision (Reece):** "Email me" copies the email address to the clipboard, for now. It can be revisited later.
+- **Alternatives considered:** a `mailto:` link; a link to `/contact`.
+- **Consequences:** A small client script, stated under invariant 3: the Clipboard API has no HTML-only equivalent. Without JS, or if copying fails, the link must still work as a `mailto:` link. The success feedback needs an accessible announcement (a polite live region) as well as a visual change. Its look is a placeholder until Cass designs one (Q-034). Resume's target is still Q-011.
+
+### D-039 · The sub nav underlines the current section only
+- **Date:** 2026-10-20 · **Status:** Accepted · Amends D-023 (the sub nav part)
+- **Context:** Figma's Sub Nav dropped its progress variants (`02`–`04`). The current item is now Bold with a 3px Red underline under that item alone, and the other items are Regular. The built sub nav draws a Purple underline that sweeps from the first link to the current one.
+- **Decision (Reece):** Keep following the section in view as the page scrolls, but mark only the current item: Bold, with the Red underline under it.
+- **Alternatives considered:** a static marker with no script.
+- **Consequences:** The existing scroll script stays, minus the sweep geometry (it no longer measures from the first link). `aria-current` is unchanged.
+
+### D-040 · Nav variant per page: purple on case studies, White on home
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The case study frames use the purple Navigation with "Work" selected. The style guide says the landing uses the new `White` variant (Off-white bar, Red wordmark, Purple links).
+- **Decision (Reece):** Case study pages use the purple bar with "Work" selected. The home page uses `White`, to be confirmed when phase 1b fetches the landing frame.
+- **Alternatives considered:** one variant everywhere.
+- **Consequences:** `SiteNav` takes a variant. Figma's `Purple` is unchanged at `#4832A1`. The built `--color-purple` wasn't checked in phase 1a, so phase 2 confirms it.
+
+### D-041 · Keep the skip link, styled to the design system
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-027
+- **Context:** Cass saw the "Skip to content" link and reported it as a stray button. It's the `BaseLayout` skip link, required by WCAG 2.4.1 and invariant 5, and only shows on keyboard focus.
+- **Decision (Cass):** Keep it, restyle it so it looks like part of the site, and find out what focused it during her visit.
+- **Alternatives considered:** removing it (fails WCAG 2.4.1).
+- **Consequences:** Phase 2 restyles the skip link from tokens and checks what focused it (a Tab press, or the browser restoring focus).
+
+### D-042 · The Definition Tip opens on hover, focus and tap
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-028
+- **Context:** Cass wants the company name bold and underlined, with its info block appearing on hover. It opens on click today. Hover-only content excludes keyboard and touch users (WCAG 1.4.13).
+- **Decision (Cass):** It opens on hover, keyboard focus and tap, and stays open while the pointer is over it.
+- **Alternatives considered:** hover only.
+- **Consequences:** Phase 2 changes `DefinitionTip`. It must also close on Escape (WCAG 1.4.13, dismissable), and the trigger is styled bold and underlined.
+
+### D-043 · No blue block behind "Other case studies"; follow the designs
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-029
+- **Context:** Cass's feedback asked for the Standard Bank page's "Other case studies" row in a blue block.
+- **Decision (Cass):** Ignore that request and follow the designs.
+- **Alternatives considered:** a blue block on Standard Bank only, or on every case study.
+- **Consequences:** The Read More row matches Figma on every page. Dropped from phase 3C.
+
+### D-044 · Regular weight for text on every blue card
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-030
+- **Context:** Under Standard Bank's User Journey, Cass asked for Regular weight in descriptions, adding "this change needs to happen on all font on a blue card".
+- **Decision (Cass):** Every blue card on every case study.
+- **Alternatives considered:** Standard Bank only.
+- **Consequences:** Phase 2 changes the description weight in the shared blue card styles (`.panel`, `LabelledFindings`, `FindingsList` with `tone="inverse"`), so all three built case studies and TRANSEARCH pick it up. Headings on the cards are unaffected.
+
+### D-045 · The nav hides on scroll down and returns on scroll up; the sub nav stays visible
+- **Date:** 2026-10-20 · **Status:** Accepted · Resolves Q-031
+- **Context:** Cass asked for the nav bar to show when scrolling up. The case study sub nav is already sticky.
+- **Decision (Cass):** The nav hides while scrolling down and reappears on scroll up. The sub nav stays visible throughout: it never sits under the returning nav.
+- **Alternatives considered:** the returning nav covering the sub nav.
+- **Consequences:** A small client script (invariant 3: the reason is this behaviour). On case study pages the sub nav sticks at the top while the nav is hidden, and moves down below the nav when it returns. It must respect `prefers-reduced-motion`, and keyboard focus inside the nav must bring the nav back.
+
+### D-046 · Case study intro: apply Cass's spacing to the rendered gaps
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-032**
+- **Context:** Cass asked for the "ux/ui designer" → title gap to be halved and the title → pill gap to grow by 20%. Neither change is in Figma: both gaps are still 16px in the Intro component.
+- **Decision (Reece, relaying Cass):** Figma's 16px gaps already compensate for the tails on the letters (the handwritten eyebrow's descenders, the title's line box); our text doesn't. So the changes apply to the **gaps as they render in the build**: halve the visible eyebrow → title space, and add 20% to the visible title → pill space. They're measured in the browser, not taken from Figma's numbers.
+- **Alternatives considered:** waiting for Cass to change the Intro component in Figma.
+- **Consequences:** Phase 2 measures the rendered gaps on a case study at 1920px, sets the new values, and records the measurement in a comment beside the tokens. The 80px space above the intro (from Figma) is a separate change.
+
+### D-047 · User-type pill icon: 22px icon in a 24px frame
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-033**
+- **Context:** Cass asked for the call centre agent icon to be 22px at 1920. The Pills component draws a 24px frame.
+- **Decision (Cass, via Reece):** The 24px is the icon's **frame**. The icon artwork one level deeper in Figma is 22px. Render the icon at 22px, centred in the 24px slot, so the pill's size and spacing don't change.
+- **Consequences:** `Pill.astro` changes the icon's rendered size, not the slot. The saved icon SVGs are frame-sized (24px, or 22px for `man-3.svg`; see [figma/components/icons/context.md](figma/components/icons/context.md)), so check each icon's artwork bounds when sizing it.
+
+### D-048 · "Email me" shows a tick after copying
+- **Date:** 2026-10-20 · **Status:** Accepted · **Resolves Q-034**
+- **Context:** D-038 left the copy success state as a placeholder.
+- **Decision (Reece):** After copying, the copy icon is replaced by a tick. The new landing page designs already use a tick (not fetched for this).
+- **Consequences:** Phase 2 builds the tick swap with a code comment saying the tick glyph is provisional and gets standardised against the landing page's tick in phase 3A. The live-region announcement from D-038 still applies.
+
+### D-049 · Nav shows Home and Work, plus "Email me", for now
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav design has Home · Work · About, then Resume and Email me. There's no design for an About screen yet, and the Resume target is still open (Q-011).
+- **Decision (Reece):** Leave **About** and **Resume** out of the built nav for now. Each comes back when its screen or target exists.
+- **Consequences:** The nav renders Home, Work and Email me. The old Contact item goes too (D-038 replaces it with Email me). `/work` still 404s (Q-020).
+
+### D-050 · Undesigned nav details for phase 2
+- **Date:** 2026-10-20 · **Status:** Accepted
+- **Context:** The new nav (D-038, D-040, D-045) left three states undesigned.
+- **Decision (Reece):** (1) The White nav works like the purple one in its own colours: hover shows the 10px dot with the text staying Purple, and the selected item shows the Light purple pill; Light purple text on Off-white would be ~1.4:1. (2) The "Email me" tick shows for 3 seconds, then the copy icon returns. (3) An in-page jump (a sub nav link, the skip link) hides the nav and keeps it hidden until the scroll ends, so it doesn't return over the section's heading.
+- **Alternatives considered:**
+  - **Light purple text on the White nav:** matches the purple nav literally, but is ~1.4:1 on Off-white.
+  - **Leaving the nav free to return mid-jump:** simpler, but it covers the heading the jump aims at.
+  - **A shorter or longer tick time:** undesigned; 3 seconds was approved.
+- **Consequences:** Each is a constant or a colour in `SiteNav.astro`; change it there if Cass designs these states.

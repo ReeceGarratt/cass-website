@@ -1,6 +1,6 @@
 ---
 summary: How agents connect to the Figma designs, plan rate limits, the tools used, measured calls for the build, and two techniques for working without a browser.
-updated: 2026-09-29
+updated: 2026-10-20
 related: [agent-tooling.md, design-tokens.md]
 decisions: [D-005, D-008, D-012]
 ---
@@ -81,7 +81,8 @@ Replaces the original estimate now that the first screen is built.
 | Case Study 2 (Standard Bank) content, 2026-09-30: 10 sections incl. the Definition Tip, images. Outline reused from the saved Work page file, Process skipped (outline had its widths) | 20 (10 `get_design_context`, 10 `download_assets`: 6 images, 3 persona SVGs, 1 re-export of the redacted screenshot at 2×), plus 1 `whoami` |
 | Case Study 2 review, 2026-09-30: `download_assets` on the intro instance (`144:1416`) to identify the pill icons by path data | 1 |
 | Case Study 3 (MiX Telematics) content, 2026-10-04: Sub Nav, intro, hero image, 6 sections, the Definition Tip. Outline reused from the saved Work page file, Process and Read More skipped. Images taken from `get_design_context`'s own asset URLs, so no `download_assets` | 10 (`get_design_context`), plus 1 `whoami` |
-| **Total so far** | **76** |
+| Phase 1b, 2026-10-20: TRANSEARCH refresh (screenshot, outline, 11 sections, composed wireframe export) and the new landing `267:1855` (outline, 1:1 screenshot, 5 sections, curved-text export) | 23 (14 TRANSEARCH, 9 landing including the email copied state `272:2302`; 2 `get_metadata`, 2 `get_screenshot`, 17 `get_design_context`, 2 `download_assets`), plus 1 `whoami` |
+| **Total so far** | **99**, not counting phase 1a's 2026-10-20 refresh (about 19, itemised in [the delta doc](../figma/design-system/delta-2026-10-20.md)) |
 
 A whole design-system page costs roughly **15 calls**, or about 1.5 per component set. Mapping a content page — outline plus one screenshot per frame — is much cheaper, about 6. **A full content page's design context (one outline plus `get_design_context` per section, skipping sections already covered by shared components) measured at 10 calls for Case Study 1**: 1 `get_metadata` (outline fit inline, no file needed) + 7 `get_design_context` (one per section, `Navigation` and `Read More` skipped as already built/saved) + 2 `download_assets` (one per section with raster images: Introduction, Design). Budget ~10-12 calls per case study page on this basis for the remaining three.
 
@@ -106,6 +107,8 @@ Claude's context window is the other cost: `get_design_context` output can be la
 - **An SVG export of a node includes what's behind it.** Exporting the CS2 persona illustrations as SVG (`defaultFormat: svg` on the node) returned the canvas, the page background and the persona card as `<rect>`s under the figure. Strip them. Figma also writes every layer name as an `id` ("FACE", "Persona 2", emoji group names). Inlined as Astro components, two illustrations from the same frame put duplicate and invalid ids in the page, so strip `id` attributes too when nothing inside the SVG references them (`url(#…)`, `href="#…"`). The same happens to PNG exports of a node that overlaps a frame: its shadow bleed is included (crop it off).
 - **A saved outline can replace `get_metadata`.** CS2's node tree was already in `outline-work-page.md`, so its fetch skipped `get_metadata` entirely (20 reads plus `whoami` for a 9337px page).
 - **`get_design_context` already returns the images (2026-10-04).** Its response carries a download URL for every raw image and SVG in the section (valid 7 days), and the reference render is saved under the session's `tool-results/` folder. Downloading those with `curl` covered all of CS3's images and its section renders, so `download_assets` is only needed for a node's composed `export` render (a redaction, D-030) or a specific format or scale.
+- **`get_design_context` drops text on a path (2026-10-20).** The landing hero's curved "open to work" (`267:1863`, a `text-path` node) is in the section render but missing from the code. `download_assets` with `defaultFormat: svg` on the node exports it with the text outlined as a path, plus the usual background `<rect>`s to strip.
+- **Asset URLs are content-addressed (2026-10-20).** The file part of each URL (`1f1f0.png`, `2fc17.svg`) is the same wherever the same image or vector appears, even across calls. Matching names mean the asset is already downloaded; e.g. the TRANSEARCH landing card and the CS4 intro hero are one file.
 - **Exported asset sizes don't always match the placed size.** The avatar icons are all placed at 24px but export at 20–24px, and the Flower exported at 77px here versus 90px in the earlier fetch. Size at the call site.
 
 ## Working without a browser: two techniques from the case study build

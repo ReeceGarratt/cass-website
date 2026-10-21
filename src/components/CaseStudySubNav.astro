@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../utils/base-path';
+import ArrowBack from '../assets/icons/arrow-back.svg';
 
 interface Props {
   links: { href: string; label: string }[];
@@ -12,29 +13,40 @@ const { links } = Astro.props;
   <div class="sub-nav__inner">
     <a class="sub-nav__back" href={withBase('/work')}>
       <span class="sub-nav__back-arrow" aria-hidden="true">
-        &#8592;
+        <ArrowBack />
       </span>
-      All projects
+      All Projects
     </a>
     <ul class="sub-nav__list" role="list">
       {links.map((link) => (
-        <li>
-          <a class="sub-nav__link" href={link.href}>
+        <li class="sub-nav__item">
+          <a class="sub-nav__link" href={link.href} data-label={link.label}>
             {link.label}
           </a>
         </li>
       ))}
     </ul>
   </div>
-  <span class="sub-nav__progress" aria-hidden="true"></span>
 </nav>
 
 <style>
   .sub-nav {
     position: sticky;
-    inset-block-start: 0;
+    /* Below the site header while it shows, at the top while it's hidden.
+       SiteNav writes the offset (D-045); 0 without JS. */
+    inset-block-start: var(--site-header-offset, 0);
     z-index: 2;
+    /* 80px to the intro instead of the grid's 160px section gap: the intro
+       moved up 80px on CS1–3 (2026-10-20, Cass's "halve the space"). */
+    margin-block-end: calc(var(--space-80) - var(--space-160));
     background-color: var(--color-white);
+    transition: inset-block-start var(--duration-slide) var(--ease-slide);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sub-nav {
+      transition: none;
+    }
   }
 
   .sub-nav__inner {
@@ -50,50 +62,85 @@ const { links } = Astro.props;
     padding-inline: var(--space-gutter);
   }
 
-  .sub-nav__back,
-  .sub-nav__link {
+  .sub-nav__back {
+    display: inline-flex;
+    gap: var(--space-back-link-gap);
+    align-items: center;
     color: var(--color-purple);
     font-weight: var(--type-nav-weight);
     text-decoration: none;
   }
 
-  .sub-nav__back {
-    display: inline-flex;
-    gap: var(--space-back-link-gap);
-    align-items: center;
+  .sub-nav__back-arrow {
+    display: block;
+    inline-size: var(--size-back-arrow);
   }
 
+  .sub-nav__back-arrow :global(svg) {
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  /* The list fills the bar's height so the underline can sit on its
+     bottom edge, as in Figma (144:529). */
   .sub-nav__list {
     display: flex;
+    align-self: stretch;
     gap: var(--space-40);
     padding: 0;
     list-style: none;
   }
 
-  .sub-nav__progress {
-    display: block;
-    block-size: 0.1875rem; /* 3px */
-    inline-size: var(--progress-inline-size, 0);
-    margin-inline-start: var(--progress-inset-inline-start, 0);
-    background-color: var(--color-purple);
-    transition-property: inline-size, margin-inline-start;
-    transition-duration: var(--duration-hover);
-    transition-timing-function: var(--ease-hover);
+  .sub-nav__item {
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .sub-nav__progress {
-      transition: none;
+  /* D-039: Regular, with the current section Bold. A hidden bold copy of
+     the label reserves the bold width, so the links don't shift as the
+     current section changes. */
+  .sub-nav__link {
+    display: inline-flex;
+    flex-direction: column;
+    color: var(--color-purple);
+    font-weight: var(--type-body-weight);
+    text-decoration: none;
+  }
+
+  .sub-nav__link::after {
+    content: attr(data-label);
+    block-size: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-weight: var(--type-nav-weight);
+  }
+
+  .sub-nav__link[aria-current='true'] {
+    font-weight: var(--type-nav-weight);
+  }
+
+  /* D-039: a 3px Red underline under the current item only. */
+  .sub-nav__item:has(> [aria-current='true'])::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: var(--size-sub-nav-underline);
+    background-color: var(--color-red);
+  }
+
+  @media (forced-colors: active) {
+    .sub-nav__item:has(> [aria-current='true'])::after {
+      forced-color-adjust: none;
+      background-color: CanvasText;
     }
   }
 </style>
 
 <script>
-  // Reason for client JS (invariant 3): the design's selected state is a
-  // single underline that grows from the first link to the current section,
-  // i.e. reading progress. That needs scroll position, which CSS alone
-  // cannot provide with acceptable cross-browser support.
-  const nav = document.querySelector<HTMLElement>('.sub-nav');
+  // Reason for client JS (invariant 3), D-039: the current section's link
+  // is marked as the page scrolls, which needs the scroll position.
   const anchors = [
     ...document.querySelectorAll<HTMLAnchorElement>('.sub-nav__link'),
   ];
@@ -104,30 +151,20 @@ const { links } = Astro.props;
     return section ? [{ link, section }] : [];
   });
 
-  if (nav && items.length > 0) {
-    const first = items[0].link;
+  if (items.length > 0) {
+    let current = -1;
 
-    const setProgress = (index: number) => {
-      const navLeft = nav.getBoundingClientRect().left;
-      const firstRect = first.getBoundingClientRect();
-      const currentRect = items[index].link.getBoundingClientRect();
-      nav.style.setProperty(
-        '--progress-inset-inline-start',
-        `${firstRect.left - navLeft}px`,
-      );
-      nav.style.setProperty(
-        '--progress-inline-size',
-        `${currentRect.right - firstRect.left}px`,
-      );
+    const setCurrent = (index: number) => {
+      if (index === current) return;
+      current = index;
       items.forEach(({ link }, i) =>
         link.setAttribute('aria-current', i === index ? 'true' : 'false'),
       );
     };
 
     // The current section is the last one whose top has passed a line 20%
-    // down the viewport, computed from positions on every update rather than
-    // from which entries just changed. At the very bottom of the page the
-    // last section may never reach that line, so it becomes current there.
+    // down the viewport. At the very bottom of the page the last section
+    // may never reach that line, so it becomes current there.
     const currentIndex = () => {
       const atBottom =
         Math.ceil(scrollY + innerHeight) >=
@@ -144,19 +181,11 @@ const { links } = Astro.props;
     let frame = 0;
     const update = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => setProgress(currentIndex()));
+      frame = requestAnimationFrame(() => setCurrent(currentIndex()));
     };
 
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     update();
-    // Link widths change when the web font swaps in, and the links are
-    // right-aligned, so any late change moves the first link. Re-measure on
-    // actual size changes rather than on document.fonts.ready, which can
-    // resolve before a later font load starts: that left the underline 2px
-    // out on some loads.
-    const resizes = new ResizeObserver(update);
-    resizes.observe(nav);
-    anchors.forEach((link) => resizes.observe(link));
   }
 </script>

@@ -70,9 +70,11 @@
   --type-brand-letter-spacing: -0.011em;
   --type-brand-weight: 900;
 
-  /* Type: nav items */
-  --type-nav-size: 1.0625rem;
-  --type-nav-line-height: 1.5;
+  /* Type: nav items (Navigation 20:703, 2026-10-20: Inter Bold 16 / 1.48 /
+     -1.1%; was 17 / 1.5). Also the skip link. The sub nav's back link takes only
+     --type-nav-weight */
+  --type-nav-size: 1rem;
+  --type-nav-line-height: 1.48;
   --type-nav-letter-spacing: -0.011em;
   --type-nav-weight: 700;
 
@@ -175,17 +177,16 @@
   --space-hero-top: clamp(6rem, -3.375rem + 12.5vw, 11.625rem); /* 96 → 186px */
   --space-hero-stack-gap: 4rem; /* stacked layout only; not designed (see spec) */
   --space-nav-block: 1.5625rem; /* 25px */
-  --space-nav-gap: 2.6875rem; /* 43px */
-  --space-nav-row-gap: 1.5rem; /* 24px; not designed — chosen so a wrapped Selected pill (12px vertical inset) doesn't overlap the row above */
-  --space-nav-pill-inline: 1.46875rem; /* 23.5px */
-  --space-nav-pill-block: 0.75rem; /* 12px */
+  --space-nav-gap: 2.5rem; /* 40px (was 43px) */
+  --space-nav-row-gap: 1.5rem; /* 24px; not designed — the gap between rows if the nav wraps */
+  --space-nav-pill-inline: 1.5rem; /* 24px; selected item padding, 8px 24px */
+  --space-nav-pill-block: 0.5rem; /* 8px */
+  --space-nav-utility-gap: 1.0625rem; /* 17px; utility link text to icon */
   --space-card-padding: 1.875rem; /* 30px */
   --space-card-stack: 1.375rem; /* 22px */
   --space-card-row-gap: 0.9375rem; /* 15px */
   --space-skill-separator: 0.4518em; /* two literal spaces either side of "|", measured in the caption font (~5.42px at 12px) */
   --space-skip-link-inset: 1rem;
-  --space-skip-link-padding-block: 0.75rem;
-  --space-skip-link-padding-inline: 1rem;
   --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
   quote in the case study "talking to the experts" panel (86:212). Like
   --space-intro-columns it's a one-off measured gap rather than a scale step. */
@@ -197,6 +198,14 @@
   Not a scale-worthy number (halfway between --space-96 and nothing above it),
   so it's a bespoke one-off like the other Space tokens above rather than a
   new scale step. */
+  /* D-046: Cass's intro spacing, applied to the gaps a reader sees, which
+     include the letters' tails (Figma's 16px gaps compensate; ours don't).
+     Measured on CS1 at 1920px (ink.mjs), 2026-10-20: eyebrow → title ink
+     13px, halved → 10px (9.5 rounded); title → pills 11px, +20% → 18px.
+     CS2: 13/11px; CS3: 31/21px. CS3 misses its own targets (after 25/23
+     against 15.5/25.2): its eyebrow has no descenders (ruling R8). */
+  --space-intro-eyebrow-title: 0.625rem; /* 10px */
+  --space-intro-title-pills: 1.125rem; /* 18px */
   --space-read-more-gap: 3.75rem; /* 60px; Read More heading to cards (99:2461) */
   --space-persona-note: 1.3125rem; /* 21px; CS2 persona card 3 bottom to its
   handwritten note (92:1608 top 584 − card bottom 563) */
@@ -210,8 +219,10 @@
   --space-personas-clearance: 3.25rem; /* 52px; the persona names sit 52px
   below the top of the Personas frame (92:1579). The checker illustration
   (92:1480) rises 32px above that, into the 160px section gap, as in Figma */
-  --space-intro-image-drop: 6.9375rem; /* 111px; CS3's hero (99:2503) sits
-  this far below the top of the intro (y=441 against 330) */
+  --space-intro-image-drop: 10rem; /* 160px; CS3's hero (99:2503) sits this
+  far below the top of the intro (y=410 against 250, 2026-10-20; was 111) */
+  --space-intro-image-nudge: 0.4375rem; /* 7px; and this far right of its
+  column (x=922, was 915) */
   --space-pain-quote-offset: 1.125rem; /* 18px; CS3's pain points quote below
   the top of its heading (99:2654 mt-[18.07px]) */
 
@@ -224,7 +235,19 @@
   --size-card-title-height: 5.1875rem; /* 83px, fixed in Figma so captions align */
   --size-card-summary-min-height: 6rem; /* 96px */
   --size-arrow: 3.125rem; /* 50px */
+  /* Hover flower 55px over the 50px slot (Button_Circle Arrow 4:137,
+     2026-10-20, D-037): 3px over the top and left, 2px over the bottom and
+     right, so the arrow inside keeps its size and place */
+  --inset-arrow-hover: -6% -4% -4% -6%;
   --size-nav-dot: 0.625rem; /* 10px */
+  --size-nav-icon: 1.5rem; /* 24px; utility link icons (272:2033) */
+  --size-back-arrow: 1.379rem; /* 22.06px; sub nav arrow_back (144:540) */
+  --size-sub-nav-underline: 0.1875rem; /* 3px; current section (144:529) */
+  /* D-047: the user-type icon's slot is 24px tall; the artwork is 22px tall,
+     centred, and as wide as its aspect ratio gives. The icon files are cropped
+     to their artwork. */
+  --size-pill-icon: 1.5rem; /* 24px */
+  --size-pill-icon-glyph: 1.375rem; /* 22px */
   --size-hero-intro-width: 27.625rem; /* 442px */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
@@ -324,10 +347,16 @@
   A filter function, not a box-shadow, so it follows the bubble's rounded shape */
   --shadow-definition-tip: drop-shadow(0 -0.125rem 0.275rem rgb(0 0 0 / 0.08));
 
-  /* Motion: not in Figma yet. Colour and opacity fades only, no movement.
+  /* Motion: not in Figma yet. Hover is a colour or opacity fade, no movement;
+  the slide tokens below are for the nav and sub nav motion.
   ease-out starts fast so hover feels responsive, then settles */
   --duration-hover: 200ms;
   --ease-hover: ease-out;
+
+  /* The nav sliding away and back (D-045), and the sub nav following it.
+     Not in Figma. The only movement on the site; off under reduced motion */
+  --duration-slide: 200ms;
+  --ease-slide: ease-out;
 
   /* Focus ring: inner colour shows on light backgrounds, outer on Purple */
   --focus-ring-width: 0.1875rem; /* 3px */

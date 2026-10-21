@@ -7,7 +7,12 @@ interface Props {
 const { id, term } = Astro.props;
 ---
 
-<button class="definition-trigger" type="button" popovertarget={id}>
+<button
+  class="definition-trigger"
+  type="button"
+  popovertarget={id}
+  popovertargetaction="show"
+>
   {term}
 </button>
 <span class="definition-tip" id={id} popover>
@@ -24,6 +29,8 @@ const { id, term } = Astro.props;
     background: none;
     color: inherit;
     font: inherit;
+    /* D-042: the company name is Bold and underlined. */
+    font-weight: var(--type-subtitle-emphasis-weight);
     text-decoration: underline;
     text-underline-offset: 0.15em;
     cursor: pointer;
@@ -67,17 +74,25 @@ const { id, term } = Astro.props;
 </style>
 
 <script>
-  // Opening, closing, Escape, light dismiss and focus are all native to the
-  // Popover API — no JS is needed for behaviour. This script exists only to
-  // *position* the bubble under its trigger: popovers render in the top
-  // layer, outside normal document flow, so an ancestor cannot position
-  // them with CSS. Without this script (e.g. JS disabled) the popover still
-  // opens and closes via `popovertarget`, just centred in the viewport.
+  // Reason for client JS (invariant 3). Opening on click or tap, closing on
+  // Escape or a click outside, and focus handling are native to the
+  // Popover API; the trigger's popovertargetaction="show" makes a click
+  // only open it. The script adds two things:
+  //  1. Position: popovers render in the top layer, outside the flow, so
+  //     CSS can't place the bubble under its trigger. Without JS it opens
+  //     centred in the viewport.
+  //  2. D-042: open on hover (mouse and pen) and on keyboard focus. It stays
+  //     open while the pointer is over the trigger or the bubble, with a
+  //     short grace period for crossing the gap between them (WCAG 1.4.13),
+  //     and closes on leaving or blur.
+  const GRACE_MS = 200;
+
   for (const trigger of document.querySelectorAll<HTMLButtonElement>(
     '.definition-trigger',
   )) {
     const tip = document.getElementById(trigger.getAttribute('popovertarget')!);
     if (!tip) continue;
+
     tip.addEventListener('beforetoggle', (event) => {
       if ((event as ToggleEvent).newState !== 'open') return;
       const rect = trigger.getBoundingClientRect();
@@ -85,6 +100,41 @@ const { id, term } = Astro.props;
       tip.style.margin = '0';
       tip.style.insetBlockStart = `${rect.bottom + 8}px`;
       tip.style.insetInlineStart = `${rect.left}px`;
+    });
+
+    let hovering = false;
+    let closeTimer = 0;
+    const isOpen = () => tip.matches(':popover-open');
+    const show = () => {
+      clearTimeout(closeTimer);
+      if (!isOpen()) tip.showPopover();
+    };
+    const hide = () => {
+      if (isOpen()) tip.hidePopover();
+    };
+    // Keyboard focus keeps it open; a mouse click's focus doesn't.
+    const closeSoon = () => {
+      clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(() => {
+        if (!hovering && !trigger.matches(':focus-visible')) hide();
+      }, GRACE_MS);
+    };
+
+    for (const el of [trigger, tip]) {
+      el.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch') return;
+        hovering = true;
+        show();
+      });
+      el.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'touch') return;
+        hovering = false;
+        closeSoon();
+      });
+    }
+    trigger.addEventListener('focus', show);
+    trigger.addEventListener('blur', () => {
+      if (!hovering) hide();
     });
   }
 </script>

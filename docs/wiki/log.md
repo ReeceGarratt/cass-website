@@ -141,3 +141,39 @@ Fetched and saved the CS3 Figma snapshot (10 reads; images from the design conte
 
 ## [2026-10-04] decision | Process strip arrow re-exported; case study bleed reaches the viewport edge (D-036)
 The process strip's arrows were built from two loose vectors paired with Arrow_01 by size; re-exporting the symbol (`129:3488`) whole showed they weren't Arrow_01 at all, which is a near-straight line pointing right. The strip now uses the composed `arrow-01.svg`. Separately, `<main>` and `.case-study` no longer cap the page at 1920px; the content track is capped instead, so `u-bleed` bands reach the viewport edge on wider screens. Measured identical at 1920 and 1440 on both case studies. Updated architecture.md (invariant 8), componentisation.md, figma-mcp.md and the shapes-arrows snapshot notes.
+
+## [2026-10-20] ingest | Cass's case study feedback and the 2026-10-20 macro plan
+Added `raw/2026-10-20-cass-feedback-case-studies.md` and the macro plan that triages it. Opened Q-027 to Q-031 (the five questions for Cass).
+
+## [2026-10-20] update | Design system refresh (macro plan phase 1a)
+Refetched the Design system page, Navigation, Sub Nav, Intro, Read More and Definition Tip, and rechecked CS1–3 (18 Figma reads). New: a Portfolio style guide frame (`306:1542`) describing a new landing frame (`267:1855`); a `White` nav variant plus Resume and Email me utility links; a per-item red sub-nav underline in place of the progress sweep; 80px (was 160px) above every case study intro. Findings, and the rulings phase 2 needs, are in `figma/design-system/delta-2026-10-20.md`. Updated Q-017 and the Figma frame index.
+
+## [2026-10-20] decision | Style guide is the source of truth; nav, sub nav and Email me rulings (D-037 to D-040)
+Reece ruled on the phase 1a delta. The Portfolio style guide wins over the component sets (D-037), which also covers the new 55px arrow hover (refetched `4:137`). "Email me" copies to the clipboard (D-038). The sub nav underlines the current section only (D-039, amends D-023). Nav is purple on case studies and White on home (D-040). Opened Q-032 to Q-034 for Cass.
+
+## [2026-10-20] decision | Cass answers the five feedback questions (D-041 to D-045)
+Filed `raw/2026-10-20-cass-feedback-answers.md`. Resolved Q-027 to Q-031: keep and restyle the skip link (D-041); the Definition Tip opens on hover, focus and tap (D-042); no blue block behind "Other case studies", follow the designs (D-043); Regular weight on every blue card (D-044); the nav hides on scroll down and returns on scroll up, with the sub nav always visible (D-045). Q-032 to Q-034 are still with Cass.
+
+## [2026-10-20] decision | Cass's answers: intro spacing, pill icon, copy tick; nav trimmed (D-046 to D-049)
+Resolved Q-032 (apply Cass's intro spacing to the rendered gaps, because Figma's gaps compensate for letter tails), Q-033 (22px icon in a 24px frame) and Q-034 (a tick after copying, standardised with the landing in phase 3A). The nav drops About and Resume for now (D-049). Updated Q-011, the delta doc and the macro plan.
+
+## [2026-10-20] fix | Renumber the second D-041 to D-044 as D-046 to D-049
+Two sessions recorded decisions in parallel, and the second reused D-041 to D-044. The first set (Cass's answers to Q-027 to Q-031, D-041 to D-045) keeps its numbers; the second (intro gaps, pill icon, copy tick, trimmed nav) is now D-046 to D-049. Fixed the references in `decisions.md`, the delta doc, the macro plan, Q-011 and the entry above.
+
+## [2026-10-20] update | Figma refresh for TRANSEARCH and the new landing (macro plan phase 1b)
+Snapshotted CS4 (`144:269`; changed since 2026-09-29: restructured, 80px above the intro, one added sentence, less bottom padding) and the new landing `267:1855` (full page: hero, client strip, four cards, about, contact) in 22 Figma reads. Images staged outside the repo pending Q-018. Added two Figma MCP gotchas (text-path dropped, content-addressed asset URLs). Findings and questions, including duplicate D-041 to D-044 numbers, are in `superpowers/notes/2026-10-20-phase-1b.md`.
+
+## [2026-10-20] decision | Q-017 confirmed: 267:1855 is the landing; email copied state fetched
+Reece confirmed `267:1855` as the current landing. Frame `272:2292` differs only in the email pill's copied state (`272:2302`, a Purple Material Symbols check), now snapshotted (1 more Figma read, 23 for phase 1b). New designs are the source of truth, so stream 3B now starts by confirming the TRANSEARCH content is current. Recorded in the phase 1b notes for phase 4 to number.
+
+## [2026-10-20] decision | Landing client strip is a looping carousel
+Reece: the purple client strip scrolls as a looping carousel that stops on hover (Figma shows it static). The WCAG 2.2.2 pause mechanism for keyboard, touch and reduced-motion users is an open question with a proposed default in `superpowers/notes/2026-10-20-phase-1b.md`; the stream 3A row in the macro plan points to it.
+
+## [2026-10-20] decision | Client strip carousel: configurable speed, no button
+Reece: the carousel sticks to the design (no pause button), and its speed is a GitHub Actions variable (`CLIENT_STRIP_LOOP_SECONDS`, default 40s per loop, baked in at build). The WCAG 2.2.2 gap for touch and keyboard users is accepted for now. Details in `superpowers/notes/2026-10-20-phase-1b.md`.
+
+## [2026-10-20] build | Phase 2 foundation: new nav, sub nav and shared feedback
+Built on `reece/feature/foundation` (worktree `../cass-website-foundation`): the new nav with purple and White variants, Home · Work · Email me, the copy tick and hide on scroll (D-038, D-040, D-045, D-049, D-050); the sub nav's per-item underline and 80px intro gap (D-039); Cass's intro spacing and the 22px pill icon (D-046, D-047); the Definition Tip on hover, focus and tap (D-042); flat Read More cards with aligned pills and arrows and the 55px arrow hover (D-037, D-043); Regular text on blue cards and light purple process arrows (D-044); and the restyled skip link (D-041). Added `wiki/skip-link.md`, the scoped-styles gotcha in `componentisation.md`, D-050, and Q-035 and Q-036 for Cass. Phase 2 is in review; Reece has manual checks (see the macro plan).
+
+## [2026-10-20] decision | Q-037: a parked comment typo from the phase 2 fix wave
+Opened Q-037 for Reece: the skip link comment in `src/styles/global.css` (line 74) reads "which is may be"; fix it now or with the next edit to the file.
