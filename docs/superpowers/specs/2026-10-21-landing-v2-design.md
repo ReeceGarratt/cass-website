@@ -13,7 +13,7 @@ Stream 3A of the [2026-10-20 macro plan](../plans/2026-10-20-macro-plan.md). It 
 | Frames | `267:1855` is the page. `272:2302` is the email pill's copied state. The client band (`272:2308` in the copied-state frame, `267:1887` in the main frame) is an animated carousel |
 | Nav | Reuse phase 2's two variants (`purple`, `white`). Hover and selected states stay as they are, in each variant's colours |
 | Images | In the repo for now. Off-repo hosting (Q-018) is a later task |
-| Fourth card | The TRANSEARCH card is a layout placeholder. `cs4` is updating its copy in parallel, so build against the current `case-studies.json` |
+| Fourth card | At first a layout placeholder while `cs4` updated the copy. `cs4` merged (PR #10) before the plan was written, so all four cards render real `case-studies.json` data (D-052) |
 | Card count | Four. It shows that there are more than three case studies |
 | Resume | Keep it in the nav. It will link to a document in a later task, which may be hosted off-site so it can change without a deploy |
 | Small screens | Minimal effort. Mobile designs arrive in the next few days |
@@ -84,13 +84,14 @@ One skeleton, as [componentisation](../../wiki/componentisation.md#the-card-fami
   - The client `Pill` above the title (as with `showClient`).
   - A **thumbnail** between the skills and the summary: 341 × 211, 25px radius, a 1px Light grey border, clipped.
 - **Hover** is Figma's `Variant2`: a Purple card, White title and summary, a Light purple pill and skills, and the Red hover arrow. Reuse the existing hover rules and add only what differs.
+- **Title breaks (D-landing-3, Reece 2026-10-21):** Figma breaks two detailed titles by hand: "consolidating / import collections" and "designing an / interactive book". Measured on 2026-10-21, no single title width reproduces all four cards: at 341px those two wrap after "import" and "interactive", and narrower widths break Absa's. So `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must be the start of `title`. The schema fails the build if it isn't. Detailed cards break there with a `<br>`; compact cards ignore it. It's set on those two entries only. This edits `case-studies.json`, which `cs4` owned until it merged.
 - **Thumbnail:** Astro `<Image>` with `alt=""`. It's decorative, because the title link names the card. Widths are 341 and 682 for 1× and 2×.
 
 ### `SiteNav.astro` (changed)
 
 - **Resume** goes back into the utility area, on both variants, before Email me.
   - Text, then a 24px download icon, 17px apart.
-  - Email me starts 140px after Resume's start, which is about a 77px gap.
+  - Email me starts 140px after Resume's start. Resume is 104px wide (63px of text, the 17px gap, the 24px icon), so the gap between the two links is 36px. (An earlier draft said 77px, which measured from the end of the text only.)
   - The download icon is one SVG with `fill="currentColor"`, made from the saved purple/white exports in `docs/figma/components/navigation/`. It's hidden from screen readers.
   - It links to `RESUME_URL`, a single constant set to `withBase('/resume.pdf')`, with `download`.
   - Its accessible name is "Resume (PDF)", using a visually hidden "(PDF)".
@@ -100,6 +101,8 @@ One skeleton, as [componentisation](../../wiki/componentisation.md#the-card-fami
 - **The copy script** moves to `src/scripts/copy-email.ts` (below). The live region (`[data-copy-status]`) stays in the nav, which is on every page.
 
 ### Shared copy script and tick
+
+- **`CopyStateIcon.astro` (new):** the 24px slot holding the copy icon and the tick, with the swap keyed on an ancestor's `data-copied`. The nav's Email me and `EmailPill` both use it, since the markup repeats.
 
 - **`src/scripts/copy-email.ts`:** phase 2's script, generalised from one link to every `[data-copy-email]` link.
   - Imported by `SiteNav` and `EmailPill`. Astro bundles it once.
@@ -121,7 +124,7 @@ One skeleton, as [componentisation](../../wiki/componentisation.md#the-card-fami
 - **Crop:** in a one-off script in the scratchpad (not committed), crop each image to the region the 341 × 211 thumbnail shows. Take the offsets and sizes from the selected work section of the snapshot (`I267:1908;129:3536` and so on), and export at 2× (about 682 × 422). Expect tens of KB each.
 - **Store:** commit them as `src/assets/landing/card-<case-study-id>.png`. This is separate from `cs4`'s `src/assets/case-studies/`, so there's no path collision.
 - **Map:** `index.astro` holds a map from case study id to its imported image. **If a featured case study has no entry, the build fails** with a message naming the id. That catches `cs4` renaming the TRANSEARCH id when the streams merge.
-- **Featured cards:** the first four entries by `order`. The fourth (TRANSEARCH) renders from the current JSON. Its copy changes when `cs4` merges (D-052).
+- **Featured cards:** the first four entries by `order`. `cs4` has already updated their copy (D-052), and the TRANSEARCH id is still `designing-an-interactive-workbook`.
 
 ## Tokens
 
@@ -150,7 +153,7 @@ Minimal, because mobile designs are coming.
 
 | Where | What |
 |---|---|
-| `decisions.md` | **D-landing-1:** Resume returns to the nav, linked to `/resume.pdf` through `RESUME_URL` until the document exists. It replaces D-049's Resume clause; About stays out. **D-landing-2:** the home page shows four detailed cards, the first four by `order`. It answers Q-019's "how many" for now |
+| `decisions.md` | **D-landing-1:** Resume returns to the nav, linked to `/resume.pdf` through `RESUME_URL` until the document exists. It replaces D-049's Resume clause; About stays out. **D-landing-2:** the home page shows four detailed cards, the first four by `order`. It answers Q-019's "how many" for now. **D-landing-3:** an optional `cardTitleBreak` in `case-studies.json` (below) |
 | `questions.md` | **Q-011:** update with the interim link, and the caveat that browsers ignore `download` on links to other domains, so an off-site resume opens instead of downloading. **Q-019:** narrow it to what happens at five or more case studies, and which ones are featured then |
 | `architecture.md` | `EmailPill`, `ClientStrip`, the card's `size`, `src/scripts/`, `src/assets/landing/` and the build variable |
 | `wiki/componentisation.md` | The Detailed Card is now built, as `CaseStudyCard size="detailed"` |
