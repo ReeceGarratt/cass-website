@@ -28,11 +28,12 @@
 
 ### Reused unchanged
 
-`CaseStudyLayout`, `CaseStudySubNav`, `CaseStudyIntro`, `Pill`, `DefinitionTip`, `ProcessStrip`, `BusinessProblem`, `SectionHeading`, `CaseStudyFigure`, `LabelledFindings`, `ReadMoreSection`, `.panel`.
+`CaseStudyLayout`, `CaseStudySubNav`, `CaseStudyIntro`, `Pill`, `DefinitionTip`, `ProcessStrip`, `SectionHeading`, `FindingsList`, `CaseStudyFigure`, `LabelledFindings`, `ReadMoreSection`, `.panel`.
 
 - `CaseStudyIntro`: eyebrow "ux/ui designer" (`I144:1594;53:249`), the "Clients" pill with the existing `woman-2.svg` (the node is `Icons/Woman 2`, whatever its asset constant is called), and the intro hero.
 - `ProcessStrip`: six steps whose labels and widths are identical to CS2's, so it reuses the `--size-process-step-import-*` tokens. CS4's row is the same width as CS2's, so `--size-process-row` doesn't change.
-- `BusinessProblem`: the four needs, with the Medium/Bold mix within each line as in the frame (not all bold).
+- `CaseStudyIntro`'s image drop and nudge are custom properties; the page sets its own values (67px and 3px) on the intro, so the component doesn't change.
+- **Business problem: not `BusinessProblem`.** Planning showed that it matches neither variant here (an 80px gap, top-aligned, with 32px between rules) and has no room for the book cover. The page composes its two parts, `SectionHeading` (left-aligned, as in this frame) and `FindingsList`, instead of changing the shared component. The four needs keep the Medium/Bold mix within each line, as in the frame (not all bold).
 - `LabelledFindings` + `CaseStudyFigure`: CS2's "tracker" pattern, used for Bookmarking, Highlighting & note taking, and Responsive design.
 
 ### Changed
@@ -55,7 +56,7 @@ None. If building shows a shared component needs a change, stop and raise it: th
 |---|---|---|---|
 | 1 | Intro (`144:285`) | `CaseStudyIntro` + `DefinitionTip` | `#project-overview` Project Overview |
 | 2 | Process (`144:307`) | `ProcessStrip` | — |
-| 3 | Business problem (`144:319`) | `BusinessProblem` + the book cover figure | `#business-needs` Business Needs |
+| 3 | Business problem (`144:319`) | the book cover figure + `SectionHeading` + `FindingsList` | `#business-needs` Business Needs |
 | 4 | Competitor research (`144:335`) | `.panel` | `#research` Research |
 | 5 | Proto-personas (`144:348`) | page-local layout + note box | — |
 | 6 | User journeys (`144:367`) | `.panel`, two columns + note box | `#user-journeys` User Journeys |
@@ -80,7 +81,7 @@ Measurements come from the snapshot's outline and design context, section by sec
 
 The source is the staged raw exports in `F:/Code/cass-website-staging/figma-2026-10-20/case-study-4/` (Figma URLs expire 2026-10-27).
 
-- A one-off `sharp` script, run from the session scratchpad and not committed, resizes each raster to **2× its largest rendered width at 1920px**, keeping PNG. `astro:assets` then generates the formats and `srcset` at build time, as on CS1–3.
+- A one-off `sharp` script, run from the session scratchpad and not committed, resizes each raster to **2× its largest rendered width at 1920px**: PNG for screenshots and icons, JPEG for the photos (the cover and the references), as on CS3. `astro:assets` then generates the formats and `srcset` at build time, as on CS1–3.
 - The output goes in `src/assets/case-studies/designing-an-interactive-workbook/`, with descriptive file names.
 - The wireframe uses the composed export (`07-wireframe-composed@2x.png`), not the raw sketch.
 - `01-pill-icon.svg` and `03-vertical-divider.svg` aren't needed: the pill icon is `woman-2.svg`, and the dividers come from `BusinessProblem` and `FindingsList`.
