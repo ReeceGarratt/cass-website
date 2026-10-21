@@ -205,3 +205,5 @@ Contrast of the curved "open to work" text (`#EE0E0E` on Off-white, 4.25:1) rais
 ## [2026-10-21] update | Stream fixes: Cass's page-specific feedback
 Built from snapshots, no Figma calls. Absa's user-testing arrow now sits beside the Insight text as Figma has it (D-058); the earlier in-flow departure is gone. Both Standard Bank items already match Figma, so they went to Cass as Q-044 (business needs bold) and Q-045 (Reviewing alignment), with Figma-versus-build crops. All other streams had merged, so the IDs were numbered directly.
 
+## [2026-10-21] update | Phase 4 wrap-up of the 2026-10-20 macro plan
+All three phase 3 streams merged (PRs #10, #11, #12). Worktrees and local branches removed, checks run on `main`, every page compared with Figma at 1920px. Opened Q-046 (CS3's Read More band). AGENTS.md's status line and a stale home page line in the test plan were brought up to date.

@@ -67,11 +67,11 @@ From stream `landing` (D-051 to D-054, D-055 to D-057). The headless probes pass
 - [ ] The white wireframing band sits flush under the purple user journeys panel.
 - [ ] The phone image overlaps the tablet in Responsive design, and the caption isn't covered.
 - [ ] Other case studies shows Absa, Standard Bank and MiX Telematics, not TRANSEARCH.
-- [ ] In Other case studies, TRANSEARCH's card says "Designing an interactive book" with UI Design | Interaction Design | Typography, and Absa's badge says "Absa Banking". The home page shows neither yet: it lists the first three case studies by order, without badges (Q-019).
+- [ ] In Other case studies, TRANSEARCH's card says "Designing an interactive book" with UI Design | Interaction Design | Typography, and Absa's badge says "Absa Banking". The home page shows the same: all four case studies as detailed cards, with badges (D-056).
 
 ## Case study page fixes
 
-<!-- The fixes stream adds its checks here. -->
+From stream `fixes` (D-058, Q-044, Q-045).
 
 - [ ] On Absa's "testing my work" panel at 1920px, the hand-written arrow's tip sits just right of "instead of at the bottom.", level with that line, as in Figma (D-058). Also check at 1280px that the arrow doesn't touch the text.
 - [ ] Cass has answered Q-044 (Standard Bank business needs) and Q-045 (Standard Bank Reviewing alignment), or the items are dropped.
