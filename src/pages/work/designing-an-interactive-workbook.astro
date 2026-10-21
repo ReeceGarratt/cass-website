@@ -179,6 +179,14 @@ const subNav = [
     align-items: start;
   }
 
+  /* SectionHeading indents its standfirst 92.8px, which suits the
+     end-aligned CS1 instance (144:1870). This frame's heading is
+     left-aligned with the standfirst flush under it (144:322, inset 0,
+     303px). Overridden here rather than in the shared component. */
+  .business__lead :global(.section-heading__standfirst) {
+    margin-inline-start: 0;
+  }
+
   /* 149:1939: no radius or shadow (a photo of the printed book), caption
      16px below. */
   .business__cover {
