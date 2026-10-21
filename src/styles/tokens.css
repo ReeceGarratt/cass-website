@@ -362,4 +362,20 @@
   --focus-ring-width: 0.1875rem; /* 3px */
   --focus-ring-inner: var(--color-purple);
   --focus-ring-outer: var(--color-white);
+
+  /* --- stream: cs4 --- */
+  /* TRANSEARCH (144:269). Folded into the groups above before the PR. */
+  --space-cs4-intro-image-drop: 4.1875rem; /* 67px; the hero (144:306) sits
+  66.93px below the top of the intro */
+  --space-cs4-intro-image-nudge: 0.1875rem; /* 3px; and 3px into its column
+  (x=918, against CS3's 922 for a 7px nudge) */
+  --space-cs4-panel-inline: 6.25rem; /* 100px; the user journeys panel's
+  inline padding (144:367 px-100), against .panel's 80px */
+  --space-cs4-design-rows: 9.0625rem; /* 145px; between the four rows of the
+  Design section (144:395) */
+  --space-cs4-reference-column-gap: 0.625rem; /* 10px; typography reference
+  grid (144:398) */
+  --space-cs4-reference-row-gap: 0.84375rem; /* 13.5px */
+  --radius-cs4-app-icon: 1.4375rem; /* 23px; the competitor research app
+  icons (144:338, 144:339) */
 }

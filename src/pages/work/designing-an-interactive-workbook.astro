@@ -1,0 +1,202 @@
+---
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import CaseStudyIntro from '../../components/CaseStudyIntro.astro';
+import DefinitionTip from '../../components/DefinitionTip.astro';
+import ProcessStrip from '../../components/ProcessStrip.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import FindingsList from '../../components/FindingsList.astro';
+import Woman2 from '../../assets/icons/woman-2.svg';
+import introHero from '../../assets/case-studies/designing-an-interactive-workbook/intro-hero.png';
+import bookCover from '../../assets/case-studies/designing-an-interactive-workbook/book-cover.jpg';
+
+const entry = await getEntry(
+  'caseStudies',
+  'designing-an-interactive-workbook',
+);
+if (!entry)
+  throw new Error('Missing case study: designing-an-interactive-workbook');
+
+const subNav = [
+  { href: '#project-overview', label: 'Project Overview' },
+  { href: '#business-needs', label: 'Business Needs' },
+  { href: '#research', label: 'Research' },
+  { href: '#user-journeys', label: 'User Journeys' },
+  { href: '#design', label: 'Design' },
+  { href: '#handover', label: 'Handover' },
+];
+---
+
+<!--
+  Every measurement below is from docs/figma/case-study-4-desktop/context.md.
+  TODO(cass): all image alt text is drafted from the surrounding copy and
+  needs review (Q-024).
+-->
+<CaseStudyLayout entry={entry} subNav={subNav}>
+  <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+  <CaseStudyIntro
+    eyebrow="ux/ui designer"
+    title={entry.data.title}
+    userTypes={[{ label: 'Clients', icon: Woman2 }]}
+    image={introHero}
+    imageAlt="The workbook's reading view on a desktop: a large pull quote, chapter text with one passage selected and a highlight or note pop-up above it, and the chapter progress tracker down the left."
+    imageBleed
+    id="project-overview"
+  >
+    <Fragment slot="title">
+      designing an
+      <br />
+      interactive workbook
+    </Fragment>
+    <!-- TODO(cass): definition drafted, not in Figma (Q-cs4-2) -->
+    <DefinitionTip id="def-transearch" term="TRANSEARCH International">
+      A global executive search and leadership consulting firm.
+    </DefinitionTip>{' '}
+    in collaboration with John O. Burdett published a workbook to help employees
+    better integrate into new teams or navigate culture changes. During lockdown
+    they found it harder to distribute this workbook to their successful
+    candidates. I was tasked with creating an interactive online platform to
+    improve user access.
+    <Fragment slot="goal">
+      Create an interactive online platform where users could{' '}
+      <strong>
+        access the workbook content, highlight, make notes and complete
+        exercises.
+      </strong>
+    </Fragment>
+    <Fragment slot="outcome">
+      <p>
+        I designed a discoverable interactive workbook that enabled users to
+        engage with the content in a way similar to how they would with a
+        physical workbook, including useful additional interactions that would
+        improve their experience.
+      </p>
+      <p>
+        I was the only designer on this and I ran the project from{' '}
+        <strong>identifying business needs to its launch.</strong>
+      </p>
+    </Fragment>
+  </CaseStudyIntro>
+
+  <!-- 144:307: the same six labels and widths as CS2's strip -->
+  <ProcessStrip
+    class="u-bleed"
+    steps={[
+      {
+        label: 'identify business needs',
+        width: 'var(--size-process-step-import-identify)',
+      },
+      {
+        label: 'user research',
+        width: 'var(--size-process-step-import-research)',
+      },
+      { label: 'personas', width: 'var(--size-process-step-import-personas)' },
+      {
+        label: 'user journeys',
+        width: 'var(--size-process-step-import-journeys)',
+      },
+      {
+        label: 'wireframing & ui design',
+        width: 'var(--size-process-step-import-wireframing)',
+      },
+      {
+        label: 'development',
+        width: 'var(--size-process-step-import-development)',
+      },
+    ]}
+  />
+
+  <section
+    class="business"
+    id="business-needs"
+    aria-labelledby="business-needs-heading"
+  >
+    <div class="business__lead">
+      <figure class="business__cover">
+        <!-- TODO(cass): alt text drafted from the surrounding copy, needs review -->
+        <Image
+          class="business__cover-image"
+          src={bookCover}
+          alt="The printed workbook's cover: Without Breaking Stride, Moving successfully into your new role, by John O. Burdett."
+        />
+        <figcaption class="business__cover-caption type-handwritten">
+          The book cover
+        </figcaption>
+      </figure>
+      <SectionHeading
+        eyebrow="the"
+        title="Business problem"
+        id="business-needs-heading"
+        titleWidth="12.625rem"
+        align="start"
+      >
+        I ran a discovery session with the key stakeholder and identified the
+        following needs.
+      </SectionHeading>
+    </div>
+    <FindingsList
+      spacing="compact"
+      items={[
+        'Increase <strong>engagement</strong> with the workbook.',
+        'Help users<strong> manage a change in teams</strong> effectively and healthily.',
+        'Make the book more <strong>accessible to their users.</strong>',
+        'Help <strong>build TRANSEARCH’s brand reputation </strong>as <strong>thought leaders.</strong>',
+      ]}
+    />
+  </section>
+</CaseStudyLayout>
+
+<style>
+  /* --- Intro (144:285) ----------------------------------------------------
+     The hero bleeds to the page edge like CS3's, but sits 67px below the
+     intro's top and 3px into its column. CaseStudyIntro reads both from
+     custom properties, so this page sets its own values on the intro. */
+  :global(#project-overview) {
+    --space-intro-image-drop: var(--space-cs4-intro-image-drop);
+    --space-intro-image-nudge: var(--space-cs4-intro-image-nudge);
+  }
+
+  /* --- Business problem (144:319) -----------------------------------------
+     A 1306px row, centred and top-aligned: the book cover (285px) and the
+     shared Business Problem heading (305px, left-aligned on this frame)
+     share a 637px block, then 80px, then the 502px list with 32px either
+     side of each rule. Neither BusinessProblem variant matches (80px gap,
+     top alignment, 32px rules) and it has no room for the cover, so the page
+     composes its two parts instead. */
+  .business {
+    display: grid;
+    grid-template-columns: minmax(0, 39.8125rem) minmax(0, 31.375rem);
+    gap: var(--space-80);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .business__lead {
+    display: grid;
+    grid-template-columns: minmax(0, 17.8125rem) minmax(0, 19.0625rem);
+    justify-content: space-between;
+    align-items: start;
+  }
+
+  /* 149:1939: no radius or shadow (a photo of the printed book), caption
+     16px below. */
+  .business__cover {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    margin: 0;
+  }
+
+  .business__cover-image {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 284 / 350;
+    object-fit: cover;
+  }
+
+  .business__cover-caption {
+    color: var(--color-purple);
+    text-transform: lowercase;
+  }
+</style>
