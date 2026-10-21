@@ -43,7 +43,7 @@ None. If building shows a shared component needs a change, stop and raise it: th
 ### Page markup (first use, page-local CSS)
 
 - **Note box:** a white box with a small bold label over body text, used twice ("Reflection" under proto-personas, "Suggested improvement" in the user journeys panel). It stays page-local CSS until another page uses it.
-- **Book cover figure** beside `BusinessProblem`: the cover with the handwritten "the book cover" caption.
+- **Book cover figure** beside the business problem heading: the cover with the handwritten "the book cover" caption.
 - **Competitor research icons:** the Kindle and Adobe Reader app icons stacked beside the heading and text, in a `.panel`.
 - **Typography references:** a grid of the five magazine images beside the heading and text.
 - **Responsive figure:** one `<figure>` with the iPad and iPhone images overlapped in CSS, one alt text describing both, and the "tablet & mobile designs" caption.
@@ -84,7 +84,7 @@ The source is the staged raw exports in `F:/Code/cass-website-staging/figma-2026
 - A one-off `sharp` script, run from the session scratchpad and not committed, resizes each raster to **2× its largest rendered width at 1920px**: PNG for screenshots and icons, JPEG for the photos (the cover and the references), as on CS3. `astro:assets` then generates the formats and `srcset` at build time, as on CS1–3.
 - The output goes in `src/assets/case-studies/designing-an-interactive-workbook/`, with descriptive file names.
 - The wireframe uses the composed export (`07-wireframe-composed@2x.png`), not the raw sketch.
-- `01-pill-icon.svg` and `03-vertical-divider.svg` aren't needed: the pill icon is `woman-2.svg`, and the dividers come from `BusinessProblem` and `FindingsList`.
+- `01-pill-icon.svg` and `03-vertical-divider.svg` aren't needed: the pill icon is `woman-2.svg`, and the dividers come from `FindingsList`.
 - Record the committed total in Q-018's update.
 
 ## Docs (temporary IDs)
