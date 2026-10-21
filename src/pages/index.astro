@@ -38,6 +38,23 @@ const featured = (await getCollection('caseStudies'))
       );
     return { caseStudy, image };
   });
+
+// 05 · About & design approach (282:921). Lines as Figma breaks them; the
+// layer names in Figma are stale, so this is built from the text.
+const principles = [
+  {
+    title: ['Accessibility is for', 'everyone'],
+    body: 'I strongly advocate for accessible design because it improves the experience for all users, not just a limited group. Accessible products also help users in daily scenarios, such as a parent completing a bank transfer while juggling a busy toddler.',
+  },
+  {
+    title: ['Collaboration is', 'a must'],
+    body: 'From the outset, I foster collaboration among developers and key stakeholders to create designs that not only align with business objectives but are also technically feasible. This approach ensures that our solutions are both innovative and practical.',
+  },
+  {
+    title: ['good design as a', 'competitive edge'],
+    body: 'Investing in quality design is essential for businesses to stand out in today’s market. Users prioritize functional products that fulfill their needs over flashy corporate histories or pretty UI’s.',
+  },
+];
 ---
 
 <BaseLayout title="cassandra garratt" navVariant="white" fullBleed>
@@ -90,6 +107,45 @@ const featured = (await getCollection('caseStudies'))
           </li>
         ))}
       </ul>
+    </section>
+    <section class="about" aria-labelledby="about-heading">
+      <div class="about__inner">
+        <div class="about__intro">
+          <h2 class="about__heading type-title-2" id="about-heading">
+            thoughtful design with
+            <br />
+            Meaningful outcomes
+          </h2>
+          <p class="about__body type-subtitle">
+            Good design makes room for people. My design practice is centred on
+            inclusive technology, collaborative workflows and leveraging good
+            design as a competitive edge.
+          </p>
+        </div>
+        <ul class="about__principles" role="list">
+          {principles.map(({ title, body }) => (
+            <li class="about__principle">
+              <h3 class="about__principle-title type-h1">
+                {title[0]}
+                <br />
+                {title[1]}
+              </h3>
+              <p class="about__principle-body">{body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+    <section class="contact" aria-labelledby="contact-heading">
+      <h2 class="contact__heading type-title-1" id="contact-heading">
+        let’s make something
+        <br />
+        meaningful.
+      </h2>
+      <EmailPill />
+      <span class="contact__flower" aria-hidden="true">
+        <Flower />
+      </span>
     </section>
   </div>
 </BaseLayout>
@@ -265,5 +321,96 @@ const featured = (await getCollection('caseStudies'))
 
   .work__card {
     display: grid;
+  }
+
+  /* 05 · About & design approach (282:917): a full-bleed Light purple
+     band. Its content is the 1692px measure, so 114px insets at 1920. */
+  .about {
+    padding-block: var(--space-96);
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-light-purple);
+    color: var(--color-purple);
+  }
+
+  .about__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-about-columns);
+    max-inline-size: var(--size-landing-measure);
+    margin-inline: auto;
+  }
+
+  .about__intro {
+    display: flex;
+    flex: 0 1 var(--size-about-intro-width);
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+
+  .about__heading,
+  .about__principle-title {
+    text-transform: lowercase;
+  }
+
+  .about__heading {
+    min-block-size: var(--size-about-heading-height);
+  }
+
+  .about__body {
+    max-inline-size: var(--size-about-body-width);
+  }
+
+  .about__principles {
+    display: flex;
+    flex: 1 1 var(--size-about-principles-min);
+    flex-direction: column;
+    gap: var(--space-principles);
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__principle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-16) var(--space-40);
+  }
+
+  .about__principle:not(:last-child) {
+    padding-block-end: var(--space-principle-divider);
+    border-block-end: 1px solid var(--color-divider-purple);
+  }
+
+  .about__principle-title {
+    flex: 0 0 var(--size-principle-title-width);
+  }
+
+  .about__principle-body {
+    flex: 1 1 20rem;
+    max-inline-size: var(--size-principle-body-max);
+  }
+
+  /* 06 · Contact (267:1938): heading, email pill and Flower, 32px apart. */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    align-items: center;
+    padding-inline: var(--space-gutter);
+    text-align: center;
+  }
+
+  .contact__heading {
+    color: var(--color-purple);
+  }
+
+  .contact__flower {
+    inline-size: var(--size-contact-flower);
+    block-size: var(--size-contact-flower);
+    color: var(--color-red);
+  }
+
+  .contact__flower :global(svg) {
+    inline-size: 100%;
+    block-size: 100%;
   }
 </style>
