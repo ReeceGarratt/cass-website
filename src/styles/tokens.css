@@ -376,4 +376,10 @@
   --focus-ring-width: 0.1875rem; /* 3px */
   --focus-ring-inner: var(--color-purple);
   --focus-ring-outer: var(--color-white);
+
+  /* --- stream: landing --- */
+  /* Landing page (267:1855), 2026-10-21. Folded into the groups above
+     before the stream's PR (wiki/parallel-streams.md). */
+  --space-nav-utility-links: 2.25rem; /* 36px; Email me starts 140.04px
+  after Resume (272:2245), and Resume is 104px wide (63 + 17 + 24) */
 }
