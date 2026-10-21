@@ -15,10 +15,7 @@ The batch of work from 2026-10-20, split into phases that each run in **their ow
 
 - **Figma reads are serial.** One shared allowance (~15 calls/min, ~200/day) and no parallel calls (AGENTS.md). So Figma reading is front-loaded into phase 1, and later phases build from `docs/figma/` snapshots. **Only one chat calls Figma at a time.**
 - **The design system and most of Cass's feedback hit the same shared files:** `tokens.css`, `global.css`, `SiteNav`, `CaseStudySubNav`, `CaseStudyIntro`, `CaseStudyCard`, `Pill`, `ProcessStrip`, `DefinitionTip`. They go in one serial phase (2) before anything is parallelised.
-- **Parallel streams (phase 3) must not collide in shared docs or tokens:**
-  - New Q/D entries and wiki notes go in a stream notes file, `docs/superpowers/notes/2026-10-20-<stream>.md`, not in `questions.md` / `decisions.md` (two streams would both take the next free number). Phase 4 numbers and moves them.
-  - Page-specific tokens go in a labelled block per stream at the end of `tokens.css` (`/* --- landing (2026-10-20) --- */`); phase 4 folds them in.
-  - Only stream B edits `src/content/case-studies.json`.
+- **Parallel streams (phase 3) follow [wiki/parallel-streams.md](../../wiki/parallel-streams.md):** temporary Q/D IDs written in place, a labelled token block per stream, and each stream gives its IDs real numbers just before its own PR. The streams table in phase 3 says which files each stream owns. (Phase 1b used a notes file instead; its entries became D-051 to D-054 and Q-038 to Q-040 on 2026-10-21.)
 - **Base branch is `origin/main`.** It already contains CS3 and the case study UI fixes (PRs #6, #7); local `main` is just stale.
 
 ## Phases
@@ -79,19 +76,19 @@ CS1 set the two shared tokens: the margins went from 16px to 10px and 18px (13 t
 
 Also: `woman-3.svg` was cropped to its artwork (its export already included its 24px frame), and the user-type icons are sized by height (22px tall, width from the aspect ratio), so `woman-3` renders 23.62px by 22px (ruling R9).
 
-### Phase 3: three parallel streams (worktrees off `main` after phase 2 merges)
+### Phase 3: three parallel streams
 
-Each runs in its own chat and worktree (`superpowers:using-git-worktrees`), with `npm install` in each. Each does a brief brainstorm and plan per AGENTS.md. Streams build from snapshots; if one needs a Figma call, check that no other chat is calling Figma.
+Each runs in its own chat and worktree, following [wiki/parallel-streams.md](../../wiki/parallel-streams.md), and does a brief brainstorm and plan per AGENTS.md. Streams build from snapshots. **Only `cs4` calls Figma**, if it needs to; the others ask Reece first. Finish and PR one at a time, smallest first: `fixes`, `cs4`, `landing`.
 
-| Stream | Branch | Worktree | Scope |
-|---|---|---|---|
-| **C** page fixes | `reece/fix/cass-feedback-pages` | `../cass-website-page-fixes` | The [page-specific feedback items](#page-specific-feedback-items). Small; well suited to a subagent. Run first if time is short. |
-| **B** TRANSEARCH | `reece/feature/case-study-4` | `../cass-website-cs4` | The fourth case study page, its `case-studies.json` entry and images. **Q-018 (image delivery)** is pressing at this point; raise it before committing images. **First step: confirm the TRANSEARCH content is current.** New designs are the source of truth, and the landing card (`267:1911`) already disagrees with both the CS4 frame and `case-studies.json`: it says "interactive book" (not "workbook") and lists the skills "UI Design | Interaction Design | Typography". Before building, ask Reece whether `144:269` (snapshotted 2026-10-20) is still the current TRANSEARCH design or newer case study content exists. Then update the JSON entry to the new designs (including Absa's "Absa Banking" badge, since only B edits the JSON). See [phase 1b notes](../notes/2026-10-20-phase-1b.md). |
-| **A** landing | `reece/feature/landing-v2` | `../cass-website-landing` | The new home page. **Starts with Reece's clarifications.** Touches Q-017, Q-019, Q-012, Q-011 and probably Q-020. **Also standardise the tick icons:** the nav's "Email me" copy tick (D-048, built in phase 2 as provisional) must match the landing page's tick, so use one shared tick everywhere. The landing tick is now saved: `272:2302`, a Purple Material Symbols `check` (`docs/figma/landing-v2-desktop/icon-check-copied.svg`). Q-017 is confirmed: build from `267:1855`. **Client strip:** a scrolling, looping carousel that stops on hover, otherwise as designed (no pause button). CSS only, static under reduced motion. Speed comes from the GitHub variable `CLIENT_STRIP_LOOP_SECONDS`, defaulting to 40s per loop. That's a new build-config pattern, so flag it in 3A's plan. Details and the accepted WCAG 2.2.2 gap are in the [phase 1b notes](../notes/2026-10-20-phase-1b.md). |
+| Stream (ID) | Branch | Worktree | Base | Owns | Scope |
+|---|---|---|---|---|---|
+| **C** `fixes` | `reece/fix/cass-feedback-pages` | `../cass-website-fixes` | `main` | `src/pages/work/streamlining-scoring.astro`, `src/pages/work/consolidating-import-collections.astro` | The [page-specific feedback items](#page-specific-feedback-items). Small; well suited to a subagent. Run first if time is short. |
+| **B** `cs4` | `reece/feature/case-study-4` | `../cass-website-cs4` | `main` | `src/content/case-studies.json`, the new TRANSEARCH page and its images | The fourth case study page, its `case-studies.json` entry and images. **Q-018 (image delivery)** is pressing at this point; raise it before committing images. **First step: confirm the TRANSEARCH content is current.** New designs are the source of truth, and the landing card (`267:1911`) already disagrees with both the CS4 frame and `case-studies.json`: it says "interactive book" (not "workbook") and lists the skills "UI Design | Interaction Design | Typography". Before building, ask Reece whether `144:269` (snapshotted 2026-10-20) is still the current TRANSEARCH design or newer case study content exists. Then update the JSON entry to the new designs (D-052, including Absa's "Absa Banking" badge, since only `cs4` edits the JSON). Also see Q-023 (CS4 copy defects) and Q-038 (copied links). |
+| **A** `landing` | `reece/feature/landing-v2` | `../cass-website-landing` | `main` | `src/pages/index.astro`, `SiteNav` (the tick), new landing components | The new home page. **Starts with Reece's clarifications.** Touches Q-019, Q-012, Q-011 and probably Q-020. **Also standardise the tick icons:** the nav's "Email me" copy tick (D-048, built in phase 2 as provisional) must match the landing page's tick, so use one shared tick everywhere. The landing tick is now saved: `272:2302`, a Purple Material Symbols `check` (`docs/figma/landing-v2-desktop/icon-check-copied.svg`). Build from `267:1855` (D-051). **Client strip:** a looping carousel (D-053) whose speed comes from `CLIENT_STRIP_LOOP_SECONDS` (D-054). That's a new build-config pattern, so flag it in the stream's plan. The accepted WCAG 2.2.2 gap is Q-039; the email address is Q-040. |
 
-### Phase 4: Integrate
+### Phase 4: Wrap-up
 
-Merge C, B, A (in that order, smallest first) into `main` via PRs or one integration branch, whichever Reece prefers. Fold the stream token blocks into `tokens.css`. Number the Q/D entries from the stream notes files (and from [phase 1b's notes](../notes/2026-10-20-phase-1b.md)) and move them into `questions.md` / `decisions.md`. Update `architecture.md`, the wiki and `log.md`. Run the full checks, visually compare every page, then push with Reece's approval.
+Each stream already numbers its own IDs, folds its tokens and opens its own PR (phase 3). Once all three have merged: remove the stream worktrees and branches, check `architecture.md` and the wiki read as one whole, run the full checks on `main`, and visually compare every page against `docs/figma/`. Remaining manual checks are in [`docs/test-plan.md`](../../test-plan.md).
 
 ## Branches
 
@@ -169,7 +166,7 @@ Paste one of these to start each chat.
 - **1a:** `Start phase 1a of docs/superpowers/plans/2026-10-20-macro-plan.md.`
 - **1b:** `Start phase 1b of docs/superpowers/plans/2026-10-20-macro-plan.md. Phase 2 is running in another chat and won't call Figma.`
 - **2:** `Start phase 2 of docs/superpowers/plans/2026-10-20-macro-plan.md. Phase 1a is done; the delta doc and my conflict rulings are in docs/figma/design-system/delta-2026-10-20.md.`
-- **3A / 3B / 3C:** `Start stream <A|B|C> of phase 3 in docs/superpowers/plans/2026-10-20-macro-plan.md, in its own worktree.`
+- **3A / 3B / 3C:** `Start stream <landing|cs4|fixes> of phase 3 in docs/superpowers/plans/2026-10-20-macro-plan.md, in its own worktree.`
 - **4:** `Start phase 4 of docs/superpowers/plans/2026-10-20-macro-plan.md.`
 
 ## Status
@@ -179,9 +176,9 @@ Update this table at the end of each phase.
 | Phase | State | Branch | Notes |
 |---|---|---|---|
 | 1a | **Done** | `reece/feature/design-system-refresh` | 19 Figma reads. Delta: `docs/figma/design-system/delta-2026-10-20.md`; rulings recorded as D-037 to D-040. Questions for Cass: Q-027 to Q-034. Local `main` was **not** fast-forwarded: it has a stray local commit (`5133022`, 2026-09-16) that isn't on `origin/main`; the branch was cut from `origin/main` directly. Built token values weren't compared (reading `tokens.css` was blocked by a tool permission), so phase 2 checks the rows marked *check token*. |
-| 1b | **Done** | `reece/docs/figma-landing-cs4` (own worktree, because phase 2 was working in the main one) | 23 Figma reads (one of them the email copied state, `272:2302`). Snapshots: `docs/figma/case-study-4-desktop/context.md` (what changed since 2026-09-29 is in its Notes) and `docs/figma/landing-v2-desktop/context.md` (`267:1855`). Raw images **not committed** (Q-018): staged at `F:/Code/cass-website-staging/figma-2026-10-20/`; their Figma URLs expire 2026-10-27. No text export was needed: the outline already has every string. New questions and the **duplicate D-041 to D-044 numbers** (since renumbered as D-046 to D-049) are in `docs/superpowers/notes/2026-10-20-phase-1b.md`. Q-017 confirmed by Reece: `267:1855` is the landing. Stream 3B now starts by confirming the TRANSEARCH content is current. |
+| 1b | **Done** | `reece/docs/figma-landing-cs4` (own worktree, because phase 2 was working in the main one) | 23 Figma reads (one of them the email copied state, `272:2302`). Snapshots: `docs/figma/case-study-4-desktop/context.md` (what changed since 2026-09-29 is in its Notes) and `docs/figma/landing-v2-desktop/context.md` (`267:1855`). Raw images **not committed** (Q-018): staged at `F:/Code/cass-website-staging/figma-2026-10-20/`; their Figma URLs expire 2026-10-27. No text export was needed: the outline already has every string. Its notes file became D-051 to D-054 and Q-038 to Q-040 on 2026-10-21 (the duplicate D-041 to D-044 had already been renumbered as D-046 to D-049). Q-017 confirmed by Reece: `267:1855` is the landing. Stream 3B now starts by confirming the TRANSEARCH content is current. |
 | 2 | **Done** | `reece/feature/foundation` | Built in the worktree `../cass-website-foundation`; Tasks 2 to 10 of the foundation plan, plus a final-review fix wave. The renumbering fix (the second D-041 to D-044 became D-046 to D-049) is in the log. New: D-050 (undesigned nav details), Q-035 and Q-036 for Cass, Q-037 for Reece. **PR #8** merged to `main` on 2026-10-21 (`16d2a46`), with 1b merged in (Branches items 3 and 4). Two items for Reece to check: the branch change, and the measured intro gaps (see [Phase 2 notes](#phase-2-notes-for-reece)). The manual checks and the intro gap review moved to [`docs/test-plan.md`](../../test-plan.md). |
-| 3A landing | Not started | | Waiting on Reece's clarifications |
-| 3B TRANSEARCH | Not started | | |
-| 3C page fixes | Not started | | |
+| 3A `landing` | Not started | `reece/feature/landing-v2` | Waiting on Reece's clarifications |
+| 3B `cs4` | Not started | `reece/feature/case-study-4` | |
+| 3C `fixes` | Not started | `reece/fix/cass-feedback-pages` | |
 | 4 | Not started | | |

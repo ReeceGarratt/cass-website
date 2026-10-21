@@ -5,7 +5,7 @@ Manual checks to run on the deployed preview, split by feature. They cover what 
 - **Where to test:** the GitHub Pages preview, `https://reecegarratt.github.io/cass-website/` (D-019). It redeploys on every push to `main`.
 - **Ticking a check:** change `- [ ]` to `- [x]`, and add the browser or device and the date after it, e.g. `(Safari 19, Mac, 2026-10-22)`.
 - **When a check fails:** leave it unticked and add an indented line under it with the browser, the steps and what happened. Then raise it as a question or a fix.
-- **Adding checks (agents):** add each manual check to its feature's section as an unticked box while you build, not at the end. Each phase 3 stream has its own section below, so streams don't edit the same lines.
+- **Adding checks (agents):** add each manual check to its feature's section as an unticked box while you build, not at the end. Add a new section when a feature doesn't have one yet.
 
 ## Reviews for Reece
 
@@ -45,14 +45,14 @@ From phase 2 (D-037, D-043).
 
 - [ ] **Client pill on hover and focus (Q-036).** The card turns Purple, so the Purple pill disappears and only its white text is left. Check how it looks, then decide with Cass's answer to Q-036.
 
-## Landing page (stream 3A)
+## Landing page
 
-<!-- Stream 3A adds its checks here. -->
+<!-- The landing stream adds its checks here. -->
 
-## TRANSEARCH case study (stream 3B)
+## TRANSEARCH case study
 
-<!-- Stream 3B adds its checks here. -->
+<!-- The cs4 stream adds its checks here. -->
 
-## Case study page fixes (stream 3C)
+## Case study page fixes
 
-<!-- Stream 3C adds its checks here. -->
+<!-- The fixes stream adds its checks here. -->
