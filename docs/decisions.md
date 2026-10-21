@@ -429,3 +429,11 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Decision (Reece):** `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must start `title` (the schema fails the build otherwise). Detailed cards break there; compact cards ignore it.
 - **Alternatives considered:** accepting the browser's wraps; keeping the breaks in `index.astro` beside the thumbnails.
 - **Consequences:** Set on the Standard Bank and TRANSEARCH entries only. A title change needs its break checked.
+
+### D-058 · Absa's user-testing arrow sits beside the Insight text, as in Figma
+- **Date:** 2026-10-21 · **Status:** Accepted
+- **Context:** Cass: "Arrow needs to sit closer to the text (see design)". Figma (`19:118`) overlaps the hand-written note with the Insight block, so the arrow's top is 5px below the top of the paragraph's last line. CS1 had departed from that and put the note in flow after the paragraph, which left the arrow about 43px lower. Phase 1a found the section unchanged on 2026-10-20.
+- **Decision (Reece approved the approach):** the note stays in flow and is pulled up by the column's 24px gap plus one body-med line, less 5px, and moved 5px right (`streamlining-scoring.astro`). Measured in Edge at 1920px, the arrow is within 0.05px of Figma.
+- **Alternatives considered:** putting the note in the same grid cell as the Insight block, as Figma does (equivalent at 1920px, but it brings back the absolute offset); keeping the in-flow departure.
+- **Consequences:** if the paragraph rewraps so its last line runs past about 189px, it reaches the arrow. That can only happen below 1920px, which isn't designed yet (Q-026).
+

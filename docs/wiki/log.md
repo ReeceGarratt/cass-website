@@ -201,3 +201,7 @@ Resume back in the nav (D-055), four detailed cards (D-056), `cardTitleBreak` (D
 
 ## [2026-10-21] question | Stream landing: Q-043
 Contrast of the curved "open to work" text (`#EE0E0E` on Off-white, 4.25:1) raised for Cass. Q-010 updated: the 1880px composition is gone and nothing below 1920px is designed. Stale hero sections removed from design-tokens; D-020, D-048, D-049, D-053 and D-054 annotated.
+
+## [2026-10-21] update | Stream fixes: Cass's page-specific feedback
+Built from snapshots, no Figma calls. Absa's user-testing arrow now sits beside the Insight text as Figma has it (D-058); the earlier in-flow departure is gone. Both Standard Bank items already match Figma, so they went to Cass as Q-044 (business needs bold) and Q-045 (Reviewing alignment), with Figma-versus-build crops. All other streams had merged, so the IDs were numbered directly.
+

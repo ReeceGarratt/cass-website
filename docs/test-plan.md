@@ -72,3 +72,6 @@ From stream `landing` (D-051 to D-054, D-055 to D-057). The headless probes pass
 ## Case study page fixes
 
 <!-- The fixes stream adds its checks here. -->
+
+- [ ] On Absa's "testing my work" panel at 1920px, the hand-written arrow's tip sits just right of "instead of at the bottom.", level with that line, as in Figma (D-058). Also check at 1280px that the arrow doesn't touch the text.
+- [ ] Cass has answered Q-044 (Standard Bank business needs) and Q-045 (Standard Bank Reviewing alignment), or the items are dropped.
