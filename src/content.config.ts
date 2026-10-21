@@ -7,7 +7,7 @@ const caseStudies = defineCollection({
   schema: z
     .object({
       title: z.string(),
-      /** D-landing-3: the words before Figma's line break in this case
+      /** D-057: the words before Figma's line break in this case
        * study's detailed (home page) card title. Only for titles that
        * wrap differently at the card's width. */
       cardTitleBreak: z.string().optional(),

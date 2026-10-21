@@ -13,6 +13,11 @@
 :root {
   /* Colour: Figma variables */
   --color-purple: #4832a1;
+  --color-divider-purple: color-mix(
+    in srgb,
+    var(--color-purple) 18%,
+    transparent
+  ); /* the principles' dividers (282:927: Purple at 18% opacity) */
   --color-red: #cd2b2b;
   --color-off-white: #f8f9ff;
   --color-white: #ffffff;
@@ -23,6 +28,8 @@
 
   /* Colour: measured (not a Figma variable) */
   --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
+  --color-status: #ee0e0e; /* the curved "open to work" (267:1863): a local
+  exception in the style guide, not a Figma variable */
 
   /* Font family (registered in astro.config.mjs) */
   --font-family-base: var(--font-inter);
@@ -179,6 +186,8 @@
   --space-nav-pill-inline: 1.5rem; /* 24px; selected item padding, 8px 24px */
   --space-nav-pill-block: 0.5rem; /* 8px */
   --space-nav-utility-gap: 1.0625rem; /* 17px; utility link text to icon */
+  --space-nav-utility-links: 2.25rem; /* 36px; Email me starts 140.04px
+  after Resume (272:2245), and Resume is 104px wide (63 + 17 + 24) */
   --space-card-padding: 1.875rem; /* 30px */
   --space-card-stack: 1.375rem; /* 22px */
   --space-skill-separator: 0.4518em; /* two literal spaces either side of "|", measured in the caption font (~5.42px at 12px) */
@@ -233,6 +242,17 @@
   --space-cs4-reference-column-gap: 0.625rem; /* 10px; typography reference
   grid (144:398) */
   --space-cs4-reference-row-gap: 0.84375rem; /* 13.5px */
+  /* Landing page (267:1855) */
+  --space-landing-end: 8.375rem; /* 134px; contact (267:1938) ends 133.7px
+  above the frame's bottom */
+  --space-email-pill-gap: 0.625rem; /* 10px; label to icon (267:1865) */
+  --space-work-heading-top: 1.5625rem; /* 25px; the heading text sits under
+  "favourite" (267:1904 mt-25) */
+  --space-work-heading-bottom: 0.97625rem; /* 15.62px; the caret's overhang
+  (frame 88.62 - 25 - 48) */
+  --space-about-columns: 8.125rem; /* 130px (282:917) */
+  --space-principles: 1.875rem; /* 30px between principles (282:921) */
+  --space-principle-divider: 0.875rem; /* 14px; a principle to its divider */
 
   /* Size */
   --size-card-title-width: 16.5rem; /* 264px; narrowed from 272px (measured) so card 3's
@@ -257,6 +277,28 @@
   --size-pill-icon-glyph: 1.375rem; /* 22px */
   --size-hero-intro-width: 38.5rem; /* 616px (267:1864) */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
+  --size-landing-measure: 105.75rem; /* 1692px; four 405px cards 24px apart,
+  and the about band's content: 114px insets at 1920 */
+  --size-card-detailed-width: 25.3125rem; /* 405px (Detailed Card 129:3554) */
+  --size-card-detailed-min-height: 39.5625rem; /* 633px, fixed in Figma */
+  --size-card-detailed-title-height: 3.625rem; /* 58px, fixed in Figma
+  (129:3533) so the skills line up */
+  --ratio-card-thumbnail: 341 / 211; /* the thumbnail frame (129:3535) */
+  --size-work-caret-width: 2.0625rem; /* 33px; the rotated caret's box */
+  --size-work-caret-height: 1.2025rem; /* 19.24px */
+  --size-about-intro-width: 31.75rem; /* 508px (282:918) */
+  --size-about-body-width: 28.75rem; /* 460px (282:920) */
+  --size-about-principles-min: 30rem; /* 480px; not designed: below this
+  the principles wrap under the intro */
+  --size-principle-title-width: 16.875rem; /* 270px (282:924) */
+  --size-contact-flower: 4.125rem; /* 66px (267:1945) */
+  --size-about-heading-height: 6.1875rem; /* 99px; the heading's fixed
+  frame (282:919), 9px taller than its two 45px lines */
+  --size-principle-body-width: 46.5rem; /* 744px (282:926, 282:932) */
+  --size-principle-body-width-2: 46.125rem; /* 738px; Figma has 744 for
+  principle 2, but Inter renders 1-2px narrower here and "designs that" would
+  fit on line 1 */
+  --size-principle-body-width-3: 45.1875rem; /* 723px (282:938) */
 
   /* 1448px. Three case study frames share this measure, inset symmetrically
      inside the 1699px (Figma; 1700px rendered) content track rather than filling it: the two Purple
@@ -337,6 +379,15 @@
   --hero-pill-top: 2.0448em; /* 286.27px */
   --hero-pill-left: 3.3015em; /* 462.21px from the text box */
 
+  /* Work heading (267:1904) */
+  --work-favourite-left: 15rem; /* 240px (267:1905 ml-240) */
+  --work-caret-left: 15.75rem; /* 252px; Figma has 253 (267:1906), 1px less
+  because the rotated glyph ink lands 1px right of Figma's */
+  --work-caret-top: 3.93rem; /* 62.88px; Figma has 69.38 (267:1906), 6.5px
+  less because the La Belle Aurore line box inside the rotated cell puts the
+  glyph ink 6px lower than Figma's (measured) */
+  --work-caret-rotate: 104.21deg;
+
   /* Card hover corner strokes (SVG boxes include the 3px stroke overflow) */
   --card-corner-top-right-width: 5.5rem; /* 88px */
   --card-corner-top-right-height: 2.5rem; /* 40px */
@@ -381,56 +432,4 @@
   --focus-ring-width: 0.1875rem; /* 3px */
   --focus-ring-inner: var(--color-purple);
   --focus-ring-outer: var(--color-white);
-
-  /* --- stream: landing --- */
-  /* Landing page (267:1855), 2026-10-21. Folded into the groups above
-     before the stream's PR (wiki/parallel-streams.md). */
-  --space-nav-utility-links: 2.25rem; /* 36px; Email me starts 140.04px
-  after Resume (272:2245), and Resume is 104px wide (63 + 17 + 24) */
-  --color-status: #ee0e0e; /* the curved "open to work" (267:1863): a local
-  exception in the style guide, not a Figma variable */
-  --space-landing-end: 8.375rem; /* 134px; contact (267:1938) ends 133.7px
-  above the frame's bottom */
-  --space-email-pill-gap: 0.625rem; /* 10px; label to icon (267:1865) */
-  --size-landing-measure: 105.75rem; /* 1692px; four 405px cards 24px apart,
-  and the about band's content: 114px insets at 1920 */
-  --size-card-detailed-width: 25.3125rem; /* 405px (Detailed Card 129:3554) */
-  --size-card-detailed-min-height: 39.5625rem; /* 633px, fixed in Figma */
-  --size-card-detailed-title-height: 3.625rem; /* 58px, fixed in Figma
-  (129:3533) so the skills line up */
-  --ratio-card-thumbnail: 341 / 211; /* the thumbnail frame (129:3535) */
-  --space-work-heading-top: 1.5625rem; /* 25px; the heading text sits under
-  "favourite" (267:1904 mt-25) */
-  --space-work-heading-bottom: 0.97625rem; /* 15.62px; the caret's overhang
-  (frame 88.62 - 25 - 48) */
-  --work-favourite-left: 15rem; /* 240px (267:1905 ml-240) */
-  --work-caret-left: 15.75rem; /* 252px; Figma has 253 (267:1906), 1px less
-  because the rotated glyph ink lands 1px right of Figma's */
-  --work-caret-top: 3.93rem; /* 62.88px; Figma has 69.38 (267:1906), 6.5px
-  less because the La Belle Aurore line box inside the rotated cell puts the
-  glyph ink 6px lower than Figma's (measured) */
-  --size-work-caret-width: 2.0625rem; /* 33px; the rotated caret's box */
-  --size-work-caret-height: 1.2025rem; /* 19.24px */
-  --work-caret-rotate: 104.21deg;
-  --color-divider-purple: color-mix(
-    in srgb,
-    var(--color-purple) 18%,
-    transparent
-  ); /* the principles' dividers (282:927: Purple at 18% opacity) */
-  --space-about-columns: 8.125rem; /* 130px (282:917) */
-  --space-principles: 1.875rem; /* 30px between principles (282:921) */
-  --space-principle-divider: 0.875rem; /* 14px; a principle to its divider */
-  --size-about-intro-width: 31.75rem; /* 508px (282:918) */
-  --size-about-body-width: 28.75rem; /* 460px (282:920) */
-  --size-about-principles-min: 30rem; /* 480px; not designed: below this
-  the principles wrap under the intro */
-  --size-principle-title-width: 16.875rem; /* 270px (282:924) */
-  --size-contact-flower: 4.125rem; /* 66px (267:1945) */
-  --size-about-heading-height: 6.1875rem; /* 99px; the heading's fixed
-  frame (282:919), 9px taller than its two 45px lines */
-  --size-principle-body-width: 46.5rem; /* 744px (282:926, 282:932) */
-  --size-principle-body-width-2: 46.125rem; /* 738px; Figma has 744 for
-  principle 2, but Inter renders 1-2px narrower here and "designs that" would
-  fit on line 1 */
-  --size-principle-body-width-3: 45.1875rem; /* 723px (282:938) */
 }

@@ -30,7 +30,7 @@ const {
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const { title, client, skills, summary, cardTitleBreak } = caseStudy.data;
 const detailed = size === 'detailed';
-// D-landing-3: detailed cards break the title where Figma does.
+// D-057: detailed cards break the title where Figma does.
 const titleRest =
   detailed && cardTitleBreak
     ? title.slice(cardTitleBreak.length).trim()

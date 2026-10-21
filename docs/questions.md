@@ -30,7 +30,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-012 | Brand link | Nothing yet |
 | Q-013 | Card hover timing from Figma | Nothing; placeholder in use (D-020) |
 | Q-018 | Image delivery: in-repo with Astro's pipeline, or hosted off-repo | **Blocks the case study pages at scale**; MVP can proceed in-repo |
-| Q-019 | Which case studies the home page features | Nothing; four by order in use (D-landing-2) |
+| Q-019 | Which case studies the home page features | Nothing; four by order in use (D-056) |
 | Q-020 | The `/work` index route | Nothing yet; the route 404s (alongside Q-011's `/resume.pdf`) |
 | Q-021 | A third undocumented light purple, `#E3E7FF` | Nothing yet; `--color-white` used as the nearest tokenised stand-in |
 | Q-022 | Finding blocks' inconsistent drop shadow in Figma | Nothing; one shadow token used consistently in the build |
@@ -46,7 +46,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
 | Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
 | Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
-| Q-landing-1 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
+| Q-043 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
 
 ---
 
@@ -116,7 +116,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - Cass designs a laptop frame (1280–1536px).
   - Cass approves the stacked layout as-is.
 - **Note (2026-09-17):** an accepted residual from the caption font change (browser vs Figma Inter shaping) means card 2's caption fits on one line in the browser at 373px, where Figma now wraps it to 391px like card 1. See [wiki/design-tokens.md](wiki/design-tokens.md).
-- **Update (2026-10-21, stream `landing`):** the landing rebuild replaced the 1880px overlap composition (D-landing-2, [spec](superpowers/specs/2026-10-21-landing-v2-design.md)). Nothing below 1920px is designed yet; the title scales down with the viewport to 48px and the page only avoids overlaps. Mobile designs are expected in the next few days.
+- **Update (2026-10-21, stream `landing`):** the landing rebuild replaced the 1880px overlap composition (D-056, [spec](superpowers/specs/2026-10-21-landing-v2-design.md)). Nothing below 1920px is designed yet; the title scales down with the viewport to 48px and the page only avoids overlaps. Mobile designs are expected in the next few days.
 
 ### Q-011 · Resume link target
 - **Raised:** 2026-09-16
@@ -124,7 +124,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The nav currently points to `/resume`, which 404s.
 - **Options:** a PDF in `public/` · a page · an external link.
 - **Update 2026-10-20:** still undecided. The new nav design has a "Resume" utility link with a download icon; it's left out of the built nav until this is settled (D-049).
-- **Update (2026-10-21, stream `landing`):** Resume is back in the nav (D-landing-1), linked to `/resume.pdf` through `RESUME_URL` in `SiteNav.astro`, which 404s until the document is added. If it's hosted off-site, browsers ignore `download` on another origin, so it opens rather than downloads.
+- **Update (2026-10-21, stream `landing`):** Resume is back in the nav (D-055), linked to `/resume.pdf` through `RESUME_URL` in `SiteNav.astro`, which 404s until the document is added. If it's hosted off-site, browsers ignore `download` on another origin, so it opens rather than downloads.
 
 ### Q-012 · Brand link
 - **Raised:** 2026-09-16
@@ -164,7 +164,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
   - **A separate `featured: boolean` field** in the schema: explicit, decoupled from ordering, but another field to keep in sync as case studies are added.
   - **Cass redesigns the hero for four (or however many) cards.**
 - **Also decide:** what should happen as a fifth case study is added — does the home page still show only three, or does the count change too?
-- **Update (2026-10-21, stream `landing`):** the home page now shows four detailed cards, the first four by `order` (D-landing-2). Still open: what happens at five or more, and which are featured then.
+- **Update (2026-10-21, stream `landing`):** the home page now shows four detailed cards, the first four by `order` (D-056). Still open: what happens at five or more, and which are featured then.
 
 ### Q-020 · The `/work` index route
 - **Raised:** 2026-09-29
@@ -282,7 +282,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."
 - **Options:** Cass confirms it · Cass gives her own wording.
 
-### Q-landing-1 · Cass: contrast of the curved "open to work" text
+### Q-043 · Cass: contrast of the curved "open to work" text
 - **Raised:** 2026-10-21 (stream `landing`)
 - **Blocks:** nothing; built as designed
 - **Context:** The curved "open to work" text on the hero (`267:1863`) is Figma's local red `#EE0E0E` (`--color-status`) on Off-white `#F8F9FF`. Measured with the WCAG 2.x formula that is 4.25:1, below the 4.5:1 AA threshold for small text. It is an image of text with a visually hidden "Open to work" equivalent, so screen readers are covered, and it isn't blocking. The palette Red `#CD2B2B` on Off-white is 5.03:1 (see [wiki/design-tokens.md](wiki/design-tokens.md)).

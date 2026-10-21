@@ -42,7 +42,7 @@ cd ../cass-website-<id> && npm install
 
 Follow AGENTS.md as normal, with these differences:
 
-- **Temporary IDs.** A new question is `Q-<id>-<n>` and a new decision is `D-<id>-<n>` (e.g. `Q-landing-1`), numbered from 1 per stream. Put them where entries normally go: the summary table, the full entry, `log.md`, and any references in code comments or other docs. Two streams can't take the same number this way.
+- **Temporary IDs.** A new question is `Q-<id>-<n>` and a new decision is `D-<id>-<n>` (e.g. `Q-abc-1` for a stream called `abc`), numbered from 1 per stream. Put them where entries normally go: the summary table, the full entry, `log.md`, and any references in code comments or other docs. Two streams can't take the same number this way.
 - **Resolving an existing question** works as normal: the new `D-<id>-<n>` entry says `Resolves Q-xxx`, and the question is removed.
 - **Tokens.** Page-specific tokens go in a labelled block at the end of `src/styles/tokens.css`: `/* --- stream: <id> --- */`. Changing an existing token is a shared change: ask Reece first.
 - **Owned files.** Only edit a file another stream owns if Reece agrees; otherwise note what you need in your summary.

@@ -48,7 +48,7 @@ From phase 2 (D-037, D-043).
 
 ## Landing page
 
-From stream `landing` (D-051 to D-054, D-landing-1 to D-landing-3). The headless probes passed; these confirm it in real browsers.
+From stream `landing` (D-051 to D-054, D-055 to D-057). The headless probes passed; these confirm it in real browsers.
 
 - [ ] The client strip loops smoothly with no jump or gap at the end of each loop, at 1920px and on a wider screen if one's available.
 - [ ] Hovering the client strip pauses it, and moving away resumes it.

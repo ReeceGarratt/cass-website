@@ -2,7 +2,7 @@
 summary: Where the design tokens live, their naming scheme, unit rules, how the fluid values were derived, the type classes and spacing scale, and the H1 line-height change.
 updated: 2026-10-21
 related: [figma-mcp.md, componentisation.md]
-decisions: [D-002, D-014, D-020, D-021, D-024, D-026, D-landing-2, Q-005, Q-010, Q-013]
+decisions: [D-002, D-014, D-020, D-021, D-024, D-026, D-056, Q-005, Q-010, Q-013]
 ---
 
 # Design tokens
@@ -129,7 +129,7 @@ slope = (valueMax - valueMin) / (viewportMax - viewportMin)
 preferred = valueMin - slope * viewportMin + slope * 100vw
 ```
 
-> **Historical (2026-10-21):** the earlier 72 to 100px title clamp, `--space-hero-top`, the 117.5rem (1880px) overlap breakpoint and `--hero-title-baseline` (cards on the headline's first baseline) belonged to the old hero. The landing rebuild removed all four: see D-landing-2 and [the spec](../superpowers/specs/2026-10-21-landing-v2-design.md).
+> **Historical (2026-10-21):** the earlier 72 to 100px title clamp, `--space-hero-top`, the 117.5rem (1880px) overlap breakpoint and `--hero-title-baseline` (cards on the headline's first baseline) belonged to the old hero. The landing rebuild removed all four: see D-056 and [the spec](../superpowers/specs/2026-10-21-landing-v2-design.md).
 
 ## `--space-skill-separator`
 

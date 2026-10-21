@@ -4,7 +4,7 @@ Stream 3A of the [2026-10-20 macro plan](../plans/2026-10-20-macro-plan.md). It 
 
 - **Branch / worktree:** `reece/feature/landing-v2`, `../cass-website-landing`, based on `main`.
 - **Sources:** [`docs/figma/landing-v2-desktop/`](../../figma/landing-v2-desktop/context.md) (the frame, its sections and its assets) and [`docs/figma/components/`](../../figma/components/) (nav, detailed card). No Figma calls: only `cs4` calls Figma (macro plan, phase 3).
-- **Conventions:** [wiki/parallel-streams.md](../../wiki/parallel-streams.md): temporary `Q-landing-n` / `D-landing-n` IDs, a labelled token block, and the finishing steps before the PR. This stream finishes **last** (`fixes`, then `cs4`, then `landing`).
+- **Conventions:** [wiki/parallel-streams.md](../../wiki/parallel-streams.md): temporary `Q-<stream>-n` / `D-<stream>-n` IDs, a labelled token block, and the finishing steps before the PR. This stream finishes **last** (`fixes`, then `cs4`, then `landing`).
 
 ## Reece's clarifications (2026-10-21)
 
@@ -84,7 +84,7 @@ One skeleton, as [componentisation](../../wiki/componentisation.md#the-card-fami
   - The client `Pill` above the title (as with `showClient`).
   - A **thumbnail** between the skills and the summary: 341 × 211, 25px radius, a 1px Light grey border, clipped.
 - **Hover** is Figma's `Variant2`: a Purple card, White title and summary, a Light purple pill and skills, and the Red hover arrow. Reuse the existing hover rules and add only what differs.
-- **Title breaks (D-landing-3, Reece 2026-10-21):** Figma breaks two detailed titles by hand: "consolidating / import collections" and "designing an / interactive book". Measured on 2026-10-21, no single title width reproduces all four cards: at 341px those two wrap after "import" and "interactive", and narrower widths break Absa's. So `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must be the start of `title`. The schema fails the build if it isn't. Detailed cards break there with a `<br>`; compact cards ignore it. It's set on those two entries only. This edits `case-studies.json`, which `cs4` owned until it merged.
+- **Title breaks (D-057, Reece 2026-10-21):** Figma breaks two detailed titles by hand: "consolidating / import collections" and "designing an / interactive book". Measured on 2026-10-21, no single title width reproduces all four cards: at 341px those two wrap after "import" and "interactive", and narrower widths break Absa's. So `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must be the start of `title`. The schema fails the build if it isn't. Detailed cards break there with a `<br>`; compact cards ignore it. It's set on those two entries only. This edits `case-studies.json`, which `cs4` owned until it merged.
 - **Thumbnail:** Astro `<Image>` with `alt=""`. It's decorative, because the title link names the card. Widths are 341 and 682 for 1× and 2×.
 
 ### `SiteNav.astro` (changed)
@@ -153,7 +153,7 @@ Minimal, because mobile designs are coming.
 
 | Where | What |
 |---|---|
-| `decisions.md` | **D-landing-1:** Resume returns to the nav, linked to `/resume.pdf` through `RESUME_URL` until the document exists. It replaces D-049's Resume clause; About stays out. **D-landing-2:** the home page shows four detailed cards, the first four by `order`. It answers Q-019's "how many" for now. **D-landing-3:** an optional `cardTitleBreak` in `case-studies.json` (below) |
+| `decisions.md` | **D-055:** Resume returns to the nav, linked to `/resume.pdf` through `RESUME_URL` until the document exists. It replaces D-049's Resume clause; About stays out. **D-056:** the home page shows four detailed cards, the first four by `order`. It answers Q-019's "how many" for now. **D-057:** an optional `cardTitleBreak` in `case-studies.json` (below) |
 | `questions.md` | **Q-011:** update with the interim link, and the caveat that browsers ignore `download` on links to other domains, so an off-site resume opens instead of downloading. **Q-019:** narrow it to what happens at five or more case studies, and which ones are featured then |
 | `architecture.md` | `EmailPill`, `ClientStrip`, the card's `size`, `src/scripts/`, `src/assets/landing/` and the build variable |
 | `wiki/componentisation.md` | The Detailed Card is now built, as `CaseStudyCard size="detailed"` |

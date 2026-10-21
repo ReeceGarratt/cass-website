@@ -13,14 +13,14 @@ interface Props {
 const { currentPath, variant = 'purple' } = Astro.props;
 
 // D-049: About returns when it has a screen. Contact is replaced by
-// "Email me" (D-038). Resume is back (D-landing-1).
+// "Email me" (D-038). Resume is back (D-055).
 const links = [
   { label: 'Home', href: '/' },
   { label: 'Work', href: '/work' },
 ];
 
 // TODO(Q-011): the resume document doesn't exist yet, so this 404s until a
-// later task adds it (D-landing-1). If it's hosted off-site instead, change
+// later task adds it (D-055). If it's hosted off-site instead, change
 // only this constant. Browsers ignore `download` on another origin, so an
 // off-site file opens rather than downloads.
 const RESUME_URL = withBase('/resume.pdf');

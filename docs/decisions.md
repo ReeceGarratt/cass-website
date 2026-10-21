@@ -149,7 +149,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** Every new root-relative link or `public/` asset URL must use `withBase` (architecture invariant 7). The workflow, and `withBase` if it's no longer needed, go when the Cloudflare pipeline is running. Setup and gotchas: [wiki/github-pages.md](wiki/github-pages.md).
 
 ### D-020 · Home page cards: equal heights, baseline alignment, shadow and hover fade
-- **Date:** 2026-09-17 · **Status:** Partly superseded by D-landing-2 (the baseline-alignment bullet; equal heights and the hover fade still hold)
+- **Date:** 2026-09-17 · **Status:** Partly superseded by D-056 (the baseline-alignment bullet; equal heights and the hover fade still hold)
 - **Context:** Requested by the user ahead of updated Figma frames. The current Figma row lets cards differ in height (391 / 391 / 373px) and centres them, which read as uneven. The hover swap was instant and felt jarring. Figma has no shadow or motion values yet.
 - **Decision:**
   - **Equal heights:** the card list is a grid with `grid-auto-rows: 1fr`, so every card matches the tallest, including when the stacked layout wraps. At 1880px and wider it's a single auto-flow column row.
@@ -159,7 +159,7 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Alternatives considered:** a flex row with `align-items: stretch` for equal heights. It matches the grid in the single-row desktop layout, but only equalises cards on the same line once the row wraps.
 - **Consequences:** The build now differs from the current Figma frames on card height and position, which invariant 6 allows through this entry. Shadow, timing and alignment values get replaced when Cass's updated frames land (Q-013).
 - **Update (2026-09-29):** the real shadow values landed with the case study work — `--shadow-card` and `--shadow-card-warm` are no longer placeholders. See Q-013.
-- **Update (2026-10-21, stream `landing`):** the landing rebuild (D-landing-2) removed the baseline alignment: the hero is a new composition and the cards no longer sit on the headline's first baseline. Equal card heights and the hover fade still hold.
+- **Update (2026-10-21, stream `landing`):** the landing rebuild (D-056) removed the baseline alignment: the hero is a new composition and the cards no longer sit on the headline's first baseline. Equal card heights and the hover fade still hold.
 
 ### D-021 · Fonts: Inter only, Roboto retired
 - **Date:** 2026-09-29 · **Status:** Accepted · **Resolves Q-014**
@@ -366,11 +366,11 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Update (2026-10-21, stream `landing`):** the provisional tick was replaced with the landing tick (`272:2302`), which closes the phase 3A follow-up.
 
 ### D-049 · Nav shows Home and Work, plus "Email me", for now
-- **Date:** 2026-10-20 · **Status:** Partly superseded by D-landing-1 (the Resume clause: Resume is back; About still stays out)
+- **Date:** 2026-10-20 · **Status:** Partly superseded by D-055 (the Resume clause: Resume is back; About still stays out)
 - **Context:** The new nav design has Home · Work · About, then Resume and Email me. There's no design for an About screen yet, and the Resume target is still open (Q-011).
 - **Decision (Reece):** Leave **About** and **Resume** out of the built nav for now. Each comes back when its screen or target exists.
 - **Consequences:** The nav renders Home, Work and Email me. The old Contact item goes too (D-038 replaces it with Email me). `/work` still 404s (Q-020).
-- **Update (2026-10-21, stream `landing`):** D-landing-1 brings Resume back, linked to `/resume.pdf`. About still stays out.
+- **Update (2026-10-21, stream `landing`):** D-055 brings Resume back, linked to `/resume.pdf`. About still stays out.
 
 ### D-050 · Undesigned nav details for phase 2
 - **Date:** 2026-10-20 · **Status:** Accepted
@@ -410,20 +410,20 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Consequences:** The proposed shape, for the landing stream to confirm: `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}` to the build step (the same `env:` pattern `BASE_PATH` uses); Astro reads `import.meta.env.PUBLIC_CLIENT_STRIP_LOOP_SECONDS` at build time and writes it into the animation duration, falling back to 40 when it's unset or not a positive number. Changing it needs a redeploy. It's a new build-config pattern. The Cloudflare Workers deploy (D-009) will need the same variable.
 - **Update (2026-10-21, stream `landing`):** built as proposed. `deploy-pages.yml` passes `PUBLIC_CLIENT_STRIP_LOOP_SECONDS: ${{ vars.CLIENT_STRIP_LOOP_SECONDS }}`, and `ClientStrip.astro` parses it with a 40s fallback for unset, empty or non-positive values.
 
-### D-landing-1 · Resume returns to the nav, linked to `/resume.pdf` for now
+### D-055 · Resume returns to the nav, linked to `/resume.pdf` for now
 - **Date:** 2026-10-21 · **Status:** Accepted
 - **Context:** D-049 left Resume out of the nav until its target existed (Q-011). The landing design (`267:1855`) shows it on every nav variant.
 - **Decision (Reece):** Show Resume, with its download icon, on both nav variants. Link it to `/resume.pdf` with `download`, through one `RESUME_URL` constant in `SiteNav.astro`, until a later task adds the document.
 - **Alternatives considered:** hiding it behind a flag until the document exists; showing it without a link.
 - **Consequences:** The link 404s until the file is in `public/` (Reece accepted this). The document may be hosted off-site so it can change without a deploy; then only `RESUME_URL` changes, but browsers ignore `download` on another origin, so it opens instead of downloading. Replaces D-049's Resume clause; About stays out.
 
-### D-landing-2 · The home page shows four detailed cards
+### D-056 · The home page shows four detailed cards
 - **Date:** 2026-10-21 · **Status:** Accepted
 - **Context:** The built home page showed the first three case studies (Q-019). The landing design shows four Detailed Cards.
 - **Decision (Reece):** Show four, the first four by `order`. Four makes it clearer that there are more than three case studies.
 - **Consequences:** `index.astro` takes the first four entries, and each needs a thumbnail in `src/assets/landing/` (the build fails without one). Q-019 stays open for what happens at five or more.
 
-### D-landing-3 · An optional `cardTitleBreak` for detailed card titles
+### D-057 · An optional `cardTitleBreak` for detailed card titles
 - **Date:** 2026-10-21 · **Status:** Accepted
 - **Context:** Figma breaks two detailed card titles by hand ("consolidating / import collections", "designing an / interactive book"). Measured on 2026-10-21, no single title width reproduces all four cards' breaks.
 - **Decision (Reece):** `case-studies.json` gets an optional `cardTitleBreak`: the words before the break, which must start `title` (the schema fails the build otherwise). Detailed cards break there; compact cards ignore it.
