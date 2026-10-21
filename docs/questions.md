@@ -49,6 +49,7 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-043 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
 | Q-044 | Cass: Standard Bank business needs, "not all text should be bolded" | Nothing; the build already matches Figma |
 | Q-045 | Cass: Standard Bank Reviewing, which text lines up with the checker summary image? | Nothing; built as Figma has it |
+| Q-046 | CS3's "Other case studies" sits on a Purple band in Figma, but not in the build | Nothing; built like the other three pages |
 
 ---
 
@@ -301,3 +302,9 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; built as Figma has it
 - **Context:** Cass's note on Reviewing data & Requesting Changes reads "Left align right text to 'checker summary screen' image". The build follows the saved Figma (`91:1039`), where the heading and problem column starts 242px in from the checker summary image's left edge, and the outcome and solution column 31px in from the change request image's. Measured in Edge at 1920px, the build has 233px and 22px. Figma above, the build below: [q-045-reviewing.png](superpowers/plans/2026-10-20-macro-plan/q-045-reviewing.png). Reece chose to ask rather than guess. Either change is one CSS rule on `.reviewing__info` in `consolidating-import-collections.astro`.
 - **Options:** the left column lines up with the checker summary image · both columns line up with the image below each · something else, or Cass updates Figma.
+
+### Q-046 · CS3's "Other case studies" sits on a Purple band in Figma, but not in the build
+- **Raised:** 2026-10-21 (phase 4)
+- **Blocks:** nothing; built like the other three pages
+- **Context:** The phase 4 visual pass found that MiX Telematics' Read More row (`92:2089`, 2040px wide) is on a full-bleed Purple band, with the "Other case studies" heading in a light colour. It's in both the 2026-10-04 and 2026-10-20 screenshots. CS1, CS2 and CS4 have it on the page background, and so does the build on all four pages. No decision covers the difference. D-043 says to follow the designs, and records the Read More row as matching Figma on every page, which isn't true for CS3. Cass's original "put this in a blue block" request was about Standard Bank's row, so the CS3 band may be what she had in mind, or a leftover.
+- **Options:** add the band on CS3 only (a `ReadMoreSection` variant or a page-level band, plus the light heading) · leave it, treating the band as Figma drift · put the band on every case study (Cass's original request, which D-043 turned down).
