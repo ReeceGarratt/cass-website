@@ -8,9 +8,6 @@
  *
  * Written by hand until a token pipeline is chosen (Q-005). When Figma
  * changes, update this file to match.
- *
- * Overlap layout breakpoint: 117.5rem (1880px). Media queries can't read
- * custom properties, so that value is repeated in src/pages/index.astro.
  */
 
 :root {
@@ -31,9 +28,11 @@
   --font-family-base: var(--font-inter);
   --font-family-handwritten: var(--font-la-belle-aurore);
 
-  /* Type: Title (hero headline), fluid 72px → 100px */
-  --type-title-size: clamp(4.5rem, 1.5833rem + 3.8889vw, 6.25rem);
-  --type-title-line-height: 0.98;
+  /* Type: Title (hero headline, 267:1860): Inter Black 140 / 125px / -4%.
+     Scales with the viewport below 1920px (7.2917vw is 140px there), down
+     to 48px; not designed below 1920 (mobile designs are coming). */
+  --type-title-size: clamp(3rem, 7.2917vw, 8.75rem);
+  --type-title-line-height: 0.8929; /* 125/140 */
   --type-title-letter-spacing: -0.04em;
   --type-title-weight: 900;
 
@@ -174,8 +173,6 @@
 
   /* Space */
   --space-gutter: clamp(3rem, -3.4583rem + 8.6111vw, 6.875rem); /* 48 → 110px */
-  --space-hero-top: clamp(6rem, -3.375rem + 12.5vw, 11.625rem); /* 96 → 186px */
-  --space-hero-stack-gap: 4rem; /* stacked layout only; not designed (see spec) */
   --space-nav-block: 1.5625rem; /* 25px */
   --space-nav-gap: 2.5rem; /* 40px (was 43px) */
   --space-nav-row-gap: 1.5rem; /* 24px; not designed — the gap between rows if the nav wraps */
@@ -184,7 +181,6 @@
   --space-nav-utility-gap: 1.0625rem; /* 17px; utility link text to icon */
   --space-card-padding: 1.875rem; /* 30px */
   --space-card-stack: 1.375rem; /* 22px */
-  --space-card-row-gap: 0.9375rem; /* 15px */
   --space-skill-separator: 0.4518em; /* two literal spaces either side of "|", measured in the caption font (~5.42px at 12px) */
   --space-skip-link-inset: 1rem;
   --space-panel-columns: 15rem; /* 240px; gap between the heading and the pull
@@ -239,7 +235,6 @@
   --space-cs4-reference-row-gap: 0.84375rem; /* 13.5px */
 
   /* Size */
-  --size-card-width: 21.4375rem; /* 343px */
   --size-card-title-width: 16.5rem; /* 264px; narrowed from 272px (measured) so card 3's
   title wraps "Using research to / build a better / sales workflow" like Figma —
   272px let "sales" join the 2nd line instead. 264px is the value closest to 272px
@@ -260,7 +255,7 @@
      to their artwork. */
   --size-pill-icon: 1.5rem; /* 24px */
   --size-pill-icon-glyph: 1.375rem; /* 22px */
-  --size-hero-intro-width: 27.625rem; /* 442px */
+  --size-hero-intro-width: 38.5rem; /* 616px (267:1864) */
   --size-divider-width: 25rem; /* 400px; case study intro goal/outcome hairline */
 
   /* 1448px. Three case study frames share this measure, inset symmetrically
@@ -317,20 +312,30 @@
   A starting value to test, not from Figma (Figma only has desktop). */
   --type-process-min-size: 1.25rem; /* 20px */
 
-  /* Hero decoration and offsets, relative to the title size */
-  --hero-flower-size: 0.9em; /* 90px at 100px */
-  --hero-flower-offset-top: 0.06em;
-  --hero-flower-gap: 0.08em;
-  --hero-pill-width: 2.69em; /* 269px */
-  --hero-pill-height: 0.72em; /* 72px */
-  --hero-pill-offset-top: 0.2em;
-  --hero-pill-gap: 0.12em;
-  --hero-titles-offset-top: calc(var(--type-title-size) * 2.89); /* 289px */
-  /* Headline line top to its baseline: Inter ascent 0.96875 less half-leading
-  0.1155 (line height 0.98, content area 1.2109). Measured 85px at 100px */
-  --hero-title-baseline: calc(var(--type-title-size) * 0.853);
-  --hero-intro-offset-top: calc(var(--type-title-size) * 2.23); /* 223px */
-  --hero-intro-offset-inline: calc(var(--type-title-size) * 3.81); /* 381px */
+  /* Hero (267:1857). The accents are in em of the headline size, so they
+     scale with it. Measured on the 1:1 screenshot, from the hero frame's
+     left edge (x=560) and top (y=170); the outline's -34.52px group offset
+     isn't in the render. "From the text box" means from the headline's own
+     left edge, which starts 3.4px left of the ink. */
+  --size-hero-width: 50rem; /* 800px; centred, it puts the hero's left edge
+  at x=560 at 1920 */
+  --hero-headline-height: 2.7357em; /* 383px (267:1858) */
+  --hero-headline-top: 0.1628em; /* 22.79px; the first line box's top */
+  --hero-headline-nudge: -0.0243em; /* -3.4px; the text box starts left of
+  the ink */
+  --hero-line-1-indent: 0.8em; /* 112px; "effective" starts at x=672, after
+  the flower */
+  --hero-flower-size: 0.7605em; /* 106.47px (267:1862) */
+  --hero-flower-top: 0.2305em; /* 32.27px */
+  --hero-flower-left: -0.0059em; /* -0.83px from the text box */
+  --hero-status-width: 0.5929em; /* 83px; the curved "open to work" export */
+  --hero-status-height: 0.4429em; /* 62px */
+  --hero-status-top: 0.0599em; /* 8.39px */
+  --hero-status-left: -0.107em; /* -14.98px from the text box */
+  --hero-pill-width: 2.2815em; /* 319.41px (267:1861) */
+  --hero-pill-height: 0.6929em; /* 97px */
+  --hero-pill-top: 2.0448em; /* 286.27px */
+  --hero-pill-left: 3.3015em; /* 462.21px from the text box */
 
   /* Card hover corner strokes (SVG boxes include the 3px stroke overflow) */
   --card-corner-top-right-width: 5.5rem; /* 88px */
@@ -382,4 +387,9 @@
      before the stream's PR (wiki/parallel-streams.md). */
   --space-nav-utility-links: 2.25rem; /* 36px; Email me starts 140.04px
   after Resume (272:2245), and Resume is 104px wide (63 + 17 + 24) */
+  --color-status: #ee0e0e; /* the curved "open to work" (267:1863): a local
+  exception in the style guide, not a Figma variable */
+  --space-landing-end: 8.375rem; /* 134px; contact (267:1938) ends 133.7px
+  above the frame's bottom */
+  --space-email-pill-gap: 0.625rem; /* 10px; label to icon (267:1865) */
 }

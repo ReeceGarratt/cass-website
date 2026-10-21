@@ -1,0 +1,39 @@
+---
+import { EMAIL } from '../utils/contact';
+import CopyStateIcon from './CopyStateIcon.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a
+  class:list={['email-pill', 'type-h3', className]}
+  href={`mailto:${EMAIL}`}
+  data-copy-email={EMAIL}
+>
+  {EMAIL}
+  <CopyStateIcon />
+</a>
+
+<script>
+  import '../scripts/copy-email';
+</script>
+
+<style>
+  /* Contact pill · Email (267:1865, 267:1940); copied state 272:2302. */
+  .email-pill {
+    display: inline-flex;
+    gap: var(--space-email-pill-gap);
+    align-items: center;
+    padding-block: var(--space-8);
+    padding-inline: var(--space-16);
+    border-radius: var(--radius-pill-label);
+    background-color: var(--color-light-purple);
+    color: var(--color-purple);
+    text-decoration: none;
+    text-transform: lowercase;
+  }
+</style>

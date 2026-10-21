@@ -1,165 +1,137 @@
 ---
-import { getCollection } from 'astro:content';
+import { Font } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CaseStudyCard from '../components/CaseStudyCard.astro';
+import EmailPill from '../components/EmailPill.astro';
 import Flower from '../assets/flower.svg';
-
-const caseStudies = (await getCollection('caseStudies')).sort(
-  (a, b) => a.data.order - b.data.order,
-);
-
-/* The home page composition is designed for three cards (Figma landing
-   frame); a fourth would extend the >=1880px row past its layout. Which
-   case studies are featured here is Cass's call — see questions.md. */
-const featuredCaseStudies = caseStudies.slice(0, 3);
+import OpenToWork from '../assets/landing/open-to-work.svg';
 ---
 
-<BaseLayout title="cassandra garratt" navVariant="white">
-  <div class="hero">
-    <div class="hero__titles">
-      <h1 class="hero__title">
-        <span class="hero__line">
-          <span class="hero__flower" aria-hidden="true">
-            <Flower />
+<BaseLayout title="cassandra garratt" navVariant="white" fullBleed>
+  <Font slot="head" cssVariable="--font-la-belle-aurore" preload />
+  <div class="landing">
+    <div class="hero">
+      <div class="hero__headline">
+        <p class="hero__status">
+          <span class="hero__status-text" aria-hidden="true">
+            <OpenToWork />
           </span>
-          effective &amp;{' '}
+          <span class="visually-hidden">Open to work</span>
+        </p>
+        <span class="hero__flower" aria-hidden="true">
+          <Flower />
         </span>
-        <span class="hero__line">
-          empathetic<span class="hero__pill" aria-hidden="true"></span>
-        </span>{' '}
-        <span class="hero__line">design</span>
-      </h1>
-      <p class="hero__intro">
-        I am a proactive designer with a passion for{' '}
+        <h1 class="hero__title type-title">
+          <span class="hero__line hero__line--first">effective &amp;</span>
+          <span class="hero__line">empathetic</span>
+          <span class="hero__line">design</span>
+        </h1>
+        <span class="hero__pill" aria-hidden="true"></span>
+      </div>
+      <p class="hero__intro type-subtitle">
+        I am a proactive <strong>ux/ui designer</strong> with a passion for{' '}
         <strong>inclusive technology</strong> and <strong>user advocacy</strong>
-        . I create intuitive, user-centred designs that solve real problems and
-        delight users.
+        .
       </p>
+      <EmailPill />
     </div>
-    <ul class="hero__cards" role="list">
-      {featuredCaseStudies.map((caseStudy) => (
-        <li>
-          <CaseStudyCard caseStudy={caseStudy} />
-        </li>
-      ))}
-    </ul>
   </div>
 </BaseLayout>
 
 <style>
-  /* Stacked desktop layout (below 1880px): not designed, see spec */
-  .hero {
+  /* 267:1855: the root sections sit 160px apart. Full bleed (BaseLayout
+     fullBleed), so the client strip and the about band reach the edges;
+     the other sections keep the gutter themselves. */
+  .landing {
     display: flex;
     flex-direction: column;
-    gap: var(--space-hero-stack-gap);
-    padding-block: var(--space-hero-top);
+    gap: var(--space-160);
+    padding-block-end: var(--space-landing-end);
   }
 
-  .hero__titles {
-    display: grid;
+  /* Hero (267:1857): 80px below the nav, then the headline, the intro and
+     the email pill, 56px apart. Content-box, so the 800px measure excludes
+     the gutter padding and the hero's left edge lands on x=560. */
+  .hero {
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-56);
+    align-items: flex-start;
+    max-inline-size: var(--size-hero-width);
+    margin-inline: auto;
+    padding-block-start: var(--space-80);
+    padding-inline: var(--space-gutter);
   }
 
-  .hero__titles > * {
-    grid-area: 1 / 1;
+  /* The 383px headline frame (267:1858). Its font size is the headline's,
+     so the accents' em tokens scale with it. */
+  .hero__headline {
+    position: relative;
+    align-self: stretch;
+    block-size: var(--hero-headline-height);
+    margin-inline-start: var(--hero-headline-nudge);
+    font-size: var(--type-title-size);
   }
 
   .hero__title {
+    padding-block-start: var(--hero-headline-top);
     color: var(--color-black);
-    font-size: var(--type-title-size);
-    font-weight: var(--type-title-weight);
-    line-height: var(--type-title-line-height);
-    letter-spacing: var(--type-title-letter-spacing);
+    white-space: nowrap;
   }
 
   .hero__line {
     display: block;
   }
 
+  .hero__line--first {
+    text-indent: var(--hero-line-1-indent);
+  }
+
+  .hero__flower,
+  .hero__status,
+  .hero__pill {
+    position: absolute;
+  }
+
   .hero__flower {
-    display: inline-block;
-    vertical-align: top;
+    inset-block-start: var(--hero-flower-top);
+    inset-inline-start: var(--hero-flower-left);
     inline-size: var(--hero-flower-size);
     block-size: var(--hero-flower-size);
-    margin-block-start: var(--hero-flower-offset-top);
-    margin-inline-end: var(--hero-flower-gap);
     color: var(--color-red);
   }
 
-  .hero__flower :global(svg) {
+  /* Above the flower, as in Figma's layer order */
+  .hero__status {
+    z-index: 1;
+    inset-block-start: var(--hero-status-top);
+    inset-inline-start: var(--hero-status-left);
+    inline-size: var(--hero-status-width);
+    block-size: var(--hero-status-height);
+    color: var(--color-status);
+  }
+
+  .hero__flower :global(svg),
+  .hero__status-text :global(svg) {
     inline-size: 100%;
     block-size: 100%;
   }
 
   .hero__pill {
-    display: inline-block;
-    vertical-align: top;
+    inset-block-start: var(--hero-pill-top);
+    inset-inline-start: var(--hero-pill-left);
     inline-size: var(--hero-pill-width);
     block-size: var(--hero-pill-height);
-    margin-block-start: var(--hero-pill-offset-top);
-    margin-inline-start: var(--hero-pill-gap);
     border-radius: var(--radius-pill);
     background-color: var(--color-purple);
   }
 
   .hero__intro {
-    align-self: start;
     max-inline-size: var(--size-hero-intro-width);
-    margin-block-start: var(--hero-intro-offset-top);
-    margin-inline-start: var(--hero-intro-offset-inline);
     color: var(--color-purple);
-    font-size: var(--type-subtitle-size);
-    font-weight: var(--type-subtitle-weight);
-    line-height: var(--type-subtitle-line-height);
-    letter-spacing: var(--type-subtitle-letter-spacing);
   }
 
   .hero__intro strong {
     font-weight: var(--type-subtitle-emphasis-weight);
-  }
-
-  /* Equal rows: every card matches the tallest, even when the row wraps */
-  .hero__cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, var(--size-card-width));
-    grid-auto-rows: 1fr;
-    gap: var(--space-card-row-gap);
-    padding: 0;
-    list-style: none;
-  }
-
-  /* Let the card stretch to fill its grid cell */
-  .hero__cards > li {
-    display: grid;
-  }
-
-  /* Figma composition: breakpoint also noted in tokens.css */
-  @media (min-width: 117.5rem) {
-    /* Row 1 ends on the first headline line's baseline, so the cards'
-       bottom edge sits on it; taller cards grow upward */
-    .hero {
-      display: grid;
-      grid-template-rows:
-        calc(var(--hero-titles-offset-top) + var(--hero-title-baseline))
-        auto;
-    }
-
-    .hero > * {
-      grid-column: 1;
-    }
-
-    .hero__titles {
-      grid-row: 1 / -1;
-      margin-block-start: var(--hero-titles-offset-top);
-    }
-
-    /* One row; auto-fill needs a definite width, which an end-aligned item lacks */
-    .hero__cards {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: var(--size-card-width);
-      grid-row: 1;
-      align-self: end;
-      justify-self: end;
-    }
   }
 </style>
