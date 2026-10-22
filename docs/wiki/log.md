@@ -207,3 +207,6 @@ Built from snapshots, no Figma calls. Absa's user-testing arrow now sits beside 
 
 ## [2026-10-21] update | Phase 4 wrap-up of the 2026-10-20 macro plan
 All three phase 3 streams merged (PRs #10, #11, #12). Worktrees and local branches removed, checks run on `main`, every page compared with Figma at 1920px. Opened Q-046 (CS3's Read More band). AGENTS.md's status line and a stale home page line in the test plan were brought up to date.
+
+## [2026-10-22] decision | Cass answers Q-041 to Q-046
+Resolved as D-059 to D-063: "interactive workbook" everywhere, the TRANSEARCH definition stays, "open to work" removed, Q-044 and Q-045 closed with no change, and the Purple Read More band on MiX Telematics only. Branch `cass/feature/answered-questions`.

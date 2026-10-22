@@ -4,26 +4,33 @@ import CaseStudyCard from './CaseStudyCard.astro';
 
 interface Props {
   currentId: string;
+  /** Full-bleed Purple band (Q-046: MiX Telematics only). */
+  band?: boolean;
 }
 
-const { currentId } = Astro.props;
+const { currentId, band = false } = Astro.props;
 
 const others = (await getCollection('caseStudies'))
   .filter((entry) => entry.id !== currentId)
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<section class="read-more" aria-labelledby="read-more-heading">
-  <h2 class="read-more__heading type-title-1" id="read-more-heading">
-    Other case studies
-  </h2>
-  <ul class="read-more__list" role="list">
-    {others.map((entry) => (
-      <li class="read-more__item">
-        <CaseStudyCard caseStudy={entry} showClient headingLevel={3} />
-      </li>
-    ))}
-  </ul>
+<section
+  class:list={['read-more', band && 'read-more--band u-bleed band band--purple']}
+  aria-labelledby="read-more-heading"
+>
+  <div class="read-more__inner">
+    <h2 class="read-more__heading type-title-1" id="read-more-heading">
+      Other case studies
+    </h2>
+    <ul class="read-more__list" role="list">
+      {others.map((entry) => (
+        <li class="read-more__item">
+          <CaseStudyCard caseStudy={entry} showClient headingLevel={3} />
+        </li>
+      ))}
+    </ul>
+  </div>
 </section>
 
 <style>
@@ -31,10 +38,26 @@ const others = (await getCollection('caseStudies'))
      inside the 1700px content track at 1920. Rounding the 60px up to
      --space-64 made the row 1702px, which forced the page 2px wider than
      the viewport. */
-  .read-more {
+  .read-more__inner {
     display: flex;
     gap: var(--space-read-more-gap);
     align-items: center;
+  }
+
+  /* Q-046, MiX Telematics only (92:2089): the band runs to the bottom of
+     the page, so it cancels the layout's 80px bottom padding, and the
+     light heading reads on Purple. */
+  .read-more--band {
+    margin-block-end: calc(-1 * var(--space-80));
+  }
+
+  .read-more--band .read-more__inner {
+    max-inline-size: calc(var(--page-max-width) - 2 * var(--space-gutter));
+    margin-inline: auto;
+  }
+
+  .read-more--band .read-more__heading {
+    color: var(--color-off-white);
   }
 
   .read-more__heading {

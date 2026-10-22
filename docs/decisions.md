@@ -437,3 +437,28 @@ The record of calls that have been made (D-xxx). Questions still waiting on a de
 - **Alternatives considered:** putting the note in the same grid cell as the Insight block, as Figma does (equivalent at 1920px, but it brings back the absolute offset); keeping the in-flow departure.
 - **Consequences:** if the paragraph rewraps so its last line runs past about 189px, it reaches the arrow. That can only happen below 1920px, which isn't designed yet (Q-026).
 
+
+### D-059 · TRANSEARCH says "interactive workbook" on the card and the page
+- **Date:** 2026-10-22 · **Status:** Accepted
+- **Context:** The landing card said "interactive book" and the case study said "interactive workbook" (Q-041).
+- **Decision (Cass):** "interactive workbook" everywhere. Resolves Q-041. Cass will update the designs.
+- **Consequences:** `case-studies.json` title is "Designing an interactive workbook", which also sets the page `<title>`. The `cardTitleBreak` for this entry (D-057) is "designing an" and still works, but check the card wrap.
+
+### D-060 · The drafted TRANSEARCH International definition stays
+- **Date:** 2026-10-22 · **Status:** Accepted
+- **Decision (Cass):** happy with "A global executive search and leadership consulting firm." Resolves Q-042.
+- **Consequences:** the `TODO(cass)` marker on the definition is removed.
+
+### D-061 · The curved "open to work" text is removed from the landing hero
+- **Date:** 2026-10-22 · **Status:** Accepted
+- **Decision (Cass):** remove it, and the visually hidden "Open to work" text with it. Resolves Q-043 (contrast), which no longer applies. Cass will update the designs.
+- **Consequences:** the SVG, the `--color-status` token and the `--hero-status-*` tokens are deleted.
+
+### D-062 · Q-044 and Q-045 closed with no change
+- **Date:** 2026-10-22 · **Status:** Accepted
+- **Decision (Cass):** Q-044 (Standard Bank business needs bold) is done and Q-045 (Reviewing alignment) is closed. The build stays as Figma has it.
+
+### D-063 · Only MiX Telematics has the Purple Read More band
+- **Date:** 2026-10-22 · **Status:** Accepted
+- **Decision (Cass):** only the MiX Telematics case study gets the full-bleed Purple band behind "Other case studies". Resolves Q-046. Other pages keep the page background (this refines D-043).
+- **Consequences:** `ReadMoreSection` takes a `band` prop, passed through `CaseStudyLayout`'s `readMoreBand`. The band runs to the page bottom and the heading is Off-white.

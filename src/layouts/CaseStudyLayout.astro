@@ -8,9 +8,10 @@ import ReadMoreSection from '../components/ReadMoreSection.astro';
 interface Props {
   entry: CollectionEntry<'caseStudies'>;
   subNav: { href: string; label: string }[];
+  readMoreBand?: boolean;
 }
 
-const { entry, subNav } = Astro.props;
+const { entry, subNav, readMoreBand = false } = Astro.props;
 ---
 
 <BaseLayout title={`${entry.data.title} — Cassandra Garratt`} fullBleed>
@@ -19,6 +20,6 @@ const { entry, subNav } = Astro.props;
   <article class="case-study">
     <CaseStudySubNav links={subNav} />
     <slot />
-    <ReadMoreSection currentId={entry.id} />
+    <ReadMoreSection currentId={entry.id} band={readMoreBand} />
   </article>
 </BaseLayout>

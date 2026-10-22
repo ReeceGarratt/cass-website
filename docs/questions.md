@@ -44,12 +44,6 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 | Q-038 | Cass: the copied `standardbank.co.za` links on CS4 and the landing client strip | Nothing; built as plain text |
 | Q-039 | A pause control for the client strip carousel (WCAG 2.2.2) | Nothing; the gap is accepted for now (D-053) |
 | Q-040 | Is `hello@cassandragarratt.com` the real address for "Email me"? | Nothing; the nav already copies it, and the landing will show it |
-| Q-041 | TRANSEARCH: "interactive book" on the card, "interactive workbook" on the page | Nothing; built as the designs have it |
-| Q-042 | TRANSEARCH International: confirm the drafted definition | Nothing; drafted text is live, marked for review |
-| Q-043 | Cass: the curved "open to work" text is 4.25:1 on Off-white | Nothing; built as designed |
-| Q-044 | Cass: Standard Bank business needs, "not all text should be bolded" | Nothing; the build already matches Figma |
-| Q-045 | Cass: Standard Bank Reviewing, which text lines up with the checker summary image? | Nothing; built as Figma has it |
-| Q-046 | CS3's "Other case studies" sits on a Purple band in Figma, but not in the build | Nothing; built like the other three pages |
 
 ---
 
@@ -272,39 +266,3 @@ Decisions that are still waiting on the user (Q-xxx). Some questions stay open a
 - **Blocks:** nothing; the nav's "Email me" already copies it (`SiteNav.astro`), and the landing will show it
 - **Context:** The landing frame (`267:1855`) shows `hello@cassandragarratt.com`.
 - **Options:** Cass confirms it · Cass gives the real address.
-
-### Q-041 · Cass: "interactive book" or "interactive workbook" for TRANSEARCH
-- **Raised:** 2026-10-21 (stream `cs4`)
-- **Blocks:** nothing; built as the designs have it
-- **Context:** The landing card (`267:1911`) titles TRANSEARCH "Designing an interactive book". The case study frame (`144:269`), confirmed current by Reece on 2026-10-21, says "interactive workbook" in its title and throughout its copy. By Reece's call, the card data (`case-studies.json`, which also sets the page's `<title>`) follows the landing card (D-052), and the page heading and copy follow the frame. The slug stays `designing-an-interactive-workbook`.
-- **Options:** keep both (the default) · "book" everywhere, with a copy change to the page · "workbook" everywhere, overriding the landing card's title.
-
-### Q-042 · Cass: the TRANSEARCH International definition
-- **Raised:** 2026-10-21 (stream `cs4`)
-- **Blocks:** nothing; drafted text is live, marked `TODO(cass)`
-- **Context:** The CS4 intro styles "TRANSEARCH International" like the other pages' Definition Tip triggers, but Figma has no definition text for it (CS1–3 each had one). Reece chose to draft one: "A global executive search and leadership consulting firm."
-- **Options:** Cass confirms it · Cass gives her own wording.
-
-### Q-043 · Cass: contrast of the curved "open to work" text
-- **Raised:** 2026-10-21 (stream `landing`)
-- **Blocks:** nothing; built as designed
-- **Context:** The curved "open to work" text on the hero (`267:1863`) is Figma's local red `#EE0E0E` (`--color-status`) on Off-white `#F8F9FF`. Measured with the WCAG 2.x formula that is 4.25:1, below the 4.5:1 AA threshold for small text. It is an image of text with a visually hidden "Open to work" equivalent, so screen readers are covered, and it isn't blocking. The palette Red `#CD2B2B` on Off-white is 5.03:1 (see [wiki/design-tokens.md](wiki/design-tokens.md)).
-- **Options:** keep it as designed · use the palette Red `#CD2B2B` (5.03:1) · darken `#EE0E0E` to a shade of Cass's choosing.
-
-### Q-044 · Cass: Standard Bank business needs, "not all text should be bolded"
-- **Raised:** 2026-10-21 (stream `fixes`)
-- **Blocks:** nothing; the build already matches Figma
-- **Context:** Cass's 2026-10-20 feedback says the Standard Bank business needs shouldn't be all bold ("check design"). The build and the saved Figma (`149:1945`) agree: Inter Medium, with only "data capturing.", "Tracking" and "better reporting." in Bold. Inter's Medium weight loads correctly, and phase 1a's 2026-10-20 recheck found the section unchanged. Figma above, the build below: [q-044-business-needs.png](superpowers/plans/2026-10-20-macro-plan/q-044-business-needs.png). She may have seen an older preview, or the design may have changed since 2026-10-20.
-- **Options:** no change (it's right as built) · Cass says which text should change, or updates Figma and the section is re-snapshotted.
-
-### Q-045 · Cass: Standard Bank Reviewing, which text lines up with the checker summary image?
-- **Raised:** 2026-10-21 (stream `fixes`)
-- **Blocks:** nothing; built as Figma has it
-- **Context:** Cass's note on Reviewing data & Requesting Changes reads "Left align right text to 'checker summary screen' image". The build follows the saved Figma (`91:1039`), where the heading and problem column starts 242px in from the checker summary image's left edge, and the outcome and solution column 31px in from the change request image's. Measured in Edge at 1920px, the build has 233px and 22px. Figma above, the build below: [q-045-reviewing.png](superpowers/plans/2026-10-20-macro-plan/q-045-reviewing.png). Reece chose to ask rather than guess. Either change is one CSS rule on `.reviewing__info` in `consolidating-import-collections.astro`.
-- **Options:** the left column lines up with the checker summary image · both columns line up with the image below each · something else, or Cass updates Figma.
-
-### Q-046 · CS3's "Other case studies" sits on a Purple band in Figma, but not in the build
-- **Raised:** 2026-10-21 (phase 4)
-- **Blocks:** nothing; built like the other three pages
-- **Context:** The phase 4 visual pass found that MiX Telematics' Read More row (`92:2089`, 2040px wide) is on a full-bleed Purple band, with the "Other case studies" heading in a light colour. It's in both the 2026-10-04 and 2026-10-20 screenshots. CS1, CS2 and CS4 have it on the page background, and so does the build on all four pages. No decision covers the difference. D-043 says to follow the designs, and records the Read More row as matching Figma on every page, which isn't true for CS3. Cass's original "put this in a blue block" request was about Standard Bank's row, so the CS3 band may be what she had in mind, or a leftover.
-- **Options:** add the band on CS3 only (a `ReadMoreSection` variant or a page-level band, plus the light heading) · leave it, treating the band as Figma drift · put the band on every case study (Cass's original request, which D-043 turned down).

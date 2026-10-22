@@ -28,8 +28,6 @@
 
   /* Colour: measured (not a Figma variable) */
   --color-icon: #1c1b1f; /* arrow glyph on the default card arrow */
-  --color-status: #ee0e0e; /* the curved "open to work" (267:1863): a local
-  exception in the style guide, not a Figma variable */
 
   /* Font family (registered in astro.config.mjs) */
   --font-family-base: var(--font-inter);
@@ -370,10 +368,6 @@
   --hero-flower-size: 0.7605em; /* 106.47px (267:1862) */
   --hero-flower-top: 0.2305em; /* 32.27px */
   --hero-flower-left: -0.0059em; /* -0.83px from the text box */
-  --hero-status-width: 0.5929em; /* 83px; the curved "open to work" export */
-  --hero-status-height: 0.4429em; /* 62px */
-  --hero-status-top: 0.0599em; /* 8.39px */
-  --hero-status-left: -0.107em; /* -14.98px from the text box */
   --hero-pill-width: 2.2815em; /* 319.41px (267:1861) */
   --hero-pill-height: 0.6929em; /* 97px */
   --hero-pill-top: 2.0448em; /* 286.27px */
